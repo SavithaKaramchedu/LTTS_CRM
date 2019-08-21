@@ -366,6 +366,63 @@
     },
 
     {
+      "route": "/sourceopp",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "sourceoppo",
+      "description": "source dropdown dynamically",
+      "examples": [
+        {
+          "param": "/sourceopp"
+        }
+      ]
+    },
+
+    {
+      "route": "/SalesCycle",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "SalesCycle",
+      "description": "SalesCycle dropdown dynamically",
+      "examples": [
+        {
+          "param": "/SalesCycle"
+        }
+      ]
+    },
+
+
+    {
+      "route": "/Salesphase",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "Salesphase",
+      "description": "Salesphase dropdown dynamically",
+      "examples": [
+        {
+          "param": "/Salesphase"
+        }
+      ]
+    },
+
+    {
+      "route": "/category",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "Category",
+      "description": "Category dropdown dynamically",
+      "examples": [
+        {
+          "param": "/category"
+        }
+      ]
+    },
+
+    {
       "route": "/contact",
       "type": "post",
       "configured": true,

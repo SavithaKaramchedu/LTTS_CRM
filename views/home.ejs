@@ -87,7 +87,7 @@
             background-color: rgb(206, 212, 218);
             border-color: #adb5bd;
         }
-         .modal.fade.in {
+        .modal.fade.in {
     /* top: 300px; */
 }
 .modal.fade.in {
@@ -123,7 +123,7 @@ $("#probability").prop("disabled", false);
 $("#publishtoforecast").prop("disabled",false);
 $("#forecastcategory").prop("disabled", false);
 $("#category").prop("disabled", false);
-$("#owner").prop("disabled", false);
+$("#owneropportunity").prop("disabled", false);
 $("#Note").prop("disabled", false);
 $("#Editopp").hide();
 $("#saveopp").prop("hidden", false);
@@ -146,7 +146,7 @@ $("#probability").prop("disabled", true);
 $("#publishtoforecast").prop("disabled", true);
 $("#forecastcategory").prop("disabled", true);
 $("#category").prop("disabled", true);
-$("#owner").prop("disabled", true);
+$("#owneropportunity").prop("disabled", true);
 $("#Note").prop("disabled", true);
 $("#Editopp").show();
 $("#saveopp").prop("hidden", true);
@@ -155,7 +155,7 @@ $("#cancelopp").prop("hidden", true);
 }
 
         function addOpportunity(){
-        
+        console.log("addOpportunity");
             var oppName=$("#oppName").val();
           
         var Accountopp=$("#Accountopp").val();
@@ -171,7 +171,7 @@ $("#cancelopp").prop("hidden", true);
         
         var PublishtoForecast=$("#PublishtoForecast").val(); 
         var ForecastCategory=$("#ForecastCategory").val();
-        var convertcategory=$("#convertcategory").val();
+        var convertcategory=$("#Categoryoppo").val();
         var Owneropp=$("#Owneropp").val();
         
         var data={
@@ -315,8 +315,8 @@ $.ajax({
 });
 AccountLoad();
 }
- function addContact() {
-   
+    function addContact() {
+
         var fname = $("#first-name").val();
         var lname = $("#last-name").val();
         var account = $("#accountcont").val();
@@ -366,115 +366,115 @@ $.ajax({
 
     }
 });
-        contactLoad();
+contactLoad();
 }
         window.onload = function () {
 
-        var chart = new CanvasJS.Chart("chartContainer2", {
-            animationEnabled: true,
-            title: {
-                text: "2019-2020"
-            },
-            data: [{
-                type: "pie",
-                startAngle: 240,
-                yValueFormatString: "##0.00\"%\"",
-                indexLabel: "{label} {y}",
-                dataPoints: [
-                    { y: 79.45, label: "Leads" },
-                    { y: 7.31, label: "Opportunities" },
-                    { y: 7.06, label: "Accounts" },
-                    { y: 4.91, label: "Contacts" },
-                    { y: 1.26, label: "Employees" }
-                ]
-            }]
-        });
-                chart.render();
-
-            var charts = new CanvasJS.Chart("chartContainer", {
-            animationEnabled: true,
-            title:{
-            text: "Estimation"   
-            },
-            axisY:{
-            title:""
-            },
-            toolTip: {
-            shared: true,
-            reversed: true
-            },
-            data: [{
-            type: "stackedColumn",
-
-            showInLegend: "true",
-            yValueFormatString: "#,##0mn ",
-            dataPoints: [
-            { y: 111338 , label: "Leads" },
-            { y: 49088, label: "Contacts" },
-            { y: 62200, label: "Accounts" },
-            { y: 90085, label: "Employees" },
-            { y: 38600, label: "Opportunities" }
-
-            ]
-            },
-            {
-            type: "stackedColumn",
-
-            showInLegend: "true",
-            yValueFormatString: "#,##0mn ",
-            dataPoints: [
-            { y: 135305 , label: "Leads" },
-            { y: 107922, label: "Contacts" },
-            { y: 52300, label: "Accounts" },
-            { y: 3360, label: "Employees" },
-            { y: 39900, label: "Opportunities" }
-
-            ]
-            }]
-            });
-
-            charts.render();
-
-        var chart3 = new CanvasJS.Chart("chartContainer3", {
-        animationEnabled: true,  
-        title:{
-        text: "Revenue by Year"
-        },
-        axisY: {
-        title: "Revenue in USD",
-        valueFormatString: "#0,,.",
-        suffix: "mn",
-        prefix: "$"
-        },
-        data: [{
-        type: "area",
-        markerSize: 5,
-        xValueFormatString: "YYYY",
-        yValueFormatString: "$#,##0.##",
-        dataPoints: [
-                { x: new Date(2000, 0), y: 2289000 },
-                { x: new Date(2001, 0), y: 2830000 },
-                { x: new Date(2002, 0), y: 1009000 },
-                { x: new Date(2003, 0), y: 1840000 },
-                { x: new Date(2004, 0), y: 1396000 },
-                { x: new Date(2005, 0), y: 2613000 },
-                { x: new Date(2006, 0), y: 1821000 },
-                { x: new Date(2007, 0), y: 1000000 },
-                { x: new Date(2008, 0), y: 1397000 },
-                { x: new Date(2009, 0), y: 1506000 },
-                { x: new Date(2010, 0), y: 1798000 },
-                { x: new Date(2011, 0), y: 2386000 },
-                { x: new Date(2012, 0), y: 4704000},
-                { x: new Date(2013, 0), y: 4926000 },
-                { x: new Date(2014, 0), y: 1394000 },
-                { x: new Date(2015, 0), y: 972000 },
-                { x: new Date(2016, 0), y: 1140000 }
-                ]
+            var chart = new CanvasJS.Chart("chartContainer2", {
+                animationEnabled: true,
+                title: {
+                    text: "2019-2020"
+                },
+                data: [{
+                    type: "pie",
+                    startAngle: 240,
+                    yValueFormatString: "##0.00\"%\"",
+                    indexLabel: "{label} {y}",
+                    dataPoints: [
+                        { y: 79.45, label: "Leads" },
+                        { y: 7.31, label: "Opportunities" },
+                        { y: 7.06, label: "Accounts" },
+                        { y: 4.91, label: "Contacts" },
+                        { y: 1.26, label: "Employees" }
+                    ]
                 }]
-                });
+            });
+            chart.render();
+         
+            var charts = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title:{
+		text: "Estimation"   
+	},
+	axisY:{
+		title:""
+	},
+	toolTip: {
+		shared: true,
+		reversed: true
+	},
+	data: [{
+		type: "stackedColumn",
+		
+		showInLegend: "true",
+		yValueFormatString: "#,##0mn ",
+		dataPoints: [
+			{ y: 111338 , label: "Leads" },
+			{ y: 49088, label: "Contacts" },
+			{ y: 62200, label: "Accounts" },
+			{ y: 90085, label: "Employees" },
+			{ y: 38600, label: "Opportunities" }
+		
+		]
+	},
+	{
+		type: "stackedColumn",
+	
+		showInLegend: "true",
+		yValueFormatString: "#,##0mn ",
+		dataPoints: [
+			{ y: 135305 , label: "Leads" },
+			{ y: 107922, label: "Contacts" },
+			{ y: 52300, label: "Accounts" },
+			{ y: 3360, label: "Employees" },
+			{ y: 39900, label: "Opportunities" }
+		
+		]
+	}]
+});
+charts.render();
 
+var chart3 = new CanvasJS.Chart("chartContainer3", {
+	animationEnabled: true,  
+	title:{
+		text: "Revenue by Year"
+	},
+	axisY: {
+		title: "Revenue in USD",
+		valueFormatString: "#0,,.",
+		suffix: "mn",
+		prefix: "$"
+	},
+	data: [{
+		type: "area",
+		markerSize: 5,
+		xValueFormatString: "YYYY",
+		yValueFormatString: "$#,##0.##",
+		dataPoints: [
+			{ x: new Date(2000, 0), y: 2289000 },
+			{ x: new Date(2001, 0), y: 2830000 },
+			{ x: new Date(2002, 0), y: 1009000 },
+			{ x: new Date(2003, 0), y: 1840000 },
+			{ x: new Date(2004, 0), y: 1396000 },
+			{ x: new Date(2005, 0), y: 2613000 },
+			{ x: new Date(2006, 0), y: 1821000 },
+			{ x: new Date(2007, 0), y: 1000000 },
+			{ x: new Date(2008, 0), y: 1397000 },
+			{ x: new Date(2009, 0), y: 1506000 },
+			{ x: new Date(2010, 0), y: 1798000 },
+			{ x: new Date(2011, 0), y: 2386000 },
+			{ x: new Date(2012, 0), y: 4704000},
+			{ x: new Date(2013, 0), y: 4926000 },
+			{ x: new Date(2014, 0), y: 1394000 },
+			{ x: new Date(2015, 0), y: 972000 },
+			{ x: new Date(2016, 0), y: 1140000 }
+		]
+	}]
+});
 chart3.render();  }
-
+        InsWeb3AppConfigs = {
+            cdnPath: 'https://d3rqem538l0q4a.cloudfront.net'
+        }
         function empLoad() {
 
             var tableData = "";
@@ -866,12 +866,12 @@ chart3.render();  }
 						} 
 						
                     function deletedisplaycont(i) {
-
+                     console.log("working");
                         $.ajax({
                             url: "https://localhost:9090/delete/" + i,
                             type: "GET",
                             success: function (result) {
-
+                                    console.log(result);
                                 $("#cdid").val(result[0].contactid);
 								document.getElementById("deleteid").setAttribute("onclick", "deletecont();");
                             }
@@ -917,7 +917,7 @@ chart3.render();  }
 
 
         function leadLoad() {
-            console.log("function lead entered");
+
                 var tableData = "";
 
                 var url = "https://localhost:9090/leads";
@@ -1182,8 +1182,8 @@ chart3.render();  }
                         $("#salesphase").val(result[0].salesphase);
                         $("#probability").val(result[0].probability);
                         $("#forecastcategory").val(result[0].forecastcategory);
-                        $("#category").val(result[0].category);
-                        $("#owner").val(result[0].owner);
+                        $("#Categoryoppo").val(result[0].category);
+                        $("#owneropportunity").val(result[0].owner);
                       
                      
                 }      
@@ -1216,7 +1216,7 @@ chart3.render();  }
             var Probability=$("#probability").val();
             var Forecastcategory=$("#forecastcategory").val();
             var Category=$("#category").val(); 
-            var Owner=$("#owner").val();
+            var Owner=$("#owneropportunity").val();
             var data={
                     "id":id,
                     "name":Name,
@@ -1250,24 +1250,98 @@ chart3.render();  }
                         });
                         opportunityLoad();
                 }
-                function deleteoppodisplay(i) {
-               
+                function deleteoppodisplay(i) {               
                     var url = "https://localhost:9090/deleteopp/" + i;
-                   
                     $.ajax({
                     url: url,
                     type: "GET",
                     success: function (result) {
-                    
-
-                    var c= $("#cdid").text(result[0].id);
-                    
+                    var c= $("#cdid").text(result[0].id);    
                     document.getElementById("deleteid").setAttribute("onclick", "deleteopportunity();");
                     
                 }
             });
 
             } 
+
+    function opposourcedropdown() {
+        var sourcedata = "";
+        var url = "https://localhost:9090/sourceopp/";
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function (result) {
+                for (var i = 0; i < result[0].length; i++) {
+
+                    sourcedata = sourcedata +
+                        '<option text="' + result[0][i].opportunitysourceid + '">' + result[0][i].opportunitysource + '</option>';
+                }
+                $("#Source").html(sourcedata);
+            }
+        });
+
+    }   
+
+
+    function oppoSalesCycledropdown() {
+            var SalesCycledata = "";
+            var url = "https://localhost:9090/SalesCycle/";
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    for (var i = 0; i < result[0].length; i++) {
+
+                        SalesCycledata = SalesCycledata +
+                            '<option text="' + result[0][i].SalesCycleID + '">' + result[0][i].SalesCycle + '</option>';
+                    }
+                    $("#SalesCycle").html(SalesCycledata);
+                }
+            });
+
+        } 
+       
+        function oppoSalesphasedropdown() {
+            var Salesphasedata = "";
+            var url = "https://localhost:9090/Salesphase";
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    for (var i = 0; i < result[0].length; i++) {
+
+                        Salesphasedata = Salesphasedata +
+                            '<option text="' + result[0][i].salesphaseid + '">' + result[0][i].salesphase + '</option>';
+                    }
+                    $("#Salesphase").html(Salesphasedata);
+                }
+            });
+
+        } 
+
+        function oppoCategorydropdown() {
+            var Categorydata = "";
+            var url = "https://localhost:9090/category";
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    console.log(result);
+                    for (var i = 0; i < result[0].length; i++) {
+
+                        Categorydata = Categorydata +
+                            '<option text="' + result[0][i].OPPORTUNITYCATEGORYID + '">' + result[0][i].OPPORTUNITYCATEGORY + '</option>';
+                    }
+                    $("#Categoryoppo").html(Categorydata);
+                }
+            });
+
+        } 
+
         function deleteopportunity() {
             var id=$("#cdid").text();
           var url= "https://localhost:9090/opportunity/"+id;
@@ -2168,7 +2242,7 @@ function resetFormLead() {
                     <!-- Modal Header -->
                     <div class="modal-header">
                       <h4 class="modal-title">Delete Confirmation</h4>
-                      <p id="cdid" style="display:block;"></p>
+                      <p id="cdid" style="display:none;"></p>
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     
@@ -2791,7 +2865,7 @@ function resetFormLead() {
                                 <div id="default_controls">
                                     <div class="pull-right" id="AddNewButton">
                                         <a class="btn in-entity-modal" data-toggle="modal" href="#oppModal"
-                                            data-entity-type="Contact" data-action="Create" onclick="resetFormOpp();"> 
+                                            data-entity-type="Contact" data-action="Create" onclick="resetFormOpp(),opposourcedropdown(), oppoSalesCycledropdown(),oppoSalesphasedropdown(),oppoCategorydropdown();"> 
                                             New Opportunity
                                         </a>
                                     </div>
@@ -2997,7 +3071,7 @@ function resetFormLead() {
                                                   </div>
                                                   <div class="col-sm-2">Owner :</div>
                                                   <div class="col-sm-3">
-                                                  <input type="text" class="form-control form-control-sm" id="owner" placeholder="" style="height: 27px;" disabled>
+                                                  <input type="text" class="form-control form-control-sm" id="owneropportunity" placeholder="" style="height: 27px;" disabled>
                                                   </div>
                                                <div class="col-sm-1"></div> 
                                             </div>
@@ -3619,16 +3693,6 @@ function resetFormLead() {
                                 :</label>
                             <div class="col-sm-6">
                                 <select class="strike" id="Source" style="height:22px" name="Source">
-                                    <option>Current Account</option>
-                                    <option>External Party</option>
-                                    <option>Idention Workshop</option>
-                                    <option>Prospecting</option>
-                                    <option>Roadshow</option>
-                                    <option>Telephone Enquiry</option>
-                                    <option>Trade Fair</option>
-                                    <option>Website</option>
-                                    <option>Campaign</option>
-
                                 </select>
                             </div>
                             <div class="col-sm-1"></div>
@@ -3683,9 +3747,6 @@ function resetFormLead() {
                                 :</label>
                             <div class="col-sm-6">
                                 <select class="strike" id="SalesCycle" style="height:71%" name="SalesCycle">
-                                    <option>New Business</option>
-                                    <option>Repeat Business</option>
-
                                 </select>
                             </div>
                             <div class="col-sm-1"></div>
@@ -3697,12 +3758,6 @@ function resetFormLead() {
                                 :</label>
                             <div class="col-sm-6">
                                 <select class="strike" id="Salesphase" style="height:71%" name="Salesphase">
-                                    <option>10% - Ideation</option>
-                                    <option>25% - Qualified Opportunity </option>
-                                    <option>50% - Proposal</option>
-                                    <option>80% - Potential Order</option>
-                                    <option>90% - Order</option>
-                                    <option>100% - Execution</option>
                                 </select>
                             </div>
                             <div class="col-sm-1"></div>
@@ -3744,12 +3799,7 @@ function resetFormLead() {
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Category
                                 :</label>
                             <div class="col-sm-6">
-                                <select class="strike" id="convertcategory" style="height:22px" name="Category">
-                                    <option>Consulting</option>
-                                    <option>Intellectual Property</option>
-                                    <option>Service</option>
-                                    <option>Solution</option>
-                                    <option>Staffing</option>
+                                <select class="strike" id="Categoryoppo" style="height:22px" name="Category">
                                 </select>
                             </div>
                             <div class="col-sm-1"></div>

@@ -100,7 +100,7 @@ exports.addLead = function (req, res) {
        
     db.query(query, (err, result) => {
         if (err) {
-            console.log("error contact");
+            //console.log("error contact");
             return res.status(500).send(err);
         }
 
@@ -592,3 +592,62 @@ exports.deletedisplay = function (req, res) {
         console.log(result);
     });
 }
+
+exports.sourceoppo = function (req, res) {
+   // console.log("sourceopportunity");
+    let opposourceQuery = "CALL procLookUpOpportunitySources()";
+    //console.log(deleteUserQuery);
+    db.query(opposourceQuery, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+        console.log(result);
+    });
+}
+
+
+exports.SalesCycle = function (req, res) {
+    // console.log("sourceopportunity");
+     let opposourceQuery = "CALL procLookUpSalesCycle()";
+     //console.log(deleteUserQuery);
+     db.query(opposourceQuery, (err, result) => {
+         if (err) {
+             console.log(err);
+             return res.status(500).send(err);
+         }
+         res.status(200).json(result);
+         console.log(result);
+     });
+ }
+
+
+ exports.Salesphase = function (req, res) {
+    // console.log("sourceopportunity");
+     let opposourceQuery = "CALL procLookUpSalesPhase()";
+     //console.log(deleteUserQuery);
+     db.query(opposourceQuery, (err, result) => {
+         if (err) {
+             console.log(err);
+             return res.status(500).send(err);
+         }
+         res.status(200).json(result);
+         console.log(result);
+     });
+ }
+
+
+ exports.Category = function (req, res) {
+    // console.log("sourceopportunity");
+     let opposourceQuery = "CALL procLookUpOpportunityCategories()";
+     //console.log(deleteUserQuery);
+     db.query(opposourceQuery, (err, result) => {
+         if (err) {
+             console.log(err);
+             return res.status(500).send(err);
+         }
+         res.status(200).json(result);
+         console.log(result);
+     });
+ }
