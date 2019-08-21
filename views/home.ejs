@@ -221,8 +221,8 @@ $("#cancelopp").prop("hidden", true);
         var lastname=$("#lasnam").val();
         var status=$("#status").val();
         var qul=$("#qul").val();
-        var source=$("#source").val();
-        var category=$("#category").val();
+        var source=$("#Source").val();
+        var category=$("#Category").val();
         var priority=$("#priority").val();
        
         var owner=$("#owne").val();
@@ -1124,7 +1124,109 @@ chart3.render();  }
                         });
 
                     } 
+               function statusdropdownfun() {
+                var dropdowndata = "";
+                var url = "https://localhost:9090/statusdropdownfun";
 
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
+                        for(var i=0;i<result[0].length;i++)
+                    { 
+                    dropdowndata = dropdowndata +         
+                     '<option text="' + result[0][i].LEADSTATUSID+ '">' + result[0][i].LEADSTATUS+ '</option>';
+
+                      } 
+                $("#status").html(dropdowndata);                 
+                    }
+                });
+
+                };
+
+
+                function qualidropdownfun() {
+                var dropdowndata = "";
+                var url = "https://localhost:9090/qualidropdownfun";
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
+                        for(var i=0;i<result[0].length;i++)
+                    { 
+                dropdowndata = dropdowndata +         
+                 '<option text="' + result[0][i].LEADQUALIFICATIONID+ '">' + result[0][i].LEADQUALIFICATION+ '</option>';
+
+                      } 
+                $("#qul").html(dropdowndata);                 
+                    }
+                });
+
+                };
+
+                function priodropdownfun() {
+                var dropdowndata = "";
+                var url = "https://localhost:9090/priodropdownfun";
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
+                        for(var i=0;i<result[0].length;i++)
+                    { 
+                dropdowndata = dropdowndata +         
+                 '<option text="' + result[0][i].PRIORITYID+ '">' + result[0][i].PRIORITY+ '</option>';
+
+                      } 
+                $("#priority").html(dropdowndata);                 
+                    }
+                });
+
+                };
+
+                function catdropdownfun() {
+                var dropdowndata = "";
+                var url = "https://localhost:9090/catdropdownfun";
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
+                        for(var i=0;i<result[0].length;i++)
+                    { 
+                    dropdowndata = dropdowndata +         
+                     '<option text="' + result[0][i].LEADCATEGORYID+ '">' + result[0][i].LEADCATEGORY+ '</option>';
+
+                      } 
+                $("#Category").html(dropdowndata);                 
+                    }
+                });
+
+                };
+                                    
+               function sourdropfun() {
+                        console.log("function entered");
+                        var dropdowndata = "";
+
+                        var url = "https://localhost:9090/sourdropfun";
+
+                        $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+                            console.log(result);
+                        for (var i = 0; i < result[0].length; i++) {
+
+                        dropdowndata = dropdowndata +
+                        '<option text= "' + result[0][i].LEADSOURCEID+ '" >' + result[0][i].LEADSOURCE+ '</option>' 
+                        console.log(result); 
+                    }
+
+                        $("#Source").html(dropdowndata);
+                        }
+                        });
+                        }; 
 
         function opportunityLoad() {
 
@@ -2274,7 +2376,7 @@ function resetFormLead() {
                             <header class="head-list">
                                 <div id="default_controls">
                                     <div class="pull-right" id="AddNewButton">
-                                        <a class="btn in-entity-modal" data-toggle="modal" href="#leadModal" onclick="resetFormLead();"
+                                        <a class="btn in-entity-modal" data-toggle="modal" href="#leadModal" onclick="resetFormLead(),sourdropfun(),priodropdownfun(),statusdropdownfun(),qualidropdownfun(),catdropdownfun();"
                                             data-entity-type="Contact" data-action="Create">
                                             New Lead
                                         </a>
@@ -3547,10 +3649,6 @@ function resetFormLead() {
                             </div>
                             <div class="col-sm-7">
                                 <select class="form-control" id="status" name="status">
-                                    <option>Accepted</option>
-                                    <option>Open</option>
-                                    <option>Declined</option>
-                                    <option>Qualified</option>
                                 </select>
                             </div>
                         </div>
@@ -3562,10 +3660,6 @@ function resetFormLead() {
                             </div>
                             <div class="col-sm-7">
                                 <select class="form-control" id="qul" name="qul" style="height:71%;">
-                                    <option>Cold</option>
-                                    <option>Hot</option>
-                                    <option>Warm</option>
-
                                 </select>
                             </div>
                         </div>
@@ -3576,11 +3670,7 @@ function resetFormLead() {
                                     <label for="sel1">Source:</label></div>
                             </div>
                             <div class="col-sm-7">
-                                <select class="form-control" id="source" name="source">
-                                    <option>Campaign</option>
-                                    <option>External Party </option>
-                                    <option>Road show</option>
-                                    <option>Current Account</option>
+                                <select class="form-control" id="Source" name="source">
                                 </select>
                             </div>
                         </div>
@@ -3592,11 +3682,7 @@ function resetFormLead() {
                                     <label for="sel1">Category:</label></div>
                             </div>
                             <div class="col-sm-7">
-                                <select class="form-control" id="category" name="category">
-                                    <option>Consulting</option>
-                                    <option>Service</option>
-                                    <option>Solution</option>
-                                    <option>Staffing</option>
+                                <select class="form-control" id="Category" name="category">
                                 </select>
                             </div>
                         </div>
@@ -3609,10 +3695,6 @@ function resetFormLead() {
                             </div>
                             <div class="col-sm-7">
                                 <select class="form-control" id="priority" name="priority">
-                                    <option>Immedaite</option>
-                                    <option>Low</option>
-                                    <option>Normal</option>
-                                    <option>Urgent</option>
                                 </select>
                             </div>
                         </div>

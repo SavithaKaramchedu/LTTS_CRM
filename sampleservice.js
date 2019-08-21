@@ -229,7 +229,73 @@ exports.deleteleaddisplay = function (req, res) {
     });
 
 };
-
+exports.statusdropdownfun = function (req, res) {
+   
+   let query="CALL procLookUpLeadStatuses()"; 
+   
+   db.query(query, (err, result) => {
+       if (err) {
+           return res.status(500).send(err);
+       }
+       res.status(200).json(result);
+               
+   });
+  
+  };
+  exports.qualidropdownfun = function (req, res) {
+   
+    let query="CALL procLookUpLeadQualifications()"; 
+    
+    db.query(query, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+                
+    });
+   
+   };
+   exports.catdropdownfun = function (req, res) {
+   
+    let query="CALL procLookUpLeadCategories()"; 
+    
+    db.query(query, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+                
+    });
+   
+   };
+   exports.priodropdownfun = function (req, res) {
+   
+    let query="CALL procLookUpPriorities()"; 
+    
+    db.query(query, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+                
+    });
+   
+   };
+  exports.sourdropfun = function (req, res) {
+   
+    let query="CALL procLookUpLeadSources()"; 
+    
+    db.query(query, (err, result) => {
+        if (err) {
+            console.log(err);  
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+               
+    });
+   
+   };
+   
 exports.getBackPage = function (req, res) {
     res.render('login.ejs', {
         title: "Welcome to Crm Application"

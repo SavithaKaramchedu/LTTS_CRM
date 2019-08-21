@@ -94,6 +94,82 @@
       ]
     },
     {
+      "route": "/statusdropdownfun",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "statusdropdownfun",
+
+
+      "description": "Routes to get the dropdown value in leadmodal",
+      "examples": [
+        {
+          "param": "/statusdropdownfun"
+        }
+      ]
+    },
+    {
+      "route": "/qualidropdownfun",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "qualidropdownfun",
+
+
+      "description": "Routes to get the dropdown value in leadmodal",
+      "examples": [
+        {
+          "param": "/qualidropdownfun"
+        }
+      ]
+    },
+    {
+      "route": "/priodropdownfun",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "priodropdownfun",
+
+
+      "description": "Routes to get the dropdown value in leadmodal",
+      "examples": [
+        {
+          "param": "/priodropdownfun"
+        }
+      ]
+    },
+    {
+      "route": "/catdropdownfun",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "catdropdownfun",
+
+
+      "description": "Routes to get the dropdown value in leadmodal",
+      "examples": [
+        {
+          "param": "/catdropdownfun"
+        }
+      ]
+    },
+    {
+      "route": "/sourdropfun",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "sourdropfun",
+
+
+      "description": "Routes to get the source dropdown value in leadmodal",
+      "examples": [
+        {
+          "param": "/sourdropfun"
+        }
+      ]
+    },
+    
+    {
       "route": "/leads/:i",
       "type": "put",
       "configured": true,
