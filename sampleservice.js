@@ -19,11 +19,50 @@ exports.getLoginPage = function (req, res) {
 };
 exports.validateLogin = function (req, res) {
 
-
-    let psno = req.body.psno;
+ let psno = req.body.psno;
     let pwd = req.body.pwd;
 
-    let usernameQuery = "SELECT count(*) as numcount FROM `login` WHERE username = '" + psno + "'and password='" + pwd + "'";
+    var ldap = require('ldapjs');
+    let usernameQuery = "call procUserAuthentication( '" + psno + "');";
+
+    db.query(usernameQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+
+       else{
+
+        let email=result[0][0].EMAIL;
+        console.log(email);
+           var client = ldap.createClient({
+       
+            url: 'ldap://BRDIESMSDC01.lnties.com/DC=lnties,DC=com'
+            
+          });
+         
+          var opts = {
+            filter: '(objectclass=user)',
+            scope: 'sub',
+            attributes: ['objectGUID']
+          };
+
+          console.log("down");
+          client.bind(email, pwd, function (err) {
+              console.log("Inside bind",email,pwd);
+              if (err) {
+                message = 'Incorrect Credentials';
+                console.log(message);
+                return res.status(500).send(err);
+               }
+            else {
+                res.redirect('/home');
+                }
+          });
+       }
+
+    });
+
+    /*let usernameQuery = "SELECT count(*) as numcount FROM `login` WHERE username = '" + psno + "'and password='" + pwd + "'";
 
     db.query(usernameQuery, (err, result) => {
         if (err) {
@@ -39,7 +78,7 @@ exports.validateLogin = function (req, res) {
             message = 'Incorrect Credentials';
         }
 
-    });
+    });*/
 };
 exports.getHomePage = function (req, res) {
 
