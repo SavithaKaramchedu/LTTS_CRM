@@ -418,6 +418,42 @@ exports.deletedisplaycont = function (req, res) {
     });
 
 };
+
+exports.Contactfun = function (req, res) {
+
+    let query = 'call procLookUpJobFunctions();';
+    console.log(query);
+    db.query(query, (err, result) => {
+
+        if (err) {
+            
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+        console.log(result);
+
+    });
+
+};
+
+
+exports.Contactdep = function (req, res) {
+
+    let query = 'call procLookUpDepartments();';
+    console.log(query);
+    db.query(query, (err, result) => {
+
+        if (err) {
+            
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+        console.log(result);
+
+    });
+
+};
+
 exports.addAccountPage = function (req, res) {
     let message = '';
     let name = req.body.name;
