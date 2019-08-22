@@ -248,6 +248,7 @@ exports.statusdropdownfun = function (req, res) {
     
     db.query(query, (err, result) => {
         if (err) {
+		console.log(err);
             return res.status(500).send(err);
         }
         res.status(200).json(result);

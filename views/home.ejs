@@ -1127,7 +1127,7 @@ chart3.render();  }
                function statusdropdownfun() {
                 var dropdowndata = "";
                 var url = "https://localhost:9090/statusdropdownfun";
-
+				console.log(url);
                 $.ajax({
                     url: url,
                     type: "GET",
@@ -4133,7 +4133,6 @@ function resetFormLead() {
         <span id="alertContent"></span>
     </div>
     <div id="driveOverlay" style="display:none;"></div>
-
 
 
 

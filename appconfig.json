@@ -461,7 +461,7 @@
       "configured": true,
       "routeclass": "./sampleservice.js",
       "routefunction": "SalesCycle",
-      "description": "SalesCycle dropdown dynamically",
+      "description": "SalesCycle dropdown dynamically LTTS",
       "examples": [
         {
           "param": "/SalesCycle"
