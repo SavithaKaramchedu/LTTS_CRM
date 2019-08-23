@@ -728,7 +728,7 @@ chart3.render();  }
 
                             tableData = tableData + "  <tr> " +
                                 "<td id='' hidden>" + result[i].contactid + "</td>" +
-                                "<td onclick='recorddisplaycont(" + result[i].contactid + ")'>" + "<a href='#cmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[i].firstname + "</a>" + "</td>" +
+                                "<td onclick='dropdownfun(), dropdowndep(), recorddisplaycont(" + result[i].contactid + ")'>" + "<a href='#cmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[i].firstname + "</a>" + "</td>" +
                                 "<td >" + result[i].lastname + "</td>" +
                                 "<td >" + result[i].accountname + "</td>" +
                                 "<td >" + result[i].jobtitle + "</td>" +
@@ -916,7 +916,53 @@ chart3.render();  }
                         $("#cancelct").prop("hidden", true);
                     } 
 
+                    function dropdownfun() {
+                    
+                    var url = "https://localhost:9090/dropdownfun";
+                    var dropdowndata="";
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+                           
+                            for (var i = 0; i < result[0].length; i++) {
+                                dropdowndata = dropdowndata + '<option value="' + result[0][i].JOBFUNCTION + '">' + result[0][i].JOBFUNCTION + '</option>';
 
+                            }
+                            $("#function1").html(dropdowndata);
+                            $("#funct").html(dropdowndata);
+                          
+                            
+                        }
+                    
+                    });
+
+                } 
+
+
+
+                function dropdowndep() {
+                    console.log("working");
+                    var url = "https://localhost:9090/dropdowndep";
+                     var dropdowndata="";
+
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+
+                            for (var i = 0; i < result[0].length; i++) {
+                                dropdowndata = dropdowndata +  '<option value="' + result[0][i].Department + '">' + result[0][i].Department + '</option>';
+
+                            }
+                            $("#department").html(dropdowndata);
+                            $("#depart").html(dropdowndata);
+                        
+                        }
+                    
+                    });
+
+                } 
 
         function leadLoad() {
 
@@ -2056,7 +2102,7 @@ function resetFormLead() {
                                 <div id="default_controls">
                                     <div class="pull-right" id="AddNewButton">
                                         <a class="btn in-entity-modal" data-toggle="modal" href="#contactModal"
-                                            data-entity-type="Contact" data-action="Create" onclick="resetFormContact();">
+                                            data-entity-type="Contact" data-action="Create" onclick="resetFormContact(), dropdownfun(), dropdowndep();">
                                             New Contact
                                         </a>
                                     </div>

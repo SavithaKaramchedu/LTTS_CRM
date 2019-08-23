@@ -727,9 +727,7 @@ exports.SalesCycle = function (req, res) {
          console.log(result);
      });
  }
-
-
- exports.Category = function (req, res) {
+exports.Category = function (req, res) {
     // console.log("sourceopportunity");
      let opposourceQuery = "CALL procLookUpOpportunityCategories()";
      //console.log(deleteUserQuery);
@@ -742,3 +740,35 @@ exports.SalesCycle = function (req, res) {
          console.log(result);
      });
  }
+exports.Contactfun = function (req, res) {
+
+    let query = 'call procLookUpJobFunctions();';
+    console.log(query);
+    db.query(query, (err, result) => {
+
+        if (err) {
+            
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+        console.log(result);
+
+    });
+
+};
+exports.Contactdep = function (req, res) {
+
+    let query = 'call procLookUpDepartments();';
+    console.log(query);
+    db.query(query, (err, result) => {
+
+        if (err) {
+            
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+        console.log(result);
+
+    });
+
+};

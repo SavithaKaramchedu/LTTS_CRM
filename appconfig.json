@@ -1005,6 +1005,32 @@
           }
         }
       }
+    },
+    {
+      "route": "/dropdownfun",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "Contactfun",
+      "description": "Route for dynamic dropdown function",
+      "examples": [
+        {
+          "param": "/fundropdown"
+        }
+      ]
+    },
+    {
+      "route": "/dropdowndep",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "Contactdep",
+      "description": "Route for dynamic dropdown department",
+      "examples": [
+        {
+          "param": "/depdropdown"
+        }
+      ]
     }
   ]
 }
