@@ -522,7 +522,7 @@ chart3.render();  }
                         tableData = tableData + "  <tr> " +
 
                             "<td hidden >" + result[i].id + "</td>" +
-                            "<td onclick='accountdisplay(" + result[i].id + ")'>" + "<a href='#editModal' data-toggle='modal' data-backdrop='static'  data-keyboard='false' >" + result[i].name + "</a>" + "</td>" +
+                            "<td onclick='acccatdropdown(),accvertdropdown(),acccontdropdown(),accountdisplay(" + result[i].id + ")'>" + "<a href='#editModal' data-toggle='modal' data-backdrop='static'  data-keyboard='false' >" + result[i].name + "</a>" + "</td>" +
                             "<td >" + result[i].prospect + "</td>" +
                             "<td >" + result[i].parentaccount + "</td>" +
                             "<td >" + result[i].website + "</td>" +
@@ -551,9 +551,9 @@ chart3.render();  }
             $("#website").prop("disabled", false);
             $("#acccat").prop("disabled", false);
             $("#vertical").prop("disabled", false);
-            $("#country").prop("disabled", false);
+            $("#countryacc").prop("disabled", false);
             $("#city").prop("disabled", false);
-            $("#state").prop("disabled", false);
+            $("#stateacc").prop("disabled", false);
             $("#owner").prop("disabled", false);
             $("#editAccount").hide();
             $("#saveAccount").prop("hidden", false);
@@ -567,9 +567,9 @@ chart3.render();  }
             $("#website").prop("disabled", true);
             $("#acccat").prop("disabled", true);
             $("#vertical").prop("disabled", true);
-            $("#country").prop("disabled", true);
+            $("#countryacc").prop("disabled", true);
             $("#city").prop("disabled", true);
-            $("#state").prop("disabled", true);
+            $("#stateacc").prop("disabled", true);
             $("#owner").prop("disabled", true);
             $("#editAccount").show();
             $("#saveAccount").prop("hidden", true);
@@ -584,18 +584,31 @@ chart3.render();  }
                 url: url,
                 type: "GET",
                 success: function (result) {
-                    
+                    var countryid= $("#countryacc").val();
+                    //alert(countryid)
+                    acceditstatedropdown(countryid);
+                    //alert(JSON.stringify(result));
                     $("#Aid").text(result[0].id);
                     $("#faname").val(result[0].name);
                     $("#Prospect").val(result[0].prospect);
                     $("#paacc").val(result[0].parentaccount);
                     $("#website").val(result[0].website);
-                    $("#acccat").val(result[0].accountcategory);
-                    $("#vertical").val(result[0].vertical);
-                    $("#country").val(result[0].country);
+                
+                  
+                  $("select#acccat").val(result[0].accountcategory).attr('selected','selected');
+                  $("select#vertical").val(result[0].vertical).attr('selected','selected');
+                  $("select#countryacc").val(result[0].country).attr('selected','selected');
+                 
+         //$("#acccat").text(result[0].accountcategory).children("option:selected"); 
 
+                 
+                   
+                   
+               
                     $("#city").val(result[0].city);
-                    $("#state").val(result[0].state);
+                    $("select#stateacc").val(result[0].state);
+                    
+               
                     $("#owner").val(result[0].owner);
                   
 
@@ -612,31 +625,31 @@ chart3.render();  }
             var status = $("#Prospect").val();
             var parentaccount = $("#paacc").val();
             var website = $("#website").val();
-            var accountcategory = $("#acccat").val();
+            var accountcategory = $("#acccat").children("option:selected").text();
             if (accountcategory == null || accountcategory == 0) {
                 accountcategory = "savings";
             } else {
-                accountcategory = $("#acccat").val();
+                accountcategory = $("#acccat").children("option:selected").text();
             }
 
-            var vertical = $("#vertical").val();
+            var vertical = $("#vertical").children("option:selected").text();
             if (vertical == null || vertical == 0) {
                 vertical = "";
             } else {
-                vertical = $("#vertical").val();
+                vertical = $("#vertical").children("option:selected").text();
             }
-            var country = $("#country").val();
+            var country = $("#countryacc").children("option:selected").text();
             if (country == null || country == 0) {
                 country = "india";
             } else {
-                country = $("#country").val();
+                country = $("#countryacc").children("option:selected").text();
             }
             var city = $("#city").val();
-            var state = $("#state").val();
+            var state = $("#stateacc").children("option:selected").text();
             if (state == null || state == 0) {
                 state = "hyderabad ";
             } else {
-                state = $("#state").val();
+                state = $("#stateacc").children("option:selected").text();
             }
             var owner = $("#owner").val();
             var data = {
@@ -708,6 +721,134 @@ chart3.render();  }
          
 
         }
+        function acccatdropdown() {
+                        
+                        var dropdowndata = "";
+
+                        var url = "https://localhost:9090/acccat";
+
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+                            success: function (result) {
+                               
+                                for (var i = 0; i <result[0].length; i++) {
+                                  
+
+                                    dropdowndata = dropdowndata  +
+                                        '<option value= "' + result[0][i].ACCOUNTCATEGORY + '" >' + result[0][i].ACCOUNTCATEGORY +  '</option>' 
+                                        
+                                }
+
+                                $("#acccateg").html(dropdowndata);
+                              $("#acccat").html(dropdowndata);
+                               
+
+                            }
+                        });
+                    };
+                    function accvertdropdown() {
+                    
+                    var dropdowndata = "";
+
+                    var url = "https://localhost:9090/accvert";
+
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+
+                            for (var i = 0; i < result[0].length; i++) {
+
+                                dropdowndata = dropdowndata  +
+                                    '<option value= "' + result[0][i].VERTICAL + '" >' + result[0][i].VERTICAL +  '</option>' 
+                                    
+                            }
+
+                            $("#accountVertical").html(dropdowndata);
+                            $("#vertical").html(dropdowndata);
+                        }
+                    });
+                };
+                function acccontdropdown() {
+                    
+                    var dropdowndata = "";
+
+                    var url = "https://localhost:9090/acccont";
+
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+                          
+                            for (var i = 0; i < result[0].length; i++) {
+                             
+                                dropdowndata = dropdowndata  +
+                                    '<option value= "' + result[0][i].country+ '" >' + result[0][i].country +  '</option>' 
+                                    
+                            }
+
+                            $("#accountCounty").html(dropdowndata);
+                            $("#countryacc").html(dropdowndata);
+                        }
+                    });
+                };
+                function accstatedropdown() {
+                // console.log("working");
+                    let country=$("#accountCounty").find(":selected").val();
+                    
+                   
+                    //console.log(country);
+                    var dropdowndata = "";
+
+                    var url = "https://localhost:9090/accstate/" +country;
+                     console.log(url);
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+                          
+                            for (var i = 0; i < result[0].length; i++) { 
+                               
+                                dropdowndata = dropdowndata  +
+                                    '<option value= "' + result[0][i].state + '" >' + result[0][i].state +  '</option>' 
+                                    console.log(result[0][i].state);
+                            }
+                           
+                            $("#accoutState").html(dropdowndata);
+                         
+                        }
+                    });
+                };
+
+                function acceditstatedropdown() {
+                 console.log("working");
+                    
+                 country=$("#countryacc").find(":selected").val();
+                    //console.log(country);
+                    var dropdowndata = "";
+
+                    var url = "https://localhost:9090/accstate/" +country;
+                     console.log(url);
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+                          
+                            for (var i = 0; i < result[0].length; i++) { 
+                               
+                                dropdowndata = dropdowndata  +
+                                    '<option value= "' + result[0][i].state + '" >' + result[0][i].state +  '</option>' 
+                                    console.log(result[0][i].state);
+                            }
+                           
+                            $("#stateacc").html(dropdowndata);
+                        }
+                    });
+                };
+
+
+
 
 
 
@@ -2697,7 +2838,7 @@ function resetFormLead() {
                                 <div id="default_controls">
                                     <div class="pull-right" id="AddNewButton">
                                         <a class="btn in-entity-modal" data-toggle="modal" href="#accountModal"
-                                            data-entity-type="Contact" data-action="Create" onclick="resetFormAccount()">
+                                            data-entity-type="Contact" data-action="Create" onclick="acccatdropdown(),resetFormAccount(),accvertdropdown(),acccontdropdown();">
                                             New Account
                                         </a>
                                     </div>
@@ -2904,7 +3045,7 @@ function resetFormLead() {
                                                                             <label style="width: 113px;">Country:</label>
                                                                         </div>
                                                                         <div class="col-sm-3">
-                                                                            <select class="strike" id="country" disabled
+                                                                            <select class="strike" id="countryacc" disabled onclick="acceditstatedropdown()"
                                                                                 name="country"
                                                                                 style="height:22px;font-size: 12px;width:100%;border-radius: 3px;">
                                                                                 <option style="display:none;"></option>
@@ -2936,7 +3077,7 @@ function resetFormLead() {
                                                                             <label>State:</label>
                                                                         </div>
                                                                         <div class="col-sm-3">
-                                                                            <select class="strike" id="state" disabled
+                                                                            <select class="strike" id="stateacc" disabled
                                                                                 name="stat"
                                                                                 style="height: 22px;font-size: 12px;width:100%;border-radius: 3px;">
                                                                                 <option style="display:none;"></option>
@@ -3570,7 +3711,7 @@ function resetFormLead() {
                                 <div class="col-lg-5">
                                     <div class="form-group"><span style="color:red">*</span>Country:</div>
                                 </div>
-                                <div class="col-lg-7"><select
+                                <div class="col-lg-7"><select onclick="accstatedropdown()"
                                         style="height:25px;width: 80%;border-radius:4px;border: 1px solid #ccc; height: auto;"
                                         name="country" id="accountCounty">
                                         <option style="display:none;"></option>

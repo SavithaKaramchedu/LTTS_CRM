@@ -772,3 +772,61 @@ exports.Contactdep = function (req, res) {
     });
 
 };
+exports.accountcat = function (req, res) {
+
+    let query1="call procLookUpAccountCategories()"; 
+   
+    db.query(query1, (err, result) => {
+   if (err) {
+     
+       return res.status(500).send(err);
+   }
+   res.status(200).json(result);
+          
+});
+
+};
+exports.accountvert = function (req, res) {
+
+ let query1="call procLookUpVertical()"; 
+
+ db.query(query1, (err, result) => {
+if (err) {
+  
+    return res.status(500).send(err);
+}
+res.status(200).json(result);
+       
+});
+
+};
+exports.accountcont = function (req, res) {
+
+ let query1="call procLookUpCountries()"; 
+
+ db.query(query1, (err, result) => {
+if (err) {
+  
+    return res.status(500).send(err);
+}
+res.status(200).json(result);
+       
+});
+
+};
+exports.accountstate = function (req, res) {
+
+ let iCountry= req.params.country;
+//console.log(iCountryID)
+ let query1='call procLookUpStates("' + iCountry+ '")' ;
+
+ db.query(query1, (err, result) => {
+if (err) {
+  
+    return res.status(500).send(err);
+}
+res.status(200).json(result);
+
+});
+
+};
