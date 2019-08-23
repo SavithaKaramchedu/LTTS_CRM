@@ -1,5 +1,2 @@
 node_modules/*
 images/*
-db.js
-dbSettings.json
-package-lock.json
