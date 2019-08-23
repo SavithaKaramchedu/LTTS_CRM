@@ -25,6 +25,13 @@
 
 
     <style>
+.modal-footer {
+    
+    border-radius: 0 0 3px 3px;
+    background: #ecf0f1;
+    
+}
+
         /* width */
         ::-webkit-scrollbar {
             width: 8px;
@@ -80,7 +87,12 @@
             background-color: rgb(206, 212, 218);
             border-color: #adb5bd;
         }
-
+        .modal.fade.in {
+    /* top: 300px; */
+}
+.modal.fade.in {
+    top: 99px;
+}
         #line {
             background-color: lightgrey;
             height: 17px;
@@ -96,13 +108,67 @@
     </style>
 
     <script>
+
+function opportunityedit(){
+$("#name").prop("disabled", false);
+$("#account").prop("disabled", false);
+$("#primarycontact").prop("disabled", false);
+$("#source").prop("disabled", false);
+$("#exceptedvalue").prop("disabled", false);
+$("#StartDate").prop("disabled", false);
+$("#closingdate").prop("disabled", false);
+$("#salescycle").prop("disabled", false);
+$("#salesphase").prop("disabled", false);
+$("#probability").prop("disabled", false);
+$("#publishtoforecast").prop("disabled",false);
+$("#forecastcategory").prop("disabled", false);
+$("#category").prop("disabled", false);
+$("#owneropportunity").prop("disabled", false);
+$("#Note").prop("disabled", false);
+$("#Editopp").hide();
+$("#saveopp").prop("hidden", false);
+$("#cancelopp").prop("hidden", false);
+
+}
+
+
+function clearFormopportunity() {
+$("#name").prop("disabled", true);
+$("#account").prop("disabled", true);
+$("#primarycontact").prop("disabled", true);
+$("#source").prop("disabled", true);
+$("#exceptedvalue").prop("disabled", true);
+$("#StartDate").prop("disabled", true);
+$("#closingdate").prop("disabled", true);
+$("#salescycle").prop("disabled", true);
+$("#salesphase").prop("disabled", true);
+$("#probability").prop("disabled", true);
+$("#publishtoforecast").prop("disabled", true);
+$("#forecastcategory").prop("disabled", true);
+$("#category").prop("disabled", true);
+$("#owneropportunity").prop("disabled", true);
+$("#Note").prop("disabled", true);
+$("#Editopp").show();
+$("#saveopp").prop("hidden", true);
+$("#cancelopp").prop("hidden", true);
+
+}
+$( window ).load(function() {
+    statusdropdownfun();
+    qualidropdownfun();
+    priodropdownfun();
+    catdropdownfun();
+    sourdropfun();
+});
         function addOpportunity(){
+        console.log("addOpportunity");
             var oppName=$("#oppName").val();
+          
         var Accountopp=$("#Accountopp").val();
         var PrimaryContact=$("#PrimaryContact").val();
         var Source=$("#Source").val();
         var Exceptedvalue=$("#Exceptedvalue").val();
-        var StartDate=$("#StartDate").val();
+        var StartDate=$("#StartingDate").val();
         var ClosingDate=$("#ClosingDate").val();
         var SalesCycle=$("#SalesCycle").val();
         var Salesphase=$("#Salesphase").val();
@@ -111,7 +177,7 @@
         
         var PublishtoForecast=$("#PublishtoForecast").val(); 
         var ForecastCategory=$("#ForecastCategory").val();
-        var convertcategory=$("#convertcategory").val();
+        var convertcategory=$("#Categoryoppo").val();
         var Owneropp=$("#Owneropp").val();
         
         var data={
@@ -134,10 +200,10 @@
         
         
         data=JSON.stringify(data); 
-       // alert(data);
+        //alert(data);
         
         $.ajax({
-            url: "https://10.20.20.12:7777/opportunity",
+            url: "https://localhost:9090/opportunity",
             type: "POST",
             async: false,
             data: data,
@@ -157,19 +223,15 @@
 
         var title=$("#title").val();
         var company=$("#company").val();
-        var firstname=$("#firstname").val();
-        var lastname=$("#lastname").val();
-        var status=$("#status").val();
-        var qul=$("#qul").val();
-        var source=$("#source").val();
-        var category=$("#category").val();
-        var priority=$("#priority").val();
-       
-        var owner=$("#owner").val();
-        
-        
-        
-        
+        var firstname=$("#firnam").val();
+        var lastname=$("#lasnam").val();
+         var status=$("#status").children("option:selected").text();
+        var qul=$("#qul").children("option:selected").text();
+        var source=$("#Source").children("option:selected").text();
+        var category=$("#Category").children("option:selected").text();
+        var priority=$("#priority").children("option:selected").text();
+        var owner=$("#owne").val();
+        console.log(owner);
         var data={
                 "title":title,
                 "company":company,
@@ -189,7 +251,7 @@
         //alert(data);
         
         $.ajax({
-            url: "https://10.20.20.12:7777/leads",
+            url: "https://localhost:9090/leads",
             type: "POST",
             async: false,
             data: data,
@@ -205,20 +267,19 @@
         });
         leadLoad();
         }
-    function AddAccounts() {
+   
+     function AddAccounts() {
 
-var name=$("#accountName").val();
-var status=$("#accountProspect").val();
-var parentaccount=$("#parentAccount").val();
-var website=$("#accountWebsite").val();
-var accountcategory=$("#accountCategory").val();
-var vertical=$("#accountVertical").val();
-var country=$("#accountCounty").val();
-var city=$("#accountCity").val();
-var state=$("#accoutState").val();
-var owner=$("#accountOwner").val();
-
-
+            var name = $("#accountName").val();
+            var status = $("#accountProspect").val();
+            var parentaccount = $("#parentAccount").val();
+            var website = $("#accountWebsite").val();
+            var accountcategory = $("#accountCategory").val();
+            var vertical = $("#accountVertical").val();
+            var country = $("#accountCounty").val();
+            var city = $("#accountCity").val();
+            var state = $("#accoutState").val();
+            var owner = $("#accountOwner").val();
 
 
 var data={
@@ -240,7 +301,7 @@ data=JSON.stringify(data);
 //alert(data);
 
 $.ajax({
-    url: "https://10.20.20.12:7777/account",
+    url: "https://localhost:9090/account",
     type: "POST",
     async: false,
     data: data,
@@ -256,19 +317,19 @@ $.ajax({
 });
 AccountLoad();
 }
-function addContact() {
+    function addContact() {
 
-var fname=$("#first-name").val();
-var lname=$("#last-name").val();
-var account=$("#account").val();
-var title=$("#job-title").val();
-var function1=$("#function1").val();
-var department=$("#department").val();
-var phone=$("#phone").val();
-var city=$("#city").val();
-var fax=$("#fax").val();
-var mobile=$("#mobile").val();
-var email=$("#email").val();
+        var fname = $("#first-name").val();
+        var lname = $("#last-name").val();
+        var account = $("#accountcont").val();
+        var title = $("#job-title").val();
+        var function1 = $("#function1").val();
+        var department = $("#department").val();
+        var phone = $("#phone").val();
+        var city = $("#citycont").val();
+        var fax = $("#fax").val();
+        var mobile = $("#mobile").val();
+        var email = $("#email").val();
 
 
 
@@ -292,7 +353,7 @@ data=JSON.stringify(data);
 //alert(data);
 
 $.ajax({
-    url: "https://10.20.20.12:7777/contact",
+    url: "https://localhost:9090/contact",
     type: "POST",
     async: false,
     data: data,
@@ -420,7 +481,7 @@ chart3.render();  }
 
             var tableData = "";
 
-            var url = "https://10.20.20.12:7777/employees";
+            var url = "https://localhost:9090/employees";
 
             $.ajax({
                 url: url,
@@ -445,20 +506,23 @@ chart3.render();  }
             });
         }
         function AccountLoad() {
-
+            
             var tableData = "";
 
-            var url = "https://10.20.20.12:7777/account";
+            var url = "https://localhost:9090/account";
 
             $.ajax({
                 url: url,
                 type: "GET",
                 success: function (result) {
-
+                
+                    
                     for (var i = 0; i < result.length; i++) {
-
+                      
                         tableData = tableData + "  <tr> " +
-                            "<td >" + result[i].name + "</td>" +
+
+                            "<td hidden >" + result[i].id + "</td>" +
+                            "<td onclick='accountdisplay(" + result[i].id + ")'>" + "<a href='#editModal' data-toggle='modal' data-backdrop='static'  data-keyboard='false' >" + result[i].name + "</a>" + "</td>" +
                             "<td >" + result[i].prospect + "</td>" +
                             "<td >" + result[i].parentaccount + "</td>" +
                             "<td >" + result[i].website + "</td>" +
@@ -468,7 +532,8 @@ chart3.render();  }
                             "<td >" + result[i].city + "</td>" +
                             "<td >" + result[i].state + "</td>" +
                             "<td >" + result[i].owner + "</td>" +
-                            "</tr>";
+                            "<td >" + '<button class="btn btn-sm btn-danger" onclick="displayAll(' + result[i].id +',\'account\' )" data-toggle="modal" data-target="#deleterecordModal" data-backdrop="static"  data-keyboard="false">Delete</button>' + "</td>"
+                        "</tr>";
 
                     }
                     // alert(tableData);
@@ -476,81 +541,705 @@ chart3.render();  }
                     $("#accountTable").html(tableData);
                 }
             });
+            
         }
+
+        function editAccount() {
+            $("#faname").prop("disabled", false);
+            $("#Prospect").prop("disabled", false);
+            $("#paacc").prop("disabled", false);
+            $("#website").prop("disabled", false);
+            $("#acccat").prop("disabled", false);
+            $("#vertical").prop("disabled", false);
+            $("#country").prop("disabled", false);
+            $("#city").prop("disabled", false);
+            $("#state").prop("disabled", false);
+            $("#owner").prop("disabled", false);
+            $("#editAccount").hide();
+            $("#saveAccount").prop("hidden", false);
+            $("#cancelAccount").prop("hidden", false);
+
+        }
+        function clearFormAccount() {
+            $("#faname").prop("disabled", true);
+            $("#Prospect").prop("disabled", true);
+            $("#paacc").prop("disabled", true);
+            $("#website").prop("disabled", true);
+            $("#acccat").prop("disabled", true);
+            $("#vertical").prop("disabled", true);
+            $("#country").prop("disabled", true);
+            $("#city").prop("disabled", true);
+            $("#state").prop("disabled", true);
+            $("#owner").prop("disabled", true);
+            $("#editAccount").show();
+            $("#saveAccount").prop("hidden", true);
+            $("#cancelAccount").prop("hidden", true);
+        }
+
+        function accountdisplay(i) {
+            
+            var url = "https://localhost:9090/account/" + i;
+        
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    
+                    $("#Aid").text(result[0].id);
+                    $("#faname").val(result[0].name);
+                    $("#Prospect").val(result[0].prospect);
+                    $("#paacc").val(result[0].parentaccount);
+                    $("#website").val(result[0].website);
+                    $("#acccat").val(result[0].accountcategory);
+                    $("#vertical").val(result[0].vertical);
+                    $("#country").val(result[0].country);
+
+                    $("#city").val(result[0].city);
+                    $("#state").val(result[0].state);
+                    $("#owner").val(result[0].owner);
+                  
+
+                    
+                }
+            });
+            clearFormAccount();
+        }
+        function updateaccount() {
+           
+            var id = $("#Aid").text();
+            var name = $("#faname").val();
+           
+            var status = $("#Prospect").val();
+            var parentaccount = $("#paacc").val();
+            var website = $("#website").val();
+            var accountcategory = $("#acccat").val();
+            if (accountcategory == null || accountcategory == 0) {
+                accountcategory = "savings";
+            } else {
+                accountcategory = $("#acccat").val();
+            }
+
+            var vertical = $("#vertical").val();
+            if (vertical == null || vertical == 0) {
+                vertical = "";
+            } else {
+                vertical = $("#vertical").val();
+            }
+            var country = $("#country").val();
+            if (country == null || country == 0) {
+                country = "india";
+            } else {
+                country = $("#country").val();
+            }
+            var city = $("#city").val();
+            var state = $("#state").val();
+            if (state == null || state == 0) {
+                state = "hyderabad ";
+            } else {
+                state = $("#state").val();
+            }
+            var owner = $("#owner").val();
+            var data = {
+                "id": id,
+                "name": name,
+                "prospect": status,
+                "parentaccount": parentaccount,
+                "website": website,
+                "accountcategory": accountcategory,
+                "vertical": vertical,
+                "country": country,
+                "city": city,
+                "state": state,
+                "owner": owner
+            }
+            data = JSON.stringify(data);
+            
+            var url = "https://localhost:9090/account/" + id;
+            $.ajax({
+                url: url,
+                type: "put",
+                async: true,
+                data: data,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                   
+                    
+                },
+              
+
+            });
+           
+            AccountLoad();
+           
+            
+        }
+       
+        function deletehidden(i) {
+        
+            var url = "https://localhost:9090/deleteacc/" + i;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    
+                    $("#cdid").text(result[0].id);
+                    document.getElementById("deleteid").setAttribute("onclick", "accountdelete();");
+                }
+            });
+
+        }
+        function accountdelete() {
+            
+            var id = $("#cdid").text();
+            var url = "https://localhost:9090/account/" + id;
+            $.ajax({
+                url: url,
+                type: "delete",
+                async: true,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                  
+                }
+            });
+
+            AccountLoad()
+         
+
+        }
+
+
+
+
         function contactLoad() {
 
-            var tableData ;
+                var tableData;
 
-            var url = "https://10.20.20.12:7777/contact";
+                var url = "https://localhost:9090/contact";
 
 
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (result) {
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
 
-                    for (var i = 0; i < result.length; i++) {
+                        for (var i = 0; i < result.length; i++) {
 
-                        tableData = tableData + "  <tr> " +
-                            "<td >" + result[i].firstname + "</td>" +
-                            "<td >" + result[i].lastname + "</td>" +
-                            "<td >" + result[i].accountname + "</td>" +
-                            "<td >" + result[i].jobtitle + "</td>" +
-                            "<td >" + result[i].functionname + "</td>" +
-                            "<td >" + result[i].department + "</td>" +
-                            "<td >" + result[i].phone + "</td>" +
-                            "<td >" + result[i].city + "</td>" +
-                            "<td >" + result[i].fax + "</td>" +
-                            "<td >" + result[i].mobile + "</td>" +
-                            "<td >" + result[i].email + "</td>" +
-                            "</tr>";
+                            tableData = tableData + "  <tr> " +
+                                "<td id='' hidden>" + result[i].contactid + "</td>" +
+                                "<td onclick='recorddisplaycont(" + result[i].contactid + ")'>" + "<a href='#cmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[i].firstname + "</a>" + "</td>" +
+                                "<td >" + result[i].lastname + "</td>" +
+                                "<td >" + result[i].accountname + "</td>" +
+                                "<td >" + result[i].jobtitle + "</td>" +
+                                "<td >" + result[i].functionname + "</td>" +
+                                "<td >" + result[i].department + "</td>" +
+                                "<td >" + result[i].phone + "</td>" +
+                                "<td >" + result[i].city + "</td>" +
+                                "<td >" + result[i].fax + "</td>" +
+                                "<td >" + result[i].mobile + "</td>" +
+                                "<td >" + result[i].email + "</td>" +
+                                "<td >" + '<button type="submit" onclick="displayAll(' + result[i].contactid + ',\'contact\' )"class="btn btn-danger" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#deleterecordModal">Delete</button>' + "</td>" +
+                                "</tr>";
+                        }
+                        //alert(tableData);
+
+                        $("#contactTable").html(tableData);
+                    }
+                });
+            }  
+
+
+            function editcontact() {
+                    $("#firstname").prop("disabled", false);
+                    $("#lastname").prop("disabled", false);
+                    $("#acc").prop("disabled", false);
+                    $("#jobtitle").prop("disabled", false);
+                    $("#funct").prop("disabled", false);
+                    $("#depart").prop("disabled", false);
+                    $("#phn").prop("disabled", false);
+                    $("#cit").prop("disabled", false);
+                    $("#fa").prop("disabled", false);
+                    $("#mob").prop("disabled", false);
+                    $("#eml").prop("disabled", false);
+                    $("#editct").hide();
+                    $("#savect").prop("hidden", false);
+                    $("#cancelct").prop("hidden", false);
+                }
+
+                function recorddisplaycont(i) {
+
+                        $.ajax({
+                            url: "https://localhost:9090/contact/" + i,
+                            type: "GET",
+                            success: function (result) {
+
+                                $("#cid").val(result[0].contactid);
+                                $("#firstname").val(result[0].firstname);
+                                $("#lastname").val(result[0].lastname);
+                                $("#acc").val(result[0].accountname);
+                                $("#jobtitle").val(result[0].jobtitle);
+                                $("#funct").val(result[0].functionname);
+                                $("#depart").val(result[0].department);
+                                $("#phn").val(result[0].phone);
+                                $("#cit").val(result[0].city);
+                                $("#fa").val(result[0].fax);
+                                $("#mob").val(result[0].mobile);
+                                $("#eml").val(result[0].email);
+                            }
+                        });
+
+                        clearFormContact();
 
                     }
-                    //alert(tableData);
 
-                    $("#contactTable").html(tableData);
-                }
-            });
-        }
+                    function updatereccontact() {
+
+                        var id = $("#cid").val();
+                        var firstname = $("#firstname").val();
+                        var lastname = $("#lastname").val();
+                        var accountname = $("#acc").val();
+                        var jobtitle = $("#jobtitle").val();
+                        var functionname = $("#funct").val();
+                        var department = $("#depart").val();
+                        var phone = $("#phn").val();
+                        var city = $("#cit").val();
+                        var fax = $("#fa").val();
+                        var mobile = $("#mob").val();
+                        var email = $("#eml").val();
+
+
+                        var data = {
+                            "id": id,
+                            "firstname": firstname,
+                            "lastname": lastname,
+                            "accountname": accountname,
+                            "jobtitle": jobtitle,
+                            "functionname": functionname,
+                            "department": department,
+                            "phone": phone,
+                            "city": city,
+                            "fax": fax,
+                            "mobile": mobile,
+                            "email": email,
+                        }
+                        data = JSON.stringify(data);
+
+                        $.ajax({
+                            url: "https://localhost:9090/contact/" + id,
+                            type: "PUT",
+                            async: true,
+                            data: data,
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (data) {
+                            },
+
+                        });
+
+                        contactLoad();
+                    }
+
+					function displayAll(i, b) {
+
+								if (b == 'contact') {
+                                    
+                                    deletedisplaycont(i);
+							}
+                            else if(b== 'leads'){
+
+                                deleteleaddisplay(i);
+
+                            }
+                            else if(b== 'account'){
+
+                                deletehidden(i);
+
+                            }
+                            else if(b== 'opportunity'){
+                               
+                                deleteoppodisplay(i);
+
+                            }
+
+                                else{
+                                    console.log("no function called");
+                                }
+						} 
+						
+                    function deletedisplaycont(i) {
+                     console.log("working");
+                        $.ajax({
+                            url: "https://localhost:9090/delete/" + i,
+                            type: "GET",
+                            success: function (result) {
+                                    console.log(result);
+                                $("#cdid").val(result[0].contactid);
+								document.getElementById("deleteid").setAttribute("onclick", "deletecont();");
+                            }
+                        });
+                    }
+
+                    function deletecont() {
+
+                        var id = $("#cdid").val();
+
+                        $.ajax({
+                            url: "https://localhost:9090/contact/" + id,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (result) {
+
+                            },
+                        });
+
+                        contactLoad();
+                    }
+
+                    function clearFormContact() {
+
+                        $("#firstname").prop("disabled", true);
+                        $("#lastname").prop("disabled", true);
+                        $("#acc").prop("disabled", true);
+                        $("#jobtitle").prop("disabled", true);
+                        $("#funct").prop("disabled", true);
+                        $("#depart").prop("disabled", true);
+                        $("#phn").prop("disabled", true);
+                        $("#cit").prop("disabled", true);
+                        $("#fa").prop("disabled", true);
+                        $("#mob").prop("disabled", true);
+                        $("#eml").prop("disabled", true);
+                        $("#editct").show();
+                        $("#savect").prop("hidden", true);
+                        $("#cancelct").prop("hidden", true);
+                    } 
+
+
+
         function leadLoad() {
 
-            var tableData = "";
+                var tableData = "";
 
-            var url = "https://10.20.20.12:7777/leads";
+                var url = "https://localhost:9090/leads";
 
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (result) {
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
 
-                    for (var i = 0; i < result.length; i++) {
+                        for (var i = 0; i < result.length; i++) {
 
-                        tableData = tableData + "  <tr> " +
-                            "<td >" + result[i].id + "</td>" +
-                            "<td >" + result[i].title + "</td>" +
-                            "<td >" + result[i].company + "</td>" +
-                            "<td >" + result[i].firstname + "</td>" +
-                            "<td >" + result[i].lastname + "</td>" +
-                            "<td >" + result[i].status + "</td>" +
-                            "<td >" + result[i].qualificationlevel + "</td>" +
-                            "<td >" + result[i].source + "</td>" +
-                            "<td >" + result[i].category + "</td>" +
-                            "<td >" + result[i].priority + "</td>" +
-                            "<td >" + result[i].owner + "</td>" +
-                            "</tr>";
+                            tableData = tableData + "  <tr> " +
+                                "<td >" + result[i].id + "</td>" +
+                                "<td onclick='recorddisplaylead(" + result[i].id + "); '>" + "<a href='#editleadmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[i].title + "</a>" + "</td>" +
+                                "<td >" + result[i].company + "</td>" +
+                                "<td >" + result[i].firstname + "</td>" +
+                                "<td >" + result[i].lastname + "</td>" +
+                                "<td >" + result[i].status + "</td>" +
+                                "<td >" + result[i].qualificationlevel + "</td>" +
+                                "<td >" + result[i].source + "</td>" +
+                                "<td >" + result[i].category + "</td>" +
+                                "<td >" + result[i].priority + "</td>" +
+                                "<td >" + result[i].owner + "</td>" +
+                              //  "<td onclick='deleteleaddisplay(" + result[i].id + ")'>" + '<button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#leaddeleteModal">Delete</button>' + "</td>" +
+                                "<td >" + '<button type="submit" onclick="displayAll(' + result[i].id + ',\'leads\')" class="btn btn-danger" data-toggle="modal" data-target="#deleterecordModal">Delete</button>' + "</td>" +
+                                "</tr>";
+                        }
+                        
 
+                        $("#leadTable").html(tableData);
                     }
-                    //alert(tableData);
-
-                    $("#leadTable").html(tableData);
+                });
+            };
+            function editenablelead() {
+                    $("#tit").prop("disabled", false);
+                    $("#comp").prop("disabled", false);
+                    $("#firname").prop("disabled", false);
+                    $("#lasname").prop("disabled", false);
+                    $("#qual").prop("disabled", false);
+                    $("#cat").prop("disabled", false);
+                    $("#sour").prop("disabled", false);
+                    $("#prio").prop("disabled", false);
+                    $("#own").prop("disabled", false);
+                    $("#stat").prop("disabled", false);
+                    $("#editlead").hide();
+                    $("#savelead").prop("hidden", false);
+                    $("#cancellead").prop("hidden", false);
                 }
-            });
-        }
+
+
+                function clearFormLead() {
+                    $("#tit").prop("disabled", true);
+                    $("#comp").prop("disabled", true);
+                    $("#firname").prop("disabled", true);
+                    $("#lasname").prop("disabled", true);
+                    $("#qual").prop("disabled", true);
+                    $("#cat").prop("disabled", true);
+                    $("#sour").prop("disabled", true);
+                    $("#prio").prop("disabled", true);
+                    $("#stat").prop("disabled", true);
+                    $("#own").prop("disabled", true);
+                    $("#editlead").show();
+                    $("#savelead").prop("hidden", true);
+                    $("#cancellead").prop("hidden", true);
+                } 
+
+                function recorddisplaylead(i) {
+
+                        
+                        var url = "https://localhost:9090/leads/" + i;
+                       
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+
+                            success: function (result) {
+                                
+                                var display = $("#leadid").val(result[0].id);
+                                $("#tit").val(result[0].title);
+                                $("#comp").val(result[0].company);
+                                $("#firname").val(result[0].firstname);
+                                $("#lasname").val(result[0].lastname);
+                                $("select#stat").val(result[0].status).attr('selected','selected');
+                                $("select#qual").val(result[0].qualificationlevel).attr('selected','selected'); 
+                                $("select#sour").val(result[0].source).attr('selected','selected');
+                                $("select#cat").val(result[0].category).attr('selected','selected');
+                                $("select#prio").val(result[0].priority).attr('selected','selected');
+                                $("#own").val(result[0].owner);
+    
+                            }
+                        });
+                        clearFormLead();
+                    };
+
+                    function updateleadrecord() {
+
+                        var id = $("#leadid").val();
+                        
+                        var title = $("#tit").val();
+                        var company = $("#comp").val();
+                        var firstname = $("#firname").val();
+                        var lastname = $("#lasname").val();
+                        var qualificationlevel = $("#qual").children("option:selected").text();
+                        var status = $("#stat").children("option:selected").text() ;
+                        if (status == null || status == 0) {
+                            status = " ";
+                        } else {
+                            status = $("#stat").children("option:selected").text() ;
+                        }
+                        if (qualificationlevel == null || qualificationlevel == 0) {
+                            qualificationlevel = " ";
+                        } else {
+                            qualificationlevel = $("#qual").children("option:selected").text() ;
+                        }
+
+                        var source = $("#sour").children("option:selected").text() ;
+                        if (source == null || source == 0) {
+                            source = " ";
+                        } else {
+                            source = $("#sour").children("option:selected").text() ;
+                        }
+
+                        var category = $("#cat").children("option:selected").text() ;
+                        if (category == null || category == 0) {
+                            category = " ";
+                        } else {
+                            category = $("#cat").children("option:selected").text() ;
+                        }
+
+                        var priority = $("#prio").children("option:selected").text() ;
+                        if (priority == null || priority == 0) {
+                            priority = " ";
+                        } else {
+                            priority = $("#prio").children("option:selected").text() ;
+                        }
+
+                        var owner = $("#own").val();
+                        var data = {
+                            "id": id,
+                            "title": title,
+                            "company": company,
+                            "qualificationlevel": qualificationlevel,
+                            "source": source,
+                            "category": category,
+                            "firstname": firstname,
+                            "lastname": lastname,
+                            "priority": priority,
+                            "owner": owner,
+                            "status": status
+
+                        }
+                        data = JSON.stringify(data);
+
+                        
+                        var url = "https://localhost:9090/leads/" + id;
+                        
+                        $.ajax({
+                            url: url,
+                            type: "put",
+                            async: true,
+                            data: data,
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (data) {
+                               
+                            },
+
+                        });
+                        leadLoad();
+                    };
+
+                    function deleteleadrecord() {
+                        var id = $("#cdid").text();
+                        var url = "https://localhost:9090/leads/" + id;
+                       
+                        $.ajax({
+
+                            url: url,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (result) {
+                            },
+                        });
+                        leadLoad();
+
+                    };
+                    function deleteleaddisplay(i) {
+
+                        var url = "https://localhost:9090/deleteleaddisplay/" + i;
+                  
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+                            success: function (result) {
+                           
+                                var c = $("#cdid").text(result[0].id);
+                                document.getElementById("deleteid").setAttribute("onclick", "deleteleadrecord();");
+                               
+                            }
+                        });
+
+                    } 
+               function statusdropdownfun() {
+                var dropdowndata = "";
+                var url = "https://localhost:9090/statusdropdownfun";
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
+                        for(var i=0;i<result[0].length;i++)
+                    { 
+                    dropdowndata = dropdowndata +         
+                     '<option value="' + result[0][i].LEADSTATUS+ '">' + result[0][i].LEADSTATUS+ '</option>';
+
+                      } 
+               
+                $("#status").html(dropdowndata); 
+                $("#stat").html(dropdowndata);                
+                    }
+                });
+
+                };
+
+
+                function qualidropdownfun() {
+                var dropdowndata = "";
+                var url = "https://localhost:9090/qualidropdownfun";
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
+                        for(var i=0;i<result[0].length;i++)
+                    { 
+                dropdowndata = dropdowndata +         
+                 '<option value="' + result[0][i].LEADQUALIFICATION+ '">' + result[0][i].LEADQUALIFICATION+ '</option>';
+
+                      } 
+                $("#qul").html(dropdowndata); 
+                $("#qual").html(dropdowndata);                 
+                    }
+                });
+
+                };
+
+                function priodropdownfun() {
+                var dropdowndata = "";
+                var url = "https://localhost:9090/priodropdownfun";
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
+                        for(var i=0;i<result[0].length;i++)
+                    { 
+                dropdowndata = dropdowndata +         
+                 '<option value="' + result[0][i].PRIORITY+ '">' + result[0][i].PRIORITY+ '</option>';
+
+                      } 
+                $("#priority").html(dropdowndata); 
+                $("#prio").html(dropdowndata);                 
+                    }
+                });
+
+                };
+
+                function catdropdownfun() {
+                var dropdowndata = "";
+                var url = "https://localhost:9090/catdropdownfun";
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
+                        for(var i=0;i<result[0].length;i++)
+                    { 
+                    dropdowndata = dropdowndata +         
+                     '<option value="' + result[0][i].LEADCATEGORY+ '">' + result[0][i].LEADCATEGORY+ '</option>';
+
+                      } 
+                $("#Category").html(dropdowndata);      
+                $("#cat").html(dropdowndata);                   
+                    }
+                });
+
+                };
+                                    
+               function sourdropfun() {
+                        console.log("function entered");
+                        var dropdowndata = "";
+
+                        var url = "https://localhost:9090/sourdropfun";
+
+                        $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+                            console.log(result);
+                        for (var i = 0; i < result[0].length; i++) {
+
+                        dropdowndata = dropdowndata +
+                        '<option value= "' + result[0][i].LEADSOURCE+ '" >' + result[0][i].LEADSOURCE+ '</option>' 
+                        console.log(result); 
+                    }
+
+                        $("#Source").html(dropdowndata);
+                        $("#sour").html(dropdowndata);
+                        }
+                        });
+                        }; 
+                      
+                       
         function opportunityLoad() {
 
             var tableData = "";
 
-            var url = "https://10.20.20.12:7777/opportunity";
+            var url = "https://localhost:9090/opportunity";
 
             $.ajax({
                 url: url,
@@ -560,7 +1249,8 @@ chart3.render();  }
                     for (var i = 0; i < result.length; i++) {
 
                         tableData = tableData + "  <tr> " +
-                            "<td >" + result[i].name + "</td>" +
+                                "<td >" + result[i].id + "</td>" +
+                            "<td  onclick='opportunitydisplay("+result[i].id+")' >"+"<a href='#oModal' data-toggle='modal' data-backdrop='static' data-keyboard='false' >" + result[i].name + "</a>"+"</td>" + 
                             "<td >" + result[i].account + "</td>" +
                             "<td >" + result[i].primarycontact + "</td>" +
                             "<td >" + result[i].source + "</td>" +
@@ -571,16 +1261,214 @@ chart3.render();  }
                             "<td >" + result[i].forecastcategory + "</td>" +
                             "<td >" + result[i].category + "</td>" +
                             "<td >" + result[i].owner + "</td>" +
-                            "</tr>";
+                            
+                           
+                            "<td >"+'<button type="button" onclick="displayAll(' + result[i].id +',\'opportunity\' )" class="btn btn-danger" data-toggle="modal" data-target="#deleterecordModal" >delete</button>'+"</td>" 
 
+                            "</tr>";
                     }
-                    //alert(tableData);
 
                     $("#opportunityTable").html(tableData);
                 }
             });
-        }
+        };
    
+        function opportunitydisplay(i){
+         
+            var url = "https://localhost:9090/opportunity/"+i;
+                $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                       
+                        $("#oid").val(result[0].id);
+                        $("#name").val(result[0].name);
+                        $("#account").val(result[0].account);
+                        $("#primarycontact").val(result[0].primarycontact);
+                        $("#source").val(result[0].source);
+                        $("#exceptedvalue").val(result[0].exceptedvalue);
+                        $("#salescycle").val(result[0].salescycle);
+                        $("#salesphase").val(result[0].salesphase);
+                        $("#probability").val(result[0].probability);
+                        $("#forecastcategory").val(result[0].forecastcategory);
+                        $("#Categoryoppo").val(result[0].category);
+                        $("#owneropportunity").val(result[0].owner);
+                      
+                     
+                }      
+            });
+            clearFormopportunity();
+        }
+        function updaterecord() {
+           
+            var id=$("#oid").val();
+             
+            var Name=$("#name").val();
+            var Account=$("#account").val();
+            var Primarycontact=$("#primarycontact").val();
+            var Source=$("#source").val();
+            var Exceptedvalue=$("#exceptedvalue").val();  
+            var startdate=$("#StartDate").val();
+            if (startdate==null||startdate==0){
+                startdate="2018-09-13 00:00:00";
+           }else{
+            startdate=$("#StartDate").val();
+            }
+            var closedate=$("#closingdate").val();
+            if (closedate==null||closedate==0){
+                closedate="2018-08-13 00:00:00";
+           }else{
+            closedate=$("#closingdate").val();
+            }
+            var Salescycle=$("#salescycle").val();             
+            var Salesphase=$("#salesphase").val();              
+            var Probability=$("#probability").val();
+            var Forecastcategory=$("#forecastcategory").val();
+            var Category=$("#category").val(); 
+            var Owner=$("#owneropportunity").val();
+            var data={
+                    "id":id,
+                    "name":Name,
+                    "account":Account,
+                    "primarycontact":Primarycontact,
+                    "source":Source,
+                    "exceptedvalue":Exceptedvalue,
+                    "startdate":startdate,
+                    "closedate":closedate,
+                    "salescycle":Salescycle,
+                    "salesphase":Salesphase,
+                    "probability":Probability,
+                    "forecastcategory":Forecastcategory,
+                    "category":Category,
+                    "owner":Owner
+                    }
+                        data=JSON.stringify(data); 
+                        
+                        var url="https://localhost:9090/opportunity/"+id;
+                        
+                        $.ajax({
+                            url: url,
+                            type: "put",
+                            async: true,
+                            data: data,
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (data) {
+                           
+                            },                            
+                        });
+                        opportunityLoad();
+                }
+                function deleteoppodisplay(i) {               
+                    var url = "https://localhost:9090/deleteopp/" + i;
+                    $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
+                    var c= $("#cdid").text(result[0].id);    
+                    document.getElementById("deleteid").setAttribute("onclick", "deleteopportunity();");
+                    
+                }
+            });
+
+            } 
+
+    function opposourcedropdown() {
+        var sourcedata = "";
+        var url = "https://localhost:9090/sourceopp/";
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function (result) {
+                for (var i = 0; i < result[0].length; i++) {
+
+                    sourcedata = sourcedata +
+                        '<option text="' + result[0][i].opportunitysourceid + '">' + result[0][i].opportunitysource + '</option>';
+                }
+                $("#Source").html(sourcedata);
+            }
+        });
+
+    }   
+
+
+    function oppoSalesCycledropdown() {
+            var SalesCycledata = "";
+            var url = "https://localhost:9090/SalesCycle/";
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    for (var i = 0; i < result[0].length; i++) {
+
+                        SalesCycledata = SalesCycledata +
+                            '<option text="' + result[0][i].SalesCycleID + '">' + result[0][i].SalesCycle + '</option>';
+                    }
+                    $("#SalesCycle").html(SalesCycledata);
+                }
+            });
+
+        } 
+       
+        function oppoSalesphasedropdown() {
+            var Salesphasedata = "";
+            var url = "https://localhost:9090/Salesphase";
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    for (var i = 0; i < result[0].length; i++) {
+
+                        Salesphasedata = Salesphasedata +
+                            '<option text="' + result[0][i].salesphaseid + '">' + result[0][i].salesphase + '</option>';
+                    }
+                    $("#Salesphase").html(Salesphasedata);
+                }
+            });
+
+        } 
+
+        function oppoCategorydropdown() {
+            var Categorydata = "";
+            var url = "https://localhost:9090/category";
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    console.log(result);
+                    for (var i = 0; i < result[0].length; i++) {
+
+                        Categorydata = Categorydata +
+                            '<option text="' + result[0][i].OPPORTUNITYCATEGORYID + '">' + result[0][i].OPPORTUNITYCATEGORY + '</option>';
+                    }
+                    $("#Categoryoppo").html(Categorydata);
+                }
+            });
+
+        } 
+
+        function deleteopportunity() {
+            var id=$("#cdid").text();
+          var url= "https://localhost:9090/opportunity/"+id;
+           
+            $.ajax({
+                    url: url,
+                    type: "DELETE",
+                    async: true,
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (result) {
+                    },
+                });
+                opportunityLoad();           
+            }
+    
+           
+    
     </script>
     <link href="https://d3rqem538l0q4a.cloudfront.net/bundles/styles/kendo.min.css?v=dd26f0f1f8de38f41959d397aff1d9c4"
         rel="stylesheet" type="text/css" />
@@ -685,17 +1573,17 @@ chart3.render();  }
 </head>
 
 <body class="lang-en-US" style="font-family: sans-serif;">
-    <scri pt src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
   <script>
        function resetFormContact() {
         $('#function1').prop('selectedIndex',0);
         $('#department').prop('selectedIndex',0);
         $('#first-name').val('');
         $('#last-name').val('');
-        $('#account').val('');
+        $('#accountcont').val('');
         $('#job-title').val('');
         $('#phone').val('');
-        $('#city').val('');
+        $('#citycont').val('');
         $('#fax').val('');
         $('#mobile').val('');
         $('#email').val('');
@@ -734,9 +1622,9 @@ function resetFormLead() {
         $('#priority').prop('selectedIndex',0);
         $('#title').val('');
         $('#company').val('');
-        $('#firstname').val('');
-        $('#lastname').val('');
-        $('#owner').val('');
+        $('#firnam').val('');
+        $('#lasnam').val('');
+        $('#owne').val('');
 }
 </script>
     <noscript>
@@ -942,6 +1830,10 @@ function resetFormLead() {
                     </div>
                 </li>
 
+
+
+                
+
             </ol>
             <div id="app-switcher-container" class="collapse">
                 <div id="app-triangle"></div>
@@ -1005,7 +1897,7 @@ function resetFormLead() {
                             }
 
                             function hideBasics() {
-                                document.getElementsByClassName('menu-basics')[0].setAttribute('hidden', true);
+                                //document.getElementsByClassName('menu-basics')[0].setAttribute('hidden', true);
                             }
 
                         })();
@@ -1261,7 +2153,183 @@ function resetFormLead() {
                                         </tr>
                                     </thead>
                                     <tbody id="contactTable">
+                                        <div class="modal fade docs-example-modal-lg" id="cmodal" tabindex="-1" role="dialog"
+                                            style="height: 439px;top: 23%;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header" style="background-color: #e6e0e094; color:black;">
+                                                        <h6 class="modal-title">New Contact</h1>
+                                                            <button type="button" class="close" data-dismiss="modal" onclick="clearFormContact()"
+                                                                style="color: #000; opacity:1.5;">×</button>
+                                                    </div>
+                                    
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body" style="padding: 13px 25px;">
+                                    
+                                    
+                                                        <div class="row">
+                                    
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2">First Name:</div>
+                                                            <div class="col-sm-3">
+                                                                <p id="cid" style="display:none;"></p>
+                                                                <input type="text" disabled required class="form-control" val="" name="first_name"
+                                                                    id="firstname" style="height: 71%;">
+                                                            </div>
+                                    
+                                                            <div class="col-sm-2">
+                                                                <p><span style="color:red;">*</span>Last Name:
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <input type="text" disabled required class="form-control" name="last_name" id="lastname"
+                                                                    style="height: 71%;">
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+                                    
+                                    
+                                                        <div class="row">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2">
+                                                                <p><span style="color:red;">*</span> Account:
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <input type="text" disabled required class="form-control" name="account" id="acc"
+                                                                    style="height: 71%;">
+                                                            </div>
+                                    
+                                    
+                                                            <div class="col-sm-2">Job Title:</div>
+                                                            <div class="col-sm-3">
+                                                                <input type="text" disabled required class="form-control" name="job_title" id="jobtitle"
+                                                                    style="height: 71%;">
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+                                    
+                                    
+                                    
+                                    
+                                                        <div class="row">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2"> Function:</p>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <select class="form-control" disabled name="function1" id="funct" style="height: 71%;">
+                                                                    <option selected></option>
+                                                                    <option>Executive Board</option>
+                                    
+                                                                    <option>Marketing Manager</option>
+                                    
+                                                                    <option>Purchasing Officer</option>
+                                    
+                                                                    <option>Sales Manager</option>
+                                    
+                                                                    <option>Service Support Manager</option>
+                                    
+                                    
+                                    
+                                                                </select>
+                                                            </div>
+                                    
+                                    
+                                                            <div class="col-sm-2">Department:</div>
+                                    
+                                                            <div class="col-sm-3">
+                                                                <select class="form-control" disabled name="department" id="depart" style="height: 71%;">
+                                                                    <option selected></option>
+                                                                    <option>Administration Dept</option>
+                                    
+                                                                    <option>Financial Dept</option>
+                                    
+                                                                    <option>Purchasing Dept</option>
+                                    
+                                                                    <option> QA Dept</option>
+                                    
+                                                                    <option>R&D Dept</option>
+                                    
+                                                                    <option>Sales Dept</option>
+                                                                </select>
+                                    
+                                                            </div>
+                                                        </div>
+                                    
+                                    
+                                                        <div class="row">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2">Phone:</div>
+                                    
+                                                            <div class="col-sm-3">
+                                                                <input type="text" disabled required class="form-control" name="phone" id="phn"
+                                                                    style="height: 71%;">
+                                                            </div>
+                                    
+                                                            <div class="col-sm-2">City:</div>
+                                    
+                                                            <div class="col-sm-3">
+                                                                <input type="text" disabled required class="form-control" name="city" id="cit"
+                                                                    style="height: 71%;">
+                                                            </div>
+                                                        </div>
+                                    
+                                    
+                                    
+                                                        <div class="row">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2">Fax:</div>
+                                    
+                                                            <div class="col-sm-3">
+                                                                <input type="text" disabled required class="form-control" name="fax" id="fa"
+                                                                    style="height: 71%;">
+                                                            </div>
+                                    
+                                                            <div class="col-sm-2">
+                                                                <p><span style="color:red;">*</span>Mobile:
+                                                            </div>
+                                    
+                                                            <div class="col-sm-3">
+                                                                <input type="text" disabled required class="form-control" name="mobile" id="mob"
+                                                                    style="height: 71%;">
+                                                            </div>
+                                                        </div>
+                                    
+                                                        <div class="row">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2">Email:</div>
+                                    
+                                                            <div class="col-sm-3">
+                                                                <input type="text" disabled required class="form-control" name="email" id="eml"
+                                                                    style="height: 71%;">
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+                                    
+                                    
+                                                        <br>
+                                                    </div>
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                    
+                                    
+                                                        <button type="button" class="btn btn-primary" id="editct" onclick="editcontact()">Edit</button>
+                                    
+                                                        <button type="submit" class="btn btn-primary" id="savect" data-dismiss="modal"
+                                                            onclick="updatereccontact()" hidden>save</button>
+                                    
+                                                        <button type="button" class="btn btn-primary" id="cancelct" data-dismiss="modal"
+                                                            onclick="clearFormContact()" hidden>cancel</button>
+                                    
+                                    
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
 
+                                        <div id="main-content" class="contact">
+
+                                               
 
                                     </tbody>
 
@@ -1276,7 +2344,33 @@ function resetFormLead() {
                 </div>
             </div>
 
-
+            <div class="modal" id="deleterecordModal" style="height:auto;">
+                <div class="modal-dialog">
+                  <div class="modal-content" >
+                  
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Delete Confirmation</h4>
+                      <p id="cdid" style="display:none;"></p>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      Do you want to delete the record permanently?
+                    </div>
+                    
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <button type="submit" id="deleteid" class="btn btn-danger" onclick="" data-dismiss="modal" >Delete</button>
+                      
+                      <button type="button" class="btn btn-info" data-dismiss="modal">cancel</button>
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
 
 
 
@@ -1289,7 +2383,7 @@ function resetFormLead() {
                             <header class="head-list">
                                 <div id="default_controls">
                                     <div class="pull-right" id="AddNewButton">
-                                        <a class="btn in-entity-modal" data-toggle="modal" href="#leadModal" onclick="resetFormLead();"
+                                        <a class="btn in-entity-modal" data-toggle="modal" href="#leadModal" onclick="resetFormLead(),sourdropfun(),priodropdownfun(),statusdropdownfun(),qualidropdownfun(),catdropdownfun();"
                                             data-entity-type="Contact" data-action="Create">
                                             New Lead
                                         </a>
@@ -1386,8 +2480,154 @@ function resetFormLead() {
                                         </tr>
                                     </thead>
                                     <tbody id="leadTable">
-
-
+                                    
+                                    
+                                    
+                                        <div class="modal fade" id="editleadmodal" style="top:24%;height:398px;">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                    
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header"
+                                                        style="padding-left: 0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;">
+                                    
+                                                        <b class="modal-title" style="font-size:15px;margin-left:9px;">New Lead :</b>
+                                    
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clearFormLead()">&times;</button>
+                                                    </div>
+                                    
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body" id="size">
+                                    
+                                                        <div class="row">
+                                                            <div class="col-sm-1">
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <label>Tittle:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <p id="leadid" style="display:none;"></p>
+                                                                <input type="text" class="form-control form-group" id="tit" disabled>
+                                                            </div>
+                                    
+                                                            <div class="col-sm-2">
+                                                                <label style="width: 113px;">Qualification Level:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <select class="strike" id="qual" name="quali"
+                                                                    style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
+                                                                   
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-1"> </div>
+                                                        </div>
+                                    
+                                                        <div class="row">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2">
+                                                                <label>Company:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <input type="text" class="form-control form-group" id="comp" disabled>
+                                                            </div>
+                                    
+                                                            <div class="col-sm-2">
+                                                                <label>Source:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <select class="strike" id="sour" name="source"
+                                                                    style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
+                                                                   
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+                                    
+                                                        <div class="row">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2">
+                                                                <label style="width: 113px;">Contact First Name:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <input type="text" class="form-control form-group" id="firname" disabled>
+                                                            </div>
+                                    
+                                                            <div class="col-sm-2">
+                                                                <label>Category:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <select class="strike" id="cat" name="category"
+                                                                    style="height:25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
+                                                                
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+                                    
+                                                        <div class="row">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2">
+                                                                <label style="width: 113px;">Contact Last Name:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <input type="text" class="form-control form-group" id="lasname" disabled>
+                                                            </div>
+                                    
+                                                            <div class="col-sm-2">
+                                                                <label>Priority:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <select class="strike" id="prio" name="priority"
+                                                                    style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
+                                                                    
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+                                    
+                                    
+                                    
+                                                        <div class="row">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2">
+                                                                <label>Status:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <select class="strike" id="stat" name="status"
+                                                                    style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" >
+                                                                   
+                                                                    
+                                                                </select>
+                                                            </div>
+                                    
+                                                            <div class="col-sm-2">
+                                                                <label>Owner:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <input type="text" class="form-control form-group" id="own" disabled>
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+                                    
+                                    
+                                                    </div>
+                                    
+                                    
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary" id="savelead" data-dismiss="modal"
+                                                            onclick="updateleadrecord()" hidden>Save</button>
+                                                        <button type="button" class="btn btn-primary" id="cancellead" data-dismiss="modal"
+                                                            onclick="clearFormLead()" hidden>Cancel</button>
+                                                        <button type="button" class="btn btn-primary" id="editlead" onclick="editenablelead()">Edit</button>
+                
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                    
                                     </tbody>
 
 
@@ -1507,6 +2747,197 @@ function resetFormLead() {
                                     </thead>
                                     <tbody id="accountTable">
 
+                                            <div class="container">
+
+                                                    <!-- Button to Open the Modal -->
+        
+        
+                                                    <!-- The Modal -->
+                                                    <div class="modal" id="editModal" style="height: 385px;width: 804px">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+        
+                                                                <!-- Modal Header -->
+                                                                <div class="modal-header"
+                                                                    style="padding-left: 0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;">
+        
+                                                                    <b class="modal-title"
+                                                                        style="font-size:15px;margin-left:9px;">New Account:</b>
+        
+                                                                    <button type="button" class="close" onclick="clearFormAccount()"
+                                                                        data-dismiss="modal">&times;</button>
+                                                                </div>
+        
+                                                                <!-- Modal body -->
+                                                                <div class="modal-body" id="size">
+        
+                                                                    <div class="row">
+                                                                        <div class="col-sm-1"> </div>
+                                                                        <div class="col-sm-2">
+                                                                            <label>Name:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <p id="Aid" style="display:none;"></p>
+                                                                            <input type="text" id="faname" disabled value=""
+                                                                                class="form-control form-group">
+                                                                        </div>
+        
+                                                                        <div class="col-sm-2">
+                                                                            <label id="size">Prospect:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <input type="checkbox" id="Prospect" disabled
+                                                                                name="check" checked="">
+                                                                        </div>
+                                                                        <div class="col-sm-1"> </div>
+                                                                    </div>
+        
+                                                                    <div class="row">
+                                                                        <div class="col-sm-1"> </div>
+                                                                        <div class="col-sm-2">
+                                                                            <label>Parent Account:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <input type="text" disabled id="paacc" value=""
+                                                                                class="form-control form-group">
+                                                                        </div>
+        
+                                                                        <div class="col-sm-2">
+                                                                            <label>Website:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <input type="text" disabled id="website"
+                                                                                class="form-control form-group">
+                                                                        </div>
+                                                                        <div class="col-sm-1"></div>
+                                                                    </div>
+        
+                                                                    <div class="row">
+                                                                        <div class="col-sm-1"></div>
+                                                                        <div class="col-sm-2">
+                                                                            <label style="width: 113px;">Account
+                                                                                Category:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <select class="strike" disabled
+                                                                                style="height:22px;font-size: 12px;width:100%;border-radius: 3px;"
+                                                                                name="acccat" id="acccat">
+                                                                                <option value="" style="display:none;"></option>
+                                                                                <option>Global</option>
+                                                                                <option>N-20</option>
+                                                                                <option>others</option>
+                                                                                <option>platinum</option>
+                                                                                
+                                                                            </select>
+                                                                        </div>
+        
+                                                                        <div class="col-sm-2">
+                                                                            <label>Vertical:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <select class="strike" id="vertical" disabled
+                                                                                name="vertex"
+                                                                                style="height:22px;font-size: 12px;width:100%;border-radius: 3px;">
+                                                                                <option value="" style="display:none;"></option>
+                                                                                <option>L&amp;T Thales</option>
+                                                                                <option>L&amp;T Thales common</option>
+                                                                                <option>GDA IP</option>
+                                                                                <option>VLSI</option>
+                                                                                <option>Admin Own</option>
+                                                                                <option>CE's Office</option>
+                                                                                <option>Capability Enhancement Group</option>
+                                                                                
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-sm-1"></div>
+                                                                    </div>
+        
+                                                                    <div class="row">
+                                                                        <div class="col-sm-1"></div>
+                                                                        <div class="col-sm-2">
+                                                                            <label style="width: 113px;">Country:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <select class="strike" id="country" disabled
+                                                                                name="country"
+                                                                                style="height:22px;font-size: 12px;width:100%;border-radius: 3px;">
+                                                                                <option style="display:none;"></option>
+                                                                                <option>Arab Emirates</option>
+                                                                                <option>Afghanisthan</option>
+                                                                                <option>Albania</option>
+                                                                                <option>Armenia</option>
+                                                                                <option>Angola</option>
+                                                                                <option>Argentina</option>
+                                                                                
+                                                                            </select>
+                                                                        </div>
+        
+                                                                        <div class="col-sm-2">
+                                                                            <label>City:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <input type="text" disabled id="city"
+                                                                                class="form-control form-group">
+                                                                        </div>
+                                                                        <div class="col-sm-1"></div>
+                                                                    </div>
+        
+        
+        
+                                                                    <div class="row">
+                                                                        <div class="col-sm-1"></div>
+                                                                        <div class="col-sm-2">
+                                                                            <label>State:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <select class="strike" id="state" disabled
+                                                                                name="stat"
+                                                                                style="height: 22px;font-size: 12px;width:100%;border-radius: 3px;">
+                                                                                <option style="display:none;"></option>
+                                                                                <option>Ajman</option>
+                                                                                <option>Abu Zaby [Abu Dhabi]</option>
+                                                                                <option>Dubayy [Dubai]</option>
+                                                                                
+                                                                            </select>
+                                                                        </div>
+        
+                                                                        <div class="col-sm-2">
+                                                                            <label>Owner:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <input type="text" disabled id="owner"
+                                                                                class="form-control form-group">
+                                                                        </div>
+                                                                        <div class="col-sm-1"></div>
+                                                                    </div>
+        
+        
+                                                                </div>
+        
+        
+                                                                <!-- Modal footer -->
+                                                                <div class="modal-footer">
+                                                                    <button type="submit" id="saveAccount" class="btn btn-primary"
+                                                                        data-dismiss="modal" hidden
+                                                                        onclick="updateaccount()">save</button>
+                                                                    <button type="button" id="cancelAccount" class="btn"
+                                                                        data-dismiss="modal" onclick="clearFormAccount()"
+                                                                        hidden>cancel</button>
+                                                                    <button type="submit" id="editAccount" class="btn btn-primary"
+                                                                        onclick="editAccount()">Edit</button>
+        
+        
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+        
+        
+        
+        
+        
+        
 
                                     </tbody>
 
@@ -1532,7 +2963,7 @@ function resetFormLead() {
                                 <div id="default_controls">
                                     <div class="pull-right" id="AddNewButton">
                                         <a class="btn in-entity-modal" data-toggle="modal" href="#oppModal"
-                                            data-entity-type="Contact" data-action="Create" onclick="resetFormOpp();"> 
+                                            data-entity-type="Contact" data-action="Create" onclick="resetFormOpp(),opposourcedropdown(), oppoSalesCycledropdown(),oppoSalesphasedropdown(),oppoCategorydropdown();"> 
                                             New Opportunity
                                         </a>
                                     </div>
@@ -1606,7 +3037,166 @@ function resetFormLead() {
 
                             </header>
                         </div>
-                        <div id="main-content" class="contact">
+                    <div id="main-content" class="contact">
+                            <div class="modal fade" id="oModal" style="height:519px;top:10%;">
+                                    <div class="modal-dialog modal-lg">
+                                      <div class="modal-content">
+                                      
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                          <h4 class="modal-title">Lead To Opportunity : </h4>
+                                          <button type="button" class="close" data-dismiss="modal" >&times;</button>
+                                        </div>
+                                        
+                                        <!-- Modal body -->
+                                        <div class="modal-body" style="font-size:12px">
+                                            <div class="form-group row">
+                                               <div class="col-sm-1"></div>
+                                               <div class="col-sm-2"><label style="width:108px"> Name :</label></div>
+                                               <div class="col-sm-3">
+                                                    <p id="oid" style="display:none;"></p> 
+                                               <input type="text" class="form-control form-control-sm" id="name" placeholder="" style="height: 24px;" disabled>
+                                               </div>
+                                               <div class="col-sm-2">Account :</div>
+                                               <div class="col-sm-3">
+                                               <input type="text" class="form-control form-control-sm" id="account" placeholder="" style=" height: 24px;" disabled>
+                                               </div>
+                                               <div class="col-sm-1"></div> 
+                                            </div>
+                                            
+                                            <div class="form-group row">
+                                               <div class="col-sm-1"></div>
+                                               <div class="col-sm-2"><label style="width:108px"> Primary Contact:</label></div>
+                                               <div class="col-sm-3">
+                                               <input type="text" class="form-control form-control-sm" id="primarycontact" placeholder="" style=" height: 22px;width:157px; " disabled>
+                                               </div>
+                                               <div class="col-sm-2"><label style="width:108px"> Source :</label></div>
+                                               <div class="col-sm-3">
+                                                <select class="strike" id="source" style="height:27px;width:157px;" disabled>
+                                                    <option>Current Account</option>
+                                                    <option>External Party</option>
+                                                    <option>Idention Workshop</option>
+                                                    <option>Prospecting</option>
+                                                    <option>Roadshow</option>
+                                                    <option>Telephone Enquiry</option>
+                                                    <option>Trade Fair</option>
+                                                    <option>Website</option>
+                                                    <option>Campaign</option>
+                                                </select>
+                                               </div>
+                                               <div class="col-sm-1"></div> 
+                                            </div> 
+                                            
+                                             <div class="form-group row">
+                                               <div class="col-sm-1"></div>
+                                               <div class="col-sm-2"><label style="width:108px">Expected Value:</label></div>
+                                               <div class="col-sm-1">
+                                               <input type="text" class="form-control form-control-sm" id="exceptedvalue" placeholder="" style="height: 24px;width: 57px;"  disabled>
+                                               </div>
+                                                 <div class="col-sm-2">
+                                                 <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
+                                                        <option>AUD</option>
+                                                        <option>EUR</option>
+                                                        <option>GBP</option>
+                                                        <option>INR</option>
+                                                        <option>USD</option>
+                                                        <option>YEN</option>
+                                                   
+                                                </select>
+                                                </div>
+                                               <div class="col-sm-2"><label style="width:108px"> Start Date :</label></div>
+                                               <div class="col-sm-3">
+                                               <input type="date" id="StartDate" class="form-control" style="width:100%; height:64%; padding:2px 0px;" name="StartDate" disabled></div>
+                                               <div class="col-sm-1"></div> 
+                                            </div> 
+                                            
+                                            <div class="form-group row">
+                                               <div class="col-sm-1"></div> 
+                                               <div class="col-sm-2">Closing Date :</div>
+                                               <div class="col-sm-3">
+                                               <input type="date" id="closingdate" class="form-control" style="width:100%; height:71%; padding:0px 0px;" name="StartDate" disabled></div>
+                                                 <div class="col-sm-2"><label style="width:108px"> Sales cycle :</label></div>
+                                                 <div class="col-sm-3">
+                                                <select class="strike" id="salescycle" style="height:26px;width:158px;" disabled>
+                                                        <option>New Business</option>
+                                                        <option>Repeat Business</option>
+                                                </select>
+                                               </div>
+                                               <div class="col-sm-1"></div> 
+                                            </div>
+                                            <div class="form-group row">
+                                               <div class="col-sm-1"></div> 
+                                                 <div class="col-sm-2"><label style="width:108px"> Sales phase :</label></div>
+                                                 <div class="col-sm-3">
+                                                <select class="strike" id="salesphase" style="height:27px;width:159px;" disabled>
+                                                        <option>10% - Ideation</option>
+                                                        <option>25% - Qualified Opportunity </option>
+                                                        <option>50% - Proposal</option>
+                                                        <option>80% - Potential Order</option>
+                                                        <option>90% - Order</option>
+                                                        <option>100% - Execution</option>
+                                                </select>
+                                                  </div>
+                                                  <div class="col-sm-2">Probability :</div>
+                                                  <div class="col-sm-3">
+                                                  <input type="text" class="form-control form-control-sm" id="probability" placeholder="" style=" height: 25px;"disabled>
+                                                  </div>
+                                               <div class="col-sm-1"></div> 
+                                            </div>
+                                            <div class="form-group row">
+                                               <div class="col-sm-1"></div>
+                                               <div class="col-sm-2"><label style="width:108px;"> Publish to Forecast :</label></div>
+                                               <div class="col-sm-3">
+                                               <input type="checkbox" id="publishtoforecast" name="publishtoforecast" checked style="width:17px;height:12px;" disabled>
+                                               </div>
+                                               <div class="col-sm-2">Forecast category :</div>
+                                               <div class="col-sm-3">
+                                               <input type="text" class="form-control form-control-sm" id="forecastcategory" placeholder="" style="    height: 27px;" disabled>
+                                               </div>
+                                               <div class="col-sm-1"></div> 
+                                            </div>
+                                             <div class="form-group row">
+                                               <div class="col-sm-1"></div> 
+                                                 <div class="col-sm-2"><label style="width:108px"> Category :</label></div>
+                                                 <div class="col-sm-3">
+                                                <select class="strike" id="category" style="height:25px;width:159px;" disabled>
+                                                        <option>Consulting</option>
+                                                        <option>Intellectual Property</option>
+                                                        <option>Service</option>
+                                                        <option>Solution</option>
+                                                        <option>Staffing</option>
+                                                </select>
+                                                  </div>
+                                                  <div class="col-sm-2">Owner :</div>
+                                                  <div class="col-sm-3">
+                                                  <input type="text" class="form-control form-control-sm" id="owneropportunity" placeholder="" style="height: 27px;" disabled>
+                                                  </div>
+                                               <div class="col-sm-1"></div> 
+                                            </div>
+                                             <div class="form-group row">
+                                               <div class="col-sm-1"></div>
+                                               <div class="col-sm-2"><label style="width:108px"> Note :</label></div>
+                                               <div class="col-sm-3">
+                                               <textarea rows="3" cols="22" id="note" class="form-control" style="width:100%" name="Note"></textarea> </div>
+                                               
+                                               <div class="col-sm-1"></div> 
+                                            </div>
+                                
+                                        </div>
+                                            
+                                             <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                         <button type="submit" class="btn btn-primary"  id="Editopp" onclick="opportunityedit()">Edit</button>    
+                                         <button type="submit" class="btn btn-primary" data-dismiss="modal" id="saveopp" onclick="updaterecord()" hidden >Save</button>   
+                                         <button type="button" class="btn btn-primary" data-dismiss="modal"  id="cancelopp"  onclick="clearFormopportunity()" hidden >Cancel</button>   
+                                          </div>
+                                          
+                                        </div>
+                                        
+                                      </div>
+                                    </div>
+
+                                    
 
                             <div class="entity-list" id="entity-list">
 
@@ -1617,21 +3207,26 @@ function resetFormLead() {
 
                                             <thead class="table" style="background-color: 1b213b ">
                                                 <tr style="font-weight:bold ; ">
+                                                    <th>id</th>
                                                     <th>Name</th>
                                                     <th>Account</th>
                                                     <th>primarycontact</th>
                                                     <th>source</th>
                                                     <th>ExceptedValue</th>
-
                                                     <th>salescycle</th>
                                                     <th>salesphase</th>
                                                     <th>Probability</th>
                                                     <th>forecastcategory</th>
                                                     <th>category</th>
                                                     <th>owner</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                     <tbody id="opportunityTable">
+                                           
+                                        
+
+
 
 
                                     </tbody>
@@ -2033,13 +3628,13 @@ function resetFormLead() {
                             <div class="col-sm-5">
                                 <label class="control-label col-sm-12" for="name">Contact First Name:</label></div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="firstname" name="first_name" style="height:71%;"></div>
+                                <input type="text" class="form-control" id="firnam" name="first_name" style="height:71%;"></div>
                         </div>
                         <div class="row">
                             <div class="col-sm-5">
                                 <label class="control-label col-sm-12" for="name">Contact Last Name:</label></div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="lastname" placeholder=""
+                                <input type="text" class="form-control form-group" id="lasnam" placeholder=""
                                     name="last_name" style="height:71%;"></div>
                         </div>
 
@@ -2050,10 +3645,6 @@ function resetFormLead() {
                             </div>
                             <div class="col-sm-7">
                                 <select class="form-control" id="status" name="status">
-                                    <option>Accepted</option>
-                                    <option>Open</option>
-                                    <option>Declined</option>
-                                    <option>Qualified</option>
                                 </select>
                             </div>
                         </div>
@@ -2065,10 +3656,6 @@ function resetFormLead() {
                             </div>
                             <div class="col-sm-7">
                                 <select class="form-control" id="qul" name="qul" style="height:71%;">
-                                    <option>Cold</option>
-                                    <option>Hot</option>
-                                    <option>Warm</option>
-
                                 </select>
                             </div>
                         </div>
@@ -2079,11 +3666,7 @@ function resetFormLead() {
                                     <label for="sel1">Source:</label></div>
                             </div>
                             <div class="col-sm-7">
-                                <select class="form-control" id="source" name="source">
-                                    <option>Campaign</option>
-                                    <option>External Party </option>
-                                    <option>Road show</option>
-                                    <option>Current Account</option>
+                                <select class="form-control" id="Source" name="source">
                                 </select>
                             </div>
                         </div>
@@ -2095,11 +3678,7 @@ function resetFormLead() {
                                     <label for="sel1">Category:</label></div>
                             </div>
                             <div class="col-sm-7">
-                                <select class="form-control" id="category" name="category">
-                                    <option>Consulting</option>
-                                    <option>Service</option>
-                                    <option>Solution</option>
-                                    <option>Staffing</option>
+                                <select class="form-control" id="Category" name="category">
                                 </select>
                             </div>
                         </div>
@@ -2112,10 +3691,6 @@ function resetFormLead() {
                             </div>
                             <div class="col-sm-7">
                                 <select class="form-control" id="priority" name="priority">
-                                    <option>Immedaite</option>
-                                    <option>Low</option>
-                                    <option>Normal</option>
-                                    <option>Urgent</option>
                                 </select>
                             </div>
                         </div>
@@ -2127,7 +3702,7 @@ function resetFormLead() {
                                     <label class="control-label col-sm-12" for="name">Owner:</label></div>
                             </div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="owner" placeholder="" name="owner" style="height:71%;"></div>
+                                <input type="text" class="form-control" id="owne" placeholder="" name="owner" style="height:71%;"></div>
                         </div>
 
 
@@ -2196,16 +3771,6 @@ function resetFormLead() {
                                 :</label>
                             <div class="col-sm-6">
                                 <select class="strike" id="Source" style="height:22px" name="Source">
-                                    <option>Current Account</option>
-                                    <option>External Party</option>
-                                    <option>Idention Workshop</option>
-                                    <option>Prospecting</option>
-                                    <option>Roadshow</option>
-                                    <option>Telephone Enquiry</option>
-                                    <option>Trade Fair</option>
-                                    <option>Website</option>
-                                    <option>Campaign</option>
-
                                 </select>
                             </div>
                             <div class="col-sm-1"></div>
@@ -2237,8 +3802,8 @@ function resetFormLead() {
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm" ;>Start Date
                                 :</label>
                             <div class="col-sm-6">
-                                <input type="date" id="StartDate" class="form-control"
-                                    style="width:79%; height:71%; padding:0px 0px;" name="StartDate">
+                                <input type="date" id="StartingDate" class="form-control"
+                                    style="width:79%; height:71%; padding:0px 0px;" name="StartingDate">
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
@@ -2260,9 +3825,6 @@ function resetFormLead() {
                                 :</label>
                             <div class="col-sm-6">
                                 <select class="strike" id="SalesCycle" style="height:71%" name="SalesCycle">
-                                    <option>New Business</option>
-                                    <option>Repeat Business</option>
-
                                 </select>
                             </div>
                             <div class="col-sm-1"></div>
@@ -2274,12 +3836,6 @@ function resetFormLead() {
                                 :</label>
                             <div class="col-sm-6">
                                 <select class="strike" id="Salesphase" style="height:71%" name="Salesphase">
-                                    <option>10% - Ideation</option>
-                                    <option>25% - Qualified Opportunity </option>
-                                    <option>50% - Proposal</option>
-                                    <option>80% - Potential Order</option>
-                                    <option>90% - Order</option>
-                                    <option>100% - Execution</option>
                                 </select>
                             </div>
                             <div class="col-sm-1"></div>
@@ -2321,12 +3877,7 @@ function resetFormLead() {
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Category
                                 :</label>
                             <div class="col-sm-6">
-                                <select class="strike" id="convertcategory" style="height:22px" name="Category">
-                                    <option>Consulting</option>
-                                    <option>Intellectual Property</option>
-                                    <option>Service</option>
-                                    <option>Solution</option>
-                                    <option>Staffing</option>
+                                <select class="strike" id="Categoryoppo" style="height:22px" name="Category">
                                 </select>
                             </div>
                             <div class="col-sm-1"></div>
@@ -2402,7 +3953,7 @@ function resetFormLead() {
                                            <div class="col-sm-3">
                                             <p><span style="color:red;">*</span> Account:</div>
                                         <div class="col-sm-5">
-                                        <input type="text" required class="form-control" name="account" id="account" style="height: 71%;">
+                                        <input type="text" required class="form-control" name="account" id="accountcont" style="height: 71%;">
                                         </div>
                                        
                                          <div class="col-sm-2"></div>
@@ -2491,7 +4042,7 @@ function resetFormLead() {
                                                         <div class="col-sm-3">City:</div>
                                                      
                                                      <div class="col-sm-5">
-                                                     <input type="text" required class="form-control" name="city" id="city" style="height: 71%;">
+                                                     <input type="text" required class="form-control" name="city" id="citycont" style="height: 71%;">
                                                      </div>
                                                       <div class="col-sm-2"></div>
                                                      </div>

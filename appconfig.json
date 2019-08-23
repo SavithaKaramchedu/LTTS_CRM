@@ -79,6 +79,142 @@
       ]
     },
     {
+      "route": "/leads/:i",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "recorddisplaylead",
+
+
+      "description": "Routes to display record value in leadmodal",
+      "examples": [
+        {
+          "param": "/leads/:i"
+        }
+      ]
+    },
+    {
+      "route": "/statusdropdownfun",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "statusdropdownfun",
+
+
+      "description": "Routes to get the dropdown value in leadmodal",
+      "examples": [
+        {
+          "param": "/statusdropdownfun"
+        }
+      ]
+    },
+    {
+      "route": "/qualidropdownfun",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "qualidropdownfun",
+
+
+      "description": "Routes to get the dropdown value in leadmodal",
+      "examples": [
+        {
+          "param": "/qualidropdownfun"
+        }
+      ]
+    },
+    {
+      "route": "/priodropdownfun",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "priodropdownfun",
+
+
+      "description": "Routes to get the dropdownss value in leadmodal",
+      "examples": [
+        {
+          "param": "/priodropdownfun"
+        }
+      ]
+    },
+    {
+      "route": "/catdropdownfun",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "catdropdownfun",
+
+
+      "description": "Routes to get the dropdown value in leadmodal",
+      "examples": [
+        {
+          "param": "/catdropdownfun"
+        }
+      ]
+    },
+    {
+      "route": "/sourdropfun",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "sourdropfun",
+
+
+      "description": "Routes to get the source dropdown value in leadmodal",
+      "examples": [
+        {
+          "param": "/sourdropfun"
+        }
+      ]
+    },
+    
+    {
+      "route": "/leads/:i",
+      "type": "put",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "updateleadrecord",
+
+
+      "description": "Routes to update record value in table",
+      "examples": [
+        {
+          "param": "/leads/:i"
+        }
+      ]
+    },
+    {
+      "route": "/leads/:i",
+      "type": "delete",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "deleteleadrecord",
+      "description": "Delete leadrecord details choosen",
+      "examples": [
+        {
+          "param": "/leads/:i"
+        }
+      ]
+    },
+    {
+      "route": "/deleteleaddisplay/:i",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "deleteleaddisplay",
+
+      "description": "Routes to delete recordin leadmodal",
+      "examples": [
+        {
+          "param": "/deleteleaddisplay/:i"
+        }
+      ]
+    },	
+
+
+
+    {
       "route": "/employees",
       "type": "get",
       "configured": true,
@@ -104,6 +240,63 @@
         }
       ]
     },
+
+    {
+      "route": "/contact/:i",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "recorddisplaycont",
+      "description": "Routes to display record value in modal",
+      "examples": [
+        {
+          "param": "/contact/:i"
+        }
+      ]
+    }, 
+    
+    
+     {
+       "route": "/contact/:i",
+       "type": "put",
+       "configured": true,
+       "routeclass": "./sampleservice.js",
+       "routefunction": "updatereccontact",
+       "description": "Routes to update record value in table",
+       "examples": [
+      {
+       "param": "/contact/:i"
+      }
+    ]
+    },
+
+    {
+      "route": "/contact/:i",
+      "type": "delete",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "deletecont",
+      "description": "Delete contact details choosen",
+      "examples": [
+        {
+          "param": "/contact/:i"
+        }
+      ]
+    },
+
+    {
+      "route": "/delete/:i",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "deletedisplaycont",
+      "description": "Routes to display record value in modal",
+      "examples": [
+        {
+          "param": "/contact/:i"
+        }
+      ]
+    }, 
     {
       "route": "/account",
       "type": "get",
@@ -118,6 +311,69 @@
       ]
     },
     {
+      "route": "/account/:i",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "recorddisplay",
+
+
+      "description": "Routes to display record value in modal",
+      "examples": [
+        {
+          "param": "/account/:i"
+        }
+      ]
+    },
+    {
+      "route": "/account/:i",
+      "type": "put",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "updateaccount",
+
+
+      "description": "Routes to update record value in table",
+      "examples": [
+        {
+          "param": "/account/:i"
+        }
+      ]
+    },
+    {
+      "route": "/account/:i",
+      "type": "delete",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "deleteaccount",
+
+
+      "description": "Routes to delete record value in table",
+      "examples": [
+        {
+          "param": "/account/:i"
+        }
+      ]
+    },
+    {
+      "route": "/deleteacc/:i",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "deletedisplayaccount",
+
+
+      "description": "Routes to display id of an record in hidden",
+      "examples": [
+        {
+          "param": "/deleteacc/:i"
+        }
+      ]
+    },
+
+   
+
+    {
       "route": "/opportunity",
       "type": "get",
       "configured": true,
@@ -130,7 +386,118 @@
         }
       ]
     },
+    {
+      "route": "/opportunity/:i",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "opportunitydisplay",
+
+      "description": "Routes to display record value in modal",
+      "examples": [
+        {
+          "param": "/opportunity/:i"
+        }
+      ]
+    },
    
+    {
+      "route": "/opportunity/:i",
+      "type": "put",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "updateOpportunity",
+      "description": "Routes to update record value in table",
+      "examples": [
+        {
+          "param": "/opportunity/:i"
+        }
+      ]
+    },
+    {
+      "route": "/opportunity/:i",
+      "type": "delete",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "deleteopportunity",
+      "description": "Delete  record value in table",
+      "examples": [
+        {
+          "param": "/opportunity/:i"
+        }
+      ]
+    },
+    {
+      "route": "/deleteopp/:i",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "deletedisplay",
+      "description": "Delete  record value in table hidden",
+      "examples": [
+        {
+          "param": "/deleteopp/:i"
+        }
+      ]
+    },
+
+    {
+      "route": "/sourceopp",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "sourceoppo",
+      "description": "source dropdown dynamically",
+      "examples": [
+        {
+          "param": "/sourceopp"
+        }
+      ]
+    },
+
+    {
+      "route": "/SalesCycle",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "SalesCycle",
+      "description": "SalesCycle dropdown dynamically LTTS",
+      "examples": [
+        {
+          "param": "/SalesCycle"
+        }
+      ]
+    },
+
+
+    {
+      "route": "/Salesphase",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "Salesphase",
+      "description": "Salesphase dropdown dynamically",
+      "examples": [
+        {
+          "param": "/Salesphase"
+        }
+      ]
+    },
+
+    {
+      "route": "/category",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "Category",
+      "description": "Category dropdown dynamically",
+      "examples": [
+        {
+          "param": "/category"
+        }
+      ]
+    },
+
     {
       "route": "/contact",
       "type": "post",
