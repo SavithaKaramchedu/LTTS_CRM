@@ -19,11 +19,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="jquery.min.js"></script>
+<script src="tableHeadFixer.js"></script>
     <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-
+    
+   
     <style>
 .modal-footer {
     
@@ -103,8 +105,18 @@
             left: 32px;
         }
         select {
-  font-size: 13px !important;
-}
+         font-size: 13px !important;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+    .my-custom-scrollbar {
+        position: relative;
+        height: 400px;
+        overflow: auto;
+    }
+
     </style>
 
 <script>
@@ -164,6 +176,367 @@
         })
     </script>
 
+<script>
+ $( window ).load(function() {
+    //alert("into");
+    (function ($) {
+
+$.fn.tableHeadFixer = function (param) {
+//alert(param);
+    return this.each(function () {
+        table.call(this);
+    });
+
+    function table() {
+        /*
+         This function solver z-index problem in corner cell where fix row and column at the same time,
+         set corner cells z-index 1 more then other fixed cells
+         */
+        function setCorner() {
+            var table = $(settings.table);
+
+            if (settings.head) {
+                if (settings.left > 0) {
+                    var tr = table.find("thead tr");
+
+                    tr.each(function (k, row) {
+                        solverLeftColspan(row, function (cell) {
+                            $(cell).css("z-index", settings['z-index'] + 1);
+                        });
+                    });
+                }
+
+                if (settings.right > 0) {
+                    var tr = table.find("thead tr");
+
+                    tr.each(function (k, row) {
+                        solveRightColspan(row, function (cell) {
+                            $(cell).css("z-index", settings['z-index'] + 1);
+                        });
+                    });
+                }
+            }
+
+            if (settings.foot) {
+                if (settings.left > 0) {
+                    var tr = table.find("tfoot tr");
+
+                    tr.each(function (k, row) {
+                        solverLeftColspan(row, function (cell) {
+                            $(cell).css("z-index", settings['z-index']);
+                        });
+                    });
+                }
+
+                if (settings.right > 0) {
+                    var tr = table.find("tfoot tr");
+
+                    tr.each(function (k, row) {
+                        solveRightColspan(row, function (cell) {
+                            $(cell).css("z-index", settings['z-index']);
+                        });
+                    });
+                }
+            }
+        }
+
+        // Set style of table parent
+        function setParent() {
+            var parent = $(settings.parent);
+            var table = $(settings.table);
+
+            parent.append(table);
+            parent
+                .css({
+                    'overflow-x': 'auto',
+                    'overflow-y': 'auto'
+                });
+
+            parent.scroll(function () {
+                var scrollWidth = parent[0].scrollWidth;
+                var clientWidth = parent[0].clientWidth;
+                var scrollHeight = parent[0].scrollHeight;
+                var clientHeight = parent[0].clientHeight;
+                var top = parent.scrollTop();
+                var left = parent.scrollLeft();
+
+                if (settings.head)
+                    this.find("thead tr > *").css("top", top);
+
+                if (settings.foot)
+                    this.find("tfoot tr > *").css("bottom", scrollHeight - clientHeight - top);
+
+                if (settings.left > 0)
+                    settings.leftColumns.css("left", left);
+
+                if (settings.right > 0)
+                    settings.rightColumns.css("right", scrollWidth - clientWidth - left);
+            }.bind(table));
+        }
+
+        // Set table head fixed
+        function fixHead() {
+            var thead = $(settings.table).find("thead");
+            var tr = thead.find("tr");
+            var cells = thead.find("tr > *");
+
+            setBackground(cells);
+            cells.css({
+                'position': 'relative'
+            });
+        }
+
+        // Set table foot fixed
+        function fixFoot() {
+            var tfoot = $(settings.table).find("tfoot");
+            var tr = tfoot.find("tr");
+            var cells = tfoot.find("tr > *");
+
+            setBackground(cells);
+            cells.css({
+                'position': 'relative'
+            });
+        }
+
+        // Set table left column fixed
+        function fixLeft() {
+            var table = $(settings.table);
+
+            // var fixColumn = settings.left;
+
+            settings.leftColumns = $();
+
+            var tr = table.find("tr");
+            tr.each(function (k, row) {
+
+                solverLeftColspan(row, function (cell) {
+                    settings.leftColumns = settings.leftColumns.add(cell);
+                });
+                // var inc = 1;
+
+                // for(var i = 1; i <= fixColumn; i = i + inc) {
+                // 	var nth = inc > 1 ? i - 1 : i;
+
+                // 	var cell = $(row).find("*:nth-child(" + nth + ")");
+                // 	var colspan = cell.prop("colspan");
+
+                // 	settings.leftColumns = settings.leftColumns.add(cell);
+
+                // 	inc = colspan;
+                // }
+            });
+
+            var column = settings.leftColumns;
+
+            column.each(function (k, cell) {
+                var cell = $(cell);
+
+                setBackground(cell);
+                cell.css({
+                    'position': 'relative'
+                });
+            });
+        }
+
+        // Set table right column fixed
+        function fixRight() {
+            var table = $(settings.table);
+
+            var fixColumn = settings.right;
+
+            settings.rightColumns = $();
+
+            var tr_head = table.find('thead').find("tr");
+            var tr_body = table.find('tbody').find("tr");
+            var fcell = null;
+            tr_head.each(function (k, row) {
+                solveRightColspanHead(row, function (cell) {
+                    if (k === 0) {
+                        fcell = cell;
+                    }
+                    settings.rightColumns = settings.rightColumns.add(fcell);
+                });
+            });
+
+            tr_body.each(function (k, row) {
+                solveRightColspanBody(row, function (cell) {
+                    settings.rightColumns = settings.rightColumns.add(cell);
+                });
+            });
+
+            var column = settings.rightColumns;
+
+            column.each(function (k, cell) {
+                var cell = $(cell);
+
+                setBackground(cell);
+                cell.css({
+                    'position': 'relative',
+                    'z-index': '9999'
+                });
+            });
+
+        }
+
+        // Set fixed cells backgrounds
+        function setBackground(elements) {
+            elements.each(function (k, element) {
+                var element = $(element);
+                var parent = $(element).parent();
+
+                var elementBackground = element.css("background-color");
+                elementBackground = (elementBackground == "transparent" || elementBackground == "rgba(0, 0, 0, 0)") ? null : elementBackground;
+
+                var parentBackground = parent.css("background-color");
+                parentBackground = (parentBackground == "transparent" || parentBackground == "rgba(0, 0, 0, 0)") ? null : parentBackground;
+
+                var background = parentBackground ? parentBackground : "white";
+                background = elementBackground ? elementBackground : background;
+
+                element.css("background-color", background);
+            });
+        }
+
+        function solverLeftColspan(row, action) {
+            var fixColumn = settings.left;
+            var inc = 1;
+
+            for (var i = 1; i <= fixColumn; i = i + inc) {
+                var nth = inc > 1 ? i - 1 : i;
+
+                var cell = $(row).find("> *:nth-child(" + nth + ")");
+                var colspan = cell.prop("colspan");
+
+                if (cell.cellPos().left < fixColumn) {
+                    action(cell);
+                }
+
+                inc = colspan;
+            }
+        }
+
+        function solveRightColspanHead(row, action) {
+            var fixColumn = settings.right;
+            var inc = 1;
+            for (var i = 1; i <= fixColumn; i = i + inc) {
+                var nth = inc > 1 ? i - 1 : i;
+
+                var cell = $(row).find("> *:nth-last-child(" + nth + ")");
+                var colspan = cell.prop("colspan");
+
+                action(cell);
+
+                inc = colspan;
+            }
+        }
+
+        function solveRightColspanBody(row, action) {
+            var fixColumn = settings.right;
+            var inc = 1;
+            for (var i = 1; i <= fixColumn; i = i + inc) {
+                var nth = inc > 1 ? i - 1 : i;
+
+                var cell = $(row).find("> *:nth-last-child(" + nth + ")");
+                var colspan = cell.prop("colspan");
+                action(cell);
+                inc = colspan;
+            }
+        }
+
+        var defaults = {
+            head: true,
+            foot: false,
+            left: 0,
+            right: 0,
+            'z-index': 0
+        };
+
+        var settings = $.extend({}, defaults, param);
+
+        settings.table = this;
+        settings.parent = $(settings.table).parent();
+        setParent();
+
+        if (settings.head == true) {
+            fixHead();
+        }
+
+        if (settings.foot == true) {
+            fixFoot();
+        }
+
+        if (settings.left > 0) {
+            fixLeft();
+        }
+
+        if (settings.right > 0) {
+            fixRight();
+        }
+
+        setCorner();
+
+        $(settings.parent).trigger("scroll");
+
+        $(window).resize(function () {
+            $(settings.parent).trigger("scroll");
+        });
+    }
+};
+
+})(jQuery);
+
+/*  cellPos jQuery plugin
+---------------------
+Get visual position of cell in HTML table (or its block like thead).
+Return value is object with "top" and "left" properties set to row and column index of top-left cell corner.
+Example of use:
+$("#myTable tbody td").each(function(){
+$(this).text( $(this).cellPos().top +", "+ $(this).cellPos().left );
+});
+*/
+(function ($) {
+/* scan individual table and set "cellPos" data in the form { left: x-coord, top: y-coord } */
+function scanTable($table) {
+    var m = [];
+    $table.children("tr").each(function (y, row) {
+        $(row).children("td, th").each(function (x, cell) {
+            var $cell = $(cell),
+                cspan = $cell.attr("colspan") | 0,
+                rspan = $cell.attr("rowspan") | 0,
+                tx, ty;
+            cspan = cspan ? cspan : 1;
+            rspan = rspan ? rspan : 1;
+            for (; m[y] && m[y][x]; ++x);  //skip already occupied cells in current row
+            for (tx = x; tx < x + cspan; ++tx) {  //mark matrix elements occupied by current cell with true
+                for (ty = y; ty < y + rspan; ++ty) {
+                    if (!m[ty]) {  //fill missing rows
+                        m[ty] = [];
+                    }
+                    m[ty][tx] = true;
+                }
+            }
+            var pos = {top: y, left: x};
+            $cell.data("cellPos", pos);
+        });
+    });
+};
+
+/* plugin */
+$.fn.cellPos = function (rescan) {
+    var $cell = this.first(),
+        pos = $cell.data("cellPos");
+    if (!pos || rescan) {
+        var $table = $cell.closest("table, thead, tbody, tfoot");
+        scanTable($table);
+    }
+    pos = $cell.data("cellPos");
+    return pos;
+}
+})(jQuery);
+
+});
+</script>
+
     <script>
 
 function opportunityedit(){
@@ -210,11 +583,17 @@ $("#saveopp").prop("hidden", true);
 $("#cancelopp").prop("hidden", true);
 
 }
-
-        function addOpportunity(){
-        //console.log("addOpportunity");
-            var oppName=$("#oppName").val();
-          
+$( window ).load(function() {
+    statusdropdownfun();
+    qualidropdownfun();
+    priodropdownfun();
+    catdropdownfun();
+    sourdropfun();
+});
+        
+function addOpportunity(){
+        
+        var oppName=$("#oppName").val();
         var Accountopp=$("#Accountopp").val();
         var PrimaryContact=$("#PrimaryContact").val();
         var Source=$("#Source").children("option:selected").text() ;
@@ -410,7 +789,7 @@ $.ajax({
 contactLoad();
 }
         window.onload = function () {
-
+            //$("#employeetable").tableHeadFixer(); 
             var chart = new CanvasJS.Chart("chartContainer2", {
                 animationEnabled: true,
                 title: {
@@ -527,18 +906,35 @@ chart3.render();  }
                 type: "GET",
                 success: function (result) {
 
-                    for (var i = 0; i < result.length; i++) {
+                    for (var i = 0; i < result[0].length; i++) {
+                        
+                        if (result[0][i].Manager == null || result[0][i].Manager == 0)
+                        {
+                            result[0][i].Manager = "";
+                        } 
+                        if (result[0][i].phone == null || result[0][i].phone == 0)
+                        {
+                            result[0][i].phone = "";
+                        }  
+                        if (result[0][i].mobile == null || result[0][i].mobile == 0)
+                        {
+                            result[0][i].mobile = "";
+                        } 
 
                         tableData = tableData + "  <tr> " +
-                            "<td >" + result[i].name + "</td>" +
-                            "<td >" + result[i].email + "</td>" +
-                            "<td >" + result[i].mobile + "</td>" +
-                            "<td >" + result[i].phone + "</td>" +
-                            "<td >" + result[i].manager + "</td>" +
+                            "<td hidden>" + result[0][i].empid + "</td>" +
+                            "<td >" + result[0][i].Name + "</td>" +
+                            "<td >" + result[0][i].email + "</td>" +
+                            "<td >" + result[0][i].phone + "</td>" +
+                            "<td >" + result[0][i].mobile + "</td>" +
+                            "<td >" + result[0][i].Manager + "</td>" +
                             "</tr>";
-                        $("#checkP").text(result[i].name);
+                       
                     }
-                    //alert(tableData);
+                   
+                    $("#employeetable").tableHeadFixer();
+
+
 
                     $("#empTable").html(tableData);
                 }
@@ -927,23 +1323,43 @@ chart3.render();  }
                     url: url,
                     type: "GET",
                     success: function (result) {
+console.log(result);
+                        for (var i = 0; i < result[0].length; i++) {
 
-                        for (var i = 0; i < result.length; i++) {
+                            if (result[0][i].jobfunction == null || result[0][i].jobfunction == 0)
+                            {
+                                result[0][i].jobfunction = "";
+                            }
+                            if (result[0][i].DEPARTMENT == null || result[0][i].DEPARTMENT == 0)
+                            {
+                                result[0][i].DEPARTMENT = "";
+                            }
+                            if (result[0][i].Phone == null || result[0][i].Phone == 0)
+                            {
+                                result[0][i].Phone = "";
+                            }
+                            if (result[0][i].Mobile == null || result[0][i].Mobile == 0)
+                            {
+                                result[0][i].Mobile = "";
+                            }
+                            if (result[0][i].email == null || result[0][i].email == 0)
+                            {
+                                result[0][i].email = "";
+                            }
+
 
                             tableData = tableData + "  <tr> " +
-                                "<td id='' hidden>" + result[i].contactid + "</td>" +
-                                "<td onclick='recorddisplaycont(" + result[i].contactid + ")'>" + "<a href='#cmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[i].firstname + "</a>" + "</td>" +
-                                "<td >" + result[i].lastname + "</td>" +
-                                "<td >" + result[i].accountname + "</td>" +
-                                "<td >" + result[i].jobtitle + "</td>" +
-                                "<td >" + result[i].functionname + "</td>" +
-                                "<td >" + result[i].department + "</td>" +
-                                "<td >" + result[i].phone + "</td>" +
-                                "<td >" + result[i].city + "</td>" +
-                                "<td >" + result[i].fax + "</td>" +
-                                "<td >" + result[i].mobile + "</td>" +
-                                "<td >" + result[i].email + "</td>" +
-                                "<td >" + '<button type="submit" onclick="displayAll(' + result[i].contactid + ',\'contact\' )"class="btn btn-danger" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#deleterecordModal">Delete</button>' + "</td>" +
+                                
+                                "<td id='' hidden>" + result[0][i].contactid + "</td>" +
+                                "<td >" + "<a>" + result[0][i].Name + "</a>" + "</td>" +
+                                "<td >" + result[0][i].Account + "</td>" +
+                                "<td >" + result[0][i].jobfunction + "</td>" +
+                                "<td >" + result[0][i].DEPARTMENT + "</td>" +
+                                "<td >" + result[0][i].Phone + "</td>" +
+                                "<td >" + result[0][i].Mobile + "</td>" +
+                                "<td >" + result[0][i].email + "</td>" +
+                                "<td >" + result[0][i].Status + "</td>" +
+                                
                                 "</tr>";
                         }
                         //alert(tableData);
@@ -1119,6 +1535,66 @@ chart3.render();  }
                         $("#savect").prop("hidden", true);
                         $("#cancelct").prop("hidden", true);
                     } 
+
+
+
+
+        function editBusiness() {
+
+$("#status").prop("disabled", false);
+$("#businesspId").prop("disabled", false);
+$("#business").prop("disabled", false);
+$("#cityB").prop("disabled", false);
+$("#mainc").prop("disabled", false);
+$("#created").prop("disabled", false);
+$("#countryb").prop("disabled", false);
+$("#typeb").prop("disabled", false);
+$("#editBusiness").hide();
+$("#saveBusiness").prop("hidden", false);
+$("#cancelBusiness").prop("hidden", false);
+
+}
+
+function displaybusiness(i) {
+
+$.ajax({
+    url: "https://localhost:9090/business/" + i,
+    type: "GET",
+    success: function (result) {
+
+        $("#status").val(result[0].contactid);
+        $("#businesspId").val(result[0].firstname);
+        $("#business").val(result[0].lastname);
+        $("#cityB").val(result[0].accountname);
+        $("#mainc").val(result[0].phone);
+        $("#created").val(result[0].jobtitle);
+        $("select #countryb").val(result[0].functionname).attr('selected', 'selected');
+        $("#typeb").val(result[0].city);
+       
+    }
+});
+
+clearFormBusiness();
+
+}
+
+function clearFormBusiness() {
+
+$("#status").prop("disabled", true);
+$("#businesspId").prop("disabled", true);
+$("#business").prop("disabled", true);
+$("#cityB").prop("disabled", true);
+$("#mainc").prop("disabled", true);
+$("#created").prop("disabled", true);
+$("#countryb").prop("disabled", true);
+$("#typeb").prop("disabled", true);
+$("#editBusiness").show();
+$("#saveBusiness").prop("hidden", true);
+$("#cancelBusiness").prop("hidden", true);
+
+} 
+
+
 
 
 
@@ -2187,7 +2663,7 @@ function resetFormLead() {
                     </a>
                 </li>
                 <li title="Employee">
-                    <a id="navlink_report" class="sidebar_navlink " href="#employeeTab" onClick="empLoad();"
+                    <a id="navlink_report" class="sidebar_navlink " href="#employeeTab" onclick="empLoad();"
                         data-toggle="tab">
                         <div>
                             <div class="navlink_img" id="navlink_report_img"></div>
@@ -2228,11 +2704,23 @@ function resetFormLead() {
                         </div>
                     </a>
                 </li>
+
+                <li title="BusinessPartners">
+                    <a id="navlink_business" class="sidebar_navlink " href="#businessTab" data-toggle="tab"
+                        onclick="businessLoad();">
+                        <div>
+                            <div class="navlink_img" id="navlink_project_img"></div>
+                            <span class="">Business Partners</span>
+                        </div>
+                    </a>
+                </li>
+
+
                 <li title="Projects">
                     <a id="navlink_project" class="sidebar_navlink " href="#homeTab" data-toggle="tab">
                         <div>
                                 <div class="navlink_img" id="navlink_project_img"></div>
-                            <span class="">Bussiness Partners</span>
+                            <span class="">Projects</span>
                         </div>
                     </a>
                 </li>
@@ -2347,22 +2835,20 @@ function resetFormLead() {
 
                             <div class="entity-list" id="entity-list">
 
-                                <table class="table table-respnosive">
+                                <table class=" table table-responsive table-wrapper-scroll-y my-custom-scrollbar " >
 
                                     <thead class="table" style="background-color: 1b213b ">
                                         <tr style="  font-weight:bold ; ">
 
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
+                                            <th>Name</th>
                                             <th>Account</th>
-                                            <th>Job Title</th>
                                             <th>Function</th>
                                             <th>Department</th>
                                             <th>Phone</th>
-                                            <th>City</th>
-                                            <th>Fax</th>
                                             <th>Mobile</th>
                                             <th>Email</th>
+                                            <th>Status</th>
+                                
                                         </tr>
                                     </thead>
                                     <tbody id="contactTable">
@@ -2540,7 +3026,6 @@ function resetFormLead() {
                                             </div>
                                         </div>
 
-                                        <div id="main-content" class="contact">
 
                                     </tbody>
 
@@ -2874,7 +3359,298 @@ function resetFormLead() {
                 </div>
 
             </div>
+
+
+
+            <div id="businessTab" class="tab tab-pane ">
+                <div class="row"></div>
+                <div  class="row">
+                <div id="main"  class="">
+
+
+            <div id="main-container" class="list-view contact">
+                <div id="content" class="">
+                    <header class="head-list">
+                        <div id="default_controls">
+                            <div class="pull-right right10">
+
+                                <div class="pull-right right10">
+                                    <div class="btn-group right10" id="tagActionDropdown"
+                                        style="display: none;">
+                                        <a class="btn dropdown-toggle" data-toggle="dropdown"
+                                            title="Tag Actions">
+                                            <i class="mdi mdi-tag mdi-19px"></i> <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu  pull-right">
+                                            <li class="disabled"><a href="javascript:;" title="Tag Actions">Tag
+                                                    Actions</a></li>
+                                            <li><a href="javascript:;" id="deleteTag" title="Delete This Tag"><i
+                                                        class="mdi mdi-18px  mdi-delete"></i> Delete This
+                                                    Tag</a></li>
+                                            <li><a href="javascript:;" id="renameTag" title="Rename This Tag"><i
+                                                        class="mdi mdi-textbox mdi-18px"></i> Rename This
+                                                    Tag</a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="btn-group" id="btnRefresh">
+                                        <a class="btn" id="refreshList" title="Refresh List"><i
+                                                class="mdi mdi-refresh mdi-19px"></i></a>
+                                    </div>
+                                    <div class="btn-group" id="btnControls">
+                                        <a class="btn dropdown-toggle" data-toggle="dropdown"
+                                            title="List View Controls"><i class="icon-cog"></i> <span
+                                                class="caret"></span></a>
+                                        <!--Menu items are set on demand via ins.buttonBar.js-->
+                                    </div>
+                                    <div class="btn-group" id="btnFilters">
+                                        <a class="btn" id="toggleFilters" title="Show List View Filters"><i
+                                                class="icon-filter"></i></a>
+                                    </div>
+
+
+                                    <div class="btn-group">
+                                        <button id="toggleSidebar" type="button" class="btn"
+                                            title="Show Sidebar"><i class="icon-indent-right"></i></button>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+                            <div class="title">
+                                <div class="btn-group">
+                                    <button id="btn-list-title" class="btn  " title="">
+                                       All Business Partners
+                                    </button>
+
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+
+                        </header>
+                </div>
+                
+                <div id="main-content" class="contact">
+
+                    <div class="entity-list" id="entity-list">
+
+                            <table class=" table table-responsive table-wrapper-scroll-y my-custom-scrollbar " >
+                           
+                                <thead class="table" style="background-color: 1b213b ;">
+                                <tr style="font-weight:bold ; ">
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Business Partner Id</th>
+                                    <th scope="col">Business Partner</th>
+                                    <th scope="col">City</th>
+                                    <th scope="col">Main Contact</th>
+                                    <th scope="col">Created On</th>
+                                    <th scope="col">Country</th>
+                                    <th scope="col">Type</th>
+                                </tr>
+                            </thead>
             
+                            <tbody id="businessTable">
+
+                            <div class="modal fade docs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content">
+                                    <!-- Modal Header -->
+                                          <div class="modal-header" style="background-color: #e6e0e094; color:black;">
+                                            <h6 class="modal-title">Business Partner</h1>
+                                            <button type="button" class="close" data-dismiss="modal"  onclick="" style="color: #000; opacity:1.5;">×</button>
+                                          </div>
+                                          
+                                          <!-- Modal body -->
+                                          <div class="modal-body">
+                              
+                                              <form class="form-signin" action="/modal" method="post" >
+                                      
+                                      
+                                         
+                                         <div class="row">
+                              
+                                          <div class="col-sm-1"></div>
+                                             <div class="col-sm-2">Status</div>
+                                          <div class="col-sm-3">
+                                          <input type="text" required class="form-control" disabled name="status" id="status" style="height: 71%;">
+                                          </div>
+                                          
+                                          <div class="col-sm-2">
+                                             Business Partner Id</div>
+                                             <div class="col-sm-3">
+                                          <input type="text" required class="form-control" disabled name="businesspId" id="businesspId" style="height: 71%;">
+                                          </div>
+                                            <div class="col-sm-1"></div>
+                                          </div>
+                                          
+                                          
+                                          <div class="row">
+                                          <div class="col-sm-1"></div>
+                                             <div class="col-sm-2">
+                                              Business Partner</div>
+                                          <div class="col-sm-3">
+                                          <input type="text" required class="form-control" disabled name="business" id="business" style="height: 71%;">
+                                          </div>
+                                  
+                                          
+                                             <div class="col-sm-2" >City</div>
+                                          <div class="col-sm-3">
+                                          <input type="text" required class="form-control" disabled name="cityB" id="cityB" style="height: 71%;">
+                                          </div>
+                                           <div class="col-sm-1"></div>
+                                         </div>
+                                          
+                             
+                                           <div class="row">
+                                         <div class="col-sm-1"></div>
+                                             <div class="col-sm-2">Main Contact</div>
+                                          
+                                          <div class="col-sm-3">
+                                          <input type="text" required class="form-control" disabled name="mainc" id="mainc" style="height: 71%;">
+                                          </div>
+                                          
+                                             <div class="col-sm-2">
+                                             Created On</div>
+                                          
+                                          <div class="col-sm-3">
+                                          <input type="date" required class="form-control" disabled name="created" id="created" style="height: 71%;">
+                                          </div>
+										  <div class="col-sm-1"></div>
+                                          </div>
+                                          
+                                          
+                                          <div class="row">
+                                          <div class="col-sm-1"></div>
+                                             <div class="col-sm-2"> Country</div>
+                                          <div class="col-sm-3">
+                                          <select class="form-control" name="countryb" disabled id="countryb" style="height: 71%;">
+                                            <option selected></option>
+                                                <option>Arab Emirates</option>
+                                                <option>Afghanisthan</option>
+                                                <option>Albania</option>
+                                                <option>Armenia</option>
+                                                <option>Angola</option>
+                                                <option>Argentina</option>  
+                                                <option>Zimbabwe</option> 
+                                                <option>Bahamas</option>
+                                                <option>Bahrain</option>
+                                                <option>Bangladesh</option>
+                                                <option>Barbados</option>
+                                                <option>Belarus</option>
+                                                <option>Belgium</option>
+                                                <option>Belize</option>
+                                                <option>Benin</option>
+                                                <option>Bermuda</option>
+                                                <option>Bhutan</option>
+                                                <option>Bolivia</option>                                                               
+                                                
+                                            </select>	
+                                          </div>
+                                          <div class="row">
+                                         <div class="col-sm-1"></div>
+                                             <div class="col-sm-2">Type</div>
+                                          
+                                          <div class="col-sm-3">
+                                          <input type="text" required class="form-control" disabled name="typeb" id="typeb" style="height: 71%;">
+                                          </div>
+                                          <div class="col-sm-1"></div>
+                                          </div>
+                                          
+                                          
+                                          <br>
+                                          </div>
+                                          <!-- Modal footer -->
+                                          <div class="modal-footer">
+                                            
+                                                      
+                                            <button type="submit" id="saveBusiness" class="btn btn-primary"
+                                            data-dismiss="modal" hidden
+                                            onclick="">save</button>
+                                        <button type="button" id="cancelBusiness" class="btn"
+                                            data-dismiss="modal" onclick=""
+                                            hidden>cancel</button>
+                                        <button type="submit" id="editBusiness" class="btn btn-primary"
+                                            onclick="">Edit</button>
+                                                                
+                                              
+                                          </div>
+                                        </form>
+                                        </div>
+                                      </div>
+                                  </div>
+                                </div>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                        </div>
+                        </div>
+
+                     </div>
+                    </div>
+
+                    
+<div class="row">
+    <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+
+                    <h6>Details: Business Partners</h6>
+            </div>
+            
+            <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                <h6> Main Address</h6>
+            </div>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-5">
+                     Business Partner :
+                </div>
+
+                <div class="col-sm-5">
+                        Status :
+                   </div>
+                  
+                   <div class="col-sm-2"></div>
+                   <div class="col-sm-5">
+                        Business Partner Id :
+                   </div>
+                   <div class="col-sm-5">
+                        City :
+                   </div>
+
+                   <div class="col-sm-2"></div>
+                   <div class="col-sm-5">
+                        Main Contact :
+                   </div>
+                   <div class="col-sm-5">
+                        Country :
+                   </div>
+
+                   <div class="col-sm-2"></div>
+                   <div class="col-sm-5">
+                        Created On :
+                   </div>
+                   <div class="col-sm-5">
+                        Type :
+                   </div>
+
+            </div>
+
+       
+        </div>
+
+
+
             <div id="accountTab" class="tab tab-pane ">
                 <div id="main" class="">
 
@@ -3176,9 +3952,9 @@ function resetFormLead() {
 
 
                         </div>
+
                     </div>
                 </div>
-
 
             </div>
            
@@ -3481,12 +4257,13 @@ function resetFormLead() {
 
                                     
 
+                            <div id="main-content" class="contact">
+
                             <div class="entity-list" id="entity-list">
 
-                                <table class="table table-respnosive">
+                                <table class=" table table-responsive " >
 
-                                    <thead class="table" style="background-color: 1b213b ">
-                                        <tr style="  font-weight:bold ; ">
+                                
 
                                             <thead class="table" style="background-color: 1b213b ">
                                                 <tr style="font-weight:bold ;background-color: rgb(51, 122, 183); position: relative;top: 0px; color: rgb(255, 255, 255); ">
@@ -3523,7 +4300,7 @@ function resetFormLead() {
                     </div>
                 </div>
 
-
+            </div>
             </div>
             <div id="employeeTab" class="tab tab-pane ">
 
@@ -3615,9 +4392,9 @@ function resetFormLead() {
 
                             <div class="entity-list" id="entity-list">
 
-                                <table class="table table-respnosive">
+                                <table class=" table table-responsive table-wrapper-scroll-y my-custom-scrollbar " id="employeetable" >
 
-                                    <thead class="table" style="background-color: 1b213b ">
+                                    <thead class="table" style="background-color: 1b213b " >
                                         <tr style="font-weight:bold ; ">
                                             <th scope="col">Name</th>
                                             <th scope="col">Email</th>

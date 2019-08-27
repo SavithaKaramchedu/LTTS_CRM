@@ -89,17 +89,18 @@ exports.getLeadPage = function (req, res) {
 exports.getEmpPage = function (req, res) {
 
 
-    let query = "SELECT * FROM `employeecirruswave` ORDER BY empid ASC"; // query database to get all the players
+    let query = "CALL procListAllEmployees()"; // query database to get all the employees
 
     db.query(query, (err, result) => {
 
         if (err) {
             res.redirect('/');
-           
+            
         }
-        res.status(200).json(result);
-
-
+        else{
+            res.status(200).json(result);
+        
+        }
     });
 };
 exports.addLead = function (req, res) {
@@ -356,7 +357,7 @@ let fname = req.body.firstname;
 };
 exports.ContactPage = function (req, res) {
 
-    let query = " SELECT * FROM `contactcirruswave` ORDER BY mobile ASC;";
+    let query = " CALL `devc4c`.`procAdminListAllContacts`()"; 
 
     db.query(query, (err, result) => {
 
@@ -365,6 +366,7 @@ exports.ContactPage = function (req, res) {
            
         }
         res.status(200).json(result);
+        console.log(result);
 
 
     });
