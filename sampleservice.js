@@ -46,12 +46,12 @@ exports.validateLogin = function (req, res) {
             attributes: ['objectGUID']
           };
 
-          console.log("down");
+        
           client.bind(email, pwd, function (err) {
              
               if (err) {
                 message = 'Incorrect Credentials';
-                console.log(message);
+              
                 return res.status(500).send(err);
                }
             else {
@@ -80,7 +80,7 @@ exports.getLeadPage = function (req, res) {
 
         if (err) {
             res.redirect('/');
-            console.log("errorrr");
+   
         }
         res.status(200).json(result);
 
@@ -95,7 +95,7 @@ exports.getEmpPage = function (req, res) {
 
         if (err) {
             res.redirect('/');
-            console.log("errorrr");
+           
         }
         res.status(200).json(result);
 
@@ -123,7 +123,7 @@ exports.addLead = function (req, res) {
        
     db.query(query, (err, result) => {
         if (err) {
-            //console.log("error contact");
+           
             return res.status(500).send(err);
         }
 
@@ -186,7 +186,7 @@ exports.recorddisplaylead = function (req, res) {
    
    db.query(query, (err, result) => {
        if (err) {
-		   console.log(err);
+	
            return res.status(500).send(err);
        }
        res.status(200).json(result);
@@ -197,10 +197,9 @@ exports.recorddisplaylead = function (req, res) {
   
 
 exports.updateleadrecord = function (req, res) {
-    //console.log("updaterecord");
-    //let playerId = req.params.name;
+    
     var Sid = req.body.id;
-    //console.log(id);
+   
     var titl = req.body.title;
     let compan = req.body.company;
     let qualle = req.body.qualificationlevel;
@@ -215,7 +214,7 @@ exports.updateleadrecord = function (req, res) {
 
     let query = "UPDATE `leadcirruswave` SET  `title` = '" + titl + "', `company` = '" + compan + "', `qualificationlevel` = '" + qualle + "', `source` = '" + sourc +
         "',`category` = '" + categor + "', `firstname` = '" + firstnam + "',`lastname` = '" + lastnam + "',`priority` = '" + priorit + "',`owner` = '" + owne + "',`status` = '" + statu + "' WHERE `id` = '" + Sid + "'";
-    //console.log(query);
+
     db.query(query, (err, result) => {
 
         if (err) {
@@ -272,7 +271,7 @@ exports.statusdropdownfun = function (req, res) {
     
     db.query(query, (err, result) => {
         if (err) {
-		console.log(err);
+	
             return res.status(500).send(err);
         }
         res.status(200).json(result);
@@ -312,7 +311,7 @@ exports.statusdropdownfun = function (req, res) {
     
     db.query(query, (err, result) => {
         if (err) {
-            console.log(err);  
+          
             return res.status(500).send(err);
         }
         res.status(200).json(result);
@@ -348,7 +347,7 @@ let fname = req.body.firstname;
 
     db.query(query, (err, result) => {
         if (err) {
-            console.log("error contact");
+        
             return res.status(500).send(err);
         }
 
@@ -364,7 +363,7 @@ exports.ContactPage = function (req, res) {
 
         if (err) {
             res.redirect('/');
-            console.log("errorrr");
+           
         }
         res.status(200).json(result);
 
@@ -470,6 +469,7 @@ exports.addAccountPage = function (req, res) {
 
     db.query(query, (err, result2) => {
         if (err) {
+            console.log(err)
             return res.status(500).send(err);
         }
         res.send('/home');
@@ -479,26 +479,26 @@ exports.addAccountPage = function (req, res) {
 exports.getAccountPage = function (req, res) {
 
 
-    let query = "SELECT * FROM `accountcirruswave`";
+    let query = 'call `procAdminListAllAccounts`("All")';
 
-console.log(query);
+
 
     db.query(query, (err, result) => {
 
         if (err) {
-            console.log(err);
+         
             res.redirect('/');
-            //console.log("errorrr");
+          
         }
         res.json(result);
+       
 
 
     });
 };
 
 exports.updateaccount = function (req, res) {
-    //console.log("updaterecord");
-    //let playerId = req.params.name;
+
     var Sid= req.body.id;
     let nam = req.body.name;
     let prosp = req.body.prospect;
@@ -512,9 +512,9 @@ exports.updateaccount = function (req, res) {
     let own = req.body.owner;
 
     let query = "UPDATE `accountcirruswave` SET `name` = '" + nam + "', `prospect` = '" + prosp + "', `parentaccount` = '" + parentacc + "', `website` = '" + webs + "',`accountcategory` = '" + accountcat +"', `vertical` = '" + vert +"',`country` = '" + count +"',`city` = '" + cit +"',`state` = '" + stat+"',`owner` = '"+ own +"' WHERE `id` = '" + Sid + "'";
-//console.log(query);
+
     db.query(query, (err, result) => {
-        //console.log(err);
+     
         if (err) {
             return res.status(500).send(err);
         }
@@ -523,37 +523,37 @@ exports.updateaccount = function (req, res) {
 };
 exports.recorddisplay = function (req, res) {
 
-      // console.log("hello");
+   
    
     
     var Sid= req.params.i;
-    //console.log(Sid);
+
     let query='select * from accountcirruswave where id="'+Sid+'" '; 
-   // console.log(query);
+ 
     db.query(query, (err, result) => {
         if (err) {
             return res.status(500).send(err);
         }
         res.status(200).json(result);
-               // console.log(result);
+             
     });
 
 };
 exports.deletedisplayaccount = function (req, res) {
 
-    // console.log("hello");
+
  
   
   var Sid= req.params.i;
-  //console.log(Sid); 
+
   let query='select * from accountcirruswave where id="'+Sid+'" '; 
- console.log(query);
+
   db.query(query, (err, result) => {
       if (err) {
           return res.status(500).send(err);
       }
       res.status(200).json(result);
-             // console.log(result);
+            
   });
 
 };
@@ -561,7 +561,7 @@ exports.deleteaccount = function (req, res) {
 
     let Sid = req.params.i;
     let deleteUserQuery = 'DELETE FROM accountcirruswave WHERE id = "' + Sid + '"';
-//console.log(deleteUserQuery);
+
     db.query(deleteUserQuery, (err, result) => {
         if (err) {
             return res.status(500).send(err);
@@ -604,23 +604,23 @@ exports.getOpportunityPage = function (req, res) {
         "','" + StartDate + "','" + ClosingDate + "','" + SalesCycle + "','" + Salesphase + "','" +
         Probability + "','" + ForecastCategory + "','" + Category + "','" + Owner + "')";
     
-        console.log(query)
+
        
         db.query(query, (err, result) => {
-            console.log(err)
+         
             if (err) {
-                console.log(err);
+             
                 return res.status(500).send(err);
             }
             res.redirect("/home")
-            //console.log(result);
+            
         });
 
     };
 
 
     exports.updateOpportunity  = function (req, res) {
-        console.log("updaterecord");       
+         
         var Sid= req.body.id;         
         let Name = req.body.name;
         let Account = req.body.account;
@@ -636,11 +636,11 @@ exports.getOpportunityPage = function (req, res) {
         let Category = req.body.category;
         let Owner = req.body.owner;
         let query = "UPDATE `opportunitiescirruswave` SET  `name` = '" + Name + "', `account` = '" + Account + "', `primarycontact` = '" + PrimaryContact + "',`source` = '" + Source + "',`exceptedvalue` = '" + Exceptedvalue +"',`startdate` = '" + StartDate + "',`closedate` = '" + ClosingDate + "',`salescycle` = '" + SalesCycle +"',`salesphase` = '" + Salesphase +"',`probability` = '" + Probability +"',`forecastcategory` = '" + ForecastCategory+"',`category` = '"+ Category +"',`owner` = '" + Owner +"' WHERE `id` = '" + Sid + "'" ;
-    console.log(query);
+    
         db.query(query, (err, result) => {
-           // console.log(err);
+       
             if (err) {
-               // console.log(err);
+               
                 return res.status(500).send(err);
             }
             res.redirect('/home');
@@ -673,77 +673,77 @@ exports.deletedisplay = function (req, res) {
 
     let Sid = req.params.i;
     let deleteUserQuery = 'select * from opportunitiescirruswave where id="' + Sid + '"';
-    console.log(deleteUserQuery);
+   
     db.query(deleteUserQuery, (err, result) => {
         if (err) {
-            console.log(err);
+         
             return res.status(500).send(err);
         }
         res.status(200).json(result);
-        console.log(result);
+      
     });
 }
 
 exports.sourceoppo = function (req, res) {
-   // console.log("sourceopportunity");
+  
     let opposourceQuery = "CALL procLookUpOpportunitySources()";
-    //console.log(deleteUserQuery);
+  
     db.query(opposourceQuery, (err, result) => {
         if (err) {
-            console.log(err);
+           
             return res.status(500).send(err);
         }
         res.status(200).json(result);
-        console.log(result);
+     
     });
 }
 
 
 exports.SalesCycle = function (req, res) {
-    // console.log("sourceopportunity");
+   
      let opposourceQuery = "CALL procLookUpSalesCycle()";
-     //console.log(deleteUserQuery);
+     ;
      db.query(opposourceQuery, (err, result) => {
          if (err) {
-             console.log(err);
+           
              return res.status(500).send(err);
          }
          res.status(200).json(result);
-         console.log(result);
+    
      });
  }
 
 
  exports.Salesphase = function (req, res) {
-    // console.log("sourceopportunity");
+    
      let opposourceQuery = "CALL procLookUpSalesPhase()";
-     //console.log(deleteUserQuery);
+     
      db.query(opposourceQuery, (err, result) => {
          if (err) {
-             console.log(err);
+          
              return res.status(500).send(err);
          }
          res.status(200).json(result);
-         console.log(result);
+      
      });
  }
 exports.Category = function (req, res) {
-    // console.log("sourceopportunity");
+  
      let opposourceQuery = "CALL procLookUpOpportunityCategories()";
-     //console.log(deleteUserQuery);
+    
      db.query(opposourceQuery, (err, result) => {
          if (err) {
-             console.log(err);
+          
              return res.status(500).send(err);
          }
          res.status(200).json(result);
-         console.log(result);
+       
      });
  }
 exports.Contactfun = function (req, res) {
 
     let query = 'call procLookUpJobFunctions();';
-    console.log(query);
+  
     db.query(query, (err, result) => {
 
         if (err) {
@@ -751,7 +751,7 @@ exports.Contactfun = function (req, res) {
             return res.status(500).send(err);
         }
         res.status(200).json(result);
-        console.log(result);
+    
 
     });
 
@@ -759,7 +759,7 @@ exports.Contactfun = function (req, res) {
 exports.Contactdep = function (req, res) {
 
     let query = 'call procLookUpDepartments();';
-    console.log(query);
+
     db.query(query, (err, result) => {
 
         if (err) {
@@ -767,7 +767,7 @@ exports.Contactdep = function (req, res) {
             return res.status(500).send(err);
         }
         res.status(200).json(result);
-        console.log(result);
+     
 
     });
 
@@ -817,7 +817,7 @@ res.status(200).json(result);
 exports.accountstate = function (req, res) {
 
  let iCountry= req.params.country;
-//console.log(iCountryID)
+
  let query1='call procLookUpStates("' + iCountry+ '")' ;
 
  db.query(query1, (err, result) => {
