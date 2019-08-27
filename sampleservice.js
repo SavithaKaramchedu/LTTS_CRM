@@ -74,7 +74,7 @@ exports.getHomePage = function (req, res) {
 };
 exports.getLeadPage = function (req, res) {
 
-    let query = "SELECT * FROM `leadcirruswave` ORDER BY id ASC";
+    let query = 'CALL procAdminListAllLeads("All")';
 
     db.query(query, (err, result) => {
 
@@ -497,6 +497,7 @@ exports.getAccountPage = function (req, res) {
 };
 
 exports.updateaccount = function (req, res) {
+    
     var Sid= req.body.id;
     let nam = req.body.name;
     let prosp = req.body.prospect;
@@ -512,7 +513,7 @@ exports.updateaccount = function (req, res) {
     let query = "UPDATE `accountcirruswave` SET `name` = '" + nam + "', `prospect` = '" + prosp + "', `parentaccount` = '" + parentacc + "', `website` = '" + webs + "',`accountcategory` = '" + accountcat +"', `vertical` = '" + vert +"',`country` = '" + count +"',`city` = '" + cit +"',`state` = '" + stat+"',`owner` = '"+ own +"' WHERE `id` = '" + Sid + "'";
 
     db.query(query, (err, result) => {
-     
+        
         if (err) {
             return res.status(500).send(err);
         }
@@ -520,55 +521,38 @@ exports.updateaccount = function (req, res) {
     });
 };
 exports.recorddisplay = function (req, res) {
-
-   
-   
-    
     var Sid= req.params.i;
-
     let query='select * from accountcirruswave where id="'+Sid+'" '; 
- 
     db.query(query, (err, result) => {
         if (err) {
             return res.status(500).send(err);
         }
         res.status(200).json(result);
-             
+              
     });
 
 };
 exports.deletedisplayaccount = function (req, res) {
   var Sid= req.params.i;
-   
   let query='select * from accountcirruswave where id="'+Sid+'" '; 
- 
   db.query(query, (err, result) => {
       if (err) {
           return res.status(500).send(err);
       }
       res.status(200).json(result);
-            
   });
 
 };
 exports.deleteaccount = function (req, res) {
-
     let Sid = req.params.i;
     let deleteUserQuery = 'DELETE FROM accountcirruswave WHERE id = "' + Sid + '"';
-
     db.query(deleteUserQuery, (err, result) => {
         if (err) {
             return res.status(500).send(err);
         }
         res.status(200).json(result);
     });
-
-
 }
-
-
-
-
 exports.getOpportunityPage = function (req, res) {
     let query1 = " call procAdminListAllOpportunities()";
     db.query(query1, (err, result2) => {
@@ -596,24 +580,15 @@ exports.getOpportunityPage = function (req, res) {
         let query = "INSERT INTO `opportunitiescirruswave`(name,account,primarycontact,source,exceptedvalue,startdate,closedate,salescycle,salesphase,probability,forecastcategory,category,owner) VALUES ('" +
         Name + "', '" + Account + "','" + PrimaryContact + "', '" + Source + "','" + Exceptedvalue +
         "','" + StartDate + "','" + ClosingDate + "','" + SalesCycle + "','" + Salesphase + "','" +
-        Probability + "','" + ForecastCategory + "','" + Category + "','" + Owner + "')";
-    
-       
-        db.query(query, (err, result) => {
-          
-            if (err) {
-                
+        Probability + "','" + ForecastCategory + "','" + Category + "','" + Owner + "')"; 
+        db.query(query, (err, result) => {  
+            if (err) {  
                 return res.status(500).send(err);
             }
-            res.redirect("/home")
-           
+            res.redirect("/home");
         });
-
     };
-
-
-    exports.updateOpportunity  = function (req, res) {
-         
+     exports.updateOpportunity  = function (req, res) {      
         var Sid= req.body.id;         
         let Name = req.body.name;
         let Account = req.body.account;
@@ -629,19 +604,15 @@ exports.getOpportunityPage = function (req, res) {
         let Category = req.body.category;
         let Owner = req.body.owner;
         let query = "UPDATE `opportunitiescirruswave` SET  `name` = '" + Name + "', `account` = '" + Account + "', `primarycontact` = '" + PrimaryContact + "',`source` = '" + Source + "',`exceptedvalue` = '" + Exceptedvalue +"',`startdate` = '" + StartDate + "',`closedate` = '" + ClosingDate + "',`salescycle` = '" + SalesCycle +"',`salesphase` = '" + Salesphase +"',`probability` = '" + Probability +"',`forecastcategory` = '" + ForecastCategory+"',`category` = '"+ Category +"',`owner` = '" + Owner +"' WHERE `id` = '" + Sid + "'" ;
-   
+ 
         db.query(query, (err, result) => {
-           
             if (err) {
-               
                 return res.status(500).send(err);
             }
             res.redirect('/home');
         });
     };
-
-
-exports.opportunitydisplay = function (req, res) {
+    exports.opportunitydisplay = function (req, res) {
     var Sid = req.params.i;
     let query = 'select * from opportunitiescirruswave where id="' + Sid + '" ';
     db.query(query, (err, result) => {
@@ -649,10 +620,9 @@ exports.opportunitydisplay = function (req, res) {
             return res.status(500).send(err);
         }
         res.status(200).json(result);
-    });
-};
-exports.deleteopportunity = function (req, res) {
-
+        });
+        };
+    exports.deleteopportunity = function (req, res) {
     let Sid = req.params.i;
     let deleteUserQuery = 'DELETE FROM opportunitiescirruswave WHERE id = "' + Sid + '"';
     db.query(deleteUserQuery, (err, result) => {
@@ -661,48 +631,37 @@ exports.deleteopportunity = function (req, res) {
         }
         res.status(200).json(result);
     });
-}
+};
 exports.deletedisplay = function (req, res) {
-
     let Sid = req.params.i;
     let deleteUserQuery = 'select * from opportunitiescirruswave where id="' + Sid + '"';
    
     db.query(deleteUserQuery, (err, result) => {
         if (err) {
-         
-            return res.status(500).send(err);
+         return res.status(500).send(err);
         }
         res.status(200).json(result);
       
     });
-}
-
+};
 exports.sourceoppo = function (req, res) {
-   
     let opposourceQuery = "CALL procLookUpOpportunitySources()";
-    
     db.query(opposourceQuery, (err, result) => {
         if (err) {
-         
             return res.status(500).send(err);
         }
         res.status(200).json(result);
-        
     });
-}
-
-
+};
 exports.SalesCycle = function (req, res) {
-     let opposourceQuery = "CALL procLookUpSalesCycle()";
+     let opposourceQuery = "CALL procLookUpSalesCycle()"; 
      db.query(opposourceQuery, (err, result) => {
-         if (err) {
+         if (err) {   
              return res.status(500).send(err);
          }
          res.status(200).json(result);
      });
- }
-
-
+ };
  exports.Salesphase = function (req, res) {
      let opposourceQuery = "CALL procLookUpSalesPhase()";
      db.query(opposourceQuery, (err, result) => {
@@ -710,12 +669,13 @@ exports.SalesCycle = function (req, res) {
              return res.status(500).send(err);
          }
          res.status(200).json(result);
+      
      });
- }
-exports.Category = function (req, res) {
+ };
+ exports.Category = function (req, res) {
      let opposourceQuery = "CALL procLookUpOpportunityCategories()";
      db.query(opposourceQuery, (err, result) => {
-         if (err) {
+         if (err) {   
              return res.status(500).send(err);
          }
          res.status(200).json(result);
