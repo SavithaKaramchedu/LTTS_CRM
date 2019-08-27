@@ -214,7 +214,6 @@ exports.updateleadrecord = function (req, res) {
 
     let query = "UPDATE `leadcirruswave` SET  `title` = '" + titl + "', `company` = '" + compan + "', `qualificationlevel` = '" + qualle + "', `source` = '" + sourc +
         "',`category` = '" + categor + "', `firstname` = '" + firstnam + "',`lastname` = '" + lastnam + "',`priority` = '" + priorit + "',`owner` = '" + owne + "',`status` = '" + statu + "' WHERE `id` = '" + Sid + "'";
-
     db.query(query, (err, result) => {
 
         if (err) {
@@ -498,7 +497,6 @@ exports.getAccountPage = function (req, res) {
 };
 
 exports.updateaccount = function (req, res) {
-
     var Sid= req.body.id;
     let nam = req.body.name;
     let prosp = req.body.prospect;
@@ -540,14 +538,10 @@ exports.recorddisplay = function (req, res) {
 
 };
 exports.deletedisplayaccount = function (req, res) {
-
-
- 
-  
   var Sid= req.params.i;
-
+   
   let query='select * from accountcirruswave where id="'+Sid+'" '; 
-
+ 
   db.query(query, (err, result) => {
       if (err) {
           return res.status(500).send(err);
@@ -576,7 +570,7 @@ exports.deleteaccount = function (req, res) {
 
 
 exports.getOpportunityPage = function (req, res) {
-    let query1 = "select * from opportunitiescirruswave order by id ASC";
+    let query1 = " call procAdminListAllOpportunities()";
     db.query(query1, (err, result2) => {
         if (err) {
             res.redirect('/');
@@ -604,16 +598,15 @@ exports.getOpportunityPage = function (req, res) {
         "','" + StartDate + "','" + ClosingDate + "','" + SalesCycle + "','" + Salesphase + "','" +
         Probability + "','" + ForecastCategory + "','" + Category + "','" + Owner + "')";
     
-
        
         db.query(query, (err, result) => {
-         
+          
             if (err) {
-             
+                
                 return res.status(500).send(err);
             }
             res.redirect("/home")
-            
+           
         });
 
     };
@@ -636,9 +629,9 @@ exports.getOpportunityPage = function (req, res) {
         let Category = req.body.category;
         let Owner = req.body.owner;
         let query = "UPDATE `opportunitiescirruswave` SET  `name` = '" + Name + "', `account` = '" + Account + "', `primarycontact` = '" + PrimaryContact + "',`source` = '" + Source + "',`exceptedvalue` = '" + Exceptedvalue +"',`startdate` = '" + StartDate + "',`closedate` = '" + ClosingDate + "',`salescycle` = '" + SalesCycle +"',`salesphase` = '" + Salesphase +"',`probability` = '" + Probability +"',`forecastcategory` = '" + ForecastCategory+"',`category` = '"+ Category +"',`owner` = '" + Owner +"' WHERE `id` = '" + Sid + "'" ;
-    
+   
         db.query(query, (err, result) => {
-       
+           
             if (err) {
                
                 return res.status(500).send(err);
@@ -685,59 +678,47 @@ exports.deletedisplay = function (req, res) {
 }
 
 exports.sourceoppo = function (req, res) {
-  
+   
     let opposourceQuery = "CALL procLookUpOpportunitySources()";
-  
+    
     db.query(opposourceQuery, (err, result) => {
         if (err) {
-           
+         
             return res.status(500).send(err);
         }
         res.status(200).json(result);
-     
+        
     });
 }
 
 
 exports.SalesCycle = function (req, res) {
-   
      let opposourceQuery = "CALL procLookUpSalesCycle()";
-     ;
      db.query(opposourceQuery, (err, result) => {
          if (err) {
-           
              return res.status(500).send(err);
          }
          res.status(200).json(result);
-    
      });
  }
 
 
  exports.Salesphase = function (req, res) {
-    
      let opposourceQuery = "CALL procLookUpSalesPhase()";
-     
      db.query(opposourceQuery, (err, result) => {
          if (err) {
-          
              return res.status(500).send(err);
          }
          res.status(200).json(result);
-      
      });
  }
 exports.Category = function (req, res) {
-  
      let opposourceQuery = "CALL procLookUpOpportunityCategories()";
-    
      db.query(opposourceQuery, (err, result) => {
          if (err) {
-          
              return res.status(500).send(err);
          }
          res.status(200).json(result);
-       
      });
  }
 exports.Contactfun = function (req, res) {

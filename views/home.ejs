@@ -107,13 +107,70 @@
 }
     </style>
 
+<script>
+        $(document).ready(function () {
+            $('#Salesdropdown').click(function () {
+                $('#Editopp').css('display', 'none');
+                $('#btn-sales').css('display', 'block');
+                $('#btn-business').css('display', 'none');
+                $('.modal-body').css('display', 'none');
+                $('#leadhead').css('display', 'none');
+                $('#revenuehead').css('display', 'none');
+                $('#saleshead').css('display', 'block');
+                $('#overviewhead').css('display', 'none');
+            });
+            $('#Revenuedropdown').click(function () {
+                $('#Editopp').css('display', 'none');
+                $('#btn-business').css('display', 'block');
+                $('#btn-sales').css('display', 'none');
+                $('.modal-body').css('display', 'none ');
+                $('#leadhead').css('display', 'none');
+                $('#revenuehead').css('display', 'block');
+                $('#saleshead').css('display', 'none');
+                $('#overviewhead').css('display', 'none');
+            });
+            $('#Overviewdropdown').click(function () {
+                $('#Editopp').css('display', 'none');
+                $('#btn-business').css('display', 'block');
+                $('#btn-sales').css('display', 'block');
+                $('.modal-body').css('display', 'none ');
+                $('#leadhead').css('display', 'none');
+                $('#revenuehead').css('display','none');
+                $('#saleshead').css('display', 'none');
+                $('#overviewhead').css('display', 'block');
+            });
+
+            $('#oppexit').click(function () {
+                $('#Editopp').css('display', 'none');
+                $('#btn-business').css('display', 'none');
+                $('#btn-sales').css('display', 'none');
+                $('.modal-body').css('display', 'block ');
+                $('#leadhead').css('display', 'block');
+                $('#revenuehead').css('display','none');
+                $('#saleshead').css('display', 'none');
+                $('#overviewhead').css('display', 'none');
+            });
+            $('#leadtoopportunity').click(function () {
+                $('#Editopp').css('display', 'none');
+                $('#btn-business').css('display', 'none');
+                $('#btn-sales').css('display', 'none');
+                $('.modal-body').css('display', 'block ');
+                $('#leadhead').css('display', 'block');
+                $('#revenuehead').css('display','none');
+                $('#saleshead').css('display', 'none');
+                $('#overviewhead').css('display', 'none');
+        });
+
+        })
+    </script>
+
     <script>
 
 function opportunityedit(){
 $("#name").prop("disabled", false);
 $("#account").prop("disabled", false);
 $("#primarycontact").prop("disabled", false);
-$("#source").prop("disabled", false);
+$("#sourceedit").prop("disabled", false);
 $("#exceptedvalue").prop("disabled", false);
 $("#StartDate").prop("disabled", false);
 $("#closingdate").prop("disabled", false);
@@ -136,7 +193,7 @@ function clearFormopportunity() {
 $("#name").prop("disabled", true);
 $("#account").prop("disabled", true);
 $("#primarycontact").prop("disabled", true);
-$("#source").prop("disabled", true);
+$("#sourceedit").prop("disabled", true);
 $("#exceptedvalue").prop("disabled", true);
 $("#StartDate").prop("disabled", true);
 $("#closingdate").prop("disabled", true);
@@ -153,33 +210,23 @@ $("#saveopp").prop("hidden", true);
 $("#cancelopp").prop("hidden", true);
 
 }
-$( window ).load(function() {
-    statusdropdownfun();
-    qualidropdownfun();
-    priodropdownfun();
-    catdropdownfun();
-    sourdropfun();
-});
+
         function addOpportunity(){
         console.log("addOpportunity");
-            var oppName=$("#oppName").val();
-          
+        var oppName=$("#oppName").val(); 
         var Accountopp=$("#Accountopp").val();
         var PrimaryContact=$("#PrimaryContact").val();
-        var Source=$("#Source").val();
+        var Source=$("#Source").children("option:selected").text() ;
         var Exceptedvalue=$("#Exceptedvalue").val();
         var StartDate=$("#StartingDate").val();
         var ClosingDate=$("#ClosingDate").val();
-        var SalesCycle=$("#SalesCycle").val();
-        var Salesphase=$("#Salesphase").val();
-       
+        var SalesCycle=$("#SalesCycle").children("option:selected").text() ;
+        var Salesphase=$("#Salesphase").children("option:selected").text() ; 
         var Probability=$("#Probability").val();
-        
         var PublishtoForecast=$("#PublishtoForecast").val(); 
         var ForecastCategory=$("#ForecastCategory").val();
-        var convertcategory=$("#Categoryoppo").val();
-        var Owneropp=$("#Owneropp").val();
-        
+        var convertcategory=$("#Categoryoppo").children("option:selected").text() ;
+        var Owneropp=$("#Owneropp").val();       
         var data={
                 "oppName":oppName,
                 "Accountopp":Accountopp,
@@ -209,29 +256,24 @@ $( window ).load(function() {
             data: data,
             contentType: "application/json",
             dataType: "json",
-            success: function (data) {
-               
-            },
-        
-            error: function () {
-        
+            success: function (data) {   
+            },       
+            error: function () {      
             }
         });
         opportunityLoad();
         }
     function addLead() {
-
         var title=$("#title").val();
         var company=$("#company").val();
         var firstname=$("#firnam").val();
         var lastname=$("#lasnam").val();
-         var status=$("#status").children("option:selected").text();
-        var qul=$("#qul").children("option:selected").text();
-        var source=$("#Source").children("option:selected").text();
-        var category=$("#Category").children("option:selected").text();
-        var priority=$("#priority").children("option:selected").text();
+        var status=$("#status").val();
+        var qul=$("#qul").val();
+        var source=$("#source").val();
+        var category=$("#category").val();
+        var priority=$("#priority").val();     
         var owner=$("#owne").val();
-        console.log(owner);
         var data={
                 "title":title,
                 "company":company,
@@ -244,12 +286,7 @@ $( window ).load(function() {
                 "priority":priority,
                 "owner":owner
                 }
-                
-        
-        
         data=JSON.stringify(data); 
-        //alert(data);
-        
         $.ajax({
             url: "https://localhost:9090/leads",
             type: "POST",
@@ -893,7 +930,7 @@ chart3.render();  }
 
                             tableData = tableData + "  <tr> " +
                                 "<td id='' hidden>" + result[i].contactid + "</td>" +
-                                "<td onclick='dropdownfun(), dropdowndep(), recorddisplaycont(" + result[i].contactid + ")'>" + "<a href='#cmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[i].firstname + "</a>" + "</td>" +
+                                "<td onclick='recorddisplaycont(" + result[i].contactid + ")'>" + "<a href='#cmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[i].firstname + "</a>" + "</td>" +
                                 "<td >" + result[i].lastname + "</td>" +
                                 "<td >" + result[i].accountname + "</td>" +
                                 "<td >" + result[i].jobtitle + "</td>" +
@@ -1081,53 +1118,7 @@ chart3.render();  }
                         $("#cancelct").prop("hidden", true);
                     } 
 
-                    function dropdownfun() {
-                    
-                    var url = "https://localhost:9090/dropdownfun";
-                    var dropdowndata="";
-                    $.ajax({
-                        url: url,
-                        type: "GET",
-                        success: function (result) {
-                           
-                            for (var i = 0; i < result[0].length; i++) {
-                                dropdowndata = dropdowndata + '<option value="' + result[0][i].JOBFUNCTION + '">' + result[0][i].JOBFUNCTION + '</option>';
 
-                            }
-                            $("#function1").html(dropdowndata);
-                            $("#funct").html(dropdowndata);
-                          
-                            
-                        }
-                    
-                    });
-
-                } 
-
-
-
-                function dropdowndep() {
-                    console.log("working");
-                    var url = "https://localhost:9090/dropdowndep";
-                     var dropdowndata="";
-
-                    $.ajax({
-                        url: url,
-                        type: "GET",
-                        success: function (result) {
-
-                            for (var i = 0; i < result[0].length; i++) {
-                                dropdowndata = dropdowndata +  '<option value="' + result[0][i].Department + '">' + result[0][i].Department + '</option>';
-
-                            }
-                            $("#department").html(dropdowndata);
-                            $("#depart").html(dropdowndata);
-                        
-                        }
-                    
-                    });
-
-                } 
 
         function leadLoad() {
 
@@ -1144,7 +1135,7 @@ chart3.render();  }
 
                             tableData = tableData + "  <tr> " +
                                 "<td >" + result[i].id + "</td>" +
-                                "<td onclick='recorddisplaylead(" + result[i].id + "); '>" + "<a href='#editleadmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[i].title + "</a>" + "</td>" +
+                                "<td onclick='recorddisplaylead(" + result[i].id + ")'>" + "<a href='#editleadmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[i].title + "</a>" + "</td>" +
                                 "<td >" + result[i].company + "</td>" +
                                 "<td >" + result[i].firstname + "</td>" +
                                 "<td >" + result[i].lastname + "</td>" +
@@ -1213,13 +1204,15 @@ chart3.render();  }
                                 $("#comp").val(result[0].company);
                                 $("#firname").val(result[0].firstname);
                                 $("#lasname").val(result[0].lastname);
-                                $("select#stat").val(result[0].status).attr('selected','selected');
-                                $("select#qual").val(result[0].qualificationlevel).attr('selected','selected'); 
-                                $("select#sour").val(result[0].source).attr('selected','selected');
-                                $("select#cat").val(result[0].category).attr('selected','selected');
-                                $("select#prio").val(result[0].priority).attr('selected','selected');
+                                $("#stat").val(result[0].status);
+                                $("#qual").val(result[0].qualificationlevel);
+                                $("#sour").val(result[0].source);
+                                $("#cat").val(result[0].category);
+                                $("#prio").val(result[0].priority);
                                 $("#own").val(result[0].owner);
-    
+
+
+                                
                             }
                         });
                         clearFormLead();
@@ -1233,38 +1226,38 @@ chart3.render();  }
                         var company = $("#comp").val();
                         var firstname = $("#firname").val();
                         var lastname = $("#lasname").val();
-                        var qualificationlevel = $("#qual").children("option:selected").text();
-                        var status = $("#stat").children("option:selected").text() ;
+                        var qualificationlevel = $("#qual").val();
+                        var status = $("#stat").val();
                         if (status == null || status == 0) {
                             status = " ";
                         } else {
-                            status = $("#stat").children("option:selected").text() ;
+                            status = $("#stat").val();
                         }
                         if (qualificationlevel == null || qualificationlevel == 0) {
                             qualificationlevel = " ";
                         } else {
-                            qualificationlevel = $("#qual").children("option:selected").text() ;
+                            qualificationlevel = $("#qual").val();
                         }
 
-                        var source = $("#sour").children("option:selected").text() ;
+                        var source = $("#sour").val();
                         if (source == null || source == 0) {
                             source = " ";
                         } else {
-                            source = $("#sour").children("option:selected").text() ;
+                            source = $("#sour").val();
                         }
 
-                        var category = $("#cat").children("option:selected").text() ;
+                        var category = $("#cat").val();
                         if (category == null || category == 0) {
                             category = " ";
                         } else {
-                            category = $("#cat").children("option:selected").text() ;
+                            category = $("#cat").val();
                         }
 
-                        var priority = $("#prio").children("option:selected").text() ;
+                        var priority = $("#prio").val();
                         if (priority == null || priority == 0) {
                             priority = " ";
                         } else {
-                            priority = $("#prio").children("option:selected").text() ;
+                            priority = $("#prio").val();
                         }
 
                         var owner = $("#own").val();
@@ -1335,117 +1328,8 @@ chart3.render();  }
                         });
 
                     } 
-               function statusdropdownfun() {
-                var dropdowndata = "";
-                var url = "https://localhost:9090/statusdropdownfun";
-
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    success: function (result) {
-                        for(var i=0;i<result[0].length;i++)
-                    { 
-                    dropdowndata = dropdowndata +         
-                     '<option value="' + result[0][i].LEADSTATUS+ '">' + result[0][i].LEADSTATUS+ '</option>';
-
-                      } 
-               
-                $("#status").html(dropdowndata); 
-                $("#stat").html(dropdowndata);                
-                    }
-                });
-
-                };
 
 
-                function qualidropdownfun() {
-                var dropdowndata = "";
-                var url = "https://localhost:9090/qualidropdownfun";
-
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    success: function (result) {
-                        for(var i=0;i<result[0].length;i++)
-                    { 
-                dropdowndata = dropdowndata +         
-                 '<option value="' + result[0][i].LEADQUALIFICATION+ '">' + result[0][i].LEADQUALIFICATION+ '</option>';
-
-                      } 
-                $("#qul").html(dropdowndata); 
-                $("#qual").html(dropdowndata);                 
-                    }
-                });
-
-                };
-
-                function priodropdownfun() {
-                var dropdowndata = "";
-                var url = "https://localhost:9090/priodropdownfun";
-
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    success: function (result) {
-                        for(var i=0;i<result[0].length;i++)
-                    { 
-                dropdowndata = dropdowndata +         
-                 '<option value="' + result[0][i].PRIORITY+ '">' + result[0][i].PRIORITY+ '</option>';
-
-                      } 
-                $("#priority").html(dropdowndata); 
-                $("#prio").html(dropdowndata);                 
-                    }
-                });
-
-                };
-
-                function catdropdownfun() {
-                var dropdowndata = "";
-                var url = "https://localhost:9090/catdropdownfun";
-
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    success: function (result) {
-                        for(var i=0;i<result[0].length;i++)
-                    { 
-                    dropdowndata = dropdowndata +         
-                     '<option value="' + result[0][i].LEADCATEGORY+ '">' + result[0][i].LEADCATEGORY+ '</option>';
-
-                      } 
-                $("#Category").html(dropdowndata);      
-                $("#cat").html(dropdowndata);                   
-                    }
-                });
-
-                };
-                                    
-               function sourdropfun() {
-                        console.log("function entered");
-                        var dropdowndata = "";
-
-                        var url = "https://localhost:9090/sourdropfun";
-
-                        $.ajax({
-                        url: url,
-                        type: "GET",
-                        success: function (result) {
-                            console.log(result);
-                        for (var i = 0; i < result[0].length; i++) {
-
-                        dropdowndata = dropdowndata +
-                        '<option value= "' + result[0][i].LEADSOURCE+ '" >' + result[0][i].LEADSOURCE+ '</option>' 
-                        console.log(result); 
-                    }
-
-                        $("#Source").html(dropdowndata);
-                        $("#sour").html(dropdowndata);
-                        }
-                        });
-                        }; 
-                      
-                       
         function opportunityLoad() {
 
             var tableData = "";
@@ -1457,24 +1341,32 @@ chart3.render();  }
                 type: "GET",
                 success: function (result) {
 
-                    for (var i = 0; i < result.length; i++) {
-
+                    for (var i = 0; i < result[0].length; i++) {
+                        if (result[0][i].SOURCEC4COPPORTUNITYCODE == null || result[0][i].SOURCEC4COPPORTUNITYCODE == 0) {
+                            result[0][i].SOURCEC4COPPORTUNITYCODE = "";
+                        }  
+                        if (result[0][i].REASONFORSTATUS == null || result[0][i].REASONFORSTATUS == 0) {
+                            result[0][i].REASONFORSTATUS = "";
+                        }  
+                        if (result[0][i].ChangedBy == null || result[0][i].ChangedBy == 0) {
+                            result[0][i].ChangedBy = "";
+                        }  
                         tableData = tableData + "  <tr> " +
-                                "<td >" + result[i].id + "</td>" +
-                            "<td  onclick='opportunitydisplay("+result[i].id+")' >"+"<a href='#oModal' data-toggle='modal' data-backdrop='static' data-keyboard='false' >" + result[i].name + "</a>"+"</td>" + 
-                            "<td >" + result[i].account + "</td>" +
-                            "<td >" + result[i].primarycontact + "</td>" +
-                            "<td >" + result[i].source + "</td>" +
-                            "<td >" + result[i].exceptedvalue + "</td>" +
-                            "<td >" + result[i].salescycle + "</td>" +
-                            "<td >" + result[i].salesphase + "</td>" +
-                            "<td >" + result[i].probability + "</td>" +
-                            "<td >" + result[i].forecastcategory + "</td>" +
-                            "<td >" + result[i].category + "</td>" +
-                            "<td >" + result[i].owner + "</td>" +
-                            
+                            "<td >"  + result[0][i].OPPORTUNITYCODE + "</td>" +
+                            "<td >"  + result[0][i].SOURCEC4COPPORTUNITYCODE + "</td>" +
+                           // "<td  onclick='opposourcedropdown(),oppoSalesCycledropdown(),oppoSalesphasedropdown(),oppoCategorydropdown(),opportunitydisplay("+result[i].id+")' >"+"<a href='#oModal'  data-toggle='modal' data-backdrop='static' data-keyboard='false' >" + result[i].name + "</a>"+"</td>" + 
+                            "<td >" + result[0][i].Name + "</td>" +
+                            "<td >" + result[0][i].Account + "</td>" +
+                            "<td >" + result[0][i].CloseDate + "</td>" +
+                            "<td >" + result[0][i].SalesPhase + "</td>" +
+                            "<td >" + result[0][i].EXPECTEDVALUE + "</td>" +
+                            "<td >" + result[0][i].Owner + "</td>" +
+                            "<td >" + result[0][i].OPPORTUNITYSTATUS + "</td>" +
+                            "<td >" + result[0][i].REASONFORSTATUS + "</td>" +
+                            "<td >" + result[0][i].ChangedOn + "</td>" +
+                            "<td >" + result[0][i].ChangedBy + "</td>" +
                            
-                            "<td >"+'<button type="button" onclick="displayAll(' + result[i].id +',\'opportunity\' )" class="btn btn-danger" data-toggle="modal" data-target="#deleterecordModal" >delete</button>'+"</td>" 
+                            //"<td >"+'<button type="button" onclick="displayAll(' + result[i].id +',\'opportunity\' )" class="btn btn-danger" data-toggle="modal" data-target="#deleterecordModal" >delete</button>'+"</td>" 
 
                             "</tr>";
                     }
@@ -1496,13 +1388,17 @@ chart3.render();  }
                         $("#name").val(result[0].name);
                         $("#account").val(result[0].account);
                         $("#primarycontact").val(result[0].primarycontact);
-                        $("#source").val(result[0].source);
+                        $("select#sourceedit").val(result[0].source).attr('selected','selected'); 
+                        //$("#sourceedit").children("option:selected").text(result[0].source);
                         $("#exceptedvalue").val(result[0].exceptedvalue);
-                        $("#salescycle").val(result[0].salescycle);
-                        $("#salesphase").val(result[0].salesphase);
+                        $("select#salescycle").val(result[0].salescycle).attr('selected','selected'); 
+                        $("select#salesphase").val(result[0].salesphase).attr('selected','selected'); 
+                        //$("#salescycle").children("option:selected").text(result[0].salescycle);
+                        //$("#salesphase").children("option:selected").text(result[0].salesphase);
                         $("#probability").val(result[0].probability);
                         $("#forecastcategory").val(result[0].forecastcategory);
-                        $("#Categoryoppo").val(result[0].category);
+                        $("select#category").val(result[0].category).attr('selected','selected');
+                        //$("#category").children("option:selected").text(result[0].category);
                         $("#owneropportunity").val(result[0].owner);
                       
                      
@@ -1510,14 +1406,14 @@ chart3.render();  }
             });
             clearFormopportunity();
         }
-        function updaterecord() {
+        function updateopportunityrecord() {
            
             var id=$("#oid").val();
              
             var Name=$("#name").val();
             var Account=$("#account").val();
             var Primarycontact=$("#primarycontact").val();
-            var Source=$("#source").val();
+            var Source=$("#sourceedit").children("option:selected").text() ;
             var Exceptedvalue=$("#exceptedvalue").val();  
             var startdate=$("#StartDate").val();
             if (startdate==null||startdate==0){
@@ -1531,11 +1427,11 @@ chart3.render();  }
            }else{
             closedate=$("#closingdate").val();
             }
-            var Salescycle=$("#salescycle").val();             
-            var Salesphase=$("#salesphase").val();              
+            var Salescycle=$("#salescycle").children("option:selected").text() ;             
+            var Salesphase=$("#salesphase").children("option:selected").text() ;              
             var Probability=$("#probability").val();
             var Forecastcategory=$("#forecastcategory").val();
-            var Category=$("#category").val(); 
+            var Category=$("#category").children("option:selected").text() ; 
             var Owner=$("#owneropportunity").val();
             var data={
                     "id":id,
@@ -1569,20 +1465,20 @@ chart3.render();  }
                             },                            
                         });
                         opportunityLoad();
-                }
-                function deleteoppodisplay(i) {               
-                    var url = "https://localhost:9090/deleteopp/" + i;
-                    $.ajax({
-                    url: url,
-                    type: "GET",
-                    success: function (result) {
-                    var c= $("#cdid").text(result[0].id);    
-                    document.getElementById("deleteid").setAttribute("onclick", "deleteopportunity();");
-                    
-                }
-            });
+                            }
+                            function deleteoppodisplay(i) {
+                                var url = "https://localhost:9090/deleteopp/" + i;
+                                $.ajax({
+                                    url: url,
+                                    type: "GET",
+                                    success: function (result) {
+                                        var c = $("#cdid").text(result[0].id);
+                                        document.getElementById("deleteid").setAttribute("onclick", "deleteopportunity();");
 
-            } 
+                                    }
+                                });
+
+                            } 
 
     function opposourcedropdown() {
         var sourcedata = "";
@@ -1595,9 +1491,10 @@ chart3.render();  }
                 for (var i = 0; i < result[0].length; i++) {
 
                     sourcedata = sourcedata +
-                        '<option text="' + result[0][i].opportunitysourceid + '">' + result[0][i].opportunitysource + '</option>';
+                        '<option value="' + result[0][i].opportunitysource + '">' + result[0][i].opportunitysource + '</option>';
                 }
                 $("#Source").html(sourcedata);
+                $("#sourceedit").html(sourcedata); 
             }
         });
 
@@ -1615,9 +1512,10 @@ chart3.render();  }
                     for (var i = 0; i < result[0].length; i++) {
 
                         SalesCycledata = SalesCycledata +
-                            '<option text="' + result[0][i].SalesCycleID + '">' + result[0][i].SalesCycle + '</option>';
+                            '<option value="' + result[0][i].SalesCycle + '">' + result[0][i].SalesCycle + '</option>';
                     }
                     $("#SalesCycle").html(SalesCycledata);
+                    $("#salescycle").html(SalesCycledata);
                 }
             });
 
@@ -1634,9 +1532,10 @@ chart3.render();  }
                     for (var i = 0; i < result[0].length; i++) {
 
                         Salesphasedata = Salesphasedata +
-                            '<option text="' + result[0][i].salesphaseid + '">' + result[0][i].salesphase + '</option>';
+                            '<option value="' + result[0][i].salesphase + '">' + result[0][i].salesphase + '</option>';
                     }
                     $("#Salesphase").html(Salesphasedata);
+                    $("#salesphase").html(Salesphasedata);
                 }
             });
 
@@ -1654,13 +1553,16 @@ chart3.render();  }
                     for (var i = 0; i < result[0].length; i++) {
 
                         Categorydata = Categorydata +
-                            '<option text="' + result[0][i].OPPORTUNITYCATEGORYID + '">' + result[0][i].OPPORTUNITYCATEGORY + '</option>';
+                            '<option value="' + result[0][i].OPPORTUNITYCATEGORY + '">' + result[0][i].OPPORTUNITYCATEGORY + '</option>';
                     }
                     $("#Categoryoppo").html(Categorydata);
+                    $("#category").html(Categorydata);
+
                 }
             });
 
         } 
+
 
         function deleteopportunity() {
             var id=$("#cdid").text();
@@ -1708,6 +1610,8 @@ chart3.render();  }
             });
         })();
     </script>
+
+
 
 
     <script type="text/javascript">
@@ -2267,7 +2171,7 @@ function resetFormLead() {
                                 <div id="default_controls">
                                     <div class="pull-right" id="AddNewButton">
                                         <a class="btn in-entity-modal" data-toggle="modal" href="#contactModal"
-                                            data-entity-type="Contact" data-action="Create" onclick="resetFormContact(), dropdownfun(), dropdowndep();">
+                                            data-entity-type="Contact" data-action="Create" onclick="resetFormContact();">
                                             New Contact
                                         </a>
                                     </div>
@@ -2594,7 +2498,7 @@ function resetFormLead() {
                             <header class="head-list">
                                 <div id="default_controls">
                                     <div class="pull-right" id="AddNewButton">
-                                        <a class="btn in-entity-modal" data-toggle="modal" href="#leadModal" onclick="resetFormLead(),sourdropfun(),priodropdownfun(),statusdropdownfun(),qualidropdownfun(),catdropdownfun();"
+                                        <a class="btn in-entity-modal" data-toggle="modal" href="#leadModal" onclick="resetFormLead();"
                                             data-entity-type="Contact" data-action="Create">
                                             New Lead
                                         </a>
@@ -2704,7 +2608,7 @@ function resetFormLead() {
                                     
                                                         <b class="modal-title" style="font-size:15px;margin-left:9px;">New Lead :</b>
                                     
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clearFormLead()">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" data-backdrop="static" data-keyboard="false"   onclick="clearFormLead()">&times;</button>
                                                     </div>
                                     
                                                     <!-- Modal body -->
@@ -2727,7 +2631,9 @@ function resetFormLead() {
                                                             <div class="col-sm-3">
                                                                 <select class="strike" id="qual" name="quali"
                                                                     style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                   
+                                                                    <option>Cold</option>
+                                                                    <option>Hot</option>
+                                                                    <option>Warm</option>
                                                                 </select>
                                                             </div>
                                                             <div class="col-sm-1"> </div>
@@ -2748,7 +2654,10 @@ function resetFormLead() {
                                                             <div class="col-sm-3">
                                                                 <select class="strike" id="sour" name="source"
                                                                     style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                   
+                                                                    <option>Campaign</option>
+                                                                    <option>External Party </option>
+                                                                    <option>Road show</option>
+                                                                    <option>Current Account</option>
                                                                 </select>
                                                             </div>
                                                             <div class="col-sm-1"></div>
@@ -2769,7 +2678,10 @@ function resetFormLead() {
                                                             <div class="col-sm-3">
                                                                 <select class="strike" id="cat" name="category"
                                                                     style="height:25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                
+                                                                    <option>Consulting</option>
+                                                                    <option>Service</option>
+                                                                    <option>Solution</option>
+                                                                    <option>Staffing</option>
                                                                 </select>
                                                             </div>
                                                             <div class="col-sm-1"></div>
@@ -2790,7 +2702,10 @@ function resetFormLead() {
                                                             <div class="col-sm-3">
                                                                 <select class="strike" id="prio" name="priority"
                                                                     style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                    
+                                                                    <option>Immedaite</option>
+                                                                    <option>Low</option>
+                                                                    <option>Normal</option>
+                                                                    <option>Urgent</option>
                                                                 </select>
                                                             </div>
                                                             <div class="col-sm-1"></div>
@@ -2805,9 +2720,11 @@ function resetFormLead() {
                                                             </div>
                                                             <div class="col-sm-3">
                                                                 <select class="strike" id="stat" name="status"
-                                                                    style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" >
-                                                                   
-                                                                    
+                                                                    style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
+                                                                    <option>Accepted</option>
+                                                                    <option>Open</option>
+                                                                    <option>Declined</option>
+                                                                    <option>Qualified</option>
                                                                 </select>
                                                             </div>
                                     
@@ -2830,8 +2747,18 @@ function resetFormLead() {
                                                             onclick="updateleadrecord()" hidden>Save</button>
                                                         <button type="button" class="btn btn-primary" id="cancellead" data-dismiss="modal"
                                                             onclick="clearFormLead()" hidden>Cancel</button>
-                                                        <button type="button" class="btn btn-primary" id="editlead" onclick="editenablelead()">Edit</button>
-                
+                                                        <button type="button" class="btn btn-primary" id="editlead" onclick="editenablelead()">Edit</button> 
+                                                        <div class="dropup">
+                                                                <button class="btn btn-primary dropdown-toggle" type="button" id="about-us" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Actions
+                                                                </button>
+                                                                <div class="dropdown-menu" aria-labelledby="about-us" style="position: absolute; transform: translate3d(-35px, -99px, 0px);top: -12px; left: -19px; will-change: transform;height: 42px; font-size: 13px;">
+                                                                <a class="dropdown-item" data-toggle="modal" href="#oppModal" onclick="resetFormOpp(),opposourcedropdown(), oppoSalesCycledropdown(),oppoSalesphasedropdown(),oppoCategorydropdown(),opposourcedropdownedit();" data-backdrop="static" data-keyboard="false" data-dismiss="modal">Lead to oppurtunity</a>
+                                                               
+                                                                </div>
+                                                                </div>
+                                                         
+                                                        
+                                                         
                                                         
                                                     </div>
                                                 </div>
@@ -2852,6 +2779,7 @@ function resetFormLead() {
                 </div>
 
             </div>
+            
             <div id="accountTab" class="tab tab-pane ">
                 <div id="main" class="">
 
@@ -3158,6 +3086,7 @@ function resetFormLead() {
 
 
             </div>
+           
             <div id="opportunityTab" class="tab tab-pane ">
                 <div id="main">
 
@@ -3166,12 +3095,7 @@ function resetFormLead() {
                         <div id="content" class="">
                             <header class="head-list">
                                 <div id="default_controls">
-                                    <div class="pull-right" id="AddNewButton">
-                                        <a class="btn in-entity-modal" data-toggle="modal" href="#oppModal"
-                                            data-entity-type="Contact" data-action="Create" onclick="resetFormOpp(),opposourcedropdown(), oppoSalesCycledropdown(),oppoSalesphasedropdown(),oppoCategorydropdown();"> 
-                                            New Opportunity
-                                        </a>
-                                    </div>
+                                   
                                     <div class="pull-right right10">
 
                                         <div class="pull-right right10">
@@ -3242,19 +3166,24 @@ function resetFormLead() {
 
                             </header>
                         </div>
-                    <div id="main-content" class="contact">
-                            <div class="modal fade" id="oModal" style="height:519px;top:10%;">
+                    <div id="main-content" class="contact" style="height: 376px; overflow: auto;">
+                            <div class="modal fade" class="modal modal-fixed-footer" id="oModal" style="height:519px;top:10%;">
                                     <div class="modal-dialog modal-lg">
                                       <div class="modal-content">
                                       
                                         <!-- Modal Header -->
                                         <div class="modal-header">
-                                          <h4 class="modal-title">Lead To Opportunity : </h4>
-                                          <button type="button" class="close" data-dismiss="modal" >&times;</button>
+                                          <h4 class="modal-title" id="leadhead">Lead To Opportunity : </h4>
+                                          <h4 class="modal-title" id="saleshead" style="display: none" >Sales Team : </h4>
+                                          <h4 class="modal-title" id="revenuehead" style="display: none">Revenue Split : </h4>
+                                          <h4 class="modal-title" id="overviewhead" style="display: none">Overview: </h4>
+                                          <button type="button" id="oppexit" class="close" data-dismiss="modal" >&times;</button>
                                         </div>
-                                        
+                                         
                                         <!-- Modal body -->
+                        
                                         <div class="modal-body" style="font-size:12px">
+                                              
                                             <div class="form-group row">
                                                <div class="col-sm-1"></div>
                                                <div class="col-sm-2"><label style="width:108px"> Name :</label></div>
@@ -3277,16 +3206,8 @@ function resetFormLead() {
                                                </div>
                                                <div class="col-sm-2"><label style="width:108px"> Source :</label></div>
                                                <div class="col-sm-3">
-                                                <select class="strike" id="source" style="height:27px;width:157px;" disabled>
-                                                    <option>Current Account</option>
-                                                    <option>External Party</option>
-                                                    <option>Idention Workshop</option>
-                                                    <option>Prospecting</option>
-                                                    <option>Roadshow</option>
-                                                    <option>Telephone Enquiry</option>
-                                                    <option>Trade Fair</option>
-                                                    <option>Website</option>
-                                                    <option>Campaign</option>
+                                                <select class="strike" id="sourceedit" style="height:27px;width:157px;" disabled>
+                                                    
                                                 </select>
                                                </div>
                                                <div class="col-sm-1"></div> 
@@ -3334,12 +3255,7 @@ function resetFormLead() {
                                                  <div class="col-sm-2"><label style="width:108px"> Sales phase :</label></div>
                                                  <div class="col-sm-3">
                                                 <select class="strike" id="salesphase" style="height:27px;width:159px;" disabled>
-                                                        <option>10% - Ideation</option>
-                                                        <option>25% - Qualified Opportunity </option>
-                                                        <option>50% - Proposal</option>
-                                                        <option>80% - Potential Order</option>
-                                                        <option>90% - Order</option>
-                                                        <option>100% - Execution</option>
+                                                       
                                                 </select>
                                                   </div>
                                                   <div class="col-sm-2">Probability :</div>
@@ -3365,11 +3281,7 @@ function resetFormLead() {
                                                  <div class="col-sm-2"><label style="width:108px"> Category :</label></div>
                                                  <div class="col-sm-3">
                                                 <select class="strike" id="category" style="height:25px;width:159px;" disabled>
-                                                        <option>Consulting</option>
-                                                        <option>Intellectual Property</option>
-                                                        <option>Service</option>
-                                                        <option>Solution</option>
-                                                        <option>Staffing</option>
+                                                    
                                                 </select>
                                                   </div>
                                                   <div class="col-sm-2">Owner :</div>
@@ -3386,13 +3298,84 @@ function resetFormLead() {
                                                
                                                <div class="col-sm-1"></div> 
                                             </div>
-                                
+                                       
                                         </div>
-                                            
+                                      
+                                            <!--Sales Team Table-->
+                                            <div  id="btn-sales" style="display: none;  margin-left: 11px;width: 98%;">
+
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr style=" background-color: rgb(51, 122, 183); position: relative;top: 0px; color: rgb(255, 255, 255)" ;>
+                                                            <th>Role</th>
+                                                            <th>Name</th>
+                                                            <th>E-Mail</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Employee Responsible</td>
+                                                            <td>Ashwini Naik</td>
+                                                            <td>ashwini.naik@lnttechservices.com</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                <!--REVENUE SPLITS Table-->
+                                <div id="btn-business" style="display: none; margin-left: 11px;width: 98%;">
+                                
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr style=" background-color: rgb(51, 122, 183); position: relative;top: 0px; color: rgb(255, 255, 255)">
+                                                <th>Revenue Partners</th>
+                                                <th>Revenue Amount</th>
+                                                <th>Split Percentage</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Rahul Parmar</td>
+                                                <td>50</td>
+                                                <td>70</td>
+                                                <td><img src="./images/del.png" width="20px;margin-left: 22px;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Rahul Parmar</td>
+                                                <td>50</td>
+                                                <td>70</td>
+                                                <td><img src="./images/del.png" width="20px;margin-left: 22px;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Rahul Parmar</td>
+                                                <td>50</td>
+                                                <td>70</td>
+                                                <td><img src="./images/del.png" width="20px;margin-left: 22px;"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                    
                                              <!-- Modal footer -->
                                         <div class="modal-footer">
-                                         <button type="submit" class="btn btn-primary"  id="Editopp" onclick="opportunityedit()">Edit</button>    
-                                         <button type="submit" class="btn btn-primary" data-dismiss="modal" id="saveopp" onclick="updaterecord()" hidden >Save</button>   
+                                         <button type="submit" class="btn btn-primary"  id="Editopp" onclick="opportunityedit()">Edit</button> 
+                                         
+                                         <div class="dropup">
+                                                <button class="btn btn-primary dropdown-toggle" type="button" id="actionsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Actions
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="actionsdropdown" style="position: fixed; transform: translate3d(-35px, -99px, 0px);top: -28px; left: -30px; will-change: transform;height: 130px;">
+                                                        <a class="dropdown-item"  id="Salesdropdown" href="#" style="font-size: 12px;" >Sales Team</a>
+                                                        <a class="dropdown-item"  id="Revenuedropdown" href="#" style="font-size: 12px;">Revenue Split</a>
+                                                        <a class="dropdown-item"  id="Overviewdropdown" href="#" style="font-size: 12px;">Overview</a>
+                                                        <a class="dropdown-item"  id="leadtoopportunity" href="#" style="font-size: 12px;">Lead to Opportunity</a>
+
+                                                </div>
+                                                </div>
+
+
+                                         <button type="submit" class="btn btn-primary" data-dismiss="modal" id="saveopp" onclick="updateopportunityrecord()" hidden >Save</button>   
                                          <button type="button" class="btn btn-primary" data-dismiss="modal"  id="cancelopp"  onclick="clearFormopportunity()" hidden >Cancel</button>   
                                           </div>
                                           
@@ -3411,20 +3394,20 @@ function resetFormLead() {
                                         <tr style="  font-weight:bold ; ">
 
                                             <thead class="table" style="background-color: 1b213b ">
-                                                <tr style="font-weight:bold ; ">
-                                                    <th>id</th>
-                                                    <th>Name</th>
-                                                    <th>Account</th>
-                                                    <th>primarycontact</th>
-                                                    <th>source</th>
-                                                    <th>ExceptedValue</th>
-                                                    <th>salescycle</th>
-                                                    <th>salesphase</th>
-                                                    <th>Probability</th>
-                                                    <th>forecastcategory</th>
-                                                    <th>category</th>
-                                                    <th>owner</th>
-                                                    <th>Action</th>
+                                                <tr style="font-weight:bold ;background-color: rgb(51, 122, 183); position: relative;top: 0px; color: rgb(255, 255, 255); ">
+                                                    <th>ID </th>
+                                                    <th>Old C4C Opportunity ID </th>
+                                                    <th>Name </th>
+                                                    <th>Account </th>
+                                                    <th>Close Date </th>
+                                                    <th>Sales Phase </th>
+                                                    <th>Expected Value </th>
+                                                    <th>Owner </th>
+                                                    <th>Status </th>
+                                                    <th>Custom Status </th>
+                                                    <th>Changed On </th>
+                                                    <th>Changed By </th>
+                                                    
                                                 </tr>
                                             </thead>
                                     <tbody id="opportunityTable">
@@ -3853,6 +3836,10 @@ function resetFormLead() {
                             </div>
                             <div class="col-sm-7">
                                 <select class="form-control" id="status" name="status">
+                                    <option>Accepted</option>
+                                    <option>Open</option>
+                                    <option>Declined</option>
+                                    <option>Qualified</option>
                                 </select>
                             </div>
                         </div>
@@ -3864,6 +3851,10 @@ function resetFormLead() {
                             </div>
                             <div class="col-sm-7">
                                 <select class="form-control" id="qul" name="qul" style="height:71%;">
+                                    <option>Cold</option>
+                                    <option>Hot</option>
+                                    <option>Warm</option>
+
                                 </select>
                             </div>
                         </div>
@@ -3874,7 +3865,11 @@ function resetFormLead() {
                                     <label for="sel1">Source:</label></div>
                             </div>
                             <div class="col-sm-7">
-                                <select class="form-control" id="Source" name="source">
+                                <select class="form-control" id="source" name="source">
+                                    <option>Campaign</option>
+                                    <option>External Party </option>
+                                    <option>Road show</option>
+                                    <option>Current Account</option>
                                 </select>
                             </div>
                         </div>
@@ -3886,7 +3881,11 @@ function resetFormLead() {
                                     <label for="sel1">Category:</label></div>
                             </div>
                             <div class="col-sm-7">
-                                <select class="form-control" id="Category" name="category">
+                                <select class="form-control" id="category" name="category">
+                                    <option>Consulting</option>
+                                    <option>Service</option>
+                                    <option>Solution</option>
+                                    <option>Staffing</option>
                                 </select>
                             </div>
                         </div>
@@ -3899,6 +3898,10 @@ function resetFormLead() {
                             </div>
                             <div class="col-sm-7">
                                 <select class="form-control" id="priority" name="priority">
+                                    <option>Immedaite</option>
+                                    <option>Low</option>
+                                    <option>Normal</option>
+                                    <option>Urgent</option>
                                 </select>
                             </div>
                         </div>
