@@ -110,17 +110,19 @@
          font-size: 13px !important;
     }
 
-    .table-wrapper-scroll-y {
+     /* .table-wrapper-scroll-y {
         display: block;
     }
     .my-custom-scrollbar {
         position: relative;
         height: 400px;
         overflow: auto;
-    }
+    }  */
 
     </style>
-    
+ 
+ <div id="screenloading" ><img src="./images/loading.gif" style="display:none;"></div> 
+
 <script>
     
         $(document).ready(function () {
@@ -182,11 +184,11 @@
 
 <script>
  $( window ).load(function() {
-    //alert("into");
+  
     (function ($) {
 
 $.fn.tableHeadFixer = function (param) {
-//alert(param);
+
     return this.each(function () {
         table.call(this);
     });
@@ -631,7 +633,7 @@ function addOpportunity(){
         
         
         data=JSON.stringify(data); 
-        //alert(data);
+        
         
         $.ajax({
             url: "https://localhost:9090/opportunity",
@@ -658,7 +660,7 @@ function addOpportunity(){
         var category=$("#category").val();
         var priority=$("#priority").val();     
         var owner=$("#owne").val();
-     //   console.log(owner);
+     
         var data={
                 "title":title,
                 "company":company,
@@ -720,7 +722,7 @@ var data={
 
 
 data=JSON.stringify(data); 
-//alert(data);
+
 
 $.ajax({
     url: "https://localhost:9090/account",
@@ -737,9 +739,12 @@ $.ajax({
 
     }
 });
+
 AccountLoad();
+
 }
-    function addContact() {
+    
+function addContact() {
 
         var fname = $("#first-name").val();
         var lname = $("#last-name").val();
@@ -772,7 +777,6 @@ var data={
 
 
 data=JSON.stringify(data); 
-//alert(data);
 
 $.ajax({
     url: "https://localhost:9090/contact",
@@ -790,7 +794,9 @@ $.ajax({
 
     }
 });
+
 contactLoad();
+
 }
         window.onload = function () {
             //$("#employeetable").tableHeadFixer(); 
@@ -899,6 +905,7 @@ chart3.render();  }
         InsWeb3AppConfigs = {
             cdnPath: 'https://d3rqem538l0q4a.cloudfront.net'
         }
+    
         function empLoad() {
 
             var tableData = "";
@@ -909,6 +916,8 @@ chart3.render();  }
                 url: url,
                 type: "GET",
                 success: function (result) {
+
+                    $("#empcount").text(result[0].length);
 
                     for (var i = 0; i < result[0].length; i++) {
                         
@@ -1008,7 +1017,6 @@ chart3.render();  }
                         "</tr>";
 
                     }
-                    // alert(tableData);
 
                     $("#accountTable").html(tableData);
                 }
@@ -1017,6 +1025,7 @@ chart3.render();  }
         }
 
         function editAccount() {
+            
             $("#faname").prop("disabled", false);
             $("#Prospect").prop("disabled", false);
             $("#paacc").prop("disabled", false);
@@ -1033,6 +1042,7 @@ chart3.render();  }
 
         }
         function clearFormAccount() {
+           
             $("#faname").prop("disabled", true);
             $("#Prospect").prop("disabled", true);
             $("#paacc").prop("disabled", true);
@@ -1046,6 +1056,7 @@ chart3.render();  }
             $("#editAccount").show();
             $("#saveAccount").prop("hidden", true);
             $("#cancelAccount").prop("hidden", true);
+       
         }
 
         function accountdisplay(i) {
@@ -1057,35 +1068,29 @@ chart3.render();  }
                 type: "GET",
                 success: function (result) {
                     var countryid= $("#countryacc").val();
-                    //alert(countryid)
-                 // acceditstatedropdown(countryid);
-                    //alert(JSON.stringify(result));
                     $("#Aid").text(result[0].id);
                     $("#faname").val(result[0].name);
                     $("#Prospect").val(result[0].prospect);
                     $("#paacc").val(result[0].parentaccount);
                     $("#website").val(result[0].website);
-                  $("select#acccat").val(result[0].accountcategory).attr('selected','selected');
-                  //console.log($("select#acccat").val(result[0].accountcategory));
-                  $("vertical").val(result[0].vertical).attr('selected','selected');
-                 // console.log($("countryacc").val(result[0].country));
-                  $("select#countryacc").val(result[0].country).attr('selected','selected');
-                          //$("#acccat").text(result[0].accountcategory).children("option:selected"); 
+                    $("select#acccat").val(result[0].accountcategory).attr('selected','selected');
+                    $("vertical").val(result[0].vertical).attr('selected','selected');
+                    $("select#countryacc").val(result[0].country).attr('selected','selected');
                     $("#city").val(result[0].city);
                     $("select#stateacc").val(result[0].state).attr('selected','selected');
                     $("#owner").val(result[0].owner);
                   
+             }
 
-                    
-                }
             });
+            
             clearFormAccount();
         }
+       
         function updateaccount() {
            
             var id = $("#Aid").text();
             var name = $("#faname").val();
-           
             var status = $("#Prospect").val();
             var parentaccount = $("#paacc").val();
             var website = $("#website").val();
@@ -1182,9 +1187,9 @@ chart3.render();  }
             });
 
             AccountLoad()
-         
-
+        
         }
+
         function acccatdropdown() {
                         
                         var dropdowndata = "";
@@ -1198,20 +1203,20 @@ chart3.render();  }
                                
                                 for (var i = 0; i <result[0].length; i++) {
                                   
-
-                                    dropdowndata = dropdowndata  +
-                                        '<option value= "' + result[0][i].ACCOUNTCATEGORY + '" >' + result[0][i].ACCOUNTCATEGORY +  '</option>' 
+                                  dropdowndata = dropdowndata  +
+                                 '<option value= "' + result[0][i].ACCOUNTCATEGORY + '" >' + result[0][i].ACCOUNTCATEGORY +  '</option>' 
                                         
                                 }
 
                                 $("#acccateg").html(dropdowndata);
-                              $("#acccat").html(dropdowndata);
+                                $("#acccat").html(dropdowndata);
                                
 
                             }
                         });
                     };
-                    function accvertdropdown() {
+                    
+            function accvertdropdown() {
                     
                     var dropdowndata = "";
 
@@ -1225,7 +1230,7 @@ chart3.render();  }
                             for (var i = 0; i < result[0].length; i++) {
 
                                 dropdowndata = dropdowndata  +
-                                    '<option value= "' + result[0][i].VERTICAL + '" >' + result[0][i].VERTICAL +  '</option>' 
+                                '<option value= "' + result[0][i].VERTICAL + '" >' + result[0][i].VERTICAL +  '</option>' 
                                     
                             }
 
@@ -1235,7 +1240,7 @@ chart3.render();  }
                     });
                 };
                 function acccontdropdown() {
-                    //console.log("account category function");
+                    
                     var dropdowndata = "";
 
                     var url = "https://localhost:9090/acccont";
@@ -1248,7 +1253,7 @@ chart3.render();  }
                             for (var i = 0; i < result[0].length; i++) {
                              
                                 dropdowndata = dropdowndata  +
-                                    '<option value= "' + result[0][i].country+ '" >' + result[0][i].country +  '</option>' 
+                                '<option value= "' + result[0][i].country+ '" >' + result[0][i].country +  '</option>' 
                                     
                             }
 
@@ -1258,15 +1263,13 @@ chart3.render();  }
                     });
                 };
                 function accstatedropdown() {
-                //console.log("working");
+                
                     let country=$("#accountCounty").find(":selected").val();
                     
-                   
-                  // console.log(country);
-                    var dropdowndata = "";
+                   var dropdowndata = "";
 
                     var url = "https://localhost:9090/accstate/" +country;
-                    // console.log(url);
+                    
                     $.ajax({
                         url: url,
                         type: "GET",
@@ -1275,8 +1278,8 @@ chart3.render();  }
                             for (var i = 0; i < result[0].length; i++) { 
                                
                                 dropdowndata = dropdowndata  +
-                                    '<option value= "' + result[0][i].state + '" >' + result[0][i].state +  '</option>' 
-                                   // console.log(result[0][i].state);
+                                '<option value= "' + result[0][i].state + '" >' + result[0][i].state +  '</option>' 
+                                  
                             }
                            
                             $("#accoutState").html(dropdowndata);
@@ -1291,7 +1294,7 @@ chart3.render();  }
                  let country=$("#countryacc").find(":selected").val();
             
                
-                    var dropdowndata = "";
+                 var dropdowndata = "";
 
                     var url = "https://localhost:9090/accstate/" +country;
                 
@@ -1303,8 +1306,8 @@ chart3.render();  }
                             for (var i = 0; i < result[0].length; i++) { 
                                
                                 dropdowndata = dropdowndata  +
-                                    '<option value= "' + result[0][i].state + '" >' + result[0][i].state +  '</option>' 
-                                    //console.log(result[0][i].state);
+                                '<option value= "' + result[0][i].state + '" >' + result[0][i].state +  '</option>' 
+                        
                             }
                            
                             $("#stateacc").html(dropdowndata);
@@ -1320,7 +1323,11 @@ chart3.render();  }
 
         function contactLoad() {
 
+         console.log("contact");
+
                 var tableData;
+
+                $("#screenloading").css('display','block');
 
                 var url = "https://localhost:9090/contact";
 
@@ -1329,6 +1336,10 @@ chart3.render();  }
                     url: url,
                     type: "GET",
                     success: function (result) {
+
+                        $("#screenloading").css('display','none'); 
+
+                        $("#contcount").text(result[0].length);
 
                         for (var i = 0; i < result[0].length; i++) {
 
@@ -1368,15 +1379,20 @@ chart3.render();  }
                                 
                                 "</tr>";
                         }
-                        //alert(tableData);
-
+                        
                         $("#contactTable").html(tableData);
+                       // $('#tbMarksContainer').fixTableHeader();
+                        
+                       
                     }
+                
                 });
+            
             }  
 
 
             function editcontact() {
+                   
                     $("#firstname").prop("disabled", false);
                     $("#lastname").prop("disabled", false);
                     $("#acc").prop("disabled", false);
@@ -1494,12 +1510,12 @@ chart3.render();  }
 						} 
 						
                     function deletedisplaycont(i) {
-                    // console.log("working");
+                   
                         $.ajax({
                             url: "https://localhost:9090/delete/" + i,
                             type: "GET",
                             success: function (result) {
-                                    //console.log(result);
+                                    
                                 $("#cdid").val(result[0].contactid);
 								document.getElementById("deleteid").setAttribute("onclick", "deletecont();");
                             }
@@ -1547,19 +1563,19 @@ chart3.render();  }
 
     function editBusiness() {
 
-        $("#status").prop("disabled", false);
-        $("#businesspId").prop("disabled", false);
-        $("#business").prop("disabled", false);
-        $("#cityB").prop("disabled", false);
-        $("#mainc").prop("disabled", false);
-        $("#created").prop("disabled", false);
-        $("#countryb").prop("disabled", false);
-        $("#typeb").prop("disabled", false);
-        $("#editBusiness").hide();
-        $("#saveBusiness").prop("hidden", false);
-        $("#cancelBusiness").prop("hidden", false);
+            $("#status").prop("disabled", false);
+            $("#businesspId").prop("disabled", false);
+            $("#business").prop("disabled", false);
+            $("#cityB").prop("disabled", false);
+            $("#mainc").prop("disabled", false);
+            $("#created").prop("disabled", false);
+            $("#countryb").prop("disabled", false);
+            $("#typeb").prop("disabled", false);
+            $("#editBusiness").hide();
+            $("#saveBusiness").prop("hidden", false);
+            $("#cancelBusiness").prop("hidden", false);
 
-    }
+        }
 
 function displaybusiness(i) {
 
@@ -1584,7 +1600,7 @@ clearFormBusiness();
 
 }
 
-function clearFormBusiness() {
+    function clearFormBusiness() {
 
 $("#status").prop("disabled", true);
 $("#businesspId").prop("disabled", true);
@@ -2802,7 +2818,7 @@ background-size: 8%;'></div>
                                                 </ul>
                                             </div>
 
-                                            <div class="btn-group" id="btnRefresh">
+                                            <div class="btn-group" id="btnRefresh" onclick="contactLoad()";>
                                                 <a class="btn" id="refreshList" title="Refresh List"><i
                                                         class="mdi mdi-refresh mdi-19px"></i></a>
                                             </div>
@@ -2835,7 +2851,8 @@ background-size: 8%;'></div>
                                     <div class="title">
                                         <div class="btn-group">
                                             <button id="btn-list-title" class="btn  " title="">
-                                                All Contacts
+                                                All Contacts(<span id=contcount ></span>)
+                                                
                                             </button>
 
                                         </div>
@@ -2846,14 +2863,16 @@ background-size: 8%;'></div>
                             </header>
                         </div>
                         
-
                         <div id="main-content" class="contact">
+                              
+                                <div id="tbMarksContainer" style="height:400px;overflow:auto;"> 
+                           
+                                    <div class="entity-list" id="entity-list">
 
-                            <div class="entity-list" id="entity-list">
+                                   
+                                    <table id="tbMarks" class=" table table-responsive " >
 
-                                <table class=" table table-responsive table-wrapper-scroll-y my-custom-scrollbar " >
-
-                                    <thead class="table" style="background-color: 1b213b ">
+                                    <thead class="table" style="background-color: rgb(51, 122, 183); color: rgb(255, 255, 255); ">
                                         <tr style="  font-weight:bold ; ">
 
                                             <th>Name</th>
@@ -3050,9 +3069,11 @@ background-size: 8%;'></div>
 
                             </div>
 
-
                         </div>
+                        
                     </div>
+                    
+                </div>
                 </div>
             </div>
 
@@ -3176,7 +3197,7 @@ background-size: 8%;'></div>
 
                                 <table class="table table-respnosive"  >
 
-                                    <thead class="table" style="background-color:rgb(51, 122, 183);">
+                                    <thead class="table" style="background-color:rgb(51, 122, 183); color: rgb(255, 255, 255);">
                                         <tr style="font-weight:bold ; ">
                                             <th scope="col">Name</th>                         
                                             <th scope="col">Contact First Name</th>
@@ -4382,7 +4403,7 @@ background-size: 8%;'></div>
                                     <div class="title">
                                         <div class="btn-group">
                                             <button id="btn-list-title" class="btn" title="">
-                                                All Employees
+                                                All Employees(<span id=empcount ></span>)
                                             </button>
 
                                         </div>
@@ -4404,8 +4425,8 @@ background-size: 8%;'></div>
 
                                 <table class=" table table-responsive table-wrapper-scroll-y my-custom-scrollbar " id="employeetable" >
 
-                                    <thead class="table" style="background-color: 1b213b " >
-                                        <tr style="font-weight:bold ; ">
+                                    <thead class="table"  >
+                                        <tr style="font-weight:bold ; background-color: rgb(51, 122, 183); color :rgb(255,255,255);">
                                             <th scope="col">Name</th>
                                             <th scope="col">Email</th>
                                             <th scope="col">Mobile</th>

@@ -367,8 +367,6 @@ exports.ContactPage = function (req, res) {
            
         }
         res.status(200).json(result);
-        console.log(result);
-
 
     });
 };
@@ -494,8 +492,6 @@ exports.getAccountPage = function (req, res) {
         }
         res.json(result);
        
-
-
     });
 };
 
@@ -546,6 +542,7 @@ exports.deletedisplayaccount = function (req, res) {
   });
 
 };
+
 exports.deleteaccount = function (req, res) {
     let Sid = req.params.i;
     let deleteUserQuery = 'DELETE FROM accountcirruswave WHERE id = "' + Sid + '"';
@@ -556,6 +553,7 @@ exports.deleteaccount = function (req, res) {
         res.status(200).json(result);
     });
 }
+
 exports.getOpportunityPage = function (req, res) {
     let query1 = " call procAdminListAllOpportunities()";
     db.query(query1, (err, result2) => {
@@ -565,7 +563,8 @@ exports.getOpportunityPage = function (req, res) {
         res.status(200).json(result2);
     });
 },
-    exports.addOpportunity = function (req, res) {
+
+exports.addOpportunity = function (req, res) {
         let message = '';
         let Name = req.body.oppName;
         let Account = req.body.Accountopp;
@@ -591,7 +590,8 @@ exports.getOpportunityPage = function (req, res) {
             res.redirect("/home");
         });
     };
-     exports.updateOpportunity  = function (req, res) {      
+     
+    exports.updateOpportunity  = function (req, res) {      
         var Sid= req.body.id;         
         let Name = req.body.name;
         let Account = req.body.account;
@@ -615,6 +615,7 @@ exports.getOpportunityPage = function (req, res) {
             res.redirect('/home');
         });
     };
+    
     exports.opportunitydisplay = function (req, res) {
     var Sid = req.params.i;
     let query = 'select * from opportunitiescirruswave where id="' + Sid + '" ';
@@ -625,6 +626,8 @@ exports.getOpportunityPage = function (req, res) {
         res.status(200).json(result);
         });
         };
+    
+    
     exports.deleteopportunity = function (req, res) {
     let Sid = req.params.i;
     let deleteUserQuery = 'DELETE FROM opportunitiescirruswave WHERE id = "' + Sid + '"';
@@ -635,6 +638,7 @@ exports.getOpportunityPage = function (req, res) {
         res.status(200).json(result);
     });
 };
+
 exports.deletedisplay = function (req, res) {
     let Sid = req.params.i;
     let deleteUserQuery = 'select * from opportunitiescirruswave where id="' + Sid + '"';
@@ -647,6 +651,7 @@ exports.deletedisplay = function (req, res) {
       
     });
 };
+
 exports.sourceoppo = function (req, res) {
     let opposourceQuery = "CALL procLookUpOpportunitySources()";
     db.query(opposourceQuery, (err, result) => {
@@ -656,6 +661,7 @@ exports.sourceoppo = function (req, res) {
         res.status(200).json(result);
     });
 };
+
 exports.SalesCycle = function (req, res) {
      let opposourceQuery = "CALL procLookUpSalesCycle()"; 
      db.query(opposourceQuery, (err, result) => {
@@ -665,6 +671,7 @@ exports.SalesCycle = function (req, res) {
          res.status(200).json(result);
      });
  };
+
  exports.Salesphase = function (req, res) {
      let opposourceQuery = "CALL procLookUpSalesPhase()";
      db.query(opposourceQuery, (err, result) => {
@@ -675,6 +682,7 @@ exports.SalesCycle = function (req, res) {
       
      });
  };
+ 
  exports.Category = function (req, res) {
      let opposourceQuery = "CALL procLookUpOpportunityCategories()";
      db.query(opposourceQuery, (err, result) => {
@@ -684,7 +692,8 @@ exports.SalesCycle = function (req, res) {
          res.status(200).json(result);
      });
  }
-exports.Contactfun = function (req, res) {
+
+ exports.Contactfun = function (req, res) {
 
     let query = 'call procLookUpJobFunctions();';
   
@@ -700,6 +709,7 @@ exports.Contactfun = function (req, res) {
     });
 
 };
+
 exports.Contactdep = function (req, res) {
 
     let query = 'call procLookUpDepartments();';
@@ -716,6 +726,7 @@ exports.Contactdep = function (req, res) {
     });
 
 };
+
 exports.accountcat = function (req, res) {
 
     let query1="call procLookUpAccountCategories()"; 
@@ -730,6 +741,7 @@ exports.accountcat = function (req, res) {
 });
 
 };
+
 exports.accountvert = function (req, res) {
 
  let query1="call procLookUpVertical()"; 
@@ -758,6 +770,7 @@ res.status(200).json(result);
 });
 
 };
+
 exports.accountstate = function (req, res) {
 
  let iCountry= req.params.country;
