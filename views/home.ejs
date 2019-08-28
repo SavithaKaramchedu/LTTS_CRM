@@ -110,14 +110,14 @@
          font-size: 13px !important;
     }
 
-     /* .table-wrapper-scroll-y {
+      .table-wrapper-scroll-y {
         display: block;
     }
     .my-custom-scrollbar {
         position: relative;
         height: 400px;
         overflow: auto;
-    }  */
+    }  
 
     </style>
  
@@ -1621,15 +1621,15 @@ $("#cancelBusiness").prop("hidden", true);
 
 
         function leadLoad() {
-
+            //console.log("refresh executed");
                 var tableData = "";
 
                 var url = "https://localhost:9090/leads";
-
                 $.ajax({
                     url: url,
                     type: "GET",
                     success: function (result) {
+                        $("#allleadscount").text(result[0].length);
                         for (var i = 0; i < result[0].length; i++) {
                             if (result[0][i].TITLE== null || result[0][i].TITLE== 0){
                         result[0][i].TITLE= "";
@@ -3142,9 +3142,9 @@ background-size: 8%;'></div>
                                                 </ul>
                                             </div>
 
-                                            <div class="btn-group" id="btnRefresh">
-                                                <a class="btn" id="refreshList" title="Refresh List"><i
-                                                        class="mdi mdi-refresh mdi-19px"></i></a>
+                                            <div class="btn-group" id="btnRefresh" >
+                                                <a class="btn" id="refreshList" title="Refresh List" onclick="leadLoad();" >
+                                                    <i class="mdi mdi-refresh mdi-19px" ></i></a>
                                             </div>
                                             <div class="btn-group" id="btnControls">
                                                 <a class="btn dropdown-toggle" data-toggle="dropdown"
@@ -3175,10 +3175,11 @@ background-size: 8%;'></div>
                                     <div class="title">
                                         <div class="btn-group">
                                             <button id="btn-list-title" class="btn  " title="">
-                                                All Leads
+                                                All Leads(<span id=allleadscount></span>)
                                             </button>
 
                                         </div>
+                                        
                                     </div>
 
 
@@ -3191,7 +3192,7 @@ background-size: 8%;'></div>
 
                             </header>
                         </div>
-                        <div id="main-content" class="contact" style="overflow: auto;height:400px;;" >
+                        <div id="main-content" class="contact" style="overflow: auto;height:400px;" >
 
                             <div class="entity-list" id="entity-list">
 
@@ -3213,7 +3214,7 @@ background-size: 8%;'></div>
                                             <th scope="col">Owner</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="leadTable" >                           
+                                    <tbody id="leadTable">                           
                                     
                                         <div class="modal fade" id="editleadmodal" style="top:24%;height:398px;">
                                             <div class="modal-dialog modal-lg">
