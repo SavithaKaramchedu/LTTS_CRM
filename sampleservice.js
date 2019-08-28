@@ -1,6 +1,7 @@
 
 var db = require('./db');
 
+//var ldap = require('ldapjs');
 
 exports.RouteGetSomething = function (req, res) {
     res.status(200).json({ "value": "hello world", "params": req.params });

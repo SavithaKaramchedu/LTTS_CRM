@@ -118,9 +118,11 @@
     }
 
     </style>
-
+    
 <script>
+    
         $(document).ready(function () {
+            
             $('#Salesdropdown').click(function () {
                 $('#Editopp').css('display', 'none');
                 $('#btn-sales').css('display', 'block');
@@ -941,17 +943,21 @@ chart3.render();  }
             });
         }
         function AccountLoad() {
-            
+          
             var tableData = "";
-
+            
+           $("#loading").css('display','block');
             var url = "https://localhost:9090/account";
 
             $.ajax({
                 url: url,
                 type: "GET",
                 success: function (result) {
-              
-                    
+                  
+                   $("#loading").css('display','none');
+                   
+                    $("#accountcount").text(result[0].length);
+                 
                     for (var i = 0; i < result[0].length; i++) {
                         if (result[0][i].accountcode == null || result[0][i].accountcode == 0){
                             result[0][i].accountcode = "";
@@ -1041,15 +1047,13 @@ chart3.render();  }
         }
 
         function accountdisplay(i) {
-            console.log("account display")
+            
             var url = "https://localhost:9090/account/" + i;
-            console.log(url);
         
             $.ajax({
                 url: url,
                 type: "GET",
                 success: function (result) {
-                    console.log(result);
                     var countryid= $("#countryacc").val();
                     //alert(countryid)
                  // acceditstatedropdown(countryid);
@@ -1280,15 +1284,15 @@ chart3.render();  }
                 };
 
                 function acceditstatedropdown() {
-                console.log("accedit function entered");
+          
                     
                  let country=$("#countryacc").find(":selected").val();
-                 console.log(country)
+            
                
                     var dropdowndata = "";
 
                     var url = "https://localhost:9090/accstate/" +country;
-                   console.log(url);
+                
                     $.ajax({
                         url: url,
                         type: "GET",
@@ -1323,7 +1327,7 @@ chart3.render();  }
                     url: url,
                     type: "GET",
                     success: function (result) {
-console.log(result);
+
                         for (var i = 0; i < result[0].length; i++) {
 
                             if (result[0][i].jobfunction == null || result[0][i].jobfunction == 0)
@@ -2384,7 +2388,15 @@ function resetFormLead() {
                 });
             });
         </script>
-
+<div id='loading' style='display: none;position: fixed;
+left: 0px;
+top: 0px;
+width: 100%;
+height: 100%;
+z-index: 9999;
+background: url(./images/loading.gif) 50% 50% no-repeat rgb(249,249,249);
+opacity: .8;
+background-size: 8%;'></div> 
         <header id="header" style='background:rgb(51, 122, 183)'>
 
             <h1 class="logo ">
@@ -2831,6 +2843,8 @@ function resetFormLead() {
 
                             </header>
                         </div>
+                        
+
                         <div id="main-content" class="contact">
 
                             <div class="entity-list" id="entity-list">
@@ -3656,6 +3670,8 @@ function resetFormLead() {
 
 
                     <div id="main-container" class="list-view contact">
+                            
+
                         <div id="content" class="">
                             <header class="head-list">
                                 <div id="default_controls">
@@ -3685,9 +3701,9 @@ function resetFormLead() {
                                                             Tag</a></li>
                                                 </ul>
                                             </div>
-
+                                         
                                             <div class="btn-group" id="btnRefresh">
-                                                <a class="btn" id="refreshList" title="Refresh List"><i
+                                                <a class="btn" onclick=" AccountLoad();" id="refreshList" title="Refresh List"><i
                                                         class="mdi mdi-refresh mdi-19px"></i></a>
                                             </div>
                                             <div class="btn-group" id="btnControls">
@@ -3719,9 +3735,9 @@ function resetFormLead() {
                                     <div class="title">
                                         <div class="btn-group">
                                             <button id="btn-list-title" class="btn " title="">
-                                                All Accounts
+                                                All Accounts(<span id="accountcount" style="font-size:12px"></span>)
                                             </button>
-
+                                           
                                         </div>
                                     </div>
 
@@ -3735,14 +3751,15 @@ function resetFormLead() {
 
                             </header>
                         </div>
+                        
                         <div id="main-content" class="contact" style="height:400px;overflow:auto">
 
                             <div class="entity-list" id="entity-list">
-
+                                <div id="tbMarksContainer" >
                                 <table class="table table-responsive" >
 
-                                    <thead class="table" style="background-color: 1b213b;">
-                                        <tr style="font-weight:bold">
+                                    <thead class="table" style="background-color:rgb(51, 122, 183);">
+                                        <tr style="font-weight:bold;color:white;">
                                             <th>Account ID</th>
                                             <th>Old C4C Account ID </th>
                                             <th>Name</th>
@@ -3758,195 +3775,189 @@ function resetFormLead() {
                                     
                                     <tbody id="accountTable">
 
-                                            <div class="container">
-
-                                                    <!-- Button to Open the Modal -->
-        
-        
-                                                    <!-- The Modal -->
-                                                    <div class="modal" id="editModal" style="height: 385px;width: 804px">
-                                                        <div class="modal-dialog modal-lg">
-                                                            <div class="modal-content">
-        
-                                                                <!-- Modal Header -->
-                                                                <div class="modal-header"
-                                                                    style="padding-left: 0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;">
-        
-                                                                    <b class="modal-title"
-                                                                        style="font-size:15px;margin-left:9px;">New Account:</b>
-        
-                                                                    <button type="button" class="close" onclick="clearFormAccount()"
-                                                                        data-dismiss="modal">&times;</button>
-                                                                </div>
-        
-                                                                <!-- Modal body -->
-                                                                <div class="modal-body" id="size">
-        
-                                                                    <div class="row">
-                                                                        <div class="col-sm-1"> </div>
-                                                                        <div class="col-sm-2">
-                                                                            <label>Name:</label>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <p id="Aid" style="display:none;"></p>
-                                                                            <input type="text" id="faname" disabled value=""
-                                                                                class="form-control form-group">
-                                                                        </div>
-        
-                                                                        <div class="col-sm-2">
-                                                                            <label id="size">Prospect:</label>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <input type="checkbox" id="Prospect" disabled
-                                                                                name="check" checked="">
-                                                                        </div>
-                                                                        <div class="col-sm-1"> </div>
-                                                                    </div>
-        
-                                                                    <div class="row">
-                                                                        <div class="col-sm-1"> </div>
-                                                                        <div class="col-sm-2">
-                                                                            <label>Parent Account:</label>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <input type="text" disabled id="paacc" value=""
-                                                                                class="form-control form-group">
-                                                                        </div>
-        
-                                                                        <div class="col-sm-2">
-                                                                            <label>Website:</label>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <input type="text" disabled id="website"
-                                                                                class="form-control form-group">
-                                                                        </div>
-                                                                        <div class="col-sm-1"></div>
-                                                                    </div>
-        
-                                                                    <div class="row">
-                                                                        <div class="col-sm-1"></div>
-                                                                        <div class="col-sm-2">
-                                                                            <label style="width: 113px;">Account
-                                                                                Category:</label>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <select class="strike" disabled
-                                                                                style="height:22px;font-size: 12px;width:100%;border-radius: 3px;"
-                                                                                name="acccat" id="acccat">
-                                                                                
-                                                                                
-                                                                            </select>
-                                                                        </div>
-        
-                                                                        <div class="col-sm-2">
-                                                                            <label>Vertical:</label>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <select class="strike" id="vertical" disabled
-                                                                                name="vertex"
-                                                                                style="height:22px;font-size: 12px;width:100%;border-radius: 3px;">
-                                                                                <option value="" style="display:none;"></option>
-                                                                                <option>L&amp;T Thales</option>
-                                                                                <option>L&amp;T Thales common</option>
-                                                                                <option>GDA IP</option>
-                                                                                <option>VLSI</option>
-                                                                                <option>Admin Own</option>
-                                                                                <option>CE's Office</option>
-                                                                                <option>Capability Enhancement Group</option>
-                                                                                
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="col-sm-1"></div>
-                                                                    </div>
-        
-                                                                    <div class="row">
-                                                                        <div class="col-sm-1"></div>
-                                                                        <div class="col-sm-2">
-                                                                            <label style="width: 113px;">Country:</label>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <select class="strike" id="countryacc" disabled onclick="acceditstatedropdown()"
-                                                                                name="country"
-                                                                                style="height:22px;font-size: 12px;width:100%;border-radius: 3px;">
-                                                                                <option style="display:none;"></option>
-                                                                                <option>Arab Emirates</option>
-                                                                                <option>Afghanisthan</option>
-                                                                                <option>Albania</option>
-                                                                                <option>Armenia</option>
-                                                                                <option>Angola</option>
-                                                                                <option>Argentina</option>
-                                                                                
-                                                                            </select>
-                                                                        </div>
-        
-                                                                        <div class="col-sm-2">
-                                                                            <label>City:</label>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <input type="text" disabled id="city"
-                                                                                class="form-control form-group">
-                                                                        </div>
-                                                                        <div class="col-sm-1"></div>
-                                                                    </div>
-        
-        
-        
-                                                                    <div class="row">
-                                                                        <div class="col-sm-1"></div>
-                                                                        <div class="col-sm-2">
-                                                                            <label>State:</label>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <select class="strike" id="stateacc" disabled
-                                                                                name="stat"
-                                                                                style="height: 22px;font-size: 12px;width:100%;border-radius: 3px;">
-                                                                                
-                                                                                
-                                                                            </select>
-                                                                        </div>
-        
-                                                                        <div class="col-sm-2">
-                                                                            <label>Owner:</label>
-                                                                        </div>
-                                                                        <div class="col-sm-3">
-                                                                            <input type="text" disabled id="owner"
-                                                                                class="form-control form-group">
-                                                                        </div>
-                                                                        <div class="col-sm-1"></div>
-                                                                    </div>
-        
-        
-                                                                </div>
-        
-        
-                                                                <!-- Modal footer -->
-                                                                <div class="modal-footer">
-                                                                    <button type="submit" id="saveAccount" class="btn btn-primary"
-                                                                        data-dismiss="modal" hidden
-                                                                        onclick="updateaccount()">save</button>
-                                                                    <button type="button" id="cancelAccount" class="btn"
-                                                                        data-dismiss="modal" onclick="clearFormAccount()"
-                                                                        hidden>cancel</button>
-                                                                    <button type="submit" id="editAccount" class="btn btn-primary"
-                                                                        onclick="editAccount()">Edit</button>
-        
-        
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-        
-        
-        
-        
-        
-        
-
                                     </tbody>
 
 
                                 </table>
+                                <div class="container">
+
+                                        <!-- Button to Open the Modal -->
+
+
+                                        <!-- The Modal -->
+                                        <div class="modal" id="editModal" style="height: 385px;width: 804px">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header"
+                                                        style="padding-left: 0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;">
+
+                                                        <b class="modal-title"
+                                                            style="font-size:15px;margin-left:9px;">New Account:</b>
+
+                                                        <button type="button" class="close" onclick="clearFormAccount()"
+                                                            data-dismiss="modal">&times;</button>
+                                                    </div>
+
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body" id="size">
+
+                                                        <div class="row">
+                                                            <div class="col-sm-1"> </div>
+                                                            <div class="col-sm-2">
+                                                                <label>Name:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <p id="Aid" style="display:none;"></p>
+                                                                <input type="text" id="faname" disabled value=""
+                                                                    class="form-control form-group">
+                                                            </div>
+
+                                                            <div class="col-sm-2">
+                                                                <label id="size">Prospect:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <input type="checkbox" id="Prospect" disabled
+                                                                    name="check" checked="">
+                                                            </div>
+                                                            <div class="col-sm-1"> </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-1"> </div>
+                                                            <div class="col-sm-2">
+                                                                <label>Parent Account:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <input type="text" disabled id="paacc" value=""
+                                                                    class="form-control form-group">
+                                                            </div>
+
+                                                            <div class="col-sm-2">
+                                                                <label>Website:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <input type="text" disabled id="website"
+                                                                    class="form-control form-group">
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2">
+                                                                <label style="width: 113px;">Account
+                                                                    Category:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <select class="strike" disabled
+                                                                    style="height:22px;font-size: 12px;width:100%;border-radius: 3px;"
+                                                                    name="acccat" id="acccat">
+                                                                    
+                                                                    
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-sm-2">
+                                                                <label>Vertical:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <select class="strike" id="vertical" disabled
+                                                                    name="vertex"
+                                                                    style="height:22px;font-size: 12px;width:100%;border-radius: 3px;">
+                                                                    <option value="" style="display:none;"></option>
+                                                                    <option>L&amp;T Thales</option>
+                                                                    <option>L&amp;T Thales common</option>
+                                                                    <option>GDA IP</option>
+                                                                    <option>VLSI</option>
+                                                                    <option>Admin Own</option>
+                                                                    <option>CE's Office</option>
+                                                                    <option>Capability Enhancement Group</option>
+                                                                    
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2">
+                                                                <label style="width: 113px;">Country:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <select class="strike" id="countryacc" disabled onclick="acceditstatedropdown()"
+                                                                    name="country"
+                                                                    style="height:22px;font-size: 12px;width:100%;border-radius: 3px;">
+                                                                    <option style="display:none;"></option>
+                                                                    <option>Arab Emirates</option>
+                                                                    <option>Afghanisthan</option>
+                                                                    <option>Albania</option>
+                                                                    <option>Armenia</option>
+                                                                    <option>Angola</option>
+                                                                    <option>Argentina</option>
+                                                                    
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-sm-2">
+                                                                <label>City:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <input type="text" disabled id="city"
+                                                                    class="form-control form-group">
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+
+
+
+                                                        <div class="row">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2">
+                                                                <label>State:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <select class="strike" id="stateacc" disabled
+                                                                    name="stat"
+                                                                    style="height: 22px;font-size: 12px;width:100%;border-radius: 3px;">
+                                                                    
+                                                                    
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-sm-2">
+                                                                <label>Owner:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <input type="text" disabled id="owner"
+                                                                    class="form-control form-group">
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+
+
+                                                    </div>
+
+
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" id="saveAccount" class="btn btn-primary"
+                                                            data-dismiss="modal" hidden
+                                                            onclick="updateaccount()">save</button>
+                                                        <button type="button" id="cancelAccount" class="btn"
+                                                            data-dismiss="modal" onclick="clearFormAccount()"
+                                                            hidden>cancel</button>
+                                                        <button type="submit" id="editAccount" class="btn btn-primary"
+                                                            onclick="editAccount()">Edit</button>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div> 
 
                             </div>
 
