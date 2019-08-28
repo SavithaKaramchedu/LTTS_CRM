@@ -27,6 +27,8 @@
     
    
     <style>
+
+        
 .modal-footer {
     
     border-radius: 0 0 3px 3px;
@@ -1543,21 +1545,21 @@ chart3.render();  }
 
 
 
-        function editBusiness() {
+    function editBusiness() {
 
-$("#status").prop("disabled", false);
-$("#businesspId").prop("disabled", false);
-$("#business").prop("disabled", false);
-$("#cityB").prop("disabled", false);
-$("#mainc").prop("disabled", false);
-$("#created").prop("disabled", false);
-$("#countryb").prop("disabled", false);
-$("#typeb").prop("disabled", false);
-$("#editBusiness").hide();
-$("#saveBusiness").prop("hidden", false);
-$("#cancelBusiness").prop("hidden", false);
+        $("#status").prop("disabled", false);
+        $("#businesspId").prop("disabled", false);
+        $("#business").prop("disabled", false);
+        $("#cityB").prop("disabled", false);
+        $("#mainc").prop("disabled", false);
+        $("#created").prop("disabled", false);
+        $("#countryb").prop("disabled", false);
+        $("#typeb").prop("disabled", false);
+        $("#editBusiness").hide();
+        $("#saveBusiness").prop("hidden", false);
+        $("#cancelBusiness").prop("hidden", false);
 
-}
+    }
 
 function displaybusiness(i) {
 
@@ -1932,49 +1934,49 @@ $("#cancelBusiness").prop("hidden", true);
 
                         function opportunityLoad() {
 
-var tableData = "";
+                                var tableData = "";
 
-var url = "https://localhost:9090/opportunity";
+                                var url = "https://localhost:9090/opportunity";
 
-$.ajax({
-    url: url,
-    type: "GET",
-    success: function (result) {
+                                $.ajax({
+                                    url: url,
+                                    type: "GET",
+                                    success: function (result) {
+                                        $("#opportunityid").text(result[0].length);
+                                        for (var i = 0; i < result[0].length; i++) {
+                                            if (result[0][i].SOURCEC4COPPORTUNITYCODE == null || result[0][i].SOURCEC4COPPORTUNITYCODE == 0) {
+                                                result[0][i].SOURCEC4COPPORTUNITYCODE = "";
+                                            }
+                                            if (result[0][i].REASONFORSTATUS == null || result[0][i].REASONFORSTATUS == 0) {
+                                                result[0][i].REASONFORSTATUS = "";
+                                            }
+                                            if (result[0][i].ChangedBy == null || result[0][i].ChangedBy == 0) {
+                                                result[0][i].ChangedBy = "";
+                                            }
+                                            tableData = tableData + "  <tr> " +
+                                                "<td >" + result[0][i].OPPORTUNITYCODE + "</td>" +
+                                                "<td >" + result[0][i].SOURCEC4COPPORTUNITYCODE + "</td>" +
+                                                // "<td  onclick='opposourcedropdown(),oppoSalesCycledropdown(),oppoSalesphasedropdown(),oppoCategorydropdown(),opportunitydisplay("+result[i].id+")' >"+"<a href='#oModal'  data-toggle='modal' data-backdrop='static' data-keyboard='false' >" + result[i].name + "</a>"+"</td>" + 
+                                                "<td >" + result[0][i].Name + "</td>" +
+                                                "<td >" + result[0][i].Account + "</td>" +
+                                                "<td >" + result[0][i].CloseDate + "</td>" +
+                                                "<td >" + result[0][i].SalesPhase + "</td>" +
+                                                "<td >" + result[0][i].EXPECTEDVALUE + "</td>" +
+                                                "<td >" + result[0][i].Owner + "</td>" +
+                                                "<td >" + result[0][i].OPPORTUNITYSTATUS + "</td>" +
+                                                "<td >" + result[0][i].REASONFORSTATUS + "</td>" +
+                                                "<td >" + result[0][i].ChangedOn + "</td>" +
+                                                "<td >" + result[0][i].ChangedBy + "</td>" +
 
-        for (var i = 0; i < result[0].length; i++) {
-            if (result[0][i].SOURCEC4COPPORTUNITYCODE == null || result[0][i].SOURCEC4COPPORTUNITYCODE == 0) {
-                result[0][i].SOURCEC4COPPORTUNITYCODE = "";
-            }  
-            if (result[0][i].REASONFORSTATUS == null || result[0][i].REASONFORSTATUS == 0) {
-                result[0][i].REASONFORSTATUS = "";
-            }  
-            if (result[0][i].ChangedBy == null || result[0][i].ChangedBy == 0) {
-                result[0][i].ChangedBy = "";
-            }  
-            tableData = tableData + "  <tr> " +
-                "<td >"  + result[0][i].OPPORTUNITYCODE + "</td>" +
-                "<td >"  + result[0][i].SOURCEC4COPPORTUNITYCODE + "</td>" +
-               // "<td  onclick='opposourcedropdown(),oppoSalesCycledropdown(),oppoSalesphasedropdown(),oppoCategorydropdown(),opportunitydisplay("+result[i].id+")' >"+"<a href='#oModal'  data-toggle='modal' data-backdrop='static' data-keyboard='false' >" + result[i].name + "</a>"+"</td>" + 
-                "<td >" + result[0][i].Name + "</td>" +
-                "<td >" + result[0][i].Account + "</td>" +
-                "<td >" + result[0][i].CloseDate + "</td>" +
-                "<td >" + result[0][i].SalesPhase + "</td>" +
-                "<td >" + result[0][i].EXPECTEDVALUE + "</td>" +
-                "<td >" + result[0][i].Owner + "</td>" +
-                "<td >" + result[0][i].OPPORTUNITYSTATUS + "</td>" +
-                "<td >" + result[0][i].REASONFORSTATUS + "</td>" +
-                "<td >" + result[0][i].ChangedOn + "</td>" +
-                "<td >" + result[0][i].ChangedBy + "</td>" +
-               
-                //"<td >"+'<button type="button" onclick="displayAll(' + result[i].id +',\'opportunity\' )" class="btn btn-danger" data-toggle="modal" data-target="#deleterecordModal" >delete</button>'+"</td>" 
+                                                //"<td >"+'<button type="button" onclick="displayAll(' + result[i].id +',\'opportunity\' )" class="btn btn-danger" data-toggle="modal" data-target="#deleterecordModal" >delete</button>'+"</td>" 
 
-                "</tr>";
-        }
+                                                "</tr>";
+                                        }
 
-        $("#opportunityTable").html(tableData);
-    }
-});
-};
+                                        $("#opportunityTable").html(tableData);
+                                    }
+                                });
+                            };
 
         function opportunitydisplay(i){
          
@@ -4000,9 +4002,10 @@ background-size: 8%;'></div>
                                             </div>
 
                                             <div class="btn-group" id="btnRefresh">
-                                                <a class="btn" id="refreshList" title="Refresh List"><i
-                                                        class="mdi mdi-refresh mdi-19px"></i></a>
+                                                <a class="btn" id="refreshList" title="Refresh List" onclick="opportunityLoad();"><i class="mdi mdi-refresh mdi-19px"></i></a>
+                                                    
                                             </div>
+                                          
                                             <div class="btn-group" id="btnControls">
                                                 <a class="btn dropdown-toggle" data-toggle="dropdown"
                                                     title="List View Controls"><i class="icon-cog"></i> <span
@@ -4032,7 +4035,8 @@ background-size: 8%;'></div>
                                     <div class="title">
                                         <div class="btn-group">
                                             <button id="btn-list-title" class="btn " title="">
-                                                All Opportunities
+                                                All Opportunities :
+                                                (<span id=opportunityid> </span>)
                                             </button>
 
                                         </div>
@@ -4048,7 +4052,7 @@ background-size: 8%;'></div>
 
                             </header>
                         </div>
-                    <div id="main-content" class="contact" style="height: 376px; overflow: auto;">
+                    <div id="main-content" class="contact" style="height: 476px; overflow: auto; ">
                             <div class="modal fade" class="modal modal-fixed-footer" id="oModal" style="height:519px;top:10%;">
                                     <div class="modal-dialog modal-lg">
                                       <div class="modal-content">
@@ -4272,7 +4276,7 @@ background-size: 8%;'></div>
 
                             <div class="entity-list" id="entity-list">
 
-                                <table class=" table table-responsive " >
+                                <table class=" table table-responsive  loader" style="overflow:intial;" >
 
                                 
 
@@ -4295,11 +4299,6 @@ background-size: 8%;'></div>
                                             </thead>
                                     <tbody id="opportunityTable">
                                            
-                                        
-
-
-
-
                                     </tbody>
 
                                 </table>
@@ -4439,54 +4438,54 @@ background-size: 8%;'></div>
                     <div id="main-container" class="list-view contact">
                         <header class="head-list">
                             <div id="default_controls">
-                            
+            
                                 <div class="title">
                                     <div class="btn-group">
                                         <button id="btn-list-title" class="btn" title="">
-                                          Dashboard
+                                            Dashboard
                                         </button>
-
+            
                                     </div>
                                 </div>
-
-
-
-
+            
+            
+            
+            
                             </div>
-
-
-
-
+            
+            
+            
+            
                         </header>
                         <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-						   <div class="row">
+                        <div class="row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                    <div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+                                <div id="chartContainer3" style="height: 300px; width: 100%;"></div>
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                    <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+                                <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
                             </div>
-                      
-                        
-                    </div>
+            
+            
+                        </div>
                     </div>
                 </div>
-
+            
             </div>
-
-
-
-
-
-
-        </div>
-
-        <div class="modal hide" id="modalHolder" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-        </div>
-
-        <footer id="footer">
-
-        </footer>
+            
+            
+            
+            
+            
+            
+            </div>
+            
+            <div class="modal hide" id="modalHolder" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            </div>
+            
+            <footer id="footer">
+            
+            </footer>
 
 
 
