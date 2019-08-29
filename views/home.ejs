@@ -24,7 +24,8 @@
     <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'
+integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
    
     <style>
 
@@ -181,6 +182,26 @@
 
         })
     </script>
+
+<script>
+        function myFunction() {
+          /* if( $("#myCheck").attr('checked','true')){
+                $("#ownaccount").css('display','block')
+            }
+            else{
+               $("#ownaccount").css('display','block') 
+            }
+        }*/
+          var checkBox = document.getElementById("myCheck");
+          var text = document.getElementById("ownaccount");
+          if (checkBox.checked == true){
+            text.style.display = "block";
+          } else {
+             text.style.display = "none";
+          }
+        };
+        </script>
+        
 
 <script>
  $( window ).load(function() {
@@ -1623,12 +1644,15 @@ $("#cancelBusiness").prop("hidden", true);
         function leadLoad() {
             //console.log("refresh executed");
                 var tableData = "";
+                $("#leadloading").css('display','block');
 
                 var url = "https://localhost:9090/leads";
                 $.ajax({
                     url: url,
                     type: "GET",
                     success: function (result) {
+                        $("#leadloading").css('display','none');
+
                         $("#allleadscount").text(result[0].length);
                         for (var i = 0; i < result[0].length; i++) {
                             if (result[0][i].TITLE== null || result[0][i].TITLE== 0){
@@ -2407,6 +2431,16 @@ function resetFormLead() {
             });
         </script>
 <div id='loading' style='display: none;position: fixed;
+left: 0px;
+top: 0px;
+width: 100%;
+height: 100%;
+z-index: 9999;
+background: url(./images/loading.gif) 50% 50% no-repeat rgb(249,249,249);
+opacity: .8;
+background-size: 8%;'></div> 
+
+<div id='leadloading' style='display: none;position: fixed;
 left: 0px;
 top: 0px;
 width: 100%;
@@ -3214,178 +3248,175 @@ background-size: 8%;'></div>
                                             <th scope="col">Owner</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="leadTable">                           
+                                    <tbody id="leadTable" >                           
                                     
-                                        <div class="modal fade" id="editleadmodal" style="top:24%;height:398px;">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                    
-                                                    <!-- Modal Header -->
-                                                    <div class="modal-header"
-                                                        style="padding-left: 0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;">
-                                    
-                                                        <b class="modal-title" style="font-size:15px;margin-left:9px;">New Lead :</b>
-                                    
-                                                        <button type="button" class="close" data-dismiss="modal" data-backdrop="static" data-keyboard="false"   onclick="clearFormLead()">&times;</button>
+                                    </tbody>
+                                    <div class="modal fade" id="editleadmodal" style="top:24%;height:398px;">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                
+                                                <!-- Modal Header -->
+                                                <div class="modal-header"
+                                                    style="padding-left: 0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;">
+                                
+                                                    <b class="modal-title" style="font-size:15px;margin-left:9px;">New Lead :</b>
+                                
+                                                    <button type="button" class="close" data-dismiss="modal" data-backdrop="static" data-keyboard="false"   onclick="clearFormLead()">&times;</button>
+                                                </div>
+                                
+                                                <!-- Modal body -->
+                                                <div class="modal-body" id="size">
+                                
+                                                    <div class="row">
+                                                        <div class="col-sm-1">
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label>Tittle:</label>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <p id="leadid" style="display:none;"></p>
+                                                            <input type="text" class="form-control form-group" id="tit" disabled>
+                                                        </div>
+                                
+                                                        <div class="col-sm-2">
+                                                            <label style="width: 113px;">Qualification Level:</label>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <select class="strike" id="qual" name="quali"
+                                                                style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
+                                                                <option>Cold</option>
+                                                                <option>Hot</option>
+                                                                <option>Warm</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-1"> </div>
                                                     </div>
-                                    
-                                                    <!-- Modal body -->
-                                                    <div class="modal-body" id="size">
-                                    
-                                                        <div class="row">
-                                                            <div class="col-sm-1">
-                                                            </div>
-                                                            <div class="col-sm-2">
-                                                                <label>Tittle:</label>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <p id="leadid" style="display:none;"></p>
-                                                                <input type="text" class="form-control form-group" id="tit" disabled>
-                                                            </div>
-                                    
-                                                            <div class="col-sm-2">
-                                                                <label style="width: 113px;">Qualification Level:</label>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <select class="strike" id="qual" name="quali"
-                                                                    style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                    <option>Cold</option>
-                                                                    <option>Hot</option>
-                                                                    <option>Warm</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-sm-1"> </div>
+                                
+                                                    <div class="row">
+                                                        <div class="col-sm-1"></div>
+                                                        <div class="col-sm-2">
+                                                            <label>Company:</label>
                                                         </div>
-                                    
-                                                        <div class="row">
-                                                            <div class="col-sm-1"></div>
-                                                            <div class="col-sm-2">
-                                                                <label>Company:</label>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <input type="text" class="form-control form-group" id="comp" disabled>
-                                                            </div>
-                                    
-                                                            <div class="col-sm-2">
-                                                                <label>Source:</label>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <select class="strike" id="sour" name="source"
-                                                                    style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                    <option>Campaign</option>
-                                                                    <option>External Party </option>
-                                                                    <option>Road show</option>
-                                                                    <option>Current Account</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-sm-1"></div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" class="form-control form-group" id="comp" disabled>
                                                         </div>
-                                    
-                                                        <div class="row">
-                                                            <div class="col-sm-1"></div>
-                                                            <div class="col-sm-2">
-                                                                <label style="width: 113px;">Contact First Name:</label>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <input type="text" class="form-control form-group" id="firname" disabled>
-                                                            </div>
-                                    
-                                                            <div class="col-sm-2">
-                                                                <label>Category:</label>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <select class="strike" id="cat" name="category"
-                                                                    style="height:25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                    <option>Consulting</option>
-                                                                    <option>Service</option>
-                                                                    <option>Solution</option>
-                                                                    <option>Staffing</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-sm-1"></div>
+                                
+                                                        <div class="col-sm-2">
+                                                            <label>Source:</label>
                                                         </div>
-                                    
-                                                        <div class="row">
-                                                            <div class="col-sm-1"></div>
-                                                            <div class="col-sm-2">
-                                                                <label style="width: 113px;">Contact Last Name:</label>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <input type="text" class="form-control form-group" id="lasname" disabled>
-                                                            </div>
-                                    
-                                                            <div class="col-sm-2">
-                                                                <label>Priority:</label>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <select class="strike" id="prio" name="priority"
-                                                                    style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                    <option>Immedaite</option>
-                                                                    <option>Low</option>
-                                                                    <option>Normal</option>
-                                                                    <option>Urgent</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-sm-1"></div>
+                                                        <div class="col-sm-3">
+                                                            <select class="strike" id="sour" name="source"
+                                                                style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
+                                                                <option>Campaign</option>
+                                                                <option>External Party </option>
+                                                                <option>Road show</option>
+                                                                <option>Current Account</option>
+                                                            </select>
                                                         </div>
-                                    
-                                    
-                                    
-                                                        <div class="row">
-                                                            <div class="col-sm-1"></div>
-                                                            <div class="col-sm-2">
-                                                                <label>Status:</label>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <select class="strike" id="stat" name="status"
-                                                                    style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                    <option>Accepted</option>
-                                                                    <option>Open</option>
-                                                                    <option>Declined</option>
-                                                                    <option>Qualified</option>
-                                                                </select>
-                                                            </div>
-                                    
-                                                            <div class="col-sm-2">
-                                                                <label>Owner:</label>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <input type="text" class="form-control form-group" id="own" disabled>
-                                                            </div>
-                                                            <div class="col-sm-1"></div>
-                                                        </div>
-                                    
-                                    
+                                                        <div class="col-sm-1"></div>
                                                     </div>
-                                    
-                                    
-                                                    <!-- Modal footer -->
-                                                    <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-primary" id="savelead" data-dismiss="modal"
-                                                            onclick="updateleadrecord()" hidden>Save</button>
-                                                        <button type="button" class="btn btn-primary" id="cancellead" data-dismiss="modal"
-                                                            onclick="clearFormLead()" hidden>Cancel</button>
-                                                        <button type="button" class="btn btn-primary" id="editlead" onclick="editenablelead()">Edit</button> 
-                                                        <div class="dropup">
-                                                                <button class="btn btn-primary dropdown-toggle" type="button" id="about-us" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Actions
-                                                                </button>
-                                                                <div class="dropdown-menu" aria-labelledby="about-us" style="position: absolute; transform: translate3d(-35px, -99px, 0px);top: -12px; left: -19px; will-change: transform;height: 42px; font-size: 13px;">
-                                                                <a class="dropdown-item" data-toggle="modal" href="#oppModal" onclick="resetFormOpp(),opposourcedropdown(), oppoSalesCycledropdown(),oppoSalesphasedropdown(),oppoCategorydropdown(),opposourcedropdownedit();" data-backdrop="static" data-keyboard="false" data-dismiss="modal">Lead to oppurtunity</a>
-                                                               
-                                                                </div>
-                                                                </div>
-                                                         
-                                                        
-                                                         
-                                                        
+                                
+                                                    <div class="row">
+                                                        <div class="col-sm-1"></div>
+                                                        <div class="col-sm-2">
+                                                            <label style="width: 113px;">Contact First Name:</label>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" class="form-control form-group" id="firname" disabled>
+                                                        </div>
+                                
+                                                        <div class="col-sm-2">
+                                                            <label>Category:</label>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <select class="strike" id="cat" name="category"
+                                                                style="height:25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
+                                                                <option>Consulting</option>
+                                                                <option>Service</option>
+                                                                <option>Solution</option>
+                                                                <option>Staffing</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-1"></div>
                                                     </div>
+                                
+                                                    <div class="row">
+                                                        <div class="col-sm-1"></div>
+                                                        <div class="col-sm-2">
+                                                            <label style="width: 113px;">Contact Last Name:</label>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" class="form-control form-group" id="lasname" disabled>
+                                                        </div>
+                                
+                                                        <div class="col-sm-2">
+                                                            <label>Priority:</label>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <select class="strike" id="prio" name="priority"
+                                                                style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
+                                                                <option>Immedaite</option>
+                                                                <option>Low</option>
+                                                                <option>Normal</option>
+                                                                <option>Urgent</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-1"></div>
+                                                    </div>
+                                
+                                
+                                
+                                                    <div class="row">
+                                                        <div class="col-sm-1"></div>
+                                                        <div class="col-sm-2">
+                                                            <label>Status:</label>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <select class="strike" id="stat" name="status"
+                                                                style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
+                                                                <option>Accepted</option>
+                                                                <option>Open</option>
+                                                                <option>Declined</option>
+                                                                <option>Qualified</option>
+                                                            </select>
+                                                        </div>
+                                
+                                                        <div class="col-sm-2">
+                                                            <label>Owner:</label>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" class="form-control form-group" id="own" disabled>
+                                                        </div>
+                                                        <div class="col-sm-1"></div>
+                                                    </div>
+                                
+                                
+                                                </div>
+                                
+                                
+                                                <!-- Modal footer -->
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary" id="savelead" data-dismiss="modal"
+                                                        onclick="updateleadrecord()" hidden>Save</button>
+                                                    <button type="button" class="btn btn-primary" id="cancellead" data-dismiss="modal"
+                                                        onclick="clearFormLead()" hidden>Cancel</button>
+                                                    <button type="button" class="btn btn-primary" id="editlead" onclick="editenablelead()">Edit</button> 
+                                                    <div class="dropup">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" id="about-us" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Actions
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="about-us" style="position: absolute; transform: translate3d(-35px, -99px, 0px);top: -12px; left: -19px; will-change: transform;height: 42px; font-size: 13px;">
+                                                            <a class="dropdown-item" data-toggle="modal" href="#oppModal" onclick="resetFormOpp(),opposourcedropdown(), oppoSalesCycledropdown(),oppoSalesphasedropdown(),oppoCategorydropdown(),opposourcedropdownedit();" data-backdrop="static" data-keyboard="false" data-dismiss="modal">Lead to oppurtunity</a>
+                                                           
+                                                            </div>
+                                                            </div>
+                                                     
+                                                    
+                                                     
+                                                    
                                                 </div>
                                             </div>
                                         </div>
-                                    
-                                    
-                                    </tbody>
-
+                                    </div>
 
                                 </table>
 
@@ -4702,9 +4733,19 @@ background-size: 8%;'></div>
                     <button type="button" class="close" data-dismiss="modal">×</button>
                 </div>
 
-                <div class="modal-body">
+                <div class="modal-body" style="height: 388px;">
 
                     <form method="post">
+
+
+                            <div class="row">
+                                    <div class="col-sm-5">
+                                        <label class="control-label col-sm-12" for="name">Use Existing Account :</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <input type="checkbox" class="form-control form-group" id="myCheck" name="title" style="height:71%;" onclick="myFunction();"></div>
+                                    </div>
+                            
                         <div class="row">
                             <div class="col-sm-5">
                                 <label class="control-label col-sm-12" for="name">Tittle:</label>
@@ -4712,6 +4753,13 @@ background-size: 8%;'></div>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control form-group" id="title" name="title" style="height:71%;"></div>
                         </div>
+                        <div class="row" id="ownaccount" >
+                                <div class="col-sm-5" style="display:block">
+                                    <label class="control-label col-sm-12" for="name">Account:</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control form-group" id="title" name="title" style="height:71%;"></div>
+                            </div>
                         <div class="row">
                             <div class="col-sm-5">
                                 <label class="control-label col-sm-12" for="name">Company:</label>
@@ -4794,7 +4842,6 @@ background-size: 8%;'></div>
                             </div>
                         </div>
 
-
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="form-group col-sm-12">
@@ -4816,16 +4863,99 @@ background-size: 8%;'></div>
                                 <div class="form-group">
                                     <label class="control-label col-sm-12" for="name">Owner:</label></div>
                             </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="owne" placeholder="" name="owner" style="height:71%;">
+                               </div>
+                               <div class="col-sm-1" style="right:19px;">
+                          <a data-toggle="modal" href="#leadownermodal" data-dismiss="modal" > 
+                              <i class="fa fa-share"></i></a>
+                               </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group col-sm-12"></div>
+                                    <label>Account Information</label></div>
+                            </div>
+                            
+                        <hr style="top: -10px;
+                        position: relative;">
+                       
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group col-sm-12">
+                                    <label for="sel1">City</label></div>
+                            </div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="owne" placeholder="" name="owner" style="height:71%;"></div>
+                                <input type="text" id="city" class="form-control form-group" name="city">
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group col-sm-12">
+                                    <label for="sel1">Country</label></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <select class="form-control" id="country" name="category">
+                                    <option>India</option>
+                                    <option>US</option>
+                                    <option>UK</option>
+                                    <option>AUS</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group col-sm-12">
+                                    <label for="sel1">State</label></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <select class="form-control" id="state" name="category">
+                                    <option>AndhraPradesh</option>
+                                    <option>Telangana</option>
+                                    <option>Tamilnaidu</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group col-sm-12"></div>
+                                    <label>Contact Information</label></div>
+                            </div>
+                            
+                        <hr style="top: -10px;
+                        position: relative;">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label col-sm-12" for="name">Phone:</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control form-group" id="phone" name="phonee" style="height:71%;"></div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label col-sm-12" for="name">Mobile:</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control form-group" id="mobile" name="mobile" style="height:71%;"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label col-sm-12" for="name">E-mail:</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control form-group" id="email" name="email" style="height:71%;"></div>
                         </div>
 
 
 
                 </div>
+
                 </form>
-
-
 
             </div>
 
@@ -4834,6 +4964,78 @@ background-size: 8%;'></div>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
+        
+
+
+        <div class="modal fade" id="leadownermodal" style="top:24%;height:358px;">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+        
+                        <!-- Modal Header -->
+                        <div class="modal-header"
+                            style="padding-left: 0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;">
+        
+                            <b class="modal-title" style="font-size:15px;margin-left:9px;">New Lead :</b>
+        
+                            <button type="button" class="close" data-dismiss="modal" data-backdrop="static" data-keyboard="false"   onclick="clearFormLead()">&times;</button>
+                        </div>
+        
+                        <!-- Modal body -->
+                        <div class="modal-body" id="size">
+        
+                            <div class="row">
+                                <div class="col-sm-1">
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Tittle:</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <p id="leadid" style="display:none;"></p>
+                                    <input type="text" class="form-control form-group" id="tit" disabled>
+                                </div>
+        
+                                <div class="col-sm-2">
+                                    <label style="width: 113px;">Qualification Level:</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="strike" id="qual" name="quali"
+                                        style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
+                                        <option>Cold</option>
+                                        <option>Hot</option>
+                                        <option>Warm</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-1"> </div>
+                            </div>                
+                        </div>
+        
+        
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+             <button type="submit" class="btn btn-primary" id="saveleadowner" data-dismiss="modal" >Save</button>
+            <button type="button" class="btn btn-primary" id="cancelleadowner" data-dismiss="modal">Cancel</button>
+           
+            
+                             
+                            
+                             
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
         <div id="oppModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
             style="height: auto; padding-right: 0px  ! important;">
             <form method="post">
@@ -5021,9 +5223,6 @@ background-size: 8%;'></div>
 
                     </div>
 
-
-
-
                 </div>
 
                 <div class="modal-footer">
@@ -5161,9 +5360,7 @@ background-size: 8%;'></div>
                                                      </div>
                                                       <div class="col-sm-2"></div>
                                                      </div>
-                                                     
-                                                     
-                                                     
+
                                                       <div class="row">
                                                     <div class="col-sm-1"></div>
                                                         <div class="col-sm-3">Fax:</div>
@@ -5195,10 +5392,6 @@ background-size: 8%;'></div>
                                                      </div>
                                                      <div class="col-sm-2"></div>
                                                      </div>
-                                                     
-                                                     
-    
-    
                         </div>
     
                         <div class="modal-footer">
@@ -5206,26 +5399,9 @@ background-size: 8%;'></div>
                             <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
-                </form>
-    
-            <!--<div class="modal-footer">
-        <img class="spinnerholder" style="display: none; margin-right: 20px;" src="/img/spinner.gif">
-        <button class="btn" data-dismiss="modal" aria-hidden="true" id="btnCancel">Cancel</button>
-        <button class="btn" id="btn-previous" style="display: none;">Previous</button>
-        <button class="btn" id="btnSaveAndNew" style="display: none;">Save &amp; New</button>
-        <button class="btn btn-primary" id="btn-save-and-return" style="display: none;">Save &amp; Return</button>
-        <button class="btn btn-primary" id="btn-save">Save</button>
-    </div>-->
+                </form> 
         </div>
     </div>
-    <!--<div class="modal-footer">
-    <img class="spinnerholder" style="display: none; margin-right: 20px;" src="/img/spinner.gif">
-    <button class="btn" data-dismiss="modal" aria-hidden="true" id="btnCancel">Cancel</button>
-    <button class="btn" id="btn-previous" style="display: none;">Previous</button>
-    <button class="btn" id="btnSaveAndNew" style="display: none;">Save &amp; New</button>
-    <button class="btn btn-primary" id="btn-save-and-return" style="display: none;">Save &amp; Return</button>
-    <button class="btn btn-primary" id="btn-save">Save</button>
-</div>-->
     </div>
     </div>
     <div id="modal-details">
@@ -5244,12 +5420,6 @@ background-size: 8%;'></div>
         <span id="alertContent"></span>
     </div>
     <div id="driveOverlay" style="display:none;"></div>
-
-
-
-
-
-
 
 </body>
 
