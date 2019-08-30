@@ -1684,8 +1684,10 @@ clearFormBusiness();
                                 } 
                                 
                             tableData = tableData + "  <tr> " +
-                               
-                                "<td>" + "<a>" + result[0][i].TITLE + "</a>" + "</td>" +
+                                //"<td hidden>" + result[0][i].LEADID+ "</td>" + 
+                                "<td >" + "<a href='#editleadmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[0][i].TITLE + "</a>" + "</td>" +
+                                //"<td onclick='recorddisplaylead(" + result[i]. + ")'>" + "<a href='#editleadmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[i].title + "</a>" + "</td>" +
+
                                 "<td >" + result[0][i].ContactFirstName + "</td>" +
                                 "<td >" + result[0][i].ContactLastName + "</td>" +
                                 "<td >" + result[0][i].Account + "</td>" +      
@@ -1965,13 +1967,14 @@ clearFormBusiness();
                   function opportunityLoad() {
 
                                 var tableData = "";
-
+                                $("#loading").css('display','block'); 
                                 var url = "https://localhost:9090/opportunity";
 
                                 $.ajax({
                                     url: url,
                                     type: "GET",
                                     success: function (result) {
+                                        $("#loading").css('display','none'); 
                                         $("#opportunityid").text(result[0].length);
                                         for (var i = 0; i < result[0].length; i++) {
                                             if (result[0][i].SOURCEC4COPPORTUNITYCODE == null || result[0][i].SOURCEC4COPPORTUNITYCODE == 0) {
@@ -2432,6 +2435,8 @@ z-index: 9999;
 background: url(./images/loading.gif) 50% 50% no-repeat rgb(249,249,249);
 opacity: .8;
 background-size: 8%;'></div> 
+<div id='loading' style='display: none;position: fixed;left: 0px;top: 0px;width: 100%;height: 100%;z-index: 9999;background: url(./images/loading.gif) 50% 50% no-repeat rgb(249,249,249);opacity: .8;
+background-size: 8%;'></div>
         <header id="header" style='background:rgb(51, 122, 183)'>
 
             <h1 class="logo ">
@@ -4004,126 +4009,106 @@ background-size: 8%;'></div>
                                           <h4 class="modal-title" id="overviewhead" style="display: none">Overview: </h4>
                                           <button type="button" id="oppexit" class="close" data-dismiss="modal" >&times;</button>
                                         </div>
-                                         
-                                        <!-- Modal body -->
-                        
-                                        <div class="modal-body" style="font-size:12px">
-                                              
-                                            <div class="form-group row">
-                                               <div class="col-sm-1"></div>
-                                               <div class="col-sm-2"><label style="width:108px"> Name :</label></div>
-                                               <div class="col-sm-3">
-                                                    <p id="oid" style="display:none;"></p> 
-                                               <input type="text" class="form-control form-control-sm" id="name" placeholder="" style="height: 24px;" disabled>
-                                               </div>
-                                               <div class="col-sm-2">Account :</div>
-                                               <div class="col-sm-3">
-                                               <input type="text" class="form-control form-control-sm" id="account" placeholder="" style=" height: 24px;" disabled>
-                                               </div>
-                                               <div class="col-sm-1"></div> 
+                    
+                                        <div class="form-group row">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-2"><label style="width:108px"> Primary Contact:</label></div>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control form-control-sm" id="primarycontact" placeholder=""
+                                                    style=" height: 22px;width:157px; " disabled>
                                             </div>
-                                            
-                                            <div class="form-group row">
-                                               <div class="col-sm-1"></div>
-                                               <div class="col-sm-2"><label style="width:108px"> Primary Contact:</label></div>
-                                               <div class="col-sm-3">
-                                               <input type="text" class="form-control form-control-sm" id="primarycontact" placeholder="" style=" height: 22px;width:157px; " disabled>
-                                               </div>
-                                               <div class="col-sm-2"><label style="width:108px"> Source :</label></div>
-                                               <div class="col-sm-3">
+                                            <div class="col-sm-2"><label style="width:108px"> Source :</label></div>
+                                            <div class="col-sm-3">
                                                 <select class="strike" id="sourceedit" style="height:27px;width:157px;" disabled>
-                                                    
+                    
                                                 </select>
-                                               </div>
-                                               <div class="col-sm-1"></div> 
-                                            </div> 
-                                            
-                                             <div class="form-group row">
-                                               <div class="col-sm-1"></div>
-                                               <div class="col-sm-2"><label style="width:108px">Expected Value:</label></div>
-                                               <div class="col-sm-1">
-                                               <input type="text" class="form-control form-control-sm" id="exceptedvalue" placeholder="" style="height: 24px;width: 57px;"  disabled>
-                                               </div>
-                                                 <div class="col-sm-2">
-                                                 <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
-                                                        <option>AUD</option>
-                                                        <option>EUR</option>
-                                                        <option>GBP</option>
-                                                        <option>INR</option>
-                                                        <option>USD</option>
-                                                        <option>YEN</option>
-                                                   
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                    
+                                        <div class="form-group row">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-2"><label style="width:108px">Expected Value:</label></div>
+                                            <div class="col-sm-1">
+                                                <input type="text" class="form-control form-control-sm" id="exceptedvalue" placeholder=""
+                                                    style="height: 24px;width: 57px;" disabled>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
+                                                    <option>AUD</option>
+                                                    <option>EUR</option>
+                                                    <option>GBP</option>
+                                                    <option>INR</option>
+                                                    <option>USD</option>
+                                                    <option>YEN</option>
+                    
                                                 </select>
-                                                </div>
-                                               <div class="col-sm-2"><label style="width:108px"> Start Date :</label></div>
-                                               <div class="col-sm-3">
-                                               <input type="date" id="StartDate" class="form-control" style="width:100%; height:64%; padding:2px 0px;" name="StartDate" disabled></div>
-                                               <div class="col-sm-1"></div> 
-                                            </div> 
-                                            
-                                            <div class="form-group row">
-                                               <div class="col-sm-1"></div> 
-                                               <div class="col-sm-2">Closing Date :</div>
-                                               <div class="col-sm-3">
-                                               <input type="date" id="closingdate" class="form-control" style="width:100%; height:71%; padding:0px 0px;" name="StartDate" disabled></div>
-                                                 <div class="col-sm-2"><label style="width:108px"> Sales cycle :</label></div>
-                                                 <div class="col-sm-3">
+                                            </div>
+                                            <div class="col-sm-2"><label style="width:108px"> Start Date :</label></div>
+                                            <div class="col-sm-3">
+                                                <input type="date" id="StartDate" class="form-control"
+                                                    style="width:100%; height:64%; padding:2px 0px;" name="StartDate" disabled></div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                    
+                                        <div class="form-group row">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-2">Closing Date :</div>
+                                            <div class="col-sm-3">
+                                                <input type="date" id="closingdate" class="form-control"
+                                                    style="width:100%; height:71%; padding:0px 0px;" name="StartDate" disabled></div>
+                                            <div class="col-sm-2"><label style="width:108px"> Sales cycle :</label></div>
+                                            <div class="col-sm-3">
                                                 <select class="strike" id="salescycle" style="height:26px;width:158px;" disabled>
-                                                        <option>New Business</option>
-                                                        <option>Repeat Business</option>
+                                                    <option>New Business</option>
+                                                    <option>Repeat Business</option>
                                                 </select>
-                                               </div>
-                                               <div class="col-sm-1"></div> 
                                             </div>
-                                            <div class="form-group row">
-                                               <div class="col-sm-1"></div> 
-                                                 <div class="col-sm-2"><label style="width:108px"> Sales phase :</label></div>
-                                                 <div class="col-sm-3">
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-2"><label style="width:108px"> Sales phase :</label></div>
+                                            <div class="col-sm-3">
                                                 <select class="strike" id="salesphase" style="height:27px;width:159px;" disabled>
-                                                       
+                    
                                                 </select>
-                                                  </div>
-                                                  <div class="col-sm-2">Probability :</div>
-                                                  <div class="col-sm-3">
-                                                  <input type="text" class="form-control form-control-sm" id="probability" placeholder="" style=" height: 25px;"disabled>
-                                                  </div>
-                                               <div class="col-sm-1"></div> 
                                             </div>
-                                            <div class="form-group row">
-                                               <div class="col-sm-1"></div>
-                                               <div class="col-sm-2"><label style="width:108px;"> Publish to Forecast :</label></div>
-                                               <div class="col-sm-3">
-                                               <input type="checkbox" id="publishtoforecast" name="publishtoforecast" checked style="width:17px;height:12px;" disabled>
-                                               </div>
-                                               <div class="col-sm-2">Forecast category :</div>
-                                               <div class="col-sm-3">
-                                               <input type="text" class="form-control form-control-sm" id="forecastcategory" placeholder="" style="    height: 27px;" disabled>
-                                               </div>
-                                               <div class="col-sm-1"></div> 
+                                            <div class="col-sm-2">Probability :</div>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control form-control-sm" id="probability" placeholder=""
+                                                    style=" height: 25px;" disabled>
                                             </div>
-                                             <div class="form-group row">
-                                               <div class="col-sm-1"></div> 
-                                                 <div class="col-sm-2"><label style="width:108px"> Category :</label></div>
-                                                 <div class="col-sm-3">
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-2"><label style="width:108px;"> Publish to Forecast :</label></div>
+                                            <div class="col-sm-3">
+                                                <input type="checkbox" id="publishtoforecast" name="publishtoforecast" checked
+                                                    style="width:17px;height:12px;" disabled>
+                                            </div>
+                                            <div class="col-sm-2">Forecast category :</div>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control form-control-sm" id="forecastcategory" placeholder=""
+                                                    style="    height: 27px;" disabled>
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-2"><label style="width:108px"> Category :</label></div>
+                                            <div class="col-sm-3">
                                                 <select class="strike" id="category" style="height:25px;width:159px;" disabled>
-                                                    
+                    
                                                 </select>
-                                                  </div>
-                                                  <div class="col-sm-2">Owner :</div>
-                                                  <div class="col-sm-3">
-                                                  <input type="text" class="form-control form-control-sm" id="owneropportunity" placeholder="" style="height: 27px;" disabled>
-                                                  </div>
-                                               <div class="col-sm-1"></div> 
                                             </div>
-                                             <div class="form-group row">
-                                               <div class="col-sm-1"></div>
-                                               <div class="col-sm-2"><label style="width:108px"> Note :</label></div>
-                                               <div class="col-sm-3">
-                                               <textarea rows="3" cols="22" id="note" class="form-control" style="width:100%" name="Note"></textarea> </div>
-                                               
-                                               <div class="col-sm-1"></div> 
+                                            <div class="col-sm-2">Owner :</div>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control form-control-sm" id="owneropportunity" placeholder=""
+                                                    style="height: 27px;" disabled>
                                             </div>
-                                       
+                                            <div class="col-sm-1"></div>
                                         </div>
                                       
                                             <!--Sales Team Table-->
@@ -4188,25 +4173,31 @@ background-size: 8%;'></div>
                                          <div class="dropup">
                                                 <button class="btn btn-primary dropdown-toggle" type="button" id="actionsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Actions
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="actionsdropdown" style="position: fixed; transform: translate3d(-35px, -99px, 0px);top: -28px; left: -30px; will-change: transform;height: 130px;">
-                                                        <a class="dropdown-item"  id="Salesdropdown" href="#" style="font-size: 12px;" >Sales Team</a>
-                                                        <a class="dropdown-item"  id="Revenuedropdown" href="#" style="font-size: 12px;">Revenue Split</a>
-                                                        <a class="dropdown-item"  id="Overviewdropdown" href="#" style="font-size: 12px;">Overview</a>
-                                                        <a class="dropdown-item"  id="leadtoopportunity" href="#" style="font-size: 12px;">Lead to Opportunity</a>
-
-                                                </div>
-                                                </div>
-
-
-                                         <button type="submit" class="btn btn-primary" data-dismiss="modal" id="saveopp" onclick="updateopportunityrecord()" hidden >Save</button>   
-                                         <button type="button" class="btn btn-primary" data-dismiss="modal"  id="cancelopp"  onclick="clearFormopportunity()" hidden >Cancel</button>   
-                                          </div>
-                                          
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="actionsdropdown"
+                                                style="position: fixed; transform: translate3d(-35px, -99px, 0px);top: -28px; left: -30px; will-change: transform;height: 130px;">
+                                                <a class="dropdown-item" id="Salesdropdown" href="#" style="font-size: 12px;">Sales Team</a>
+                                                <a class="dropdown-item" id="Revenuedropdown" href="#" style="font-size: 12px;">Revenue
+                                                    Split</a>
+                                                <a class="dropdown-item" id="Overviewdropdown" href="#"
+                                                    style="font-size: 12px;">Overview</a>
+                                                <a class="dropdown-item" id="leadtoopportunity" href="#" style="font-size: 12px;">Lead to
+                                                    Opportunity</a>
+                    
+                                            </div>
                                         </div>
-                                        
-                                      </div>
+                    
+                    
+                                        <button type="submit" class="btn btn-primary" data-dismiss="modal" id="saveopp"
+                                            onclick="updateopportunityrecord()" hidden>Save</button>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancelopp"
+                                            onclick="clearFormopportunity()" hidden>Cancel</button>
                                     </div>
+                    
+                                </div>
+                    
+                            </div>
+                        </div>
 
                                     
                     <div id="main-content" class="contact">
@@ -5060,7 +5051,85 @@ background-size: 8%;'></div>
                                 <input type="text" class="form-control form-control-sm" id="Owneropp"
                                     placeholder="" name="Owner" style="height: 71%;">
                             </div>
-                            <div class="col-sm-1"></div>
+                            <div class="col-sm-1"><a href="#oppgifmodal" data-toggle="modal"><span class="fa fa-share" ></span> </a> 
+                          
+                           
+                                <div id="oppgifmodal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
+                                style="height: auto; padding-right: 0px  ! important; top: 286px;">
+                            
+                                <div class="modal-content" style="top:auto;">
+                            
+                                    <div class="modal-header" style="border-bottom: 1px solid rgb(80, 97, 181);background-color: rgb(189, 179, 179); color: rgb(255, 255, 255);padding: 5px;">
+                            
+                                        <!-- Modal Header -->
+                            
+                                        <h6 class="modal-title" style="font-size: 16px;">Select Owner</h6>
+                                        <button type="button" class="close" data-dismiss="modal" style="color:black; margin-right: 2px;border-radius: 1px;">×</button>
+                                    </div>
+                            
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                            
+                                        <br>
+                            
+                                        <div class="row">
+                            
+                                            <div class="col-sm-3">
+                            
+                                                
+                            
+                                            </div>
+                            
+                                            <div class="col-sm-5"></div>
+                            
+                                            <div class="col-sm-3">
+                            
+                                                <input class="form-control" type="text" id="mySearch" placeholder="Search"
+                                                    style="left: 32%; position: relative;     border-radius: 5px;height: 22px;">
+                            
+                                            </div>
+                            
+                                            <div class="col-sm-1">
+                            
+                                                <i class="fa fa-refresh" style=" color:black; left: 100%; position: relative;"></i>
+                            
+                                            </div>
+                            
+                                        </div>
+                            
+                                        <table class="table table-bordered" >
+                                                <thead >
+                                                      <tr>
+                                                        <th style="background-color: rgb(51, 122, 183); position: relative; top: 0px; color: rgb(255, 255, 255)";>Name</th>
+                                                      </tr>
+                                                </thead>
+                                                <tbody>
+                                                  <tr>
+                                                    <td>John</td>
+                                                  </tr>
+                                                  <tr>
+                                                  <td>Rahul</td>	
+                                                  </tr>
+                                                  <tr>
+                                                  <td>Raj</td>	
+                                                  </tr>
+                                                  
+                                                </tbody>
+                                            </table>
+                                        
+                                    </div>
+                            
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                            style=" background-color: #0F70A2; color:white; ">Cancel</button>
+                                    </div>
+                            
+                                </div>
+                            
+                            </div>
+                           
+                            </div>
                         </div>
 
                         <div class="form-group row">
