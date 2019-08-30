@@ -191,22 +191,32 @@
     </script>
 
 <script>
-        function myFunction() {
-          /* if( $("#myCheck").attr('checked','true')){
-                $("#ownaccount").css('display','block')
-            }
-            else{
-               $("#ownaccount").css('display','block') 
-            }
-        }*/
-          var checkBox = document.getElementById("myCheck");
-          var text = document.getElementById("ownaccount");
-          if (checkBox.checked == true){
-            text.style.display = "block";
-          } else {
-             text.style.display = "none";
-          }
-        };
+       function myFunction() {
+
+var checkBox = document.getElementById("myCheck");
+var textacc = document.getElementById("ownaccount");
+var inputtxtacc = document.getElementById("ownaccount1");
+var textcont = document.getElementById("owncontact");
+var textshare = document.getElementById("ownshare");
+var textshare1 = document.getElementById("ownshare1");
+var inputtxtcont = document.getElementById("owncontact1");
+if (checkBox.checked == true){
+textacc.style.display = "block";
+inputtxtacc.style.display = "block";
+textcont.style.display = "block";
+inputtxtcont.style.display = "block";
+textshare.style.display = "block";
+textshare1.style.display = "block";
+} else {
+textacc.style.display = "none";
+inputtxtacc.style.display = "none";
+textcont.style.display = "none";
+inputtxtcont.style.display = "none";
+textshare.style.display = "none";
+textshare1.style.display = "none";
+}
+
+};  
         </script>
         
 
@@ -2788,7 +2798,7 @@ background-size: 8%;'></div>
             </ul>
         </div>
 
-        <div class="tab-content">
+    <div class="tab-content">
             <div id="contactTab" class="tab tab-pane ">
                 <div id="main" class=>
 
@@ -4742,7 +4752,7 @@ background-size: 8%;'></div>
                                         <label class="control-label col-sm-12" for="name">Use Existing Account :</label>
                                     </div>
                                     <div class="col-sm-7">
-                                        <input type="checkbox" class="form-control form-group" id="myCheck" name="title" style="height:71%;" onclick="myFunction();"></div>
+                         <input type="checkbox" class="form-control form-group" id="myCheck" name="title" style="height:71%;" onclick="myFunction();"></div>
                                     </div>
                             
                         <div class="row">
@@ -4752,12 +4762,28 @@ background-size: 8%;'></div>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control form-group" id="title" name="title" style="height:71%;"></div>
                         </div>
-                        <div class="row" id="ownaccount" >
-                                <div class="col-sm-5" style="display:block">
+                        <div class="row" >
+                                <div class="col-sm-5" id="ownaccount" style="display:none" >
                                     <label class="control-label col-sm-12" for="name">Account:</label>
                                 </div>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control form-group" id="title" name="title" style="height:71%;"></div>
+                                <div class="col-sm-6" id="ownaccount1" style="display:none" >
+                                    <input type="text" class="form-control form-group" id="ownacc" name="title" style="height:71%;">
+                                </div>
+                    <div class="col-sm-1" style="right:19px;" >
+                                    <a data-toggle="modal" href="#" data-dismiss="modal"id="ownshare" style="display:none" > 
+                                        <i class="fa fa-share"></i></a>
+                                         </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-sm-5" id="owncontact" style="display:none" >
+                                    <label class="control-label col-sm-12" for="name">Contact:</label>
+                                </div>
+                                <div class="col-sm-6" id="owncontact1" style="display:none" >
+                                <input type="text" class="form-control form-group" id="owncont" name="title" style="height:71%;"></div>
+                                <div class="col-sm-1" style="right:19px;" >
+                                    <a data-toggle="modal" href="#" data-dismiss="modal"id="ownshare1" style="display:none" > 
+                                        <i class="fa fa-share"></i></a>
+                                         </div>
                             </div>
                         <div class="row">
                             <div class="col-sm-5">
@@ -4866,7 +4892,7 @@ background-size: 8%;'></div>
                                 <input type="text" class="form-control" id="owne" placeholder="" name="owner" style="height:71%;">
                                </div>
                                <div class="col-sm-1" style="right:19px;">
-                          <a data-toggle="modal" href="#leadownermodal" data-dismiss="modal" > 
+                          <a data-toggle="modal" href="#leadownermodal"  > 
                               <i class="fa fa-share"></i></a>
                                </div>
                         </div>
@@ -4966,66 +4992,67 @@ background-size: 8%;'></div>
         
 
 
-        <div class="modal fade" id="leadownermodal" style="top:24%;height:358px;">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-        
-                        <!-- Modal Header -->
-                        <div class="modal-header"
-                            style="padding-left: 0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;">
-        
-                            <b class="modal-title" style="font-size:15px;margin-left:9px;">New Lead :</b>
-        
-                            <button type="button" class="close" data-dismiss="modal" data-backdrop="static" data-keyboard="false"   onclick="clearFormLead()">&times;</button>
-                        </div>
-        
-                        <!-- Modal body -->
-                        <div class="modal-body" id="size">
-        
-                            <div class="row">
-                                <div class="col-sm-1">
-                                </div>
-                                <div class="col-sm-2">
-                                    <label>Tittle:</label>
-                                </div>
-                                <div class="col-sm-3">
-                                    <p id="leadid" style="display:none;"></p>
-                                    <input type="text" class="form-control form-group" id="tit" disabled>
-                                </div>
-        
-                                <div class="col-sm-2">
-                                    <label style="width: 113px;">Qualification Level:</label>
-                                </div>
-                                <div class="col-sm-3">
-                                    <select class="strike" id="qual" name="quali"
-                                        style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                        <option>Cold</option>
-                                        <option>Hot</option>
-                                        <option>Warm</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-1"> </div>
-                            </div>                
-                        </div>
-        
-        
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-             <button type="submit" class="btn btn-primary" id="saveleadowner" data-dismiss="modal" >Save</button>
-            <button type="button" class="btn btn-primary" id="cancelleadowner" data-dismiss="modal">Cancel</button>
-           
-            
-                             
-                            
-                             
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div id="leadownermodal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
+                                        style="height: auto; padding-right: 0px  ! important; top: 146px;">
+                                                        
+                                            <div class="modal-content">
+                                                                
+                                                 <div class="modal-header" style="background-color: #495057ab; color:white;">
+                                                          
+                                                            <!-- Modal Header -->
+                                                        
+                                                        <h6 class="modal-title">Accounts</h6>
+                                                        <button type="button" class="close" data-dismiss="modal" style="color:white; opacity:1.5;" >×</button>
+                                                    </div>
+                                                            
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body" >
+                                                            
+                                                    <br>
 
+                                                    <div class="row">
 
+                                                        <div class="col-sm-3">            
+                                                            </div>
 
+                                                            <div class="col-sm-5"></div>
+
+                                                                <div class="col-sm-3">
+
+                                                                    <input class="form-control" type="text" id="mySearch" placeholder="Search" style="left: 32%; position: relative;">
+
+                                                                </div>
+
+                                                            <div class="col-sm-1">
+
+                                                                <i class="fa fa-refresh"  style=" color:black; left: 100%; position: relative;"></i>
+
+                                                            </div>
+
+                                                            </div>
+                                                            
+                                                              <table class="table table-responsive">
+                                                        
+                                                      <thead style="background-color: #0F70A2; color:white;">
+                                                          <tr>
+                                                             <th>Name</th>
+                                                        
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                         
+                                                        </tbody>
+                                                      </table>
+                                                            </div>
+                                                            
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                             <button type="button" class="btn btn-primary" data-dismiss="modal" style=" background-color: #0F70A2; color:white; " >Cancel</button>
+                                                            </div>
+                                                            
+                                                          </div>
+                                                        
+                                                      </div>
 
 
 
