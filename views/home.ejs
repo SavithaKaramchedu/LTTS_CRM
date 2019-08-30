@@ -4438,7 +4438,7 @@ background-size: 8%;'></div>
     
                                 <div class="col-lg-6"><input type="text" class="form-control" name="paacc"
                                         id="parentAccount" style="height:25px;width:95%;"></div>
-                                <div class="col-lg-1" style="margin-left: -31px;"><span class="fa fa-share"></span></div>
+                                <div class="col-lg-1" style="margin-left: -31px;"><a href="#parrentaccModal" data-toggle="modal"><span class="fa fa-share"></span></a></div>
     
                             </div>
                             <div class="row">
@@ -4556,7 +4556,7 @@ background-size: 8%;'></div>
                                 </div>
                                 <div class="col-lg-6"><input type="text" class="form-control "
                                         style="height:25px;width:95%;" name="owner" id="accountOwner"></div>
-                                <div class="col-lg-1" style="margin-left: -31px;"><span class="fa fa-share"></span></div>
+                                <div class="col-lg-1" style="margin-left: -31px;"><a href="#owneraccModal" data-toggle="modal"><span class="fa fa-share"></span></a></div>
                             </div>
     
                           </div>
@@ -4569,6 +4569,160 @@ background-size: 8%;'></div>
                 </form>
     
         </div>
+        <div id="parrentaccModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
+        style="height: auto; padding-right: 0px  ! important; top: 146px;">
+                        
+            <div class="modal-content">
+                                
+                 <div class="modal-header" style="background-color: #495057ab; color:white;">
+                          
+                            <!-- Modal Header -->
+                        
+                        <h6 class="modal-title">Accounts</h6>
+                        <button type="button" class="close" data-dismiss="modal" style="color:white; opacity:1.5;" >×</button>
+                    </div>
+                            
+                    <!-- Modal body -->
+                    <div class="modal-body" >
+                            
+                    <br>
+
+                    <div class="row">
+
+                        <div class="col-sm-3">
+
+                            <select class="form-control" name="function1" id="function1" style="height: 71%;">
+                                               
+                                <option selected>All</option>
+                                              
+                                <option>All Child Account</option>
+                                                  
+                                <option>My Accounts</option>
+                                                  
+                                <option>My-Team's Accounts</option>
+                                                    
+                                <option>All My Accounts</option>  
+                                        
+                            </select>
+                                        
+                            </div>
+
+                            <div class="col-sm-5"></div>
+
+                                <div class="col-sm-3">
+
+                                    <input class="form-control" type="text" id="mySearch" placeholder="Search" style="left: 32%; position: relative;">
+
+                                </div>
+
+                            <div class="col-sm-1">
+
+                                <i class="fa fa-refresh"  style=" color:black; left: 100%; position: relative;"></i>
+
+                            </div>
+
+                            </div>
+                            
+                            <div style="overflow: auto;">
+                                    <table class="table table-bordered"  style="border: 1px solid rgb(255, 255, 255);">
+                                            <thead style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: 0px;">
+                                            <tr>
+                                                
+                                                
+                                                
+                                                <th>Old c4c Account ID</th>
+                                                <th>Account ID</th>
+                                                <th>Account Name</th>
+                                                
+                                            </tr>
+                                            </thead>
+                                    
+                                        <tbody>
+                            
+                                        </tbody>
+                                    </table>
+                            
+                                </div>
+                            </div>
+                            
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                             <button type="button" class="btn btn-primary" data-dismiss="modal" style=" background-color: #0F70A2; color:white; " >Cancel</button>
+                            </div>
+                            
+                          </div>
+                        
+                      </div>
+                      <div id="owneraccModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
+        style="height: auto; padding-right: 0px  ! important; top: 146px;">
+                        
+            <div class="modal-content">
+                                
+                 <div class="modal-header" style="background-color: #495057ab; color:white;">
+                          
+                            <!-- Modal Header -->
+                        
+                        <h6 class="modal-title">Select Owner</h6>
+                        <button type="button" class="close" data-dismiss="modal" style="color:white; opacity:1.5;" >×</button>
+                    </div>
+                            
+                    <!-- Modal body -->
+                    <div class="modal-body" >
+                            
+                    <br>
+
+                    <div class="row">
+
+                        <div class="col-sm-3">
+
+                                                                                                    
+                            </div>
+
+                            <div class="col-sm-5"></div>
+
+                                <div class="col-sm-3">
+
+                                    <input class="form-control" type="text" id="mySearch" placeholder="Search" style="left: 32%; position: relative;">
+
+                                </div>
+
+                            <div class="col-sm-1">
+
+                                <i class="fa fa-refresh"  style=" color:black; left: 100%; position: relative;"></i>
+
+                            </div>
+
+                            </div>
+                            <div style="overflow: auto;">
+                            <table class="table table-bordered"  style="border: 1px solid rgb(255, 255, 255);">
+                                    <thead>
+                                    <tr>
+                                        
+                                        
+                                        
+                                        <th style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: 0px;">Name</th>
+                                        
+                                        
+                                    </tr>
+                                    </thead>
+                            
+                             <tbody>
+                                
+                        </tbody>
+                      </table>
+                    </div>
+                            </div>
+                            
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                             <button type="button" class="btn btn-primary" data-dismiss="modal" style=" background-color: #0F70A2; color:white; " >Cancel</button>
+                            </div>
+                            
+                          </div>
+                        
+                      </div>
+
+
         <div id="leadModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
             style="height: auto; padding-right: 0px  ! important;">
             <div class="modal-content">
