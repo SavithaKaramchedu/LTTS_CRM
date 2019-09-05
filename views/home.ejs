@@ -180,7 +180,7 @@
                 $('#overviewhead').css('display', 'none');
             });
             $('#leadtoopportunity').click(function () {
-                $('#Editopp').css('display', 'none');
+                $('#Editopp').css('display', 'block');
                 $('#btn-business').css('display', 'none');
                 $('#btn-sales').css('display', 'none');
                 $('.modal-body').css('display', 'block ');
@@ -1182,6 +1182,7 @@ chart3.render();  }
            
        
         function ownerAccountDisplay() {
+           console.log('entred');
             var tableData = "";
             var url = "https://localhost:9090/owneracc" ;
         
@@ -1189,7 +1190,7 @@ chart3.render();  }
                 url: url,
                 type: "GET",
                 success: function (result) {
-                   
+                    console.log(result);
                     for (var i = 0; i < result[0].length; i++) {
                       
                         if (result[0][i].Name == null || result[0][i].Name == 0){
@@ -1202,6 +1203,8 @@ chart3.render();  }
                         "</tr>";
                     }
                         $("#ownerAccountTable").html(tableData);
+                        $("#owneropportunityTable").html(tableData);
+                      
              }
             
             });
@@ -1751,7 +1754,9 @@ clearFormBusiness();
                 $.ajax({
                     url: url,
                     type: "GET",
+
                     success: function (result) {
+                        console.log(result[0]);
                         $("#leadloading").css('display','none');
 
                         $("#allleadscount").text(result[0].length);
@@ -2075,11 +2080,9 @@ clearFormBusiness();
                         }; 
 
                   function opportunityLoad() {
-
                                 var tableData = "";
                                 $("#loading").css('display','block'); 
                                 var url = "https://localhost:9090/opportunity";
-
                                 $.ajax({
                                     url: url,
                                     type: "GET",
@@ -2099,7 +2102,8 @@ clearFormBusiness();
                                             tableData = tableData + "  <tr> " +
                                                 "<td >" + result[0][i].OPPORTUNITYCODE + "</td>" +
                                                 "<td >" + result[0][i].SOURCEC4COPPORTUNITYCODE + "</td>" +
-                                                "<td >" + result[0][i].Name + "</td>" +
+                                                "<td >" + "<a href='#oModal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[0][i].Name + "</a>" + "</td>" +
+                                                //"<td + "<a href='#oModal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>"+ result[0][i].Name + "</a>"+"</td>" +
                                                 "<td >" + result[0][i].Account + "</td>" +
                                                 "<td >" + result[0][i].CloseDate + "</td>" +
                                                 "<td >" + result[0][i].SalesPhase + "</td>" +
@@ -2109,7 +2113,6 @@ clearFormBusiness();
                                                 "<td >" + result[0][i].REASONFORSTATUS + "</td>" +
                                                 "<td >" + result[0][i].ChangedOn + "</td>" +
                                                 "<td >" + result[0][i].ChangedBy + "</td>" +
-
                                                 "</tr>";
                                         }
 
@@ -2228,10 +2231,10 @@ clearFormBusiness();
                 for (var i = 0; i < result[0].length; i++) {
                    
                     sourcedata = sourcedata +
-                        '<option value="' + result[0][i].opportunitysource + '">' + result[0][i].opportunitysource + '</option>';
+                        '<option value="' + result[0][i].opportunitysourceid + '">' + result[0][i].opportunitysource + '</option>';
                 }
                 $("#Source").html(sourcedata);
-                $("#sourceedit").html(sourcedata); 
+               // $("#sourceedit").html(sourcedata); 
             }
         });
 
@@ -2244,13 +2247,14 @@ clearFormBusiness();
                 url: url,
                 type: "GET",
                 success: function (result) {
+                   // console.log(result[0])
                     for (var i = 0; i < result[0].length; i++) {
 
                         SalesCycledata = SalesCycledata +
-                            '<option value="' + result[0][i].SalesCycle + '">' + result[0][i].SalesCycle + '</option>';
+                            '<option value="' + result[0][i].SalesCycleID + '">' + result[0][i].SalesCycle + '</option>';
                     }
                     $("#SalesCycle").html(SalesCycledata);
-                    $("#salescycle").html(SalesCycledata);
+                   // $("#salescycle").html(SalesCycledata);
                 }
             });
 
@@ -2263,13 +2267,14 @@ clearFormBusiness();
                 url: url,
                 type: "GET",
                 success: function (result) {
+                   // console.log(result[0])
                     for (var i = 0; i < result[0].length; i++) {
 
                         Salesphasedata = Salesphasedata +
-                            '<option value="' + result[0][i].salesphase + '">' + result[0][i].salesphase + '</option>';
+                            '<option value="' + result[0][i].salesphaseid + '">' + result[0][i].salesphase + '</option>';
                     }
                     $("#Salesphase").html(Salesphasedata);
-                    $("#salesphase").html(Salesphasedata);
+                    //$("#salesphase").html(Salesphasedata);
                 }
             });
 
@@ -2283,14 +2288,14 @@ clearFormBusiness();
                 url: url,
                 type: "GET",
                 success: function (result) {
-                   
+                   // console.log(result[0])
                     for (var i = 0; i < result[0].length; i++) {
 
                         Categorydata = Categorydata +
-                            '<option value="' + result[0][i].OPPORTUNITYCATEGORY + '">' + result[0][i].OPPORTUNITYCATEGORY + '</option>';
+                            '<option value="' + result[0][i].OPPORTUNITYCATEGORYID + '">' + result[0][i].OPPORTUNITYCATEGORY + '</option>';
                     }
                     $("#Categoryoppo").html(Categorydata);
-                    $("#category").html(Categorydata);
+                    //$("#category").html(Categorydata);
 
                 }
             });
@@ -2312,6 +2317,9 @@ clearFormBusiness();
                 });
                 opportunityLoad();           
             }
+
+
+
     </script>
     <link href="https://d3rqem538l0q4a.cloudfront.net/bundles/styles/kendo.min.css?v=dd26f0f1f8de38f41959d397aff1d9c4"
         rel="stylesheet" type="text/css" />
@@ -3277,22 +3285,22 @@ background-size: 8%;'></div>
 
                             <div class="entity-list" id="entity-list">
 
-                                <table class="table table-respnosive"  >
+                                <table class="table table-respnosive table table-bordered"  >
 
-                                    <thead class="table" style="background-color:rgb(51, 122, 183); color: rgb(255, 255, 255);">
-                                        <tr style="font-weight:bold ; ">
-                                            <th scope="col">Name</th>                         
-                                            <th scope="col">Contact First Name</th>
-                                            <th scope="col">Contact Second Name</th>
-                                            <th scope="col">Company/Customer</th>
-                                            <th scope="col">Qualification Level</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Source</th>
-                                            <th scope="col">Priority</th>
-                                            <th scope="col">Start Date</th>
-                                            <th scope="col">End Date</th>
-                                            <th scope="col">Category</th>
-                                            <th scope="col">Owner</th>
+                                    <thead class="table" style="font-weight: bold;background-color: rgb(51, 122, 183);position: relative;top: 0px;color: rgb(255, 255, 255); white-space: nowrap;">
+                                        <tr >
+                                            <th scope="col" >Name</th>                         
+                                            <th scope="col" >Contact First Name</th>
+                                            <th scope="col" >Contact Second Name</th>
+                                            <th scope="col" >Company/Customer</th>
+                                            <th scope="col" >Qualification Level</th>
+                                            <th scope="col" >Status</th>
+                                            <th scope="col" >Source</th>
+                                            <th scope="col" >Priority</th>
+                                            <th scope="col" >Start Date</th>
+                                            <th scope="col" >End Date</th>
+                                            <th scope="col" >Category</th>
+                                            <th scope="col" >Owner</th>
                                         </tr>
                                     </thead>
                                     <tbody id="leadTable" >                           
@@ -3304,11 +3312,11 @@ background-size: 8%;'></div>
                                 
                                                 <!-- Modal Header -->
                                                 <div class="modal-header"
-                                                    style="padding-left: 0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;">
+                                                    style="background-color: rgb(51, 122, 183);position: relative; top: -20px;color: rgb(255, 255, 255);">
                                 
                                                     <b class="modal-title" style="font-size:15px;margin-left:9px;">New Lead :</b>
                                 
-                                                    <button type="button" class="close" data-dismiss="modal" data-backdrop="static" data-keyboard="false"   onclick="clearFormLead()">&times;</button>
+                                                    <button type="button" class="close" data-dismiss="modal" style="color: white; opacity:1;" data-backdrop="static" data-keyboard="false"   onclick="clearFormLead()">&times;</button>
                                                 </div>
                                 
                                                 <!-- Modal body -->
@@ -4036,321 +4044,347 @@ background-size: 8%;'></div>
                 </div>
 
             </div>
-           
+
             <div id="opportunityTab" class="tab tab-pane ">
-                <div id="main">
-
-
-                    <div id="main-container" class="list-view contact">
-                        <div id="content" class="">
-                            <header class="head-list">
-                                <div id="default_controls">
-                                   
-                                    <div class="pull-right right10">
-
+                    <div id="main">
+    
+    
+                        <div id="main-container" class="list-view contact">
+                            <div id="content" class="">
+                                <header class="head-list">
+                                    <div id="default_controls">
+                                       
                                         <div class="pull-right right10">
-                                            <div class="btn-group right10" id="tagActionDropdown"
-                                                style="display: none;">
-                                                <a class="btn dropdown-toggle" data-toggle="dropdown"
-                                                    title="Tag Actions">
-                                                    <i class="mdi mdi-tag mdi-19px"></i> <span class="caret"></span>
-                                                </a>
-                                                <ul class="dropdown-menu  pull-right">
-                                                    <li class="disabled"><a href="javascript:;" title="Tag Actions">Tag
-                                                            Actions</a></li>
-                                                    <li><a href="javascript:;" id="deleteTag" title="Delete This Tag"><i
-                                                                class="mdi mdi-18px  mdi-delete"></i> Delete This
-                                                            Tag</a></li>
-                                                    <li><a href="javascript:;" id="renameTag" title="Rename This Tag"><i
-                                                                class="mdi mdi-textbox mdi-18px"></i> Rename This
-                                                            Tag</a></li>
-                                                </ul>
+    
+                                            <div class="pull-right right10">
+                                                <div class="btn-group right10" id="tagActionDropdown"
+                                                    style="display: none;">
+                                                    <a class="btn dropdown-toggle" data-toggle="dropdown"
+                                                        title="Tag Actions">
+                                                        <i class="mdi mdi-tag mdi-19px"></i> <span class="caret"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu  pull-right">
+                                                        <li class="disabled"><a href="javascript:;" title="Tag Actions">Tag
+                                                                Actions</a></li>
+                                                        <li><a href="javascript:;" id="deleteTag" title="Delete This Tag"><i
+                                                                    class="mdi mdi-18px  mdi-delete"></i> Delete This
+                                                                Tag</a></li>
+                                                        <li><a href="javascript:;" id="renameTag" title="Rename This Tag"><i
+                                                                    class="mdi mdi-textbox mdi-18px"></i> Rename This
+                                                                Tag</a></li>
+                                                    </ul>
+                                                </div>
+    
+                                                <div class="btn-group" id="btnRefresh">
+                                                    <a class="btn" id="refreshList" title="Refresh List" onclick="opportunityLoad();"><i class="mdi mdi-refresh mdi-19px"></i></a>
+                                                        
+                                                </div>
+                                              
+                                                <div class="btn-group" id="btnControls">
+                                                    <a class="btn dropdown-toggle" data-toggle="dropdown"
+                                                        title="List View Controls"><i class="icon-cog"></i> <span
+                                                            class="caret"></span></a>
+                                                    <!--Menu items are set on demand via ins.buttonBar.js-->
+                                                </div>
+                                                <div class="btn-group" id="btnFilters">
+                                                    <a class="btn" id="toggleFilters" title="Show List View Filters"><i
+                                                            class="icon-filter"></i></a>
+                                                </div>
+    
+    
+                                                <div class="btn-group">
+                                                    <button id="toggleSidebar" type="button" class="btn"
+                                                        title="Show Sidebar"><i class="icon-indent-right"></i></button>
+                                                </div>
                                             </div>
-
-                                            <div class="btn-group" id="btnRefresh">
-                                                <a class="btn" id="refreshList" title="Refresh List" onclick="opportunityLoad();"><i class="mdi mdi-refresh mdi-19px"></i></a>
-                                                    
+    
+    
+    
+    
+                                        </div>
+    
+    
+    
+    
+                                        <div class="title">
+                                            <div class="btn-group">
+                                                <button id="btn-list-title" class="btn " title="">
+                                                    All Opportunities :
+                                                    (<span id=opportunityid> </span>)
+                                                </button>
+    
+                                            </div>
+                                        </div>
+    
+    
+    
+    
+                                    </div>
+    
+    
+    
+    
+                                </header>
+                            </div>
+                        <div id="main-content" class="contact" style="height: 476px; overflow: auto; ">
+                                <div class="modal fade" class="modal modal-fixed-footer" id="oModal" style="height:519px;top:10%;">
+                                        <div class="modal-dialog modal-lg">
+                                          <div class="modal-content">
+                                          
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                              <h4 class="modal-title" id="leadhead">Lead To Opportunity : </h4>
+                                              <h4 class="modal-title" id="saleshead" style="display: none" >Sales Team : </h4>
+                                              <h4 class="modal-title" id="revenuehead" style="display: none">Revenue Split : </h4>
+                                              <h4 class="modal-title" id="overviewhead" style="display: none">Overview: </h4>
+                                              <button type="button" id="oppexit" class="close" data-dismiss="modal" >&times;</button>
+                                            </div>
+                                             
+                                            <!-- Modal body -->
+                            
+                                            <div class="modal-body" style="font-size:12px">
+                                                  
+                                                <div class="form-group row">
+                                                   <div class="col-sm-1"></div>
+                                                   <div class="col-sm-2"><label style="width:108px"> Name :</label></div>
+                                                   <div class="col-sm-3">
+                                                        <p id="oid" style="display:none;"></p> 
+                                                   <input type="text" class="form-control form-control-sm" id="name" placeholder="" style="height: 24px;" disabled>
+                                                   </div>
+                                                   <div class="col-sm-2">Account :</div>
+                                                   <div class="col-sm-3">
+                                                   <input type="text" class="form-control form-control-sm" id="account" placeholder="" style=" height: 24px;" disabled>
+                                                   </div>
+                                                   <div class="col-sm-1"></div> 
+                                                </div>
+                                                
+                                                <div class="form-group row">
+                                                   <div class="col-sm-1"></div>
+                                                   <div class="col-sm-2"><label style="width:108px"> Primary Contact:</label></div>
+                                                   <div class="col-sm-3">
+                                                   <input type="text" class="form-control form-control-sm" id="primarycontact" placeholder="" style=" height: 22px;width:157px; " disabled>
+                                                   </div>
+                                                   <div class="col-sm-2"><label style="width:108px"> Source :</label></div>
+                                                   <div class="col-sm-3">
+                                                    <select class="strike" id="sourceedit" style="height:27px;width:157px;" disabled>
+                                                        
+                                                    </select>
+                                                   </div>
+                                                   <div class="col-sm-1"></div> 
+                                                </div> 
+                                                
+                                                 <div class="form-group row">
+                                                   <div class="col-sm-1"></div>
+                                                   <div class="col-sm-2"><label style="width:108px">Expected Value:</label></div>
+                                                   <div class="col-sm-1">
+                                                   <input type="text" class="form-control form-control-sm" id="exceptedvalue" placeholder="" style="height: 24px;width: 57px;"  disabled>
+                                                   </div>
+                                                     <div class="col-sm-2">
+                                                     <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
+                                                            <option>AUD</option>
+                                                            <option>EUR</option>
+                                                            <option>GBP</option>
+                                                            <option>INR</option>
+                                                            <option>USD</option>
+                                                            <option>YEN</option>
+                                                       
+                                                    </select>
+                                                    </div>
+                                                   <div class="col-sm-2"><label style="width:108px"> Start Date :</label></div>
+                                                   <div class="col-sm-3">
+                                                   <input type="date" id="StartDate" class="form-control" style="width:100%; height:64%; padding:2px 0px;" name="StartDate" disabled></div>
+                                                   <div class="col-sm-1"></div> 
+                                                </div> 
+                                                
+                                                <div class="form-group row">
+                                                   <div class="col-sm-1"></div> 
+                                                   <div class="col-sm-2">Closing Date :</div>
+                                                   <div class="col-sm-3">
+                                                   <input type="date" id="closingdate" class="form-control" style="width:100%; height:71%; padding:0px 0px;" name="StartDate" disabled></div>
+                                                     <div class="col-sm-2"><label style="width:108px"> Sales cycle :</label></div>
+                                                     <div class="col-sm-3">
+                                                    <select class="strike" id="salescycle" style="height:26px;width:158px;" disabled>
+                                                            
+                                                    </select>
+                                                   </div>
+                                                   <div class="col-sm-1"></div> 
+                                                </div>
+                                                <div class="form-group row">
+                                                   <div class="col-sm-1"></div> 
+                                                     <div class="col-sm-2"><label style="width:108px"> Sales phase :</label></div>
+                                                     <div class="col-sm-3">
+                                                    <select class="strike" id="salesphase" style="height:27px;width:159px;" disabled>
+                                                           
+                                                    </select>
+                                                      </div>
+                                                      <div class="col-sm-2">Probability :</div>
+                                                      <div class="col-sm-3">
+                                                      <input type="text" class="form-control form-control-sm" id="probability" placeholder="" style=" height: 25px;"disabled>
+                                                      </div>
+                                                   <div class="col-sm-1"></div> 
+                                                </div>
+                                                <div class="form-group row">
+                                                   <div class="col-sm-1"></div>
+                                                   <div class="col-sm-2"><label style="width:108px;"> Publish to Forecast :</label></div>
+                                                   <div class="col-sm-3">
+                                                   <input type="checkbox" id="publishtoforecast" name="publishtoforecast" checked style="width:17px;height:12px;" disabled>
+                                                   </div>
+                                                   <div class="col-sm-2">Forecast category :</div>
+                                                   <div class="col-sm-3">
+                                                   <input type="text" class="form-control form-control-sm" id="forecastcategory" placeholder="" style="    height: 27px;" disabled>
+                                                   </div>
+                                                   <div class="col-sm-1"></div> 
+                                                </div>
+                                                 <div class="form-group row">
+                                                   <div class="col-sm-1"></div> 
+                                                     <div class="col-sm-2"><label style="width:108px"> Category :</label></div>
+                                                     <div class="col-sm-3">
+                                                    <select class="strike" id="category" style="height:25px;width:159px;" disabled>
+                                                        
+                                                    </select>
+                                                      </div>
+                                                      <div class="col-sm-2">Owner :</div>
+                                                      <div class="col-sm-3">
+                                                      <input type="text" class="form-control form-control-sm" id="owneropportunity" placeholder="" style="height: 27px;" disabled>
+                                                      </div>
+                                                   <div class="col-sm-1"></div> 
+                                                </div>
+                                                 <div class="form-group row">
+                                                   <div class="col-sm-1"></div>
+                                                   <div class="col-sm-2"><label style="width:108px"> Note :</label></div>
+                                                   <div class="col-sm-3">
+                                                   <textarea rows="3" cols="22" id="note" class="form-control" style="width:100%" name="Note"></textarea> </div>
+                                                   
+                                                   <div class="col-sm-1"></div> 
+                                                </div>
+                                           
                                             </div>
                                           
-                                            <div class="btn-group" id="btnControls">
-                                                <a class="btn dropdown-toggle" data-toggle="dropdown"
-                                                    title="List View Controls"><i class="icon-cog"></i> <span
-                                                        class="caret"></span></a>
-                                                <!--Menu items are set on demand via ins.buttonBar.js-->
-                                            </div>
-                                            <div class="btn-group" id="btnFilters">
-                                                <a class="btn" id="toggleFilters" title="Show List View Filters"><i
-                                                        class="icon-filter"></i></a>
-                                            </div>
-
-
-                                            <div class="btn-group">
-                                                <button id="toggleSidebar" type="button" class="btn"
-                                                    title="Show Sidebar"><i class="icon-indent-right"></i></button>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="title">
-                                        <div class="btn-group">
-                                            <button id="btn-list-title" class="btn " title="">
-                                                All Opportunities :
-                                                (<span id=opportunityid> </span>)
-                                            </button>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </header>
-                        </div>
-                    
-                        <div id="main-content" class="contact" style="height: 476px; overflow: auto; ">
-                            <div class="modal fade" class="modal modal-fixed-footer" id="oModal" style="height:519px;top:10%;">
-                                    <div class="modal-dialog modal-lg">
-                                      <div class="modal-content">
-                                      
-                                        <!-- Modal Header -->
-                                        <div class="modal-header">
-                                          <h4 class="modal-title" id="leadhead">Lead To Opportunity : </h4>
-                                          <h4 class="modal-title" id="saleshead" style="display: none" >Sales Team : </h4>
-                                          <h4 class="modal-title" id="revenuehead" style="display: none">Revenue Split : </h4>
-                                          <h4 class="modal-title" id="overviewhead" style="display: none">Overview: </h4>
-                                          <button type="button" id="oppexit" class="close" data-dismiss="modal" >&times;</button>
-                                        </div>
-                    
-                                        <div class="form-group row">
-                                            <div class="col-sm-1"></div>
-                                            <div class="col-sm-2"><label style="width:108px"> Primary Contact:</label></div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control form-control-sm" id="primarycontact" placeholder=""
-                                                    style=" height: 22px;width:157px; " disabled>
-                                            </div>
-                                            <div class="col-sm-2"><label style="width:108px"> Source :</label></div>
-                                            <div class="col-sm-3">
-                                                <select class="strike" id="sourceedit" style="height:27px;width:157px;" disabled>
-                    
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-1"></div>
-                                        </div>
-                    
-                                        <div class="form-group row">
-                                            <div class="col-sm-1"></div>
-                                            <div class="col-sm-2"><label style="width:108px">Expected Value:</label></div>
-                                            <div class="col-sm-1">
-                                                <input type="text" class="form-control form-control-sm" id="exceptedvalue" placeholder=""
-                                                    style="height: 24px;width: 57px;" disabled>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
-                                                    <option>AUD</option>
-                                                    <option>EUR</option>
-                                                    <option>GBP</option>
-                                                    <option>INR</option>
-                                                    <option>USD</option>
-                                                    <option>YEN</option>
-                    
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-2"><label style="width:108px"> Start Date :</label></div>
-                                            <div class="col-sm-3">
-                                                <input type="date" id="StartDate" class="form-control"
-                                                    style="width:100%; height:64%; padding:2px 0px;" name="StartDate" disabled></div>
-                                            <div class="col-sm-1"></div>
-                                        </div>
-                    
-                                        <div class="form-group row">
-                                            <div class="col-sm-1"></div>
-                                            <div class="col-sm-2">Closing Date :</div>
-                                            <div class="col-sm-3">
-                                                <input type="date" id="closingdate" class="form-control"
-                                                    style="width:100%; height:71%; padding:0px 0px;" name="StartDate" disabled></div>
-                                            <div class="col-sm-2"><label style="width:108px"> Sales cycle :</label></div>
-                                            <div class="col-sm-3">
-                                                <select class="strike" id="salescycle" style="height:26px;width:158px;" disabled>
-                                                    <option>New Business</option>
-                                                    <option>Repeat Business</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-1"></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-1"></div>
-                                            <div class="col-sm-2"><label style="width:108px"> Sales phase :</label></div>
-                                            <div class="col-sm-3">
-                                                <select class="strike" id="salesphase" style="height:27px;width:159px;" disabled>
-                    
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-2">Probability :</div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control form-control-sm" id="probability" placeholder=""
-                                                    style=" height: 25px;" disabled>
-                                            </div>
-                                            <div class="col-sm-1"></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-1"></div>
-                                            <div class="col-sm-2"><label style="width:108px;"> Publish to Forecast :</label></div>
-                                            <div class="col-sm-3">
-                                                <input type="checkbox" id="publishtoforecast" name="publishtoforecast" checked
-                                                    style="width:17px;height:12px;" disabled>
-                                            </div>
-                                            <div class="col-sm-2">Forecast category :</div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control form-control-sm" id="forecastcategory" placeholder=""
-                                                    style="    height: 27px;" disabled>
-                                            </div>
-                                            <div class="col-sm-1"></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-1"></div>
-                                            <div class="col-sm-2"><label style="width:108px"> Category :</label></div>
-                                            <div class="col-sm-3">
-                                                <select class="strike" id="category" style="height:25px;width:159px;" disabled>
-                    
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-2">Owner :</div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control form-control-sm" id="owneropportunity" placeholder=""
-                                                    style="height: 27px;" disabled>
-                                            </div>
-                                            <div class="col-sm-1"></div>
-                                        </div>
-                                      
-                                            <!--Sales Team Table-->
-                                            <div  id="btn-sales" style="display: none;  margin-left: 11px;width: 98%;">
-
-                                                <table class="table table-bordered">
-                                                    <thead>
-                                                        <tr style=" background-color: rgb(51, 122, 183); position: relative;top: 0px; color: rgb(255, 255, 255)" ;>
-                                                            <th>Role</th>
-                                                            <th>Name</th>
-                                                            <th>E-Mail</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Employee Responsible</td>
-                                                            <td>Ashwini Naik</td>
-                                                            <td>ashwini.naik@lnttechservices.com</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                <!--REVENUE SPLITS Table-->
-                                <div id="btn-business" style="display: none; margin-left: 11px;width: 98%;">
-                                
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr style=" background-color: rgb(51, 122, 183); position: relative;top: 0px; color: rgb(255, 255, 255)">
-                                                <th>Revenue Partners</th>
-                                                <th>Revenue Amount</th>
-                                                <th>Split Percentage</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Rahul Parmar</td>
-                                                <td>50</td>
-                                                <td>70</td>
-                                                <td><img src="./images/del.png" width="20px;margin-left: 22px;"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Rahul Parmar</td>
-                                                <td>50</td>
-                                                <td>70</td>
-                                                <td><img src="./images/del.png" width="20px;margin-left: 22px;"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Rahul Parmar</td>
-                                                <td>50</td>
-                                                <td>70</td>
-                                                <td><img src="./images/del.png" width="20px;margin-left: 22px;"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                    <!-- Modal footer -->     
-                                     <div class="modal-footer">
-                                         <button type="submit" class="btn btn-primary"  id="Editopp" onclick="opportunityedit()">Edit</button> 
-                                         
-                                         <div class="dropup">
-                                                <button class="btn btn-primary dropdown-toggle" type="button" id="actionsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Actions
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="actionsdropdown"
-                                                style="position: fixed; transform: translate3d(-35px, -99px, 0px);top: -28px; left: -30px; will-change: transform;height: 130px;">
-                                                <a class="dropdown-item" id="Salesdropdown" href="#" style="font-size: 12px;">Sales Team</a>
-                                                <a class="dropdown-item" id="Revenuedropdown" href="#" style="font-size: 12px;">Revenue
-                                                    Split</a>
-                                                <a class="dropdown-item" id="Overviewdropdown" href="#"
-                                                    style="font-size: 12px;">Overview</a>
-                                                <a class="dropdown-item" id="leadtoopportunity" href="#" style="font-size: 12px;">Lead to
-                                                    Opportunity</a>
-                    
-                                            </div>
-                                        </div>
-                    
-                    
-                                        <button type="submit" class="btn btn-primary" data-dismiss="modal" id="saveopp"
-                                            onclick="updateopportunityrecord()" hidden>Save</button>
-                                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancelopp"
-                                            onclick="clearFormopportunity()" hidden>Cancel</button>
-                                    </div>
-                    
-                                </div>
-                    
-                            </div>
-                        </div>
-
+                                                <!--Sales Team Table-->
+                                                <div  id="btn-sales" style="display: none;  margin-left: 11px;width: 98%;">
+    
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr style=" background-color: rgb(51, 122, 183); position: relative;top: 0px; color: rgb(255, 255, 255)" ;>
+                                                                <th>Role</th>
+                                                                <th>Name</th>
+                                                                <th>E-Mail</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Employee Responsible</td>
+                                                                <td>Ashwini Naik</td>
+                                                                <td>ashwini.naik@lnttechservices.com</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                    <!--REVENUE SPLITS Table-->
+                                    <div id="btn-business" style="display: none; margin-left: 11px;width: 98%;">
                                     
-                    <div id="main-content" class="contact">
-
-                            <div class="entity-list" id="entity-list">
-
-                                <table class=" table table-responsive  loader" style="overflow:intial;" >
-
-                                
-                                   <thead class="table" style="background-color: 1b213b ">
-                                               
-                                    <tr style="font-weight:bold ;background-color: rgb(51, 122, 183); position: relative;top: 0px; color: rgb(255, 255, 255); ">
-                                                    <th>ID </th>
-                                                    <th>Old C4C Opportunity ID </th>
-                                                    <th>Name </th>
-                                                    <th>Account </th>
-                                                    <th>Close Date </th>
-                                                    <th>Sales Phase </th>
-                                                    <th>Expected Value </th>
-                                                    <th>Owner </th>
-                                                    <th>Status </th>
-                                                    <th>Custom Status </th>
-                                                    <th>Changed On </th>
-                                                    <th>Changed By </th>
-                                                    
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr style=" background-color: rgb(51, 122, 183); position: relative;top: 0px; color: rgb(255, 255, 255)">
+                                                    <th>Revenue Partners</th>
+                                                    <th>Revenue Amount</th>
+                                                    <th>Split Percentage</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
-                                    <tbody id="opportunityTable">
-                                           
-                                    </tbody>
-
-                                </table>
-
+                                            <tbody>
+                                                <tr>
+                                                    <td>Rahul Parmar</td>
+                                                    <td>50</td>
+                                                    <td>70</td>
+                                                    <td><img src="./images/del.png" width="20px;margin-left: 22px;"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Rahul Parmar</td>
+                                                    <td>50</td>
+                                                    <td>70</td>
+                                                    <td><img src="./images/del.png" width="20px;margin-left: 22px;"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Rahul Parmar</td>
+                                                    <td>50</td>
+                                                    <td>70</td>
+                                                    <td><img src="./images/del.png" width="20px;margin-left: 22px;"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+    
+                                        
+                                                 <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                             <button type="submit" class="btn btn-primary"  id="Editopp" onclick="opportunityedit()">Edit</button> 
+                                             
+                                             <div class="dropup">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button" id="actionsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Actions
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="actionsdropdown" style="position: fixed; transform: translate3d(-35px, -99px, 0px);top: -28px; left: -30px; will-change: transform;height: 130px;">
+                                                            <a class="dropdown-item"  id="Salesdropdown" href="#" style="font-size: 12px;" >Sales Team</a>
+                                                            <a class="dropdown-item"  id="Revenuedropdown" href="#" style="font-size: 12px;">Revenue Split</a>
+                                                            <a class="dropdown-item"  id="Overviewdropdown" href="#" style="font-size: 12px;">Overview</a>
+                                                            <a class="dropdown-item"  id="leadtoopportunity" href="#" style="font-size: 12px;">Lead to Opportunity</a>
+    
+                                                    </div>
+                                                    </div>
+    
+    
+                                             <button type="submit" class="btn btn-primary" data-dismiss="modal" id="saveopp" onclick="updateopportunityrecord()" hidden >Save</button>   
+                                             <button type="button" class="btn btn-primary" data-dismiss="modal"  id="cancelopp"  onclick="clearFormopportunity()" hidden >Cancel</button>   
+                                              </div>
+                                              
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+    
+                                        
+    
+                                <div id="main-content" class="contact">
+    
+                                <div class="entity-list" id="entity-list">
+    
+                                    <table class=" table table-responsive table table-bordered  loader" style="overflow:intial;" >
+                                            <thead class="table table-bordered" style="background-color: 1b213b;border: 1px solid rgb(255, 255, 255); white-space: nowrap;">
+                                                    <tr style="font-weight:bold ;background-color: rgb(51, 122, 183); position: relative;top: 0px; color: rgb(255, 255, 255); ">
+                                                        <th>ID </th>
+                                                        <th>Old C4C Opportunity ID </th>
+                                                        <th>Name </th>
+                                                        <th>Account </th>
+                                                        <th>Close Date </th>
+                                                        <th>Sales Phase </th>
+                                                        <th>Expected Value </th>
+                                                        <th>Owner </th>
+                                                        <th>Status </th>
+                                                        <th>Custom Status </th>
+                                                        <th>Changed On </th>
+                                                        <th>Changed By </th>
+                                                        
+                                                    </tr>
+                                                </thead>
+                                        <tbody id="opportunityTable">
+                                               
+                                        </tbody>
+    
+                                    </table>
+    
+                                </div>
+    
+    
                             </div>
-
-
                         </div>
                     </div>
+    
                 </div>
+                </div>
+    
 
-            </div>
-            </div>
+            
             <div id="employeeTab" class="tab tab-pane ">
 
                 <div id="main" class=>
@@ -5120,9 +5154,9 @@ background-size: 8%;'></div>
             <form method="post">
                 <div class="modal-content">
                     <div class="modal-header"
-                        style="padding-left:0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;">
+                        style="background-color: rgb(51, 122, 183);position: relative; top:0px;color: rgb(255, 255, 255); ">
                         <b class="modal-title" style="font-size:15px;margin-left:9px;">Lead To Opportunity :</b>
-                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <button type="button" class="close" style="color: white;opacity:1;" data-dismiss="modal">×</button>
                     </div>
 
                     <div class="modal-body">
@@ -5131,9 +5165,8 @@ background-size: 8%;'></div>
 
                             <div class="col-sm-2"></div>
 
-                    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm" ;>Name
-                                    :</label>
-                            <div class="col-sm-6">
+                    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm" style="top: 6px;">Name:</label>
+                            <div class="col-sm-6" style="top: 6px;">
                                 <input type="text" class="form-control form-control-sm" id="oppName"
                                     placeholder="" name="Name" style="height: 71%;">
                             </div>
@@ -5285,7 +5318,7 @@ background-size: 8%;'></div>
                                 <input type="text" class="form-control form-control-sm" id="Owneropp"
                                     placeholder="" name="Owner" style="height: 71%;">
                             </div>
-                            <div class="col-sm-1"><a href="#oppgifmodal" data-toggle="modal"><span class="fa fa-share" ></span> </a> 
+                            <div class="col-sm-1"><a href="#oppgifmodal" data-toggle="modal" onclick="ownerAccountDisplay()"><span class="fa fa-share" style="margin-left: -21px;"></span> </a> 
                           
                            
                                 <div id="oppgifmodal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
@@ -5293,12 +5326,12 @@ background-size: 8%;'></div>
                             
                                 <div class="modal-content" style="top:auto;">
                             
-                                    <div class="modal-header" style="border-bottom: 1px solid rgb(80, 97, 181);background-color: rgb(189, 179, 179); color: rgb(255, 255, 255);padding: 5px;">
+                                    <div class="modal-header" style="background-color: rgb(51, 122, 183);position: relative; top: 0px;color: rgb(255, 255, 255);padding: 5px;">
                             
                                         <!-- Modal Header -->
                             
                                         <h6 class="modal-title" style="font-size: 16px;">Select Owner</h6>
-                                        <button type="button" class="close" data-dismiss="modal" style="color:black; margin-right: 2px;border-radius: 1px;">×</button>
+                                        <button type="button" class="close" data-dismiss="modal" style="color: white;opacity: 1px; margin-right: 2px;border-radius: 1px;">×</button>
                                     </div>
                             
                                     <!-- Modal body -->
@@ -5330,33 +5363,26 @@ background-size: 8%;'></div>
                                             </div>
                             
                                         </div>
-                            
+                            <div style="overflow: auto;height:150px;">
                                         <table class="table table-bordered" >
                                                 <thead >
                                                       <tr>
                                                         <th style="background-color: rgb(51, 122, 183); position: relative; top: 0px; color: rgb(255, 255, 255)";>Name</th>
                                                       </tr>
                                                 </thead>
-                                                <tbody>
-                                                  <tr>
-                                                    <td>John</td>
-                                                  </tr>
-                                                  <tr>
-                                                  <td>Rahul</td>	
-                                                  </tr>
-                                                  <tr>
-                                                  <td>Raj</td>	
-                                                  </tr>
-                                                  
+                                                <tbody id='owneropportunityTable'>
+                                                 
                                                 </tbody>
                                             </table>
-                                        
+                            </div> 
                                     </div>
                             
                                     <!-- Modal footer -->
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                            style=" background-color: #0F70A2; color:white; ">Cancel</button>
+                                            style=" color: #fff;
+                                            background-color: #337ab7;
+                                            border-color: #2e6da4; ">Cancel</button>
                                     </div>
                             
                                 </div>

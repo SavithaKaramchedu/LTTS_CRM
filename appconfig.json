@@ -392,7 +392,6 @@
       "configured": true,
       "routeclass": "./sampleservice.js",
       "routefunction": "opportunitydisplay",
-
       "description": "Routes to display record value in modal",
       "examples": [
         {
@@ -497,6 +496,9 @@
         }
       ]
     },
+
+    
+    
 
     {
       "route": "/contact",
