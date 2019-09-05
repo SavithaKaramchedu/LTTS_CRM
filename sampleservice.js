@@ -447,7 +447,8 @@ exports.addAccountPage = function (req, res) {
     let status = req.body.prospect;
 
     let parentaccount = req.body.parentaccount;
-
+    let parentaccountID = req.body.parentaccountID;
+    
     let website = req.body.website;
 
     let accountcategory = req.body.accountcategory;
@@ -461,9 +462,8 @@ exports.addAccountPage = function (req, res) {
     let stat = req.body.state;
 
     let own = req.body.owner;
-
-    let query = "INSERT INTO `accountcirruswave` (name,prospect, parentaccount,website,accountcategory,vertical,country,city,state,owner) VALUES ('" +
-        name + "', '" + status + "','" + parentaccount + "', '" + website + "','" + accountcategory + "','" + vertical + "','" + cont + "','" + cit + "','" + stat + "','" + own + "')";
+    let ownerID= req.body.ownerID;
+    let query = "call `procInsertAccount`('" +name + "', '" + status + "','" + parentaccountID + "', '" + website + "','" + accountcategory + "','" + ownerID + "','" + own + "')";
 
 
 
@@ -473,6 +473,7 @@ exports.addAccountPage = function (req, res) {
             return res.status(500).send(err);
         }
         res.send('/home');
+        console.log(result2);
     });
 
 };
@@ -787,3 +788,34 @@ res.status(200).json(result);
 });
 
 };
+exports.accparent = function (req, res) {
+
+    let query1= 'call procAdminListAllAccounts("Parent");'
+   
+    db.query(query1, (err, result) => {
+   if (err) {
+     
+       return res.status(500).send(err);
+   }
+   res.status(200).json(result);
+   
+   });
+   
+   };
+   exports.accowner = function (req, res) {
+
+    let query1= 'call procListAllEmployees'
+   
+    db.query(query1, (err, result) => {
+   if (err) {
+     
+       return res.status(500).send(err);
+   }
+   res.status(200).json(result);
+   
+   });
+   
+   };
+   
+
+

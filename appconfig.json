@@ -1083,7 +1083,33 @@
           "param": "/account/:i"
         }
       ]
+    },
+    {
+      "route": "/parentacc",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "accparent",
+      "description": "Routes to display values dynamically inside parrent account table",
+      "examples": [
+        {
+          "param": "/account/:i"
+        }
+      ]
+    },
+    {
+      "route": "/owneracc",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "accowner",
+      "description": "Routes to display values dynamically inside owner account table",
+      "examples": [
+        {
+          "param": "/account/:i"
+        }
+      ]
     }
-   
+        
   ]
 }
