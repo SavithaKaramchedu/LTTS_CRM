@@ -739,6 +739,26 @@ exports.Contactdep = function (req, res) {
 
 };
 
+
+exports.ContactAccounts = function (req, res) {
+
+
+    let query = "CALL procAdminListAllAccounts('All')"; // query database to get all the accounts in contactmodal
+
+    db.query(query, (err, result) => {
+
+        if (err) {
+            res.redirect('/');
+            
+        }
+        else{
+            res.status(200).json(result);
+        
+        }
+    });
+};
+
+
 exports.accountcat = function (req, res) {
 
     let query1 = "call procLookUpAccountCategories()";
@@ -801,14 +821,15 @@ exports.accountstate = function (req, res) {
 };
 exports.accparent = function (req, res) {
 
-    let query1= 'call procAdminListAllAccounts("Parent");'
+    let query1= 'call procAdminListAllAccounts("Parent")';
    
     db.query(query1, (err, result) => {
    if (err) {
-     
+    
        return res.status(500).send(err);
    }
    res.status(200).json(result);
+  
    
    });
    

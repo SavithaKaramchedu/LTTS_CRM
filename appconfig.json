@@ -1034,6 +1034,21 @@
         }
       ]
     },
+
+    {
+      "route": "/contactaccounts",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "ContactAccounts",
+      "description": "Route for contact accounts in new inserting contact modal ",
+      "examples": [
+        {
+          "param": "/contactaccounts"
+        }
+      ]
+    },
+
     {
       "route": "/acccat",
       "type": "get",

@@ -809,10 +809,9 @@ function addContact() {
         var lname = $("#last-name").val();
         var account = $("#accountcont").val();
         var title = $("#job-title").val();
-        var function1 = $("#function1").val();
+        var function1 = $("#contfunction1").val();
         var department = $("#department").val();
         var phone = $("#phone").val();
-        var city = $("#citycont").val();
         var fax = $("#fax").val();
         var mobile = $("#mobile").val();
         var email = $("#email").val();
@@ -827,7 +826,6 @@ var data={
         "functionname":function1,
         "department":department,
         "phone":phone,
-        "city":city,
         "fax":fax,
         "mobile":mobile,
         "email":email,
@@ -1148,14 +1146,15 @@ chart3.render();  }
         }
         
         function parentAccountDisplay() {
+
             var tableData = "";
-            var url = "https://localhost:9090/parentacc" ;
+            var url = "https://localhost:9090/parentacc";
         
             $.ajax({
                 url: url,
                 type: "GET",
                 success: function (result) {
-                  
+              
                     for (var i = 0; i < result[0].length; i++) {
                       
                        
@@ -1699,6 +1698,104 @@ chart3.render();  }
                         $("#savect").prop("hidden", true);
                         $("#cancelct").prop("hidden", true);
                     } 
+
+
+                    function dropdownfun() {
+                    
+                    var url = "https://localhost:9090/dropdownfun";
+                    var dropdowndata="";
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+                            
+                                for (var i = 0; i < result[0].length; i++) {
+                                dropdowndata = dropdowndata + '<option value="' + result[0][i].JOBFUNCTIONID + '">' + result[0][i].JOBFUNCTION + '</option>';
+
+                            }
+                           
+                            $("#contfunction1").html(dropdowndata);
+                            $("#funct").html(dropdowndata);
+                          
+                            
+                        }
+                    
+                    });
+
+                } 
+
+                function dropdowndep() {
+                   
+                    var url = "https://localhost:9090/dropdowndep";
+                     var dropdowndata="";
+
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+
+                            for (var i = 0; i < result[0].length; i++) {
+                                dropdowndata = dropdowndata +  '<option value="' + result[0][i].DepartmentID + '">' + result[0][i].Department + '</option>';
+
+                            }
+                           
+                            $("#department").html(dropdowndata);
+                            $("#depart").html(dropdowndata);
+                        
+                        }
+                    
+                    });
+
+                } 
+
+
+
+
+                function contAccountDetails() {
+
+                        var tableData;
+
+                        var url = "https://localhost:9090/contactaccounts";
+
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+                            success: function (result) {
+
+                                for (var i = 0; i < result[0].length; i++) {
+
+                                    if (result[0][i].ExternalID == null || result[0][i].ExternalID == 0)
+                                        {
+                                            result[0][i].ExternalID = "";
+                                        }
+                                  
+                                   tableData = tableData + "  <tr > " +
+
+                                        "<td >" + result[0][i].ExternalID + "</td>" +
+                                        "<td >" + result[0][i].accountcode + "</td>" +
+                                        "<td >" + result[0][i].name + "</td>" +
+
+                                        "</tr>";
+                                }
+
+                                $("#allaccountsTable").html(tableData);
+
+                            }
+
+                        });
+
+                    }  
+
+    
+
+
+
+
+
+
+
+
+
 
      function editBusiness() {
 
@@ -2952,8 +3049,7 @@ background-size: 8%;'></div>
                                 <div id="default_controls">
                                     <div class="pull-right" id="AddNewButton">
                                         <a class="btn in-entity-modal" data-toggle="modal" href="#contactModal"
-                                            data-entity-type="Contact" data-action="Create" onclick="resetFormContact();">
-                                            New Contact
+                                            data-entity-type="Contact" data-action="Create" onclick="resetFormContact(),dropdownfun(), dropdowndep();">                                            New Contact
                                         </a>
                                     </div>
                                     <div class="pull-right right10">
@@ -3042,9 +3138,150 @@ background-size: 8%;'></div>
                                     </tbody>
 
                                 </table>
-
+                              
+                                <div class="modal fade docs-example-modal-lg" id="cmodal" tabindex="-1" role="dialog"
+                                style="height: 439px;top: 23%;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <!-- Modal Header -->
+                                        <div class="modal-header" style="background-color: rgb(51, 122, 183); color:rgb(255, 255, 255);">
+                                            <h6 class="modal-title">New Contact</h1>
+                                                <button type="button" class="close" data-dismiss="modal" onclick="clearFormContact()"
+                                                    style="color: rgb(255, 255, 255); opacity:1;">×</button>
+                                        </div>
+                        
+                                        <!-- Modal body -->
+                                        <div class="modal-body" style="padding: 13px 25px;">
+                                                           
+                                            <div class="row">
+                        
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2">First Name:</div>
+                                                <div class="col-sm-3">
+                                                    <p id="cid" style="display:none;"></p>
+                                                    <input type="text" disabled required class="form-control" val="" name="first_name"
+                                                        id="firstname" style="height: 71%;">
+                                                </div>
+                        
+                                                <div class="col-sm-2">
+                                                    <p><span style="color:red;">*</span>Last Name:
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" disabled required class="form-control" name="last_name" id="lastname"
+                                                        style="height: 71%;">
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                                            
+                                            <div class="row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2">
+                                                    <p><span style="color:red;">*</span> Account:
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" disabled required class="form-control" name="account" id="acc"
+                                                        style="height: 71%;">
+                                                       
+                                                </div>
+                        
+                        
+                                                <div class="col-sm-2">Job Title:</div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" disabled required class="form-control" name="job_title" id="jobtitle"
+                                                        style="height: 71%;">
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                                           
+                                            <div class="row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2"> Function:</p>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <select class="form-control" disabled name="function1" id="funct" style="height: 71%;">
+                        
+                                                    </select>
+                                                </div>                                   
+                        
+                                                <div class="col-sm-2">Department:</div>
+                        
+                                                <div class="col-sm-3">
+                                                    <select class="form-control" disabled name="department" id="depart" style="height: 71%;">
+                                                   
+                                                    </select>
+                        
+                                                </div>
+                                            </div>
+                                                          
+                                            <div class="row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2">Phone:</div>
+                        
+                                                <div class="col-sm-3">
+                                                    <input type="text" disabled required class="form-control" name="phone" id="phn"
+                                                        style="height: 71%;">
+                                                </div>
+                        
+                                                <div class="col-sm-2">City:</div>
+                        
+                                                <div class="col-sm-3">
+                                                    <input type="text" disabled required class="form-control" name="city" id="cit"
+                                                        style="height: 71%;">
+                                                </div>
+                                            </div>
+                                                                                      
+                                            <div class="row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2">Fax:</div>
+                        
+                                                <div class="col-sm-3">
+                                                    <input type="text" disabled required class="form-control" name="fax" id="fa"
+                                                        style="height: 71%;">
+                                                </div>
+                        
+                                                <div class="col-sm-2">
+                                                    <p><span style="color:red;">*</span>Mobile:
+                                                </div>
+                        
+                                                <div class="col-sm-3">
+                                                    <input type="text" disabled required class="form-control" name="mobile" id="mob"
+                                                        style="height: 71%;">
+                                                </div>
+                                            </div>
+                        
+                                            <div class="row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2">Email:</div>
+                        
+                                                <div class="col-sm-3">
+                                                    <input type="text" disabled required class="form-control" name="email" id="eml"
+                                                        style="height: 71%;">
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                            </div>                                    
+                        
+                                            <br>
+                                        </div>
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                                          
+                                            <button type="button" class="btn btn-primary" id="editct" onclick="editcontact()">Edit</button>
+                        
+                                            <button type="submit" class="btn btn-primary" id="savect" data-dismiss="modal"
+                                                onclick="updatereccontact()" hidden>save</button>
+                        
+                                            <button type="button" class="btn btn-primary" id="cancelct" data-dismiss="modal"
+                                                onclick="clearFormContact()" hidden>cancel</button>                                   
+                        
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
+                            
+                        
                         </div>
+
                         </div>
                         
                     </div>
@@ -3052,6 +3289,7 @@ background-size: 8%;'></div>
                 </div>
                 </div>
             </div>
+        </div>
             <div class="modal fade docs-example-modal-lg" id="cmodal" tabindex="-1" role="dialog"
             style="height: 439px;top: 23%;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -5451,9 +5689,9 @@ background-size: 8%;'></div>
             <form method="post" id="formContact">
                     <div class="modal-content">
                         <div class="modal-header"
-                            style="padding-left:0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;">
+                            style="padding-left:0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: rgb(0, 63, 118);color: rgb(255, 255, 255);">
                             <b class="modal-title" style="font-size:15px;margin-left:9px;">New Contact :</b>
-                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <button type="button" class="close" data-dismiss="modal" style="color: rgb(255, 255, 255);opacity:1;">×</button>
                         </div>
     
                         <div class="modal-body">
@@ -5461,31 +5699,31 @@ background-size: 8%;'></div>
                             <div class="row">
 
                                 <div class="col-sm-1"></div>
-                                   <div class="col-sm-3">First Name:
+                                   <div class="col-sm-2">First Name:
                                        </div>
                                 <div class="col-sm-5">
-                                <input type="text" required class="form-control" name="first_name" id="first-name" style="height: 71%;">
+                                <input type="text" required class="form-control" name="first_name" id="first-name" style="height: 71%; border-radius:4px;">
                                 </div>
                                  <div class="col-sm-1"></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-1"></div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-2">
                                         <p><span style="color:red;">*</span>Last Name:</div>
                                         <div class="col-sm-5">
-                                     <input type="text" required class="form-control" name="last_name" id="last-name" style="height: 71%;">
+                                     <input type="text" required class="form-control" name="last_name" id="last-name"  style="height: 71%; border-radius:4px;">
                                      </div>
                                        <div class="col-sm-2"></div>
                                      </div>
                                      <div class="row">
                                         <div class="col-sm-1"></div>
-                                           <div class="col-sm-3">
+                                           <div class="col-sm-2">
                                             <p><span style="color:red;">*</span> Account:</div>
                                         <div class="col-sm-5">
-                                        <input type="text" required class="form-control" name="account" id="accountcont" style="height: 71%;">
+                                        <input type="text" required class="form-control" name="account" id="accountcont" style="height: 71%; border-radius:4px;">
                                         </div>
                                         <div class="col-sm-1">		
-                                               <a data-toggle="modal" data-backdrop="static" data-keyboard="false" href="#accmodal">
+                                               <a data-toggle="modal" data-backdrop="static" data-keyboard="false" href="#accmodal" onclick="contAccountDetails();">
                                                 <i class="fa fa-share" style="position: relative; right: 58%; color:black;"></i>
                                                 </a>
 
@@ -5494,12 +5732,12 @@ background-size: 8%;'></div>
                                                         
                                             <div class="modal-content">
                                                                 
-                                                 <div class="modal-header" style="background-color: #495057ab; color:white;">
+                                                 <div class="modal-header" style="background-color: rgb(0, 63, 118);color: rgb(255, 255, 255);">
                                                           
                                                             <!-- Modal Header -->
                                                         
-                                                        <h6 class="modal-title">Accounts</h6>
-                                                        <button type="button" class="close" data-dismiss="modal" style="color:white; opacity:1.5;" >×</button>
+                                                        <h5 class="modal-title">Accounts</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" style="color:white; opacity:1;" >×</button>
                                                     </div>
                                                             
                                                     <!-- Modal body -->
@@ -5511,7 +5749,7 @@ background-size: 8%;'></div>
 
                                                         <div class="col-sm-3">
 
-                                                            <select class="form-control" name="function1" id="function1" style="height: 71%;">
+                                                            <select class="form-control" name="modaldropdown" id="modaldropdown" style="height: 71%;">
                                                                                
                                                                 <option selected>All</option>
                                                                               
@@ -5531,7 +5769,7 @@ background-size: 8%;'></div>
 
                                                                 <div class="col-sm-3">
 
-                                                                    <input class="form-control" type="text" id="mySearch" placeholder="Search" style="left: 32%; position: relative;">
+                                                                    <input class="form-control" type="text" id="mySearch" placeholder="Search" style="left: 32%; position: relative; border-radius:4px;">
 
                                                                 </div>
 
@@ -5543,21 +5781,27 @@ background-size: 8%;'></div>
 
                                                             </div>
                                                             
-                                                              <table class="table table-responsive">
-                                                        
-                                                      <thead style="background-color: #0F70A2; color:white;">
-                                                          <tr>
-                                                             <th>Old c4c Account ID</th>
-                                                             <th>Account ID</th>
-                                                             <th >Account Name</th>
-                                                          </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                         
-                                                        </tbody>
-                                                      </table>
-                                                            </div>
+                                                            <div id="tbMarksContainer" style="height:200px;overflow:auto;">
                                                             
+                                                                <div class="entity-list" id="entity-list">
+                                                            
+                                                                    <table id="tbMarks" class=" table table-responsive ">
+                                                            
+                                                                        <thead class="table" style="background-color: rgb(51, 122, 183); color: rgb(255, 255, 255); ">
+                                                                            <tr style="  font-weight:bold ; ">
+                                                                                <th>Old c4c Account ID</th>
+                                                                                <th>Account ID</th>
+                                                                                <th>Account Name</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="allaccountsTable">
+                                                            
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+
+                                                            </div>
                                                             <!-- Modal footer -->
                                                             <div class="modal-footer">
                                                              <button type="button" class="btn btn-primary" data-dismiss="modal" style=" background-color: #0F70A2; color:white; " >Cancel</button>
@@ -5571,45 +5815,23 @@ background-size: 8%;'></div>
                                          
                                         <div class="col-sm-2"></div>
                                         </div>
+                            
                                         <div class="row">
                                             <div class="col-sm-1"></div>
-                                               <div class="col-sm-3">Job Title:</div>
+                                               <div class="col-sm-2">Job Title:</div>
                                             <div class="col-sm-5">
-                                            <input type="text" required class="form-control" name="job_title" id="job-title" style="height: 71%;">
+                                            <input type="text" required class="form-control" name="job_title" id="job-title"  style="height: 71%; border-radius:4px;">
                                             </div>
                                              <div class="col-sm-2"></div>
                                            </div>
+
                                            <div class="row">
                                             <div class="col-sm-1"></div>
-                                               <div class="col-sm-3"> Function:</p>
+                                               <div class="col-sm-2"> Function:</p>
                                                                                     </div>
                                             <div class="col-sm-5">
-                                            <select class="form-control" name="function1" id="function1" style="height: 71%;">
-                                              <option selected></option>
-                                            <option>Executive Board</option>
-                                                
-                                                  <option>Marketing Manager</option>
-                                                
-                                                  <option>Purchasing Officer</option>
-                                                  
-                                                  <option>Sales Manager</option>
-                                                  
-                                                  <option>Service Support Manager</option>
-                                                  
-                                                  <option>Sales Representative</option>
-                                                  
-                                                  <option>Head of Personnel</option>
-                                                  
-                                                  <option>Purchasing Manager</option>
-                                                  
-                                                  <option>Quality Officer</option>
-                                                  
-                                                  <option>Territory Sales Manager</option>
-                                                  
-                                                  <option>Regional Sales Manager</option>
-                                                  
-                                                  <option>Traveler</option>
-                                                  
+                                            <select class="form-control" name="function1" id="contfunction1"  style="height: 71%;">
+                                             <option style="display:none;"></option>
                                               </select>	
                                             </div>
                                             
@@ -5617,55 +5839,39 @@ background-size: 8%;'></div>
                                             </div>
                                             <div class="row">
                                             <div class="col-sm-1"></div>
-                                               <div class="col-sm-3">Department:</p>
+                                               <div class="col-sm-2">Department:</p>
                                                                                     </div>
                                             
                                             <div class="col-sm-5">
-                                            <select class="form-control" name="department" id="department" style="height: 71%;">
+                                            <select class="form-control" name="department" id="department"  style="height: 71%;">
                                               <option selected></option>
-                                            <option>Administration Dept</option>
-                                                
-                                                  <option>Financial Dept</option>
-                                                
-                                                  <option>Purchasing Dept</option>
-                                                  
-                                                  <option> QA Dept</option>
-                                                  
-                                                  <option>R&D Dept</option>
-                                                  
-                                                  <option>Sales Dept</option>
+                                            
                                                   </select>
                                                   
                                             </div>
                                            
                                              <div class="col-sm-2"></div>
                                             </div>
+                                        
+
                                             <div class="row">
                                                 <div class="col-sm-1"></div>
-                                                    <div class="col-sm-3">Phone:</div>
+                                                    <div class="col-sm-2">Phone:</div>
                                                  
                                                  <div class="col-sm-5">
-                                                 <input type="text" required class="form-control" name="phone" id="phone" style="height: 71%;">
+                                                 <input type="text" required class="form-control" name="phone" id="phone"  style="height: 71%; border-radius:4px; ">
+                                                 
                                                  </div>
                                                  
                                                   <div class="col-sm-2"></div>
-                                                 </div>
-                                                 <div class="row">
-                                                    <div class="col-sm-1"></div>
-                                                        <div class="col-sm-3">City:</div>
-                                                     
-                                                     <div class="col-sm-5">
-                                                     <input type="text" required class="form-control" name="city" id="citycont" style="height: 71%;">
-                                                     </div>
-                                                      <div class="col-sm-2"></div>
-                                                     </div>
+                                                </div>
 
                                                       <div class="row">
                                                     <div class="col-sm-1"></div>
-                                                        <div class="col-sm-3">Fax:</div>
+                                                        <div class="col-sm-2">Fax:</div>
                                                      
                                                      <div class="col-sm-5">
-                                                     <input type="text" required class="form-control" name="fax" id="fax" style="height: 71%;">
+                                                     <input type="text" required class="form-control" name="fax" id="fax"  style="height: 71%; border-radius:4px;">
                                                      </div>
                                                      <div class="col-sm-2"></div>
                                                      </div>
@@ -5673,29 +5879,29 @@ background-size: 8%;'></div>
                                                      
                                                      <div class="row">
                                                     <div class="col-sm-1"></div>
-                                                        <div class="col-sm-3">
+                                                        <div class="col-sm-2">
                                                         <p><span style="color:red;">*</span>Mobile:</div>
                                                      
                                                      <div class="col-sm-5">
-                                                     <input type="text" required class="form-control" name="mobile" id="mobile" style="height: 71%;">
+                                                     <input type="text" required class="form-control" name="mobile" id="mobile"  style="height: 71%; border-radius:4px;">
                                                      </div>
                                                       <div class="col-sm-2"></div>
                                                      </div>
                                                      
                                                      <div class="row">
                                                     <div class="col-sm-1"></div>
-                                                        <div class="col-sm-3">Email:</div>
+                                                        <div class="col-sm-2">Email:</div>
                                                      
                                                      <div class="col-sm-5">
-                                                     <input type="text" required class="form-control" name="email" id="email" style="height: 71%;">
+                                                     <input type="text" required class="form-control" name="email" id="email"  style="height: 71%; border-radius:4px;">
                                                      </div>
                                                      <div class="col-sm-2"></div>
                                                      </div>
                         </div>
     
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="addContact();">Save</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" data-dismiss="modal"  onclick="addContact();">Save</button>
+                            <button type="button" class="btn btn-primary"  data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </form> 
