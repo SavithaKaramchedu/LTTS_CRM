@@ -302,6 +302,17 @@ exports.priodropdownfun = function (req, res) {
             return res.status(500).send(err);
         }
         res.status(200).json(result);
+      });
+};
+  exports.sourdropdownfun = function (req, res) {
+   
+    let query="CALL procLookUpLeadSources()"; 
+    
+    db.query(query, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
 
     });
 

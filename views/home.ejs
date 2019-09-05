@@ -194,7 +194,7 @@
     </script>
 
 <script>
-       function myFunction() {
+       function Check1() {
 
 var checkBox = document.getElementById("myCheck");
 var textacc = document.getElementById("ownaccount");
@@ -204,6 +204,15 @@ var textshare = document.getElementById("ownshare");
 var textshare1 = document.getElementById("ownshare1");
 var inputtxtcont = document.getElementById("owncontact1");
 if (checkBox.checked == true){
+ 
+    $("#leadcity").prop("disabled", true);
+    $("#leadcountry").prop("disabled", true);
+    $("#leadstate").prop("disabled", true);
+    $("#leadphone").prop("disabled", true);
+    $("#leadmobile").prop("disabled", true);
+    $("#leademail").prop("disabled", true);
+    $("#ownacc").prop("disabled", true);
+    $("#owncont").prop("disabled", true);
 textacc.style.display = "block";
 inputtxtacc.style.display = "block";
 textcont.style.display = "block";
@@ -634,7 +643,7 @@ $( window ).load(function() {
     qualidropdownfun();
     priodropdownfun();
     catdropdownfun();
-    sourdropfun();
+    sourdropdownfun();
 });
         
 function addOpportunity(){
@@ -1204,6 +1213,8 @@ chart3.render();  }
                     }
                         $("#ownerAccountTable").html(tableData);
                         $("#owneropportunityTable").html(tableData);
+                        $("#leadownmodal").html(tableData);
+                        
                       
              }
             
@@ -1841,6 +1852,7 @@ clearFormBusiness();
 
 
                 function clearFormLead() {
+                  //  $('#myCheck').prop('checked','true');
                     $("#tit").prop("disabled", true);
                     $("#comp").prop("disabled", true);
                     $("#firname").prop("disabled", true);
@@ -2007,7 +2019,7 @@ clearFormBusiness();
                         for(var i=0;i<result[0].length;i++)
                     { 
                 dropdowndata = dropdowndata +         
-                 '<option value="' + result[0][i].LEADQUALIFICATION+ '">' + result[0][i].LEADQUALIFICATION+ '</option>';
+                 '<option value="' + result[0][i].LEADQUALIFICATIONID+ '">' + result[0][i].LEADQUALIFICATION+ '</option>';
 
                       } 
                 $("#qul").html(dropdowndata); 
@@ -2028,7 +2040,7 @@ clearFormBusiness();
                         for(var i=0;i<result[0].length;i++)
                     { 
                 dropdowndata = dropdowndata +         
-                 '<option value="' + result[0][i].PRIORITY+ '">' + result[0][i].PRIORITY+ '</option>';
+                 '<option value="' + result[0][i].PRIORITYID+ '">' + result[0][i].PRIORITY+ '</option>';
 
                       } 
                 $("#priority").html(dropdowndata); 
@@ -2049,7 +2061,7 @@ clearFormBusiness();
                         for(var i=0;i<result[0].length;i++)
                     { 
                     dropdowndata = dropdowndata +         
-                     '<option value="' + result[0][i].LEADCATEGORY+ '">' + result[0][i].LEADCATEGORY+ '</option>';
+                     '<option value="' + result[0][i].LEADCATEGORYID+ '">' + result[0][i].LEADCATEGORY+ '</option>';
 
                       } 
                 $("#Category").html(dropdowndata);      
@@ -2059,10 +2071,10 @@ clearFormBusiness();
 
                 };
                                     
-               function sourdropfun() {
+               function sourdropdownfun() {
                         var dropdowndata = "";
 
-                        var url = "https://localhost:9090/sourdropfun";
+                        var url = "https://localhost:9090/sourdropdownfun";
 
                         $.ajax({
                         url: url,
@@ -2071,13 +2083,34 @@ clearFormBusiness();
                           
                         for (var i = 0; i < result[0].length; i++) {
                         dropdowndata = dropdowndata +
-                        '<option value= "' + result[0][i].LEADSOURCE+ '" >' + result[0][i].LEADSOURCE+ '</option>'  
+                        '<option value= "' + result[0][i].LEADSOURCEID+ '" >' + result[0][i].LEADSOURCE+ '</option>'  
                     }
-                        $("#Source").html(dropdowndata);
-                        $("#sour").html(dropdowndata);
+                        $("#source").html(dropdowndata);
+                      // $("#sour").html(dropdowndata);
                         }
                         });
                         }; 
+                        function statusdropdownfun() {
+                        var dropdowndata = "";
+
+                        var url = "https://localhost:9090/statusdropdownfun";
+
+                        $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+                          console.log(result[0]);
+                        for (var i = 0; i < result[0].length; i++) {
+                        dropdowndata = dropdowndata +
+                        '<option value= "' + result[0][i].LEADSTATUSID+ '" >' + result[0][i].LEADSTATUS+ '</option>'  
+                    }
+                        $("#stats").html(dropdowndata);
+                    // $("#stat").html(dropdowndata);
+                        }
+                        });
+                        }; 
+
+                        
 
                   function opportunityLoad() {
                                 var tableData = "";
@@ -2466,7 +2499,9 @@ function resetFormOpp() {
         $('#ClosingDate').val('');
 }
 function resetFormLead() {
-        $('#status').prop('selectedIndex',0);
+    
+ //   $('#myCheck').prop('checked','false');
+        $('#stats').prop('selectedIndex',0);
         $('#qul').prop('selectedIndex',0);
         $('#source').prop('selectedIndex',0);
         $('#category').prop('selectedIndex',0);
@@ -3215,7 +3250,7 @@ background-size: 8%;'></div>
                             <header class="head-list">
                                 <div id="default_controls">
                                     <div class="pull-right" id="AddNewButton">
-                                        <a class="btn in-entity-modal" data-toggle="modal" href="#leadModal" onclick="resetFormLead();"
+                                        <a class="btn in-entity-modal" data-toggle="modal" href="#leadModal" onclick="resetFormLead();sourdropdownfun();qualidropdownfun();priodropdownfun();catdropdownfun();statusdropdownfun();"
                                             data-entity-type="Contact" data-action="Create">
                                             New Lead
                                         </a>
@@ -3312,11 +3347,12 @@ background-size: 8%;'></div>
                                 
                                                 <!-- Modal Header -->
                                                 <div class="modal-header"
-                                                    style="background-color: rgb(51, 122, 183);position: relative; top: -20px;color: rgb(255, 255, 255);">
+                                                style="padding-left: 0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color:  rgb(51, 122, 183);
+                                                color: white;">
                                 
                                                     <b class="modal-title" style="font-size:15px;margin-left:9px;">New Lead :</b>
                                 
-                                                    <button type="button" class="close" data-dismiss="modal" style="color: white; opacity:1;" data-backdrop="static" data-keyboard="false"   onclick="clearFormLead()">&times;</button>
+                                                    <button type="button" class="close" data-dismiss="modal" data-backdrop="static" data-keyboard="false" style="opacity: 1;color:white;"  onclick="clearFormLead()">&times;</button>
                                                 </div>
                                 
                                                 <!-- Modal body -->
@@ -3338,10 +3374,7 @@ background-size: 8%;'></div>
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <select class="strike" id="qual" name="quali"
-                                                                style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                <option>Cold</option>
-                                                                <option>Hot</option>
-                                                                <option>Warm</option>
+                                                         style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-1"> </div>
@@ -3362,10 +3395,6 @@ background-size: 8%;'></div>
                                                         <div class="col-sm-3">
                                                             <select class="strike" id="sour" name="source"
                                                                 style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                <option>Campaign</option>
-                                                                <option>External Party </option>
-                                                                <option>Road show</option>
-                                                                <option>Current Account</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-1"></div>
@@ -3386,10 +3415,7 @@ background-size: 8%;'></div>
                                                         <div class="col-sm-3">
                                                             <select class="strike" id="cat" name="category"
                                                                 style="height:25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                <option>Consulting</option>
-                                                                <option>Service</option>
-                                                                <option>Solution</option>
-                                                                <option>Staffing</option>
+                                                            
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-1"></div>
@@ -3410,10 +3436,7 @@ background-size: 8%;'></div>
                                                         <div class="col-sm-3">
                                                             <select class="strike" id="prio" name="priority"
                                                                 style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                <option>Immedaite</option>
-                                                                <option>Low</option>
-                                                                <option>Normal</option>
-                                                                <option>Urgent</option>
+                                                               
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-1"></div>
@@ -3429,10 +3452,7 @@ background-size: 8%;'></div>
                                                         <div class="col-sm-3">
                                                             <select class="strike" id="stat" name="status"
                                                                 style="height: 25px;font-size: 12px;width:100%;border-radius: 3px;" disabled>
-                                                                <option>Accepted</option>
-                                                                <option>Open</option>
-                                                                <option>Declined</option>
-                                                                <option>Qualified</option>
+                                                               
                                                             </select>
                                                         </div>
                                 
@@ -4824,9 +4844,11 @@ background-size: 8%;'></div>
             style="height: auto; padding-right: 0px  ! important;">
             <div class="modal-content">
                 <div class="modal-header"
-                    style="padding-left:0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;">
+                    style="padding-left:0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: rgb(51, 122, 183);
+    color: rgb(255, 255, 255);">
                     <b class="modal-title" style="font-size:15px;margin-left:9px;">New Lead :</b>
-                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <button type="button" class="close" data-dismiss="modal" style="opacity: 1;
+                    color: white;">×</button>
                 </div>
 
                 <div class="modal-body" style="height: 388px;">
@@ -4839,25 +4861,26 @@ background-size: 8%;'></div>
                                         <label class="control-label col-sm-12" for="name">Use Existing Account :</label>
                                     </div>
                                     <div class="col-sm-7">
-                         <input type="checkbox" class="form-control form-group" id="myCheck" name="title" style="height:71%;" onclick="myFunction();"></div>
+                         <input type="checkbox" class="form-control form-group" id="myCheck" name="title" style="height:71%;" onclick="Check1();" ></div>
                                     </div>
                             
                         <div class="row">
                             <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">Tittle:</label>
+                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Tittle:</label>
                             </div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="title" name="title" style="height:71%;"></div>
+                                <input type="text" class="form-control form-group" id="title" name="title" style="height:71%;" required></div>
                         </div>
                         <div class="row" >
                                 <div class="col-sm-5" id="ownaccount" style="display:none" >
-                                    <label class="control-label col-sm-12" for="name">Account:</label>
+                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Account:</label>
                                 </div>
                                 <div class="col-sm-6" id="ownaccount1" style="display:none" >
-                                    <input type="text" class="form-control form-group" id="ownacc" name="title" style="height:71%;">
+                                    <input type="text" class="form-control form-group" id="ownacc" name="title" style="height:71%;width: 118%;">
                                 </div>
-                    <div class="col-sm-1" style="right:19px;" >
-                                    <a data-toggle="modal" href="#" data-dismiss="modal"id="ownshare" style="display:none" > 
+                    <div class="col-sm-1" style="right:-48px;" >
+                                    <a data-toggle="modal" href="#parrentaccModal" data-dismiss="modal"id="ownshare" style="display:none" > 
+                                          
                                         <i class="fa fa-share"></i></a>
                                          </div>
                             </div>
@@ -4866,31 +4889,31 @@ background-size: 8%;'></div>
                                     <label class="control-label col-sm-12" for="name">Contact:</label>
                                 </div>
                                 <div class="col-sm-6" id="owncontact1" style="display:none" >
-                                <input type="text" class="form-control form-group" id="owncont" name="title" style="height:71%;"></div>
-                                <div class="col-sm-1" style="right:19px;" >
-                                    <a data-toggle="modal" href="#" data-dismiss="modal"id="ownshare1" style="display:none" > 
+                                <input type="text" class="form-control form-group" id="owncont" name="title" style="height:71%;width: 118%;"></div>
+                                <div class="col-sm-1" style="right:-48px;" >
+                                    <a href="#accmodal" data-toggle="modal" data-dismiss="modal" id="ownshare1" style="display:none;"> 
                                         <i class="fa fa-share"></i></a>
                                          </div>
                             </div>
                         <div class="row">
                             <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">Company:</label>
+                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Company:</label>
                             </div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="company" name="company" style="height:71%;"></div>
+                                <input type="text" class="form-control form-group" id="company" name="company" style="height:71%;"  required></div>
                         </div>
                         <div class="row">
                             <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">Contact First Name:</label></div>
+                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Contact First Name:</label></div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="firnam" name="first_name" style="height:71%;"></div>
+                                <input type="text" class="form-control" id="firnam" name="first_name" style="height:71%;"  required></div>
                         </div>
                         <div class="row">
                             <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">Contact Last Name:</label></div>
+                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Contact Last Name:</label></div>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control form-group" id="lasnam" placeholder=""
-                                    name="last_name" style="height:71%;"></div>
+                                    name="last_name" style="height:71%;"  required></div>
                         </div>
 
                         <div class="row">
@@ -4899,11 +4922,8 @@ background-size: 8%;'></div>
                                     <label for="sel1">Status:</label></div>
                             </div>
                             <div class="col-sm-7">
-                                <select class="form-control" id="status" name="status">
-                                    <option>Accepted</option>
-                                    <option>Open</option>
-                                    <option>Declined</option>
-                                    <option>Qualified</option>
+                                <select class="form-control" id="stats" name="status">
+                                
                                 </select>
                             </div>
                         </div>
@@ -4911,10 +4931,10 @@ background-size: 8%;'></div>
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="form-group col-sm-12">
-                                    <label for="sel1">Qualification Level :</label></div>
+                                    <label for="sel1">  <span style="color: red;">*</span>Qualification Level :</label></div>
                             </div>
                             <div class="col-sm-7">
-                                <select class="form-control" id="qul" name="qul" style="height:71%;">
+                                <select class="form-control" id="qul" name="qul" style="height:71%;"  required>
                                     <option>Cold</option>
                                     <option>Hot</option>
                                     <option>Warm</option>
@@ -4930,10 +4950,7 @@ background-size: 8%;'></div>
                             </div>
                             <div class="col-sm-7">
                                 <select class="form-control" id="source" name="source">
-                                    <option>Campaign</option>
-                                    <option>External Party </option>
-                                    <option>Road show</option>
-                                    <option>Current Account</option>
+                                    
                                 </select>
                             </div>
                         </div>
@@ -4973,17 +4990,34 @@ background-size: 8%;'></div>
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-12" for="name">Owner:</label></div>
+                        <label class="control-label col-sm-12" for="name">  
+                            <span style="color: red;">*</span>Owner:</label></div>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="owne" placeholder="" name="owner" style="height:71%;">
+                 <input type="text" class="form-control" id="owne" placeholder="" name="owner" style="height:71%;width: 118%;" required>
                                </div>
-                               <div class="col-sm-1" style="right:19px;">
+                               <div class="col-sm-1" style="right:-48px;">
                           <a data-toggle="modal" href="#leadownermodal"  > 
-                              <i class="fa fa-share"></i></a>
+                              <i class="fa fa-share" onclick="ownerAccountDisplay();"></i></a>
                                </div>
                         </div>
-                       
+
+                        <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-12"></div>
+                                        <label>Created By:</label></div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-5">
+                                    <label class="control-label col-sm-12" for="name"> 
+                                         Notes:</label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control form-group" id="notes" name="title" style="height:71%;"></div>
+                                    </div>
+
+
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group col-sm-12"></div>
@@ -4999,7 +5033,7 @@ background-size: 8%;'></div>
                                     <label for="sel1">City</label></div>
                             </div>
                             <div class="col-sm-7">
-                                <input type="text" id="city" class="form-control form-group" name="city">
+                                <input type="text" id="leadcity" class="form-control form-group" name="city">
                             </div>
                         </div>
                        
@@ -5009,7 +5043,7 @@ background-size: 8%;'></div>
                                     <label for="sel1">Country</label></div>
                             </div>
                             <div class="col-sm-7">
-                                <select class="form-control" id="country" name="category">
+                                <select class="form-control" id="leadcountry" name="country">
                                     <option>India</option>
                                     <option>US</option>
                                     <option>UK</option>
@@ -5024,7 +5058,7 @@ background-size: 8%;'></div>
                                     <label for="sel1">State</label></div>
                             </div>
                             <div class="col-sm-7">
-                                <select class="form-control" id="state" name="category">
+                                <select class="form-control" id="leadstate" name="state">
                                     <option>AndhraPradesh</option>
                                     <option>Telangana</option>
                                     <option>Tamilnaidu</option>
@@ -5044,7 +5078,7 @@ background-size: 8%;'></div>
                                 <label class="control-label col-sm-12" for="name">Phone:</label>
                             </div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="phone" name="phonee" style="height:71%;"></div>
+                                <input type="text" class="form-control form-group" id="leadphone" name="phonee" style="height:71%;"></div>
                         </div>
                         
                         <div class="row">
@@ -5052,7 +5086,7 @@ background-size: 8%;'></div>
                                 <label class="control-label col-sm-12" for="name">Mobile:</label>
                             </div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="mobile" name="mobile" style="height:71%;"></div>
+                                <input type="text" class="form-control form-group" id="leadmobile" name="mobile" style="height:71%;"></div>
                         </div>
 
                         <div class="row">
@@ -5060,7 +5094,7 @@ background-size: 8%;'></div>
                                 <label class="control-label col-sm-12" for="name">E-mail:</label>
                             </div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="email" name="email" style="height:71%;"></div>
+                                <input type="text" class="form-control form-group" id="leademail" name="email" style="height:71%;"></div>
                         </div>
 
 
@@ -5072,8 +5106,8 @@ background-size: 8%;'></div>
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="addLead();">Save</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="addLead();">Save</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
         
@@ -5086,13 +5120,12 @@ background-size: 8%;'></div>
                                                                 
                                                  <div class="modal-header" style="background-color: #495057ab; color:white;">
                                                           
-                                                            <!-- Modal Header -->
                                                         
                                                         <h6 class="modal-title">Accounts</h6>
                                                         <button type="button" class="close" data-dismiss="modal" style="color:white; opacity:1.5;" >×</button>
                                                     </div>
                                                             
-                                                    <!-- Modal body -->
+                                                   
                                                     <div class="modal-body" >
                                                             
                                                     <br>
@@ -5117,8 +5150,8 @@ background-size: 8%;'></div>
                                                             </div>
 
                                                             </div>
-                                                            
-                                                              <table class="table table-responsive">
+                                                  <div style="overflow: auto;height: 150px;">         
+                                                              <table class="table table-border">
                                                         
                                                       <thead style="background-color: #0F70A2; color:white;">
                                                           <tr>
@@ -5126,13 +5159,14 @@ background-size: 8%;'></div>
                                                         
                                                           </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody id="leadownmodal">
                                                          
                                                         </tbody>
                                                       </table>
+                                                    </div>
                                                             </div>
                                                             
-                                                            <!-- Modal footer -->
+                                                           
                                                             <div class="modal-footer">
                                                              <button type="button" class="btn btn-primary" data-dismiss="modal" style=" background-color: #0F70A2; color:white; " >Cancel</button>
                                                             </div>
@@ -5455,7 +5489,7 @@ background-size: 8%;'></div>
                                                 <i class="fa fa-share" style="position: relative; right: 58%; color:black;"></i>
                                                 </a>
 
-                                <div id="accmodal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
+                                <div id="accmodal" class="modal no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
                                         style="height: auto; padding-right: 0px  ! important; top: 146px;">
                                                         
                                             <div class="modal-content">

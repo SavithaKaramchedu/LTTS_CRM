@@ -154,11 +154,11 @@
       ]
     },
     {
-      "route": "/sourdropfun",
+      "route": "/sourdropdownfun",
       "type": "get",
       "configured": true,
       "routeclass": "./sampleservice.js",
-      "routefunction": "sourdropfun",
+      "routefunction": "sourdropdownfun",
 
 
       "description": "Routes to get the source dropdown value in leadmodal",
