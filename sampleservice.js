@@ -342,31 +342,57 @@ exports.addContactPage = function (req, res) {
 
     let fname = req.body.firstname;
     let lname = req.body.lastname;
-    let account = req.body.accountname;
     let title = req.body.jobtitle;
     let function1 = req.body.functionname;
     let department = req.body.department;
-    let phone = req.body.phone;
-    let city = req.body.city;
-    let fax = req.body.fax;
-    let mobile = req.body.mobile;
-    let email = req.body.email;
-    let query = "INSERT INTO `contactcirruswave` (firstname,lastname,accountname,jobtitle,functionname,department,phone,city,fax,mobile,email) VALUES ('" +
-        fname + "', '" + lname + "', '" + account + "', '" + title + "','" + function1 + "','" +
-        department + "','" + phone + "','" + city + "','" + fax + "','" + mobile + "','" +
-        email + "')";
+    let createdby = req.body.admin;
+    let query = "CALL `procInsertContact` ('" +
+        fname + "', '" + lname + "', '" + title + "','" + function1 + "','" +
+        department + "','" + createdby + "',@output)";
 
 
+        db.query(query, (err, result2) => {
+            if (err) {
+                console.log(err)
+                return res.status(500).send(err);
+            }
+            let query1="SELECT @output as contaccid";
+            db.query(query1, (err, result3) => {
+                if (err) {
+                    console.log(err)
+                    return res.status(500).send(err);
+                }
+                res.status(200).json(result3);
+                console.log(result3);
+            });
+           
+        });
+    
+    };
+    exports.contactemail = function (req, res) {
+       
+        let iSourceID = req.body.iSourceID;
+        let iAddressId = req.body.iAddressId;
+        let iSourceType = req.body.iSourceType;
+        let email = req.body.email;
+        let iIsDefault = req.body.iIsDefault;
+        let createdby = req.body.createdby;
+        
+    let query = "CALL `procInsertEmail`('" + iSourceID + "', '" + iAddressId + "', '" + iSourceType + "','" + email + "','" +
+    iIsDefault + "','" + createdby + "')"; // query database to get emails in contactmodal
+       
     db.query(query, (err, result) => {
-        if (err) {
+            if (err) {
+                res.redirect('/');
 
-            return res.status(500).send(err);
-        }
+            }
+            else {
+                res.status(200).json(result);
 
-        res.redirect('/home');
-
-    });
-};
+            }
+        });
+    };
+    
 exports.ContactPage = function (req, res) {
 
     let query = " CALL `devc4c`.`procAdminListAllContacts`()";
@@ -781,14 +807,11 @@ exports.Contactdep = function (req, res) {
         }
         res.status(200).json(result);
 
-
     });
 
 };
 
-
 exports.ContactAccounts = function (req, res) {
-
 
     let query = "CALL procAdminListAllAccounts('All')"; // query database to get all the accounts in contactmodal
 
@@ -804,7 +827,6 @@ exports.ContactAccounts = function (req, res) {
         }
     });
 };
-
 
 exports.accountcat = function (req, res) {
 
@@ -866,6 +888,7 @@ exports.accountstate = function (req, res) {
     });
 
 };
+
 exports.accparent = function (req, res) {
 
     let query1= 'call procAdminListAllAccounts("Parent")';
@@ -876,12 +899,12 @@ exports.accparent = function (req, res) {
        return res.status(500).send(err);
    }
    res.status(200).json(result);
-  
    
    });
    
-   };
-   exports.accowner = function (req, res) {
+};
+
+exports.accowner = function (req, res) {
 
     let query1= 'call procListAllEmployees'
    
