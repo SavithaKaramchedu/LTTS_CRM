@@ -1126,7 +1126,21 @@
           "param": "/account/:i"
         }
       ]
+    },
+    {
+      "route": "/accaddress",
+      "type": "post",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "accaddress",
+      "description": "Routes to insert address of account",
+      "examples": [
+        {
+          "param": "/accaddress"
+        }
+      ]
     }
-        
-  ]
+   
+    
+      ]
 }

@@ -452,10 +452,11 @@ exports.deletedisplaycont = function (req, res) {
 
 };
 exports.addAccountPage = function (req, res) {
+    console.log("addAccountPage");
     let message = '';
     let name = req.body.name;
 
-    let status = req.body.prospect;
+    let status = 'Y';
 
     let parentaccount = req.body.parentaccount;
     let parentaccountID = req.body.parentaccountID;
@@ -474,17 +475,63 @@ exports.addAccountPage = function (req, res) {
 
     let own = req.body.owner;
     let ownerID= req.body.ownerID;
-    let query = "call `procInsertAccount`('" +name + "', '" + status + "','" + parentaccountID + "', '" + website + "','" + accountcategory + "','" + ownerID + "','" + own + "')";
+  
+    let query = "call `procInsertAccount`('" +name + "', '" + parentaccountID + "','" + accountcategory + "', '" + status + "','" + website + "','" + ownerID + "','" + own + "',@output,@output1)";
 
+        db.query(query, (err, result2) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send(err);
+        }
+        let query1="SELECT @output as msg,@output1 as id";
+        db.query(query1, (err, result3) => {
+            if (err) {
+         
+                return res.status(500).send(err);
+            }
+            res.status(200).json(result3);
+           
+        });
+       
+    });
 
+};
+exports.accaddress = function (req, res) {
+    let sourceid=req.body.accountid;
+    let source = req.body.sourcetype;
+    let addresstype = req.body.iAddressType;
+    let addressline1 =req.body.iAddressLine1;
+    let addressline2 =req.body.iAddressLine2;
+   
+    let postalcode = req.body.iPostalCode;
+    //let vertical = req.body.accvertical;
+     let country = req.body.accountry;
+     let city = req.body.acccity;
+    let state = req.body.accstate;
+    
+     let billto = req.body.iBillTo;
+    let shipto =req.body.iShipTo;
+    let defaultadd = req.body.iIsDefault;
+    let createdby = req.body.iCreatedBy;
+     let query = "call procInsertAddress('" +sourceid + "','" +source + "','" +addresstype + "', '" + addressline1 + "','" + addressline2 + "', '" + city + "','" + state + "','" + postalcode + "','" + country + "','" + billto + "','" + shipto + "','" + defaultadd + "','" + createdby + "',@output)";
+
+    console.log(query);
 
     db.query(query, (err, result2) => {
         if (err) {
             console.log(err)
             return res.status(500).send(err);
         }
-        res.send('/home');
-        console.log(result2);
+        let query1="SELECT @output as accaaddressid";
+        db.query(query1, (err, result3) => {
+            if (err) {
+                console.log(err)
+                return res.status(500).send(err);
+            }
+            res.status(200).json(result3);
+            console.log(result3);
+        });
+       
     });
 
 };
@@ -849,6 +896,8 @@ exports.accparent = function (req, res) {
    });
    
    };
+   
+   
    
 
 

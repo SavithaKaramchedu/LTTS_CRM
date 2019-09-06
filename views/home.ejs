@@ -742,13 +742,12 @@ function addOpportunity(){
             var name = $("#accountName").val();
             var status = $("#accountProspect").val();
 
-            if(status.checked == true){
-                status = "Y";
-				}
-			else if(status.checked == false)
-				{
-                    status = "N";
-				}
+          /*  if ($("#accountProspect").val() == on) {
+             status = "Y";
+         }
+         else {
+             status = "N";
+         }*/
             var parentaccount = $("#parentAccount").val();
             var parentaccountID = $("#parentaccidhidden").val();
             
@@ -774,14 +773,14 @@ var data={
         "country":country,
         "city":city,
         "state":state,
-        "owner":owner,
+        "owner":"Admin",
         "ownerID":ownerID
         }
         
 
 
 data=JSON.stringify(data); 
-
+//alert(data);
 
 $.ajax({
     url: "https://localhost:9090/account",
@@ -790,8 +789,63 @@ $.ajax({
     data: data,
     contentType: "application/json",
     dataType: "json",
-    success: function (data) {
+    success: function (result) {
+      var outputid=result[0].msg;
+      if (outputid==null){
+          addAccountAddress(result[0].id);
+      }
+      else{
+          alert("Account name already exists")
+      }
+     // console.log(outputid);
+    },
+
+    error: function () {
+       
+    }
+});
+
+AccountLoad();
+
+}
+function addAccountAddress(i){
+    var accvertical=$("#accountVertical").val();
+    var accountry=$("#accountCounty").val();
+    var acccity=$("#accountCity").val();
+    var accstate=$("#accoutState").val();
+   
+    
+var data={
+        "accountid":i,
+        "sourcetype":"Account",
+        "iAddressType":'',
+        "iAddressLine1":'',
+        "iAddressLine2":'',
+        "iPostalCode":'',
+        "iBillTo":'Y',
+        "iShipTo":'Y',
+        "iIsDefault":'Y',
+        "iCreatedBy":"Admin",
         
+        "accountry":accountry,
+        "acccity":acccity,
+        "accstate":accstate,
+        
+        }
+        
+
+
+data=JSON.stringify(data); 
+
+$.ajax({
+    url: "https://localhost:9090/accaddress",
+    type: "POST",
+    async: false,
+    data: data,
+    contentType: "application/json",
+    dataType: "json",
+    success: function (data) {
+           
     },
 
     error: function () {
@@ -799,9 +853,7 @@ $.ajax({
     }
 });
 
-AccountLoad();
-
-}
+} 
     
 function addContact() {
 
@@ -1192,6 +1244,7 @@ chart3.render();  }
         function ownerAccountDisplay() {
            console.log('entred');
             var tableData = "";
+            
             var url = "https://localhost:9090/owneracc" ;
         
             $.ajax({
@@ -1335,6 +1388,7 @@ chart3.render();  }
         function acccatdropdown() {
                         
                         var dropdowndata = "";
+                        var optionvalue="";
 
                         var url = "https://localhost:9090/acccat";
 
