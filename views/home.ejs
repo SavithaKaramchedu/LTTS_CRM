@@ -740,27 +740,54 @@ function addOpportunity(){
      function AddAccounts() {
 
             var name = $("#accountName").val();
-            var status = $("#accountProspect").val();
 
-          /*  if ($("#accountProspect").val() == on) {
+            var status = $("#accountProspect").val();
+              
+          if (status=="checked"||status=="on") {
              status = "Y";
          }
-         else {
+         else if(status=="unchecked"||status==""||status=="off") {
              status = "N";
-         }*/
+         }
+         
             var parentaccount = $("#parentAccount").val();
+            if (parentaccount==null){
+                parentaccount="";
+            }
+            else{
+                parentaccount = $("#parentAccount").val();
+            }
             var parentaccountID = $("#parentaccidhidden").val();
             
             var website = $("#accountWebsite").val();
+            if (website==null){
+                website="";
+            }
+            else{
+                website = $("#accountWebsite").val();
+            }
             var accountcategory = $("#accountCategory").val();
            
             var vertical = $("#accountVertical").val();
             var country = $("#accountCounty").val();
             var city = $("#accountCity").val();
             var state = $("#accoutState").val();
+            if (state==null){
+                state="";
+            }
+            else{
+                state = $("#accoutState").val();
+            }
             var owner = $("#accountOwner").val();
+           
+            if (owner==null){
+                owner="";
+            }
+            else{
+                owner = $("#accountOwner").val();
+            }
             var ownerID = $("#owneraccidhidden").val();
-
+            
 
 var data={
         "name":name,
@@ -780,7 +807,7 @@ var data={
 
 
 data=JSON.stringify(data); 
-//alert(data);
+
 
 $.ajax({
     url: "https://localhost:9090/account",
@@ -797,7 +824,7 @@ $.ajax({
       else{
           alert("Account name already exists")
       }
-     // console.log(outputid);
+     
     },
 
     error: function () {
@@ -862,7 +889,7 @@ function addContact() {
             fname = ""
         }
         var lname = $("#last-name").val();
-        if (lname != "NULL" || lname == ""){
+        if (lname == "NULL" || lname == ""){
             lname = ""
         }
       //  var account = $("#accountcont").val();
@@ -1154,7 +1181,7 @@ chart3.render();  }
         }
 
         function editAccount() {
-            
+  
             $("#faname").prop("disabled", false);
             $("#Prospect").prop("disabled", false);
             $("#paacc").prop("disabled", false);
@@ -1171,7 +1198,8 @@ chart3.render();  }
 
         }
         function clearFormAccount() {
-           
+            $("#parentAccount").prop("disabled", true);
+            $("#accountOwner").prop("disabled", true);
             $("#faname").prop("disabled", true);
             $("#Prospect").prop("disabled", true);
             $("#paacc").prop("disabled", true);
@@ -1256,7 +1284,8 @@ chart3.render();  }
         function parentacciddisplay(i,j) {
             $("#parentAccount").val(j);
             $("#parentaccidhidden").val(i);
-            
+            $("#parentAccount").prop("disabled", false);
+           
              }
            
        
@@ -1297,7 +1326,7 @@ chart3.render();  }
             
             $("#accountOwner").val(j);
            $("#owneraccidhidden").val(i);
-           
+           $("#accountOwner").prop("disabled", false);
             }
         
 
@@ -1930,7 +1959,7 @@ chart3.render();  }
             success: function (result) {
               
                 insertcontfax(i);
-           
+          
             },
 
             error: function () {
@@ -2135,7 +2164,7 @@ clearFormBusiness();
                     type: "GET",
 
                     success: function (result) {
-                        console.log(result[0]);
+                    
                         $("#leadloading").css('display','none');
 
                         $("#allleadscount").text(result[0].length);
@@ -2467,7 +2496,7 @@ clearFormBusiness();
                         url: url,
                         type: "GET",
                         success: function (result) {
-                          console.log(result[0]);
+                      
                         for (var i = 0; i < result[0].length; i++) {
                         dropdowndata = dropdowndata +
                         '<option value= "' + result[0][i].LEADSTATUSID+ '" >' + result[0][i].LEADSTATUS+ '</option>'  
@@ -2648,7 +2677,7 @@ clearFormBusiness();
                 url: url,
                 type: "GET",
                 success: function (result) {
-                   // console.log(result[0])
+                   
                     for (var i = 0; i < result[0].length; i++) {
 
                         SalesCycledata = SalesCycledata +
@@ -2668,7 +2697,7 @@ clearFormBusiness();
                 url: url,
                 type: "GET",
                 success: function (result) {
-                   // console.log(result[0])
+                 
                     for (var i = 0; i < result[0].length; i++) {
 
                         Salesphasedata = Salesphasedata +
@@ -2689,7 +2718,7 @@ clearFormBusiness();
                 url: url,
                 type: "GET",
                 success: function (result) {
-                   // console.log(result[0])
+                  
                     for (var i = 0; i < result[0].length; i++) {
 
                         Categorydata = Categorydata +
@@ -2841,6 +2870,8 @@ clearFormBusiness();
         $('#email').val('');
 }
 function resetFormAccount() {
+        $('#owneraccidhidden').val('');
+        $('#parentaccidhidden').val('');
         $('#accountCategory').prop('selectedIndex',0);
         $('#accountVertical').prop('selectedIndex',0);
         $('#accountCounty').prop('selectedIndex',0);
@@ -2849,6 +2880,7 @@ function resetFormAccount() {
         $('#parentAccount').val('');
         $('#accountWebsite').val('');
         $('#accountCity').val('');
+        $('#accountProspect').val('');
         $('#accountOwner').val('');
 }
 function resetFormOpp() {
@@ -5080,7 +5112,7 @@ background-size: 8%;'></div>
                             style="padding-left:0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;background-color: rgb(0, 63, 118);
                             color: rgb(255, 255, 255);">
                             <b class="modal-title" style="font-size:15px;margin-left:9px;">New Account :</b>
-                            <button type="button" class="close" data-dismiss="modal" style="color:white;opacity:1">×</button>
+                            <button type="button" onclick=" clearFormAccount()" class="close" data-dismiss="modal" style="color:white;opacity:1">×</button>
                         </div>
     
                         <div class="modal-body">
@@ -5103,7 +5135,7 @@ background-size: 8%;'></div>
                                 <div class="col-lg-5">
                                     <div class="form-group">Prospect:</div>
                                 </div>
-                                <div class="col-lg-7"><input type="checkbox" id="accountProspect" name="check" checked>
+                                <div class="col-lg-7"><input type="checkbox" id="accountProspect" name="check">
     
                                 </div>
                             </div>
@@ -5112,11 +5144,11 @@ background-size: 8%;'></div>
                                 <div class="col-lg-5">Parent Account:</div>
     
                                 <div class="col-lg-6">
-                                    <input type="text" class="form-control" name="paacc"
+                                    <input type="text" disabled class="form-control" name="paacc"
                                         id="parentAccount" style="height:25px;width:95%;">
                                         <input type="text" id="parentaccidhidden" style="display:none;">
                                     </div>
-                                <div class="col-lg-1" style="margin-left: -31px;"><a href="#parrentaccModal" data-toggle="modal" onclick="parentAccountDisplay()"><span class="fa fa-share"></span></a></div>
+                                <div class="col-lg-1" style="margin-left: -31px;"><a href="#parrentaccModal" data-toggle="modal" onclick="parentAccountDisplay();editAccount()"><span class="fa fa-share"></span></a></div>
     
                             </div>
                             <div class="row">
@@ -5180,18 +5212,18 @@ background-size: 8%;'></div>
                                 <div class="col-lg-5">
                                     <div class="form-group">Owner:</div>
                                 </div>
-                                <div class="col-lg-6"><input type="text" class="form-control "
+                                <div class="col-lg-6"><input type="text" disabled class="form-control "
                                         style="height:25px;width:95%;" name="owner" id="accountOwner">
                                         <input type="text" id="owneraccidhidden" style="display:none;">
                                     </div>
-                                <div class="col-lg-1" style="margin-left: -31px;"><a href="#owneraccModal" data-toggle="modal" onclick="ownerAccountDisplay()"><span class="fa fa-share"></span></a></div>
+                                <div class="col-lg-1" style="margin-left: -31px;"><a href="#owneraccModal" data-toggle="modal" onclick="ownerAccountDisplay();"><span class="fa fa-share"></span></a></div>
                             </div>
     
                           </div>
     
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="AddAccounts();">Save</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="AddAccounts();clearFormAccount()">Save</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="clearFormAccount()">Cancel</button>
                         </div>
                     </div>
                 </form>

@@ -387,7 +387,7 @@ exports.addContactPage = function (req, res) {
             }
             else {
                 res.status(200).json(result);
-            
+            console.log(result);
             }
         });
     };
@@ -531,7 +531,7 @@ exports.addAccountPage = function (req, res) {
     let message = '';
     let name = req.body.name;
 
-    let status = 'Y';
+    let status = req.body.prospect;
 
     let parentaccount = req.body.parentaccount;
     let parentaccountID = req.body.parentaccountID;
@@ -558,6 +558,7 @@ exports.addAccountPage = function (req, res) {
            
             return res.status(500).send(err);
         }
+       
         let query1="SELECT @output as msg,@output1 as id";
         db.query(query1, (err, result3) => {
             if (err) {
