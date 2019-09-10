@@ -1092,6 +1092,33 @@
         {
           "param": "/contactphone"
         }
+        ]  },
+        {
+      "route": "/addleadcompany",
+      "type": "post",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "addleadcompany",
+      "description": "Route for creation of new lead",
+      "bodyschema": {
+        "type": "object",
+        "required": [ 
+                "company"       
+        ],
+        "properties": {
+          "company": {
+            "description": "Company name",
+            "type": "string"
+          }
+        }
+      },
+      "examples": [
+        {
+          "param": "/addleadcompany",
+          "payload": {      
+            "company":"LTTS"          
+            }
+        }
       ]
     },
     {
@@ -1106,7 +1133,37 @@
           "param": "/contactemail"
         }
       ]
-    }
+    },
+    {
     
+      "route": "/addcontactinfo",
+      "type": "post",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "addcontactinfo",
+      "description": "Route for creation of new lead",
+      "bodyschema": {
+        "type": "object",
+        "required": [ 
+                "contfname",
+                "contlname"
+                    
+        ],
+        "properties": {
+          "company": {
+            "description": "contactinfo  names",
+            "type": "string"
+          }
+        }
+      },
+      "examples": [
+        {
+          "param": "/addcontactinfo",
+          "payload": {      
+            "company":"LTTS"          
+            }
+        }
+      ]
+    }    
   ]
 }

@@ -197,14 +197,8 @@
        function Check1() {
 
 var checkBox = document.getElementById("myCheck");
-var textacc = document.getElementById("ownaccount");
-var inputtxtacc = document.getElementById("ownaccount1");
-var textcont = document.getElementById("owncontact");
-var textshare = document.getElementById("ownshare");
-var textshare1 = document.getElementById("ownshare1");
-var inputtxtcont = document.getElementById("owncontact1");
 if (checkBox.checked == true){
- 
+  
     $("#leadcity").prop("disabled", true);
     $("#leadcountry").prop("disabled", true);
     $("#leadstate").prop("disabled", true);
@@ -213,19 +207,39 @@ if (checkBox.checked == true){
     $("#leademail").prop("disabled", true);
     $("#ownacc").prop("disabled", true);
     $("#owncont").prop("disabled", true);
-textacc.style.display = "block";
-inputtxtacc.style.display = "block";
-textcont.style.display = "block";
-inputtxtcont.style.display = "block";
-textshare.style.display = "block";
-textshare1.style.display = "block";
+    $("#leaduncheckcountry").css('display','block');
+    $("#leaduncheckstate").css('display','block');
+    $("#leadcountry").css('display','none');
+    $("#leadstate").css('display','none');
+    $("#ownaccount").css('display','block');
+    $("#ownaccount1").css('display','block');
+    $("#owncontact").css('display','block');
+    $("#owncontact1").css('display','block');
+    $("#ownshare").css('display','block');
+    $("#ownshare1").css('display','block');
+    
+    
 } else {
-textacc.style.display = "none";
-inputtxtacc.style.display = "none";
-textcont.style.display = "none";
-inputtxtcont.style.display = "none";
-textshare.style.display = "none";
-textshare1.style.display = "none";
+    
+    $("#leadcity").val('');  
+    $("#leaduncheckcountry").css('display','none');
+    $("#leaduncheckstate").css('display','none');
+    $("#leadcountry").css('display','block');
+    $("#owncontact1").css('display','none');
+    $("#ownaccount1").css('display','none');
+    $("#ownshare").css('display','none');
+    $("#leadstate").css('display','block');
+    $("#owncontact").css('display','none');
+    $("#ownaccount").css('display','none');
+    $("#ownshare1").css('display','none');
+    $("#leadcity").prop("disabled", false);
+    $("#leadcountry").prop("disabled", false);
+    $("#leadstate").prop("disabled", false);
+    $("#leadphone").prop("disabled", false);
+    $("#leadmobile").prop("disabled", false);
+    $("#leademail").prop("disabled", false);
+    addleadcompany();
+   
 }
 
 };  
@@ -697,8 +711,9 @@ function addOpportunity(){
         }
    
      function addLead() {
+        console.log("haii lead");
+         
         var title=$("#title").val();
-        var company=$("#company").val();
         var firstname=$("#firnam").val();
         var lastname=$("#lasnam").val();
         var status=$("#status").val();
@@ -707,7 +722,7 @@ function addOpportunity(){
         var category=$("#category").val();
         var priority=$("#priority").val();     
         var owner=$("#owne").val();
-     
+        var owneridlead = $("#ownerleadidhidden").val();
         var data={
                 "title":title,
                 "company":company,
@@ -728,15 +743,81 @@ function addOpportunity(){
             data: data,
             contentType: "application/json",
             dataType: "json",
-            success: function (data) {
-                
+            success: function (result) {
+                addleadcompany();
             },      
             error: function () {
+                console.log("err");
             }
         });
         leadLoad();
         }
-   
+
+            function addleadcompany() {
+                    alert( "lead company");
+                    var company=$("#company").val();
+
+            var data={
+                    
+                    "company":company,
+                    "prospect":'Y', 
+                    "parentaccountID":' ',
+                    "accountcategoryID":' ',
+                    "website":' ',
+                    "owner":'admin',
+                    "ownerID":' '
+                    }
+                    
+            data=JSON.stringify(data); 
+            alert(data);
+            $.ajax({
+                url: "https://localhost:9090/addleadcompany",
+                type: "POST",
+                async: false,
+                data: data,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                    addcontactinfo();
+                },      
+                error: function () {
+                }
+            });
+            leadLoad();
+            }
+            function addcontactinfo() {
+
+            var contlefname=$("#firnam").val();
+            var contlelname=$("#lasnam").val();
+
+            var data={
+
+            "contfname":contlefname,
+            "contlname":contlelname, 
+            "contjobtit":' ',
+            "contjobfunid":' ',
+            "ideptID":' ',
+            "icreateBy":'admin',
+            "contleadID":' '
+            }
+
+            data=JSON.stringify(data); 
+            $.ajax({
+            url: "https://localhost:9090/addcontactinfo",
+            type: "POST",
+            async: false,
+            data: data,
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+            },      
+            error: function () {
+            }
+            });
+            leadLoad();
+            }
+
      function AddAccounts() {
 
             var name = $("#accountName").val();
@@ -1256,6 +1337,7 @@ chart3.render();  }
               
                     for (var i = 0; i < result[0].length; i++) {
                       
+                     
                        
                         if (result[0][i].accountcode == null || result[0][i].accountcode == 0){
                             result[0][i].accountcode = "";
@@ -1268,7 +1350,11 @@ chart3.render();  }
                         } 
                         var acctparentid="\""+result[0][i].accountid+"\"";
                         var acctparentname="\""+result[0][i].name+"\"";
-                    tableData = tableData + " <tr class='customtr' onclick='parentacciddisplay("+acctparentid+","+acctparentname+")' onmouseover='this.bgColor='black''  data-dismiss='modal'> " +
+                        var leadcity="\""+result[0][i].city+"\"";
+                        var leadstate="\""+result[0][i].state+"\"";
+                        var leadcountry="\""+result[0][i].country+"\"";
+                        
+                    tableData = tableData + " <tr class='customtr' onclick='parentacciddisplay("+acctparentid+","+acctparentname+"),leadcontactdisplay("+leadcity+","+leadstate+","+leadcountry+");' data-dismiss='modal'> " +
                         "<td >" + result[0][i].ExternalID + "</td>" +
                         "<td >" + result[0][i].accountcode + "</td>" +
                         "<td >" + result[0][i].name + "</td>" +
@@ -1281,11 +1367,24 @@ chart3.render();  }
            
            
         }
+        function leadcontactdisplay(i,j,k) {
+          
+            $("#leadcity").val(i);
+            $("#leaduncheckstate").val(j);
+            $("#leaduncheckcountry").val(k);
+         
+            //$("#leadcity").prop('disabled','false');
+            //$("#leadstate").prop('disabled','false');
+            //$("#leadcountry").prop('disabled','false');
+             }
         function parentacciddisplay(i,j) {
+           
             $("#parentAccount").val(j);
             $("#parentaccidhidden").val(i);
             $("#parentAccount").prop("disabled", false);
            
+            $("#leadacchiddenid").val(i);
+            $("#ownacc").val(j);
              }
            
        
@@ -1327,6 +1426,8 @@ chart3.render();  }
             $("#accountOwner").val(j);
            $("#owneraccidhidden").val(i);
            $("#accountOwner").prop("disabled", false);
+           $("#ownerleadidhidden").val(i);
+           $("#owne").val(j);
             }
         
 
@@ -2461,8 +2562,8 @@ clearFormBusiness();
                      '<option value="' + result[0][i].LEADCATEGORYID+ '">' + result[0][i].LEADCATEGORY+ '</option>';
 
                       } 
-                $("#Category").html(dropdowndata);      
-                $("#cat").html(dropdowndata);                   
+                $("#categoryy").html(dropdowndata);      
+                //$("#cat").html(dropdowndata);                   
                     }
                 });
 
@@ -2901,6 +3002,9 @@ function resetFormOpp() {
 function resetFormLead() {
     
  //   $('#myCheck').prop('checked','false');
+ //$('input:checkbox').each(function Check1() { this.checked = false;});
+        $("#myCheck").prop("checked",false);
+       // Check1();
         $('#stats').prop('selectedIndex',0);
         $('#qul').prop('selectedIndex',0);
         $('#source').prop('selectedIndex',0);
@@ -5216,7 +5320,9 @@ background-size: 8%;'></div>
                                         style="height:25px;width:95%;" name="owner" id="accountOwner">
                                         <input type="text" id="owneraccidhidden" style="display:none;">
                                     </div>
-                                <div class="col-lg-1" style="margin-left: -31px;"><a href="#owneraccModal" data-toggle="modal" onclick="ownerAccountDisplay();"><span class="fa fa-share"></span></a></div>
+                                <div class="col-lg-1" style="margin-left: -31px;">
+                                    <a href="#owneraccModal" data-toggle="modal" onclick="ownerAccountDisplay()">
+                                        <span class="fa fa-share"></span></a></div>
                             </div>
     
                           </div>
@@ -5229,6 +5335,274 @@ background-size: 8%;'></div>
                 </form>
     
         </div>
+       
+
+
+        <div id="leadModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
+            style="height: auto; padding-right: 0px  ! important;">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="padding-left:0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: rgb(51, 122, 183);
+    color: rgb(255, 255, 255);">
+                    <b class="modal-title" style="font-size:15px;margin-left:9px;">New Lead :</b>
+                    <button type="button" class="close" data-dismiss="modal" style="opacity: 1;
+                    color: white;" onclick="resetFormLead();">×</button>
+                </div>
+
+                <div class="modal-body" style="height: 388px;">
+
+                    <form method="post">
+
+
+                            <div class="row">
+                                    <div class="col-sm-5">
+                                        <label class="control-label col-sm-12" for="name">Use Existing Account :</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                         <input type="checkbox" class="form-control form-group" id="myCheck" name="title" style="height:71%;" onclick="Check1();" ></div>
+                                    </div>
+                            
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Tittle:</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control form-group" id="title" name="title" style="height:71%;" required></div>
+                        </div>
+                        <div class="row" >
+                                <div class="col-sm-5" id="ownaccount" style="display:none" >
+                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Account:</label>
+                                </div>
+                                <div class="col-sm-6" id="ownaccount1" style="display:none" >
+                                        <input type="text" id="leadacchiddenid" style="display:none">
+                                    <input type="text" class="form-control form-group" id="ownacc" name="title" style="height:71%;width: 118%;">
+                                </div>
+                                    <div class="col-sm-1" style="right:-48px;" >
+                                    <a data-toggle="modal" href="#parrentaccModal" onclick="parentAccountDisplay()" id="ownshare" style="display:none" > 
+                                          
+                                        <i class="fa fa-share"></i></a>
+                                         </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-sm-5" id="owncontact" style="display:none" >
+                                    <label class="control-label col-sm-12" for="name">Contact:</label>
+                                </div>
+                                <div class="col-sm-6" id="owncontact1" style="display:none" >
+                                <input type="text" class="form-control form-group" id="owncont" name="title" style="height:71%;width: 118%;"></div>
+                                <div class="col-sm-1" style="right:-48px;" >
+                                    <a href="#accmodal" data-toggle="modal" data-dismiss="modal" id="ownshare1" style="display:none;"> 
+                                        <i class="fa fa-share"></i></a>
+                                         </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Company:</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control form-group" id="company" name="company" style="height:71%;"  required></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Contact First Name:</label></div>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="firnam" name="first_name" style="height:71%;"  required></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Contact Last Name:</label></div>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control form-group" id="lasnam" placeholder=""
+                                    name="last_name" style="height:71%;"  required></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group col-sm-12">
+                                    <label for="sel1">Status:</label></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <select class="form-control" id="stats" name="status">
+                                
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group col-sm-12">
+                                    <label for="sel1">  <span style="color: red;">*</span>Qualification Level :</label></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <select class="form-control" id="qul" name="qul" style="height:71%;"  required>
+                                    
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group col-sm-12">
+                                    <label for="sel1">Source:</label></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <select class="form-control" id="source" name="source">
+                                    
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group col-sm-12">
+                                    <label for="sel1">Category:</label></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <select class="form-control" id="categoryy" name="category">
+                                   
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group col-sm-12">
+                                    <label for="sel1">Priority:</label></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <select class="form-control" id="priority" name="priority">
+                                   
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                        <label class="control-label col-sm-12" for="name">  
+                            <span style="color: red;">*</span>Owner:</label></div>
+                            </div>
+                            <div class="col-sm-6">
+                                    <input type="text" id="ownerleadidhidden" style="display: none;" >
+                 <input type="text" class="form-control" id="owne" placeholder="" name="owner" style="height:71%;width: 118%;" required>
+                               </div>
+                               <div class="col-sm-1" style="right:-48px;">
+                          <a data-toggle="modal" href="#owneraccModal"  > 
+                              <i class="fa fa-share" onclick="ownerAccountDisplay();"></i></a>
+                               </div>
+                        </div>
+
+                        <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-12"></div>
+                                        <label>Created By:</label></div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-5">
+                                    <label class="control-label col-sm-12" for="name"> 
+                                         Notes:</label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control form-group" id="notes" name="title" style="height:71%;"></div>
+                                    </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group col-sm-12"></div>
+                                    <label>Account Information</label></div>
+                            </div>
+                            
+                        <hr style="top: -10px;
+                        position: relative;">
+                       
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group col-sm-12">
+                                    <label for="sel1">City</label></div>
+                            </div>
+                            <div class="col-sm-7">
+                                   
+                            <input type="text" id="leaduncheckcity" style="display:none" class="form-control form-group" name="city">
+                                        
+                                <input type="text" id="leadcity"  class="form-control form-group" name="city">
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group col-sm-12">
+                                    <label for="sel1">Country</label></div>
+                            </div>
+                            <div class="col-sm-7">
+                                    <input type="text" id="leaduncheckcountry" style="display:none" disabled class="form-control form-group" name="city">
+                                <select class="form-control" id="leadcountry" name="country">
+                                   
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group col-sm-12">
+                                    <label for="sel1">State</label></div>
+                            </div>
+                            <div class="col-sm-7">
+                                    <input type="text" id="leaduncheckstate" style="display:none" disabled class="form-control form-group" name="city">
+                                <select class="form-control" id="leadstate" name="state">
+                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group col-sm-12"></div>
+                                    <label>Contact Information</label></div>
+                            </div>
+                            
+                        <hr style="top: -10px;
+                        position: relative;">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label col-sm-12" for="name">Phone:</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control form-group" id="leadphone" name="phonee" style="height:71%;"></div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label col-sm-12" for="name">Mobile:</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control form-group" id="leadmobile" name="mobile" style="height:71%;"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label col-sm-12" for="name">E-mail:</label>
+                            </div>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control form-group" id="leademail" name="email" style="height:71%;"></div>
+                        </div>
+
+
+
+                </div>
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="Check1();">Save</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="resetFormLead();">Cancel</button>
+            </div>
+        </div>
+        
         <div id="parrentaccModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
         style="height: auto; padding-right: 0px  ! important; top: 146px;">
                         
@@ -5248,7 +5622,7 @@ background-size: 8%;'></div>
                             
                     <br>
 
-                    <div class="row">
+                       <div class="row">
 
                         <div class="col-sm-3">
 
@@ -5378,280 +5752,6 @@ background-size: 8%;'></div>
                           </div>
                         
                       </div>
-
-
-        <div id="leadModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
-            style="height: auto; padding-right: 0px  ! important;">
-            <div class="modal-content">
-                <div class="modal-header"
-                    style="padding-left:0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: rgb(51, 122, 183);
-    color: rgb(255, 255, 255);">
-                    <b class="modal-title" style="font-size:15px;margin-left:9px;">New Lead :</b>
-                    <button type="button" class="close" data-dismiss="modal" style="opacity: 1;
-                    color: white;">×</button>
-                </div>
-
-                <div class="modal-body" style="height: 388px;">
-
-                    <form method="post">
-
-
-                            <div class="row">
-                                    <div class="col-sm-5">
-                                        <label class="control-label col-sm-12" for="name">Use Existing Account :</label>
-                                    </div>
-                                    <div class="col-sm-7">
-                         <input type="checkbox" class="form-control form-group" id="myCheck" name="title" style="height:71%;" onclick="Check1();" ></div>
-                                    </div>
-                            
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Tittle:</label>
-                            </div>
-                            <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="title" name="title" style="height:71%;" required></div>
-                        </div>
-                        <div class="row" >
-                                <div class="col-sm-5" id="ownaccount" style="display:none" >
-                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Account:</label>
-                                </div>
-                                <div class="col-sm-6" id="ownaccount1" style="display:none" >
-                                    <input type="text" class="form-control form-group" id="ownacc" name="title" style="height:71%;width: 118%;">
-                                </div>
-                    <div class="col-sm-1" style="right:-48px;" >
-                                    <a data-toggle="modal" href="#parrentaccModal" data-dismiss="modal"id="ownshare" style="display:none" > 
-                                          
-                                        <i class="fa fa-share"></i></a>
-                                         </div>
-                            </div>
-                            <div class="row" >
-                                <div class="col-sm-5" id="owncontact" style="display:none" >
-                                    <label class="control-label col-sm-12" for="name">Contact:</label>
-                                </div>
-                                <div class="col-sm-6" id="owncontact1" style="display:none" >
-                                <input type="text" class="form-control form-group" id="owncont" name="title" style="height:71%;width: 118%;"></div>
-                                <div class="col-sm-1" style="right:-48px;" >
-                                    <a href="#accmodal" data-toggle="modal" data-dismiss="modal" id="ownshare1" style="display:none;"> 
-                                        <i class="fa fa-share"></i></a>
-                                         </div>
-                            </div>
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Company:</label>
-                            </div>
-                            <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="company" name="company" style="height:71%;"  required></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Contact First Name:</label></div>
-                            <div class="col-sm-7">
-                                <input type="text" class="form-control" id="firnam" name="first_name" style="height:71%;"  required></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Contact Last Name:</label></div>
-                            <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="lasnam" placeholder=""
-                                    name="last_name" style="height:71%;"  required></div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group col-sm-12">
-                                    <label for="sel1">Status:</label></div>
-                            </div>
-                            <div class="col-sm-7">
-                                <select class="form-control" id="stats" name="status">
-                                
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group col-sm-12">
-                                    <label for="sel1">  <span style="color: red;">*</span>Qualification Level :</label></div>
-                            </div>
-                            <div class="col-sm-7">
-                                <select class="form-control" id="qul" name="qul" style="height:71%;"  required>
-                                    <option>Cold</option>
-                                    <option>Hot</option>
-                                    <option>Warm</option>
-
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group col-sm-12">
-                                    <label for="sel1">Source:</label></div>
-                            </div>
-                            <div class="col-sm-7">
-                                <select class="form-control" id="source" name="source">
-                                    
-                                </select>
-                            </div>
-                        </div>
-
-
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group col-sm-12">
-                                    <label for="sel1">Category:</label></div>
-                            </div>
-                            <div class="col-sm-7">
-                                <select class="form-control" id="category" name="category">
-                                    <option>Consulting</option>
-                                    <option>Service</option>
-                                    <option>Solution</option>
-                                    <option>Staffing</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group col-sm-12">
-                                    <label for="sel1">Priority:</label></div>
-                            </div>
-                            <div class="col-sm-7">
-                                <select class="form-control" id="priority" name="priority">
-                                    <option>Immedaite</option>
-                                    <option>Low</option>
-                                    <option>Normal</option>
-                                    <option>Urgent</option>
-                                </select>
-                            </div>
-                        </div>
-
-
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group">
-                        <label class="control-label col-sm-12" for="name">  
-                            <span style="color: red;">*</span>Owner:</label></div>
-                            </div>
-                            <div class="col-sm-6">
-                 <input type="text" class="form-control" id="owne" placeholder="" name="owner" style="height:71%;width: 118%;" required>
-                               </div>
-                               <div class="col-sm-1" style="right:-48px;">
-                          <a data-toggle="modal" href="#leadownermodal"  > 
-                              <i class="fa fa-share" onclick="ownerAccountDisplay();"></i></a>
-                               </div>
-                        </div>
-
-                        <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group col-sm-12"></div>
-                                        <label>Created By:</label></div>
-                                </div>
-
-                                <div class="row">
-                                        <div class="col-sm-5">
-                                    <label class="control-label col-sm-12" for="name"> 
-                                         Notes:</label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control form-group" id="notes" name="title" style="height:71%;"></div>
-                                    </div>
-
-
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group col-sm-12"></div>
-                                    <label>Account Information</label></div>
-                            </div>
-                            
-                        <hr style="top: -10px;
-                        position: relative;">
-                       
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group col-sm-12">
-                                    <label for="sel1">City</label></div>
-                            </div>
-                            <div class="col-sm-7">
-                                <input type="text" id="leadcity" class="form-control form-group" name="city">
-                            </div>
-                        </div>
-                       
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group col-sm-12">
-                                    <label for="sel1">Country</label></div>
-                            </div>
-                            <div class="col-sm-7">
-                                <select class="form-control" id="leadcountry" name="country">
-                                    <option>India</option>
-                                    <option>US</option>
-                                    <option>UK</option>
-                                    <option>AUS</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group col-sm-12">
-                                    <label for="sel1">State</label></div>
-                            </div>
-                            <div class="col-sm-7">
-                                <select class="form-control" id="leadstate" name="state">
-                                    <option>AndhraPradesh</option>
-                                    <option>Telangana</option>
-                                    <option>Tamilnaidu</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group col-sm-12"></div>
-                                    <label>Contact Information</label></div>
-                            </div>
-                            
-                        <hr style="top: -10px;
-                        position: relative;">
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">Phone:</label>
-                            </div>
-                            <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="leadphone" name="phonee" style="height:71%;"></div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">Mobile:</label>
-                            </div>
-                            <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="leadmobile" name="mobile" style="height:71%;"></div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">E-mail:</label>
-                            </div>
-                            <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="leademail" name="email" style="height:71%;"></div>
-                        </div>
-
-
-
-                </div>
-
-                </form>
-
-            </div>
-
-            <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="addLead();">Save</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-        
-
 
         <div id="leadownermodal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
                                         style="height: auto; padding-right: 0px  ! important; top: 146px;">

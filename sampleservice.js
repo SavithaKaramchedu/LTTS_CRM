@@ -118,21 +118,98 @@ exports.addLead = function (req, res) {
     let priority = req.body.priority;
     let owner = req.body.owner;
 
-    let query = "INSERT INTO `leadcirruswave` (title,company,firstname,lastname,status,qualificationlevel,source,category,priority,owner) VALUES ('" +
+    let query = "call procInsertLead('" +
         title + "', '" + company + "', '" + firstname + "', '" + lastname + "','" + status + "','" + qul +
         "',  '" + source + "',  '" + category + "',  '" + priority + "',  '" + owner + "')";
+console.log(query);
 
-
-    db.query(query, (err, result) => {
+    ddb.query(query, (err, result2) => {
         if (err) {
-
+            console.log(err)
             return res.status(500).send(err);
         }
-
-        res.redirect('/home');
-
+        let query1="SELECT @output as leadID";
+        db.query(query1, (err, result3) => {
+            if (err) {
+                console.log(err)
+                return res.status(500).send(err);
+            }
+            res.status(200).json(result4);
+            console.log(result4);
+        });
+       
     });
 };
+exports.addleadcompany = function (req, res) {
+  
+
+    let company = req.body.company;
+
+    
+    let parentaccountID = req.body.parentaccountID;
+    let status = req.body.prospect;
+    let website = req.body.website;
+
+    let accountcategory = req.body.accountcategoryID;
+    let own = req.body.owner;
+    let ownerID= req.body.ownerID;
+
+
+    let query = "call `procInsertAccount`('" +company + "', '" + parentaccountID + "','" + accountcategory + "','" + status + "', '" + website + "','" + ownerID + "','" + own + "',@output,@output1)";
+    console.log(query);
+    db.query(query, (err, result2) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send(err);
+        }
+        let query1="SELECT @output as oAcctID";
+        db.query(query1, (err, result3) => {
+            if (err) {
+                console.log(err)
+                return res.status(500).send(err);
+            }
+            res.status(200).json(result3);
+            console.log(result3);
+        });
+       
+    });
+
+};
+
+
+exports.addcontactinfo = function (req, res) {
+
+    let fname = req.body.contfname;
+    let lname = req.body.contlname;
+    let contjobtit = req.body.contjobtit;
+    let contjobfunid = req.body.contjobfunid;
+    let ideptID = req.body.ideptID;
+    let icreateBy = req.body.icreateBy;
+    
+    
+   
+   let query = "call `procInsertContact` ('" +fname + "', '" + lname + "', '" + contjobtit + "', '" + contjobfunid + "','" + ideptID + "', '"
+    + icreateBy + "',@output)";
+
+    db.query(query, (err, result2) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).send(err);
+        }
+        let query1="SELECT @output as oContactID";
+        db.query(query1, (err, result3) => {
+            if (err) {
+                console.log(err)
+                return res.status(500).send(err);
+            }
+            res.status(200).json(result3);
+            console.log(result3);
+        });
+       
+    });
+
+};
+
 exports.editLeadPage = function (req, res) {
     let playerId = req.params.id;
     let query = "SELECT * FROM `players` WHERE id = '" + playerId + "' ";
