@@ -212,8 +212,6 @@
       ]
     },	
 
-
-
     {
       "route": "/employees",
       "type": "get",
@@ -254,8 +252,7 @@
         }
       ]
     }, 
-    
-    
+     
      {
        "route": "/contact/:i",
        "type": "put",
@@ -497,9 +494,6 @@
       ]
     },
 
-    
-    
-
     {
       "route": "/contact",
       "type": "post",
@@ -507,7 +501,72 @@
       "routeclass": "./sampleservice.js",
       "routefunction": "addContactPage",
       "description": "Route for creation of new contact",
-      
+      "bodyschema": {
+        "type": "object",
+        "required": [
+          "firstname",
+          "lastname",
+          "accountname",
+          "jobtitle",
+          "functionname",
+          "department",
+          "phone",
+          "city",
+          "fax",
+          "mobile",
+          "email"
+        ],
+        "properties": {
+          "firstname": {
+            "description": "First Name",
+            "type": "string"
+          },
+          "lastname": {
+            "description": "Last Name",
+            "type": "string"
+          },
+          "accountname": {
+            "description": "Last Name",
+            "type": "string"
+          },
+          "jobtitle": {
+            "description": "account",
+            "type": "string"
+          },
+          "functionname": {
+            "description": "Function",
+            "type": "string"
+          },
+          "department": {
+            "description": "Department or Division",
+            "type": "string"
+          },
+          "phone": {
+            "description": "Phone number",
+            "type": "string",
+            "minLength":3
+          },
+          "city": {
+            "description": "City",
+            "type": "string"
+          },
+          "fax": {
+            "description": "Fax number",
+            "type": "string",
+            "minLength":3
+          },
+          "mobile": {
+            "description": "Mobile number",
+            "type": "string",
+            "minLength":3
+          },
+          "email": {
+            "description": "Email address",
+            "type": "string",
+            "format":"email"
+          }
+        }
+      },
 
       "examples": [
         {
@@ -983,7 +1042,7 @@
         }
       ]
     },
-
+    
     {
       "route": "/acccat",
       "type": "get",
@@ -1076,19 +1135,44 @@
       ]
     },
     {
+      "route": "/insertcontactaccount",
+      "type": "post",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "insertcontactaccount",
+      "description": "Route to insert contactaccounts in new contact modal",
+      "examples": [
+        {
+          "param": "/insertcontactaccount"
+        }
+      ]
+    },    
+    {
+      "route": "/contactphone",
+      "type": "post",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "contactphone",
+      "description": "Route to insert phone",
+      "examples": [
+        {
+          "param": "/contactphone"
+        }
+      ]
+    },
+    {
       "route": "/contactemail",
       "type": "post",
       "configured": true,
       "routeclass": "./sampleservice.js",
       "routefunction": "contactemail",
-      "description": "Routes to insert email",
+      "description": "Route to insert email",
       "examples": [
         {
           "param": "/contactemail"
         }
       ]
     }
-   
     
-      ]
+  ]
 }

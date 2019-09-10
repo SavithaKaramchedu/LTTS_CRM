@@ -228,7 +228,9 @@ exports.updateleadrecord = function (req, res) {
 exports.deleteleadrecord = function (req, res) {
 
     let Sid = req.params.i;
+    
     let deleteUserQuery = 'DELETE FROM leadcirruswave WHERE id = "' + Sid + '"';
+    
     db.query(deleteUserQuery, (err, result) => {
         if (err) {
             return res.status(500).send(err);
@@ -338,6 +340,7 @@ exports.getBackPage = function (req, res) {
         , message: ''
     });
 };
+
 exports.addContactPage = function (req, res) {
 
     let fname = req.body.firstname;
@@ -353,46 +356,93 @@ exports.addContactPage = function (req, res) {
 
         db.query(query, (err, result2) => {
             if (err) {
-                console.log(err)
+               
                 return res.status(500).send(err);
             }
+        
             let query1="SELECT @output as contaccid";
             db.query(query1, (err, result3) => {
                 if (err) {
-                    console.log(err)
                     return res.status(500).send(err);
                 }
                 res.status(200).json(result3);
-                console.log(result3);
+              
             });
            
         });
     
     };
+
+    exports.insertcontactaccount = function (req, res) {
+       
+        let iAccountID = req.body.iAccountID;
+        let iContactID = req.body.iContactID;
+        let iCreatedBy = req.body.iCreatedBy;
+     
+    let query = "CALL `procInsertAccountContact`('" + iAccountID + "', '" + iContactID + "', '" + iCreatedBy + "')"; 
+   
+    db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            else {
+                res.status(200).json(result);
+            
+            }
+        });
+    };
+
+    exports.contactphone = function (req, res) {
+       
+        let iSourceID = req.body.iSourceID;
+        let iAddressId = req.body.iAddressId;
+        let iSourceType = req.body.iSourceType;
+        let iCountryID = req.body.iCountryID;
+        let iIsMobile = req.body.iIsMobile;
+        let iIsFax = req.body.iIsFax;
+        let iAreaCode = req.body.iAreaCode;
+        let iPhoneNumber = req.body.iPhoneNumber;
+        let iCompleteNumber = req.body.iCompleteNumber;
+        let iIsDefault = req.body.iIsDefault;
+        let createdby = req.body.createdby;
+        
+    let query = "CALL `procInsertPhone`('" + iSourceID + "', '" + iAddressId + "', '" + iSourceType + "','" +iCountryID + "','"
+     + iIsMobile + "','" + iIsFax + "','" + iAreaCode + "','" + iPhoneNumber + "','" + iCompleteNumber + "','" + iIsDefault + "','" + createdby + "')"; // query database to get emails in contactmodal
+      
+    db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            else {
+                res.status(200).json(result);
+                
+            }
+        });
+    };
+
     exports.contactemail = function (req, res) {
        
         let iSourceID = req.body.iSourceID;
         let iAddressId = req.body.iAddressId;
         let iSourceType = req.body.iSourceType;
-        let email = req.body.email;
+        let iEmail = req.body.iEmail;
         let iIsDefault = req.body.iIsDefault;
         let createdby = req.body.createdby;
         
-    let query = "CALL `procInsertEmail`('" + iSourceID + "', '" + iAddressId + "', '" + iSourceType + "','" + email + "','" +
-    iIsDefault + "','" + createdby + "')"; // query database to get emails in contactmodal
-       
+    let query = "CALL `procInsertEmail`('" + iSourceID + "', '" + iAddressId + "', '" + iSourceType + "','" + iIsDefault + "','" +
+    iEmail + "','" + createdby + "')"; // query database to get emails in contactmodal
+   
     db.query(query, (err, result) => {
             if (err) {
-                res.redirect('/');
-
+                return res.status(500).send(err);
             }
             else {
                 res.status(200).json(result);
-
+            
             }
         });
     };
-    
+       
 exports.ContactPage = function (req, res) {
 
     let query = " CALL `devc4c`.`procAdminListAllContacts`()";
@@ -407,7 +457,6 @@ exports.ContactPage = function (req, res) {
 
     });
 };
-
 
 exports.recorddisplaycont = function (req, res) {
 
@@ -478,7 +527,7 @@ exports.deletedisplaycont = function (req, res) {
 
 };
 exports.addAccountPage = function (req, res) {
-    console.log("addAccountPage");
+    
     let message = '';
     let name = req.body.name;
 
@@ -506,7 +555,7 @@ exports.addAccountPage = function (req, res) {
 
         db.query(query, (err, result2) => {
         if (err) {
-            console.log(err)
+           
             return res.status(500).send(err);
         }
         let query1="SELECT @output as msg,@output1 as id";
@@ -530,9 +579,8 @@ exports.accaddress = function (req, res) {
     let addressline2 =req.body.iAddressLine2;
    
     let postalcode = req.body.iPostalCode;
-    //let vertical = req.body.accvertical;
-     let country = req.body.accountry;
-     let city = req.body.acccity;
+    let country = req.body.accountry;
+    let city = req.body.acccity;
     let state = req.body.accstate;
     
      let billto = req.body.iBillTo;
@@ -541,21 +589,20 @@ exports.accaddress = function (req, res) {
     let createdby = req.body.iCreatedBy;
      let query = "call procInsertAddress('" +sourceid + "','" +source + "','" +addresstype + "', '" + addressline1 + "','" + addressline2 + "', '" + city + "','" + state + "','" + postalcode + "','" + country + "','" + billto + "','" + shipto + "','" + defaultadd + "','" + createdby + "',@output)";
 
-    console.log(query);
 
     db.query(query, (err, result2) => {
         if (err) {
-            console.log(err)
+           
             return res.status(500).send(err);
         }
         let query1="SELECT @output as accaaddressid";
         db.query(query1, (err, result3) => {
             if (err) {
-                console.log(err)
+               
                 return res.status(500).send(err);
             }
             res.status(200).json(result3);
-            console.log(result3);
+            
         });
        
     });
@@ -565,8 +612,6 @@ exports.getAccountPage = function (req, res) {
 
 
     let query = 'call `procAdminListAllAccounts`("All")';
-
-
 
     db.query(query, (err, result) => {
 
@@ -828,6 +873,7 @@ exports.ContactAccounts = function (req, res) {
     });
 };
 
+
 exports.accountcat = function (req, res) {
 
     let query1 = "call procLookUpAccountCategories()";
@@ -914,8 +960,7 @@ exports.accowner = function (req, res) {
        return res.status(500).send(err);
    }
    res.status(200).json(result);
-   console.log(result);
-   
+  
    });
    
    };
