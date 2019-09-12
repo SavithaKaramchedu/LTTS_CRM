@@ -133,7 +133,14 @@
  opacity: .8;
  background-size: 8%;'></div> 
 
-
+<script>
+    $("#mySearch").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#parentAccountTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+</script>
 <script>
     
         $(document).ready(function () {
@@ -966,24 +973,24 @@ $.ajax({
 function addContact() {
 
         var fname = $("#first-name").val();
-        if (fname == NULL || fname == ""){
+        if (fname == "NULL" || fname == ""){
             fname = ""
         }
         var lname = $("#last-name").val();
-        if (lname == NULL || lname == ""){
+        if (lname == "NULL" || lname == ""){
             lname = ""
         }
        var account = $("#accountcont").val();
         var title = $("#job-title").val();
-        if (title == NULL || title == ""){
+        if (title == "NULL" || title == ""){
             title = ""
         }
         var function1 = $("#contfunction1").val();
-        if (function1 == NULL || function1 == ""){
+        if (function1 == "NULL" || function1 == ""){
             function1 = ""
         }
         var department = $("#department").val();
-        if (department == NULL || department == ""){
+        if (department == "NULL" || department == ""){
             department = ""
         }
         // var phone = $("#phone").val();
@@ -1550,10 +1557,11 @@ chart3.render();  }
                             type: "GET",
                             success: function (result) {
                                
-                                for (var i = 0; i <result[0].length; i++) {
+                                
                                   
-                                  dropdowndata = dropdowndata  +
-                                 '<option value= "' + result[0][i].ACCOUNTCATEGORYID + '" >' + result[0][i].ACCOUNTCATEGORY +  '</option>' 
+                                  dropdowndata = dropdowndata+"<option style='display:none;'></option>"
+                                  for (var i = 0; i <result[0].length; i++) {
+                                    dropdowndata = dropdowndata + '<option value= "' + result[0][i].ACCOUNTCATEGORYID + '" >' + result[0][i].ACCOUNTCATEGORY +  '</option>' 
                                         
                                 }
                                 $("#accountCategory").html(dropdowndata);
@@ -1575,7 +1583,7 @@ chart3.render();  }
                         url: url,
                         type: "GET",
                         success: function (result) {
-
+                            dropdowndata = dropdowndata+"<option style='display:none;'></option>"
                             for (var i = 0; i < result[0].length; i++) {
                              
 
@@ -1599,7 +1607,7 @@ chart3.render();  }
                         url: url,
                         type: "GET",
                         success: function (result) {
-                         
+                            dropdowndata = dropdowndata+"<option style='display:none;'></option>"
                             for (var i = 0; i < result[0].length; i++) {
                              
                                 dropdowndata = dropdowndata  +
@@ -1626,7 +1634,7 @@ chart3.render();  }
                         url: url,
                         type: "GET",
                         success: function (result) {
-                          
+                            dropdowndata = dropdowndata+"<option style='display:none;'></option>"
                             for (var i = 0; i < result[0].length; i++) { 
                                
                                 dropdowndata = dropdowndata  +
