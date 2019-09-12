@@ -966,29 +966,29 @@ $.ajax({
 function addContact() {
 
         var fname = $("#first-name").val();
-        if (fname == "NULL" || fname == ""){
+        if (fname == NULL || fname == ""){
             fname = ""
         }
         var lname = $("#last-name").val();
-        if (lname == "NULL" || lname == ""){
+        if (lname == NULL || lname == ""){
             lname = ""
         }
-      //  var account = $("#accountcont").val();
+       var account = $("#accountcont").val();
         var title = $("#job-title").val();
-        if (title == "NULL" || title == ""){
+        if (title == NULL || title == ""){
             title = ""
         }
         var function1 = $("#contfunction1").val();
-        if (function1 == "NULL" || function1 == ""){
+        if (function1 == NULL || function1 == ""){
             function1 = ""
         }
         var department = $("#department").val();
-        if (department == "NULL" || department == ""){
+        if (department == NULL || department == ""){
             department = ""
         }
         // var phone = $("#phone").val();
         // var fax = $("#fax").val();
-        // var mobile = $("#mobile").val();
+         var mobile = $("#mobile").val();
         // var email = $("#email").val();
         // var contaccidname = $("#contgetaccid").val();
 
@@ -1010,8 +1010,9 @@ var data={
 
         data = JSON.stringify(data);
         //console.log(data);
-
-        $.ajax({
+if(lname !="" && account!="" && mobile!=""){
+       
+    $.ajax({
             url: "https://localhost:9090/contact",
             type: "post",
             async: false,
@@ -1027,7 +1028,11 @@ var data={
                
             }
         });
-
+   
+    }else{
+alert("enter required fields");
+   
+    }
         contactLoad();
 
     }
@@ -1491,9 +1496,8 @@ chart3.render();  }
                 dataType: "json",
                 success: function (data) {
                    
-                    
-                },
-              
+                   
+                },              
 
             });
            
@@ -1664,7 +1668,6 @@ chart3.render();  }
                 };
 
 
-
         function contactLoad() {
 
                 var tableData;
@@ -1677,8 +1680,8 @@ chart3.render();  }
                     url: url,
                     type: "GET",
                     success: function (result) {
-
-                         $("#screenloading").css('display','none'); 
+console.log(result[0]);
+                        $("#screenloading").css('display','none'); 
 
 
                         $("#contcount").text(result[0].length);
@@ -1706,11 +1709,11 @@ chart3.render();  }
                                 result[0][i].email = "";
                             }
 
-
+                            var contid ="\""+result[0][i].contactid+"\"";
                             tableData = tableData + "  <tr> " +
                                 
                                 "<td id='' hidden>" + result[0][i].contactid + "</td>" +
-                                "<td >" + "<a href='#cmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[0][i].Name + "</a>" + "</td>" +
+                                "<td >" + "<a href='#cmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false' onclick='recorddisplaycont("+contid+")'>" + result[0][i].Name + "</a>" + "</td>" +
                                 "<td >" + result[0][i].Account + "</td>" +
                                 "<td >" + result[0][i].jobfunction + "</td>" +
                                 "<td >" + result[0][i].DEPARTMENT + "</td>" +
@@ -1723,19 +1726,45 @@ chart3.render();  }
                         }
                         
                         $("#contactTable").html(tableData);
-                       
-                            
+                                               
                     }
                 
                 });
             
             }  
 
+            function recorddisplaycont(i) {
+
+$.ajax({
+    url: "https://localhost:9090/contact/" + i,
+    type: "GET",
+    success: function (result) {
+console.log(result);
+        $("#cid").val(i);
+        // $("#firstname").val(result[0].firstname);
+        // $("#lastname").val(result[0].lastname);
+        $("#acc").val(result[0].Account);
+        $("#jobtitle").val(result[0].jobfunction);
+        $("#funct").val(result[0].functionname);
+        $("#depart").val(result[0].DEPARTMENT);
+        $("#phn").val(result[0].Phone);
+        // $("#cit").val(result[0].city);
+        // $("#fa").val(result[0].fax);
+        $("#mob").val(result[0].Mobile);
+        $("#eml").val(result[0].email);
+    }
+});
+
+clearFormContact();
+
+}
+
              function editcontact() {
                    
                     $("#firstname").prop("disabled", false);
                     $("#lastname").prop("disabled", false);
                     $("#acc").prop("disabled", false);
+                    $("#accountcont").prop("disabled", false);
                     $("#jobtitle").prop("disabled", false);
                     $("#job-title").prop("disabled", false);
                     $("#funct").prop("disabled", false);
@@ -1761,6 +1790,7 @@ chart3.render();  }
                     $("#firstname").prop("disabled", true);
                     $("#lastname").prop("disabled", true);
                     $("#acc").prop("disabled", true);
+                    $("#accountcont").prop("disabled", true);
                     $("#jobtitle").prop("disabled", true);
                     $("#job-title").prop("disabled", true);
                     $("#funct").prop("disabled", true);
@@ -1782,31 +1812,7 @@ chart3.render();  }
 
                 } 
 
-                function recorddisplaycont(i) {
-
-                        $.ajax({
-                            url: "https://localhost:9090/contact/" + i,
-                            type: "GET",
-                            success: function (result) {
-
-                                $("#cid").val(result[0].contactid);
-                                $("#firstname").val(result[0].firstname);
-                                $("#lastname").val(result[0].lastname);
-                                $("#acc").val(result[0].accountname);
-                                $("#jobtitle").val(result[0].jobtitle);
-                                $("#funct").val(result[0].functionname);
-                                $("#depart").val(result[0].department);
-                                $("#phn").val(result[0].phone);
-                                $("#cit").val(result[0].city);
-                                $("#fa").val(result[0].fax);
-                                $("#mob").val(result[0].mobile);
-                                $("#eml").val(result[0].email);
-                            }
-                        });
-
-                        clearFormContact();
-
-                    }
+                
 
                     function updatereccontact() {
 
@@ -1999,6 +2005,11 @@ chart3.render();  }
     function insertaccountcontact(i) {
          
         var accountcontactid = $("#contgetaccid").val();
+
+        // if (result[0][i].accountcontactid== "null" || result[0][i].accountcontactid == "")
+        //                     {
+        //                         result[0][i].accountcontactid = "";
+        //                     }
 
         var data = {
            
@@ -2197,6 +2208,63 @@ chart3.render();  }
 
     }
 
+    function businessLoad() {
+
+            var tableData;
+
+            $("#screenloading").css('display', 'block');
+
+            var url = "https://localhost:9090/business";
+
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+
+                    $("#screenloading").css('display', 'none');
+
+                    $("#bpcount").text(result[0].length);
+
+                    for (var i = 0; i < result[0].length; i++) {
+
+                       
+                        if (result[0][i].BPName == null || result[0][i].BPName == 0) {
+                            result[0][i].BPName = "";
+                        }
+                        if (result[0][i].city == null || result[0][i].city == 0) {
+                             result[0][i].city = "";
+                         }
+                        if (result[0][i].MainContact == null || result[0][i].MainContact == 0) {
+                             result[0][i].MainContact = "";
+                         }
+                        if (result[0][i].country == null || result[0][i].country == 0) {
+                            result[0][i].country = "";
+                        }
+                        
+
+                        tableData = tableData + "  <tr> " +
+
+                            "<td >" + result[0][i].BPStatus + "</td>" +
+                            "<td >" + result[0][i].BPID + "</td>" +
+                            "<td >" + result[0][i].BPName + "</td>" +
+                            "<td >" + result[0][i].city + "</td>" +
+                            "<td >" + result[0][i].MainContact + "</td>" +
+                            "<td >" + result[0][i].createddate + "</td>" +
+                            "<td >" + result[0][i].country + "</td>" +
+                            "<td >" + result[0][i].BPType + "</td>" +
+                           
+
+                            "</tr>";
+                    }
+
+                    $("#businessTable").html(tableData);
+                   
+                }
+
+            });
+
+        }  
 
      function editBusiness() {
 
@@ -2221,14 +2289,14 @@ $.ajax({
     type: "GET",
     success: function (result) {
 
-        $("#status").val(result[0].contactid);
-        $("#businesspId").val(result[0].firstname);
-        $("#business").val(result[0].lastname);
-        $("#cityB").val(result[0].accountname);
-        $("#mainc").val(result[0].phone);
-        $("#created").val(result[0].jobtitle);
-        $("select #countryb").val(result[0].functionname).attr('selected', 'selected');
-        $("#typeb").val(result[0].city);
+        $("#status").val(result[0].BPStatus);
+        $("#businesspId").val(result[0].BPName);
+        $("#business").val(result[0].businesspartnerid);
+        $("#cityB").val(result[0].city);
+        $("#mainc").val(result[0].MainContact);
+        $("#created").val(result[0].createddate);
+        $("select #countryb").val(result[0].country).attr('selected', 'selected');
+        $("#typeb").val(result[0].BPType);
        
     }
 });
@@ -3545,318 +3613,157 @@ background-size: 8%;'></div>
                                     </tbody>
 
                                 </table>
-                              
-                                <div class="modal fade docs-example-modal-lg" id="cmodal" tabindex="-1" role="dialog"
-                                style="height: 439px;top: 23%;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <!-- Modal Header -->
-                                        <div class="modal-header" style="background-color: rgb(51, 122, 183); color:rgb(255, 255, 255);">
-                                            <h6 class="modal-title">New Contact</h1>
-                                                <button type="button" class="close" data-dismiss="modal" onclick="clearFormContact()"
-                                                    style="color: rgb(255, 255, 255); opacity:1;">×</button>
-                                        </div>
-                        
-                                        <!-- Modal body -->
-                                        <div class="modal-body" style="padding: 13px 25px;">
-                                                           
-                                            <div class="row">
-                        
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-2">First Name:</div>
-                                                <div class="col-sm-3">
-                                                    <p id="cid" style="display:none;"></p>
-                                                    <input type="text" disabled required class="form-control" val="" name="first_name"
-                                                        id="firstname" style="height: 71%;">
-                                                </div>
-                        
-                                                <div class="col-sm-2">
-                                                    <p><span style="color:red;">*</span>Last Name:
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <input type="text" disabled required class="form-control" name="last_name" id="lastname"
-                                                        style="height: 71%;">
-                                                </div>
-                                                <div class="col-sm-1"></div>
-                                            </div>
-                                                            
-                                            <div class="row">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-2">
-                                                    <p><span style="color:red;">*</span> Account:
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <input type="text" disabled required class="form-control" name="account" id="acc"
-                                                        style="height: 71%;">
-                                                       
-                                                </div>
-                        
-                        
-                                                <div class="col-sm-2">Job Title:</div>
-                                                <div class="col-sm-3">
-                                                    <input type="text" disabled required class="form-control" name="job_title" id="jobtitle"
-                                                        style="height: 71%;">
-                                                </div>
-                                                <div class="col-sm-1"></div>
-                                            </div>
-                                                           
-                                            <div class="row">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-2"> Function:</p>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <select class="form-control" disabled name="function1" id="funct" style="height: 71%;">
-                        
-                                                    </select>
-                                                </div>                                   
-                        
-                                                <div class="col-sm-2">Department:</div>
-                        
-                                                <div class="col-sm-3">
-                                                    <select class="form-control" disabled name="department" id="depart" style="height: 71%;">
-                                                   
-                                                    </select>
-                        
-                                                </div>
-                                            </div>
-                                                          
-                                            <div class="row">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-2">Phone:</div>
-                        
-                                                <div class="col-sm-3">
-                                                    <input type="text" disabled required class="form-control" name="phone" id="phn"
-                                                        style="height: 71%;">
-                                                </div>
-                        
-                                                <div class="col-sm-2">City:</div>
-                        
-                                                <div class="col-sm-3">
-                                                    <input type="text" disabled required class="form-control" name="city" id="cit"
-                                                        style="height: 71%;">
-                                                </div>
-                                            </div>
-                                                                                      
-                                            <div class="row">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-2">Fax:</div>
-                        
-                                                <div class="col-sm-3">
-                                                    <input type="text" disabled required class="form-control" name="fax" id="fa"
-                                                        style="height: 71%;">
-                                                </div>
-                        
-                                                <div class="col-sm-2">
-                                                    <p><span style="color:red;">*</span>Mobile:
-                                                </div>
-                        
-                                                <div class="col-sm-3">
-                                                    <input type="text" disabled required class="form-control" name="mobile" id="mob"
-                                                        style="height: 71%;">
-                                                </div>
-                                            </div>
-                        
-                                            <div class="row">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-2">Email:</div>
-                        
-                                                <div class="col-sm-3">
-                                                    <input type="text" disabled required class="form-control" name="email" id="eml"
-                                                        style="height: 71%;">
-                                                </div>
-                                                <div class="col-sm-1"></div>
-                                            </div>                                    
-                        
-                                            <br>
-                                        </div>
-                                        <!-- Modal footer -->
-                                        <div class="modal-footer">
-                                                          
-                                            <button type="button" class="btn btn-primary" id="editct" onclick="editcontact()">Edit</button>
-                        
-                                            <button type="submit" class="btn btn-primary" id="savect" data-dismiss="modal"
-                                                onclick="updatereccontact()" hidden>save</button>
-                        
-                                            <button type="button" class="btn btn-primary" id="cancelct" data-dismiss="modal"
-                                                onclick="clearFormContact()" hidden>cancel</button>                                   
-                        
-                                        </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        
-                        </div>
-
-                        </div>
-                        
+        
+                                 </div>
+    
+                             </div>
+    
+                          </div>
+    
+                      </div>
+                
                     </div>
-                    
+            
                 </div>
-                </div>
+    
             </div>
-        </div>
-            <div class="modal fade docs-example-modal-lg" id="cmodal" tabindex="-1" role="dialog"
-            style="height: 439px;top: 23%;" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header" style="background-color: #e6e0e094; color:black;">
-                        <h6 class="modal-title">New Contact</h1>
-                            <button type="button" class="close" data-dismiss="modal" onclick="clearFormContact()"
-                                style="color: #000; opacity:1.5;">×</button>
-                    </div>
-    
-                    <!-- Modal body -->
-                    <div class="modal-body" style="padding: 13px 25px;">
-                                       
-                        <div class="row">
-    
-                            <div class="col-sm-1"></div>
-                            <div class="col-sm-2">First Name:</div>
-                            <div class="col-sm-3">
-                                <p id="cid" style="display:none;"></p>
-                                <input type="text" disabled required class="form-control" val="" name="first_name"
-                                    id="firstname" style="height: 71%;">
-                            </div>
-    
-                            <div class="col-sm-2">
-                                <p><span style="color:red;">*</span>Last Name:
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="text" disabled required class="form-control" name="last_name" id="lastname"
-                                    style="height: 71%;">
-                            </div>
-                            <div class="col-sm-1"></div>
-                        </div>
-                                        
-                        <div class="row">
-                            <div class="col-sm-1"></div>
-                            <div class="col-sm-2">
-                                <p><span style="color:red;">*</span> Account:
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="text" disabled required class="form-control" name="account" id="acc"
-                                    style="height: 71%;">
-                                   
-                            </div>
-    
-    
-                            <div class="col-sm-2">Job Title:</div>
-                            <div class="col-sm-3">
-                                <input type="text" disabled required class="form-control" name="job_title" id="jobtitle"
-                                    style="height: 71%;">
-                            </div>
-                            <div class="col-sm-1"></div>
-                        </div>
-                                       
-                        <div class="row">
-                            <div class="col-sm-1"></div>
-                            <div class="col-sm-2"> Function:</p>
-                            </div>
-                            <div class="col-sm-3">
-                                <select class="form-control" disabled name="function1" id="funct" style="height: 71%;">
-                                    <option selected></option>
-                                    <option>Executive Board</option>
-    
-                                    <option>Marketing Manager</option>
-    
-                                    <option>Purchasing Officer</option>
-    
-                                    <option>Sales Manager</option>
-    
-                                    <option>Service Support Manager</option>                                                                      
-    
-                                </select>
-                            </div>                                   
-    
-                            <div class="col-sm-2">Department:</div>
-    
-                            <div class="col-sm-3">
-                                <select class="form-control" disabled name="department" id="depart" style="height: 71%;">
-                                    <option selected></option>
-                                    <option>Administration Dept</option>
-    
-                                    <option>Financial Dept</option>
-    
-                                    <option>Purchasing Dept</option>
-    
-                                    <option> QA Dept</option>
-    
-                                    <option>R&D Dept</option>
-    
-                                    <option>Sales Dept</option>
-                                </select>
-    
-                            </div>
-                        </div>
-                                      
-                        <div class="row">
-                            <div class="col-sm-1"></div>
-                            <div class="col-sm-2">Phone:</div>
-    
-                            <div class="col-sm-3">
-                                <input type="text" disabled required class="form-control" name="phone" id="phn"
-                                    style="height: 71%;">
-                            </div>
-    
-                            <div class="col-sm-2">City:</div>
-    
-                            <div class="col-sm-3">
-                                <input type="text" disabled required class="form-control" name="city" id="cit"
-                                    style="height: 71%;">
-                            </div>
-                        </div>
-                                                                  
-                        <div class="row">
-                            <div class="col-sm-1"></div>
-                            <div class="col-sm-2">Fax:</div>
-    
-                            <div class="col-sm-3">
-                                <input type="text" disabled required class="form-control" name="fax" id="fa"
-                                    style="height: 71%;">
-                            </div>
-    
-                            <div class="col-sm-2">
-                                <p><span style="color:red;">*</span>Mobile:
-                            </div>
-    
-                            <div class="col-sm-3">
-                                <input type="text" disabled required class="form-control" name="mobile" id="mob"
-                                    style="height: 71%;">
-                            </div>
-                        </div>
-    
-                        <div class="row">
-                            <div class="col-sm-1"></div>
-                            <div class="col-sm-2">Email:</div>
-    
-                            <div class="col-sm-3">
-                                <input type="text" disabled required class="form-control" name="email" id="eml"
-                                    style="height: 71%;">
-                            </div>
-                            <div class="col-sm-1"></div>
-                        </div>                                    
-    
-                        <br>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                                      
-                        <button type="button" class="btn btn-primary" id="editct" onclick="editcontact()">Edit</button>
-    
-                        <button type="submit" class="btn btn-primary" id="savect" data-dismiss="modal"
-                            onclick="updatereccontact()" hidden>save</button>
-    
-                        <button type="button" class="btn btn-primary" id="cancelct" data-dismiss="modal"
-                            onclick="clearFormContact()" hidden>cancel</button>                                   
-    
-                    </div>
-                    </form>
+           
+            <div class="modal fade docs-example-modal-lg" id="cmodal" tabindex="-1" role="dialog" style="height: 439px;top: 23%;"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header" style="background-color: rgb(51, 122, 183); color:rgb(255, 255, 255);">
+                    <h6 class="modal-title">New Contact</h1>
+                        <button type="button" class="close" data-dismiss="modal" onclick="clearFormContact()"
+                            style="color: rgb(255, 255, 255); opacity:1;">×</button>
                 </div>
+    
+                <!-- Modal body -->
+                <div class="modal-body" style="padding: 13px 25px;">
+    
+                    <div class="row">
+    
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2">First Name:</div>
+                        <div class="col-sm-3">
+                            <p id="cid" style="display:none;"></p>
+                            <input type="text" disabled required class="form-control" val="" name="first_name"
+                                id="firstname" style="height: 71%;">
+                        </div>
+    
+                        <div class="col-sm-2">
+                            <p><span style="color:red;">*</span>Last Name:
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" disabled required class="form-control" name="last_name" id="lastname"
+                                style="height: 71%;">
+                        </div>
+                        <div class="col-sm-1"></div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2">
+                            <p><span style="color:red;">*</span> Account:
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" disabled required class="form-control" name="account" id="acc"
+                                style="height: 71%;">
+    
+                        </div>
+    
+    
+                        <div class="col-sm-2">Job Title:</div>
+                        <div class="col-sm-3">
+                            <input type="text" disabled required class="form-control" name="job_title" id="jobtitle"
+                                style="height: 71%;">
+                        </div>
+                        <div class="col-sm-1"></div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2"> Function:</p>
+                        </div>
+                        <div class="col-sm-3">
+                            <select class="form-control" disabled name="function1" id="funct" style="height: 71%;">
+    
+                            </select>
+                        </div>
+    
+                        <div class="col-sm-2">Department:</div>
+    
+                        <div class="col-sm-3">
+                            <select class="form-control" disabled name="department" id="depart" style="height: 71%;">
+    
+                            </select>
+    
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2">Phone:</div>
+    
+                        <div class="col-sm-3">
+                            <input type="text" disabled required class="form-control" name="phone" id="phn"
+                                style="height: 71%;">
+                        </div>
+    
+                        <div class="col-sm-2">Fax:</div>
+    
+                        <div class="col-sm-3">
+                            <input type="text" disabled required class="form-control" name="fax" id="fa"
+                                style="height: 71%;">
+                        </div>
+    
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+    
+                        <div class="col-sm-2">
+                            <p><span style="color:red;">*</span>Mobile:
+                        </div>
+    
+                        <div class="col-sm-3">
+                            <input type="text" disabled required class="form-control" name="mobile" id="mob"
+                                style="height: 71%;">
+                        </div>
+    
+                        <div class="col-sm-2">Email:</div>
+    
+                        <div class="col-sm-3">
+                            <input type="text" disabled required class="form-control" name="email" id="eml"
+                                style="height: 71%;">
+                        </div>
+    
+                    </div>
+    
+                    <br>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+    
+                    <button type="button" class="btn btn-primary" id="editct" onclick="editcontact()">Edit</button>
+    
+                    <button type="submit" class="btn btn-primary" id="savect" data-dismiss="modal"
+                        onclick="updatereccontact()" hidden>save</button>
+    
+                    <button type="button" class="btn btn-primary" id="cancelct" data-dismiss="modal"
+                        onclick="clearFormContact()" hidden>cancel</button>
+    
+                 </div>
+               
+              </form>
+        
             </div>
+        
         </div>
+    
+    </div>           
+           
             <div class="modal" id="deleterecordModal" style="height:auto;">
                 <div class="modal-dialog">
                   <div class="modal-content" >
@@ -4128,12 +4035,9 @@ background-size: 8%;'></div>
                                                             <a class="dropdown-item" data-toggle="modal" href="#oppModal" onclick="resetFormOpp(),opposourcedropdown(), oppoSalesCycledropdown(),oppoSalesphasedropdown(),oppoCategorydropdown(),opposourcedropdownedit();" data-backdrop="static" data-keyboard="false" data-dismiss="modal">Lead to oppurtunity</a>
                                                            
                                                             </div>
-                                                            </div>
-                                                     
+                                                            </div>                                              
                                                     
-                                                     
-                                                    
-                                                </div>
+                                                      </div>
                                             </div>
                                         </div>
                                     </div>
@@ -4148,280 +4052,282 @@ background-size: 8%;'></div>
 
             </div>
 
-
             <div id="businessTab" class="tab tab-pane ">
-                <div class="row"></div>
-                <div  class="row">
-                <div id="main"  class="">
+                <div id="main" class="">
 
-
-            <div id="main-container" class="list-view contact">
-                <div id="content" class="">
-                    <header class="head-list">
-                        <div id="default_controls">
-                            <div class="pull-right right10">
-
-                                <div class="pull-right right10">
-                                    <div class="btn-group right10" id="tagActionDropdown"
-                                        style="display: none;">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown"
-                                            title="Tag Actions">
-                                            <i class="mdi mdi-tag mdi-19px"></i> <span class="caret"></span>
-                                        </a>
-                                        <ul class="dropdown-menu  pull-right">
-                                            <li class="disabled"><a href="javascript:;" title="Tag Actions">Tag
-                                                    Actions</a></li>
-                                            <li><a href="javascript:;" id="deleteTag" title="Delete This Tag"><i
-                                                        class="mdi mdi-18px  mdi-delete"></i> Delete This
-                                                    Tag</a></li>
-                                            <li><a href="javascript:;" id="renameTag" title="Rename This Tag"><i
-                                                        class="mdi mdi-textbox mdi-18px"></i> Rename This
-                                                    Tag</a></li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="btn-group" id="btnRefresh">
-                                        <a class="btn" id="refreshList" title="Refresh List"><i
-                                                class="mdi mdi-refresh mdi-19px"></i></a>
-                                    </div>
-                                    <div class="btn-group" id="btnControls">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown"
-                                            title="List View Controls"><i class="icon-cog"></i> <span
-                                                class="caret"></span></a>
-                                        <!--Menu items are set on demand via ins.buttonBar.js-->
-                                    </div>
-                                    <div class="btn-group" id="btnFilters">
-                                        <a class="btn" id="toggleFilters" title="Show List View Filters"><i
-                                                class="icon-filter"></i></a>
-                                    </div>
-
-
-                                    <div class="btn-group">
-                                        <button id="toggleSidebar" type="button" class="btn"
-                                            title="Show Sidebar"><i class="icon-indent-right"></i></button>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="title">
-                                <div class="btn-group">
-                                    <button id="btn-list-title" class="btn  " title="">
-                                       All Business Partners
-                                    </button>
-
-                                </div>
-                            </div>
-
-                        </div>
-
-                        </header>
-                </div>
-                
-                <div id="main-content" class="contact">
-
-                    <div class="entity-list" id="entity-list">
-
-                            <table class=" table table-responsive table-wrapper-scroll-y my-custom-scrollbar " >
-                           
-                                <thead class="table" style="background-color: 1b213b ;">
-                                <tr style="font-weight:bold ; ">
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Business Partner Id</th>
-                                    <th scope="col">Business Partner</th>
-                                    <th scope="col">City</th>
-                                    <th scope="col">Main Contact</th>
-                                    <th scope="col">Created On</th>
-                                    <th scope="col">Country</th>
-                                    <th scope="col">Type</th>
-                                </tr>
-                            </thead>
-            
-                            <tbody id="businessTable">
-
-                            <div class="modal fade docs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                  <div class="modal-content">
-                                    <!-- Modal Header -->
-                                          <div class="modal-header" style="background-color: #e6e0e094; color:black;">
-                                            <h6 class="modal-title">Business Partner</h1>
-                                            <button type="button" class="close" data-dismiss="modal"  onclick="" style="color: #000; opacity:1.5;">×</button>
-                                          </div>
-                                          
-                                          <!-- Modal body -->
-                                          <div class="modal-body">
-                              
-                                              <form class="form-signin" action="/modal" method="post" >
-                                                                                                        
-                                         <div class="row">
-                              
-                                          <div class="col-sm-1"></div>
-                                             <div class="col-sm-2">Status</div>
-                                          <div class="col-sm-3">
-                                          <input type="text" required class="form-control" disabled name="status" id="status" style="height: 71%;">
-                                          </div>
-                                          
-                                          <div class="col-sm-2">
-                                             Business Partner Id</div>
-                                             <div class="col-sm-3">
-                                          <input type="text" required class="form-control" disabled name="businesspId" id="businesspId" style="height: 71%;">
-                                          </div>
-                                            <div class="col-sm-1"></div>
-                                          </div>
-                                                                                 
-                                          <div class="row">
-                                          <div class="col-sm-1"></div>
-                                             <div class="col-sm-2">
-                                              Business Partner</div>
-                                          <div class="col-sm-3">
-                                          <input type="text" required class="form-control" disabled name="business" id="business" style="height: 71%;">
-                                          </div>
-                                  
-                                          
-                                             <div class="col-sm-2" >City</div>
-                                          <div class="col-sm-3">
-                                          <input type="text" required class="form-control" disabled name="cityB" id="cityB" style="height: 71%;">
-                                          </div>
-                                           <div class="col-sm-1"></div>
-                                         </div>
-                                          
-                             
-                                           <div class="row">
-                                         <div class="col-sm-1"></div>
-                                             <div class="col-sm-2">Main Contact</div>
-                                          
-                                          <div class="col-sm-3">
-                                          <input type="text" required class="form-control" disabled name="mainc" id="mainc" style="height: 71%;">
-                                          </div>
-                                          
-                                             <div class="col-sm-2">
-                                             Created On</div>
-                                          
-                                          <div class="col-sm-3">
-                                          <input type="date" required class="form-control" disabled name="created" id="created" style="height: 71%;">
-                                          </div>
-										  <div class="col-sm-1"></div>
-                                          </div>
-                                                                                   
-                                          <div class="row">
-                                          <div class="col-sm-1"></div>
-                                             <div class="col-sm-2"> Country</div>
-                                          <div class="col-sm-3">
-                                          <select class="form-control" name="countryb" disabled id="countryb" style="height: 71%;">
-                                            <option selected></option>
-                                                <option>Arab Emirates</option>
-                                                <option>Afghanisthan</option>
-                                                <option>Albania</option>
-                                                <option>Armenia</option>
-                                                <option>Angola</option>
-                                                <option>Argentina</option>  
-                                                <option>Zimbabwe</option> 
-                                                <option>Bahamas</option>
-                                                <option>Bahrain</option>
-                                                <option>Bangladesh</option>
-                                                <option>Barbados</option>
-                                                <option>Belarus</option>
-                                                <option>Belgium</option>
-                                                <option>Belize</option>
-                                                <option>Benin</option>
-                                                <option>Bermuda</option>
-                                                <option>Bhutan</option>
-                                                <option>Bolivia</option>                                                               
-                                                
-                                            </select>	
-                                          </div>
-                                          <div class="row">
-                                         <div class="col-sm-1"></div>
-                                             <div class="col-sm-2">Type</div>
-                                          
-                                          <div class="col-sm-3">
-                                          <input type="text" required class="form-control" disabled name="typeb" id="typeb" style="height: 71%;">
-                                          </div>
-                                          <div class="col-sm-1"></div>
-                                          </div>
-                                                                                  
-                                          <br>
-                                          </div>
-                                          <!-- Modal footer -->
-                                          <div class="modal-footer">
-                                                                                                
-                                          <button type="submit" id="saveBusiness" class="btn btn-primary"
-                                            data-dismiss="modal" hidden
-                                            onclick="">save</button>
-                                        <button type="button" id="cancelBusiness" class="btn"
-                                            data-dismiss="modal" onclick=""
-                                            hidden>cancel</button>
-                                        <button type="submit" id="editBusiness" class="btn btn-primary"
-                                            onclick="">Edit</button>
-                                                                
-                                              
-                                          </div>
-                                        </form>
+                    <div id="main-container" class="list-view contact">
+                        <div id="content" class="">
+                            <header class="head-list">
+                                <div id="default_controls">
+                                    <div class="pull-right right10">
+        
+                                        <div class="pull-right right10">
+                                            <div class="btn-group right10" id="tagActionDropdown"
+                                                style="display: none;">
+                                                <a class="btn dropdown-toggle" data-toggle="dropdown"
+                                                    title="Tag Actions">
+                                                    <i class="mdi mdi-tag mdi-19px"></i> <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu  pull-right">
+                                                    <li class="disabled"><a href="javascript:;" title="Tag Actions">Tag
+                                                            Actions</a></li>
+                                                    <li><a href="javascript:;" id="deleteTag" title="Delete This Tag"><i
+                                                                class="mdi mdi-18px  mdi-delete"></i> Delete This
+                                                            Tag</a></li>
+                                                    <li><a href="javascript:;" id="renameTag" title="Rename This Tag"><i
+                                                                class="mdi mdi-textbox mdi-18px"></i> Rename This
+                                                            Tag</a></li>
+                                                </ul>
+                                            </div>
+        
+                                            <div class="btn-group" id="btnRefresh" onclick="businessLoad()">
+                                                <a class="btn" id="refreshList" title="Refresh List"><i
+                                                        class="mdi mdi-refresh mdi-19px"></i></a>
+                                            </div>
+                                            <div class="btn-group" id="btnControls">
+                                                <a class="btn dropdown-toggle" data-toggle="dropdown"
+                                                    title="List View Controls"><i class="icon-cog"></i> <span
+                                                        class="caret"></span></a>
+                                                <!--Menu items are set on demand via ins.buttonBar.js-->
+                                            </div>
+                                            <div class="btn-group" id="btnFilters">
+                                                <a class="btn" id="toggleFilters" title="Show List View Filters"><i
+                                                        class="icon-filter"></i></a>
+                                            </div>
+        
+        
+                                            <div class="btn-group">
+                                                <button id="toggleSidebar" type="button" class="btn"
+                                                    title="Show Sidebar"><i class="icon-indent-right"></i></button>
+                                            </div>
                                         </div>
-                                      </div>
-                                  </div>
+        
+                                    </div>
+        
+                                    <div class="title">
+                                        <div class="btn-group">
+                                            <button id="btn-list-title" class="btn  " title="">
+                                               All Business Partners (<span id=bpcount ></span>)
+                                            </button>
+        
+                                        </div>
+                                    </div>
+        
                                 </div>
-
-                                </tbody>
-
-                            </table>
-
+        
+                                </header>
                         </div>
-                        </div>
-                        </div>
-
-                     </div>
-                    </div>
-
+                        
+                    <div id="main-content" class="contact">
+                        
+                        <div id="tbMarksContainer">
+                        
+                            <div class="entity-list" id="entity-list">
+                                    
+                                <div class="table table-responsive" style="overflow: auto;height:400px">
+                                    
+                                    <table class="table table-bordered">
+                                        
+                                        <thead style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: 0px; white-space: nowrap;">
+                                            
+                                            <tr style="  font-weight:bold ; ">
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Business Partner Id</th>
+                                            <th scope="col">Business Partner</th>
+                                            <th scope="col">City</th>
+                                            <th scope="col">Main Contact</th>
+                                            <th scope="col">Created On</th>
+                                            <th scope="col">Country</th>
+                                            <th scope="col">Type</th>
+                                        </tr>
+                                    </thead>
                     
-<div class="row">
-    <div class="col-sm-2"></div>
-            <div class="col-sm-10">
+                                    <tbody id="businessTable">
+                         
+        
+                                        </tbody>
+        
+                                    </table>
+                                    <div class="modal fade docs-example-modal-lg" id="bpmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                          <div class="modal-content">
+                                            <!-- Modal Header -->
+                                                  <div class="modal-header" style="background-color: #e6e0e094; color:black;">
+                                                    <h6 class="modal-title">Business Partner</h1>
+                                                    <button type="button" class="close" data-dismiss="modal"  onclick="" style="color: #000; opacity:1.5;">×</button>
+                                                  </div>
+                                                  
+                                                  <!-- Modal body -->
+                                                  <div class="modal-body">
+                                      
+                                                      <form class="form-signin" action="/modal" method="post" >
+                                                                                                                
+                                                 <div class="row">
+                                      
+                                                  <div class="col-sm-1"></div>
+                                                     <div class="col-sm-2">Status</div>
+                                                  <div class="col-sm-3">
+                                                  <input type="text" required class="form-control" disabled name="status" id="status" style="height: 71%;">
+                                                  </div>
+                                                  
+                                                  <div class="col-sm-2">
+                                                     Business Partner Id</div>
+                                                     <div class="col-sm-3">
+                                                  <input type="text" required class="form-control" disabled name="businesspId" id="businesspId" style="height: 71%;">
+                                                  </div>
+                                                    <div class="col-sm-1"></div>
+                                                  </div>
+                                                                                         
+                                                  <div class="row">
+                                                  <div class="col-sm-1"></div>
+                                                     <div class="col-sm-2">
+                                                      Business Partner</div>
+                                                  <div class="col-sm-3">
+                                                  <input type="text" required class="form-control" disabled name="business" id="business" style="height: 71%;">
+                                                  </div>
+                                          
+                                                  
+                                                     <div class="col-sm-2" >City</div>
+                                                  <div class="col-sm-3">
+                                                  <input type="text" required class="form-control" disabled name="cityB" id="cityB" style="height: 71%;">
+                                                  </div>
+                                                   <div class="col-sm-1"></div>
+                                                 </div>
+                                                  
+                                     
+                                                   <div class="row">
+                                                 <div class="col-sm-1"></div>
+                                                     <div class="col-sm-2">Main Contact</div>
+                                                  
+                                                  <div class="col-sm-3">
+                                                  <input type="text" required class="form-control" disabled name="mainc" id="mainc" style="height: 71%;">
+                                                  </div>
+                                                  
+                                                     <div class="col-sm-2">
+                                                     Created On</div>
+                                                  
+                                                  <div class="col-sm-3">
+                                                  <input type="date" required class="form-control" disabled name="created" id="created" style="height: 71%;">
+                                                  </div>
+                                                  <div class="col-sm-1"></div>
+                                                  </div>
+                                                                                           
+                                                  <div class="row">
+                                                  <div class="col-sm-1"></div>
+                                                     <div class="col-sm-2"> Country</div>
+                                                  <div class="col-sm-3">
+                                                  <select class="form-control" name="countryb" disabled id="countryb" style="height: 71%;">
+                                                    <option selected></option>
+                                                        <option>Arab Emirates</option>
+                                                        <option>Afghanisthan</option>
+                                                        <option>Albania</option>
+                                                        <option>Armenia</option>
+                                                        <option>Angola</option>
+                                                        <option>Argentina</option>  
+                                                        <option>Zimbabwe</option> 
+                                                        <option>Bahamas</option>
+                                                        <option>Bahrain</option>
+                                                        <option>Bangladesh</option>
+                                                        <option>Barbados</option>
+                                                        <option>Belarus</option>
+                                                        <option>Belgium</option>
+                                                        <option>Belize</option>
+                                                        <option>Benin</option>
+                                                        <option>Bermuda</option>
+                                                        <option>Bhutan</option>
+                                                        <option>Bolivia</option>                                                               
+                                                        
+                                                    </select>	
+                                                  </div>
+                                                  <div class="row">
+                                                 <div class="col-sm-1"></div>
+                                                     <div class="col-sm-2">Type</div>
+                                                  
+                                                  <div class="col-sm-3">
+                                                  <input type="text" required class="form-control" disabled name="typeb" id="typeb" style="height: 71%;">
+                                                  </div>
+                                                  <div class="col-sm-1"></div>
+                                                  </div>
+                                                                                          
+                                                  <br>
+                                                  </div>
+                                                  <!-- Modal footer -->
+                                                  <div class="modal-footer">
+                                                                                                        
+                                                  <button type="submit" id="saveBusiness" class="btn btn-primary"
+                                                    data-dismiss="modal" hidden
+                                                    onclick="">save</button>
+                                                <button type="button" id="cancelBusiness" class="btn"
+                                                    data-dismiss="modal" onclick=""
+                                                    hidden>cancel</button>
+                                                <button type="submit" id="editBusiness" class="btn btn-primary"
+                                                    onclick="">Edit</button>
+                                                                        
+                                                      
+                                                  </div>
+                                                </form>
+                                                </div>
+                                              </div>
+                                          </div>
+                                        </div>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+                            </div>
 
-                    <h6>Details: Business Partners</h6>
-            </div>
-            
-            <div class="col-sm-2"></div>
-                <div class="col-sm-10">
-                <h6> Main Address</h6>
-            </div>
-            <div class="col-sm-2"></div>
-            <div class="col-sm-5">
-                     Business Partner :
+                            <!-- <div class="row">
+                                <div class="col-sm-2"></div>
+                                        <div class="col-sm-10">
+                            
+                                                <h6>Details: Business Partners</h6>
+                                        </div>
+                                        
+                                        <div class="col-sm-2"></div>
+                                            <div class="col-sm-10">
+                                            <h6> Main Address</h6>
+                                        </div>
+                                        <div class="col-sm-2"></div>
+                                        <div class="col-sm-5">
+                                                 Business Partner :
+                                            </div>
+                            
+                                            <div class="col-sm-5">
+                                                    Status :
+                                               </div>
+                                              
+                                               <div class="col-sm-2"></div>
+                                               <div class="col-sm-5">
+                                                    Business Partner Id :
+                                               </div>
+                                               <div class="col-sm-5">
+                                                    City :
+                                               </div>
+                            
+                                               <div class="col-sm-2"></div>
+                                               <div class="col-sm-5">
+                                                    Main Contact :
+                                               </div>
+                                               <div class="col-sm-5">
+                                                    Country :
+                                               </div>
+                            
+                                               <div class="col-sm-2"></div>
+                                               <div class="col-sm-5">
+                                                    Created On :
+                                               </div>
+                                               <div class="col-sm-5">
+                                                    Type :
+                                               </div>
+                            
+                                        </div> -->
+
                 </div>
 
-                <div class="col-sm-5">
-                        Status :
-                   </div>
-                  
-                   <div class="col-sm-2"></div>
-                   <div class="col-sm-5">
-                        Business Partner Id :
-                   </div>
-                   <div class="col-sm-5">
-                        City :
-                   </div>
-
-                   <div class="col-sm-2"></div>
-                   <div class="col-sm-5">
-                        Main Contact :
-                   </div>
-                   <div class="col-sm-5">
-                        Country :
-                   </div>
-
-                   <div class="col-sm-2"></div>
-                   <div class="col-sm-5">
-                        Created On :
-                   </div>
-                   <div class="col-sm-5">
-                        Type :
-                   </div>
-
             </div>
-       
-        </div>
 
+
+           
             <div id="accountTab" class="tab tab-pane ">
                 <div id="main" class="">
 
@@ -4486,7 +4392,7 @@ background-size: 8%;'></div>
                                     <div class="title">
                                         <div class="btn-group">
                                             <button id="btn-list-title" class="btn " title="">
-                                                All Accounts(<span id="accountcount" style="font-size:12px"></span>)
+                                                All Accounts(<span id="accountcount" ></span>)
                                             </button>
                                            
                                         </div>
@@ -4791,7 +4697,7 @@ background-size: 8%;'></div>
     
                                 </header>
                             </div>
-                        <div id="main-content" class="contact" style="height: 476px; overflow: auto; ">
+                        <div id="main-content" class="contact" >
                                 <div class="modal fade" class="modal modal-fixed-footer" id="oModal" style="height:519px;top:10%;">
                                         <div class="modal-dialog modal-lg">
                                           <div class="modal-content">
@@ -5010,13 +4916,15 @@ background-size: 8%;'></div>
     
                                         
     
-                                <div id="main-content" class="contact">
-    
-                                <div class="entity-list" id="entity-list">
-    
-                                    <table class=" table table-responsive table table-bordered  loader" style="overflow:intial;" >
-                                            <thead class="table table-bordered" style="background-color: 1b213b;border: 1px solid rgb(255, 255, 255); white-space: nowrap;">
-                                                    <tr style="font-weight:bold ;background-color: rgb(51, 122, 183); position: relative;top: 0px; color: rgb(255, 255, 255); ">
+                                        <div id="main-content" class="contact">
+                              
+                                            <div id="tbMarksContainer"> 
+                                       
+                                                <div class="entity-list" id="entity-list">
+                                                    <div  class="table table-responsive" style="overflow: auto;height:400px">
+                                                        <table class="table table-bordered">
+                                                                <thead style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: 0px;white-space: nowrap;">
+                                                                                       <tr style="  font-weight:bold ; ">
                                                         <th>ID </th>
                                                         <th>Old C4C Opportunity ID </th>
                                                         <th>Name </th>
@@ -5039,7 +4947,8 @@ background-size: 8%;'></div>
                                     </table>
     
                                 </div>
-    
+    </div>
+</div>
     
                             </div>
                         </div>
@@ -6082,7 +5991,7 @@ background-size: 8%;'></div>
 
         <div id="contactModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
             style="height: auto; padding-right: 0px  ! important;">
-            <form method="post" id="formContact">
+            <form method="post" id="formContact" action="/action_page.php">
                     <div class="modal-content">
                         <div class="modal-header"
                             style="padding-left:0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: rgb(0, 63, 118);color: rgb(255, 255, 255);">
@@ -6107,7 +6016,7 @@ background-size: 8%;'></div>
                                         <div class="col-sm-2">
                                         <p><span style="color:red;">*</span>Last Name:</div>
                                         <div class="col-sm-5">
-                                     <input type="text" required class="form-control" name="last_name" id="last-name"  style="height: 71%; border-radius:4px;">
+                                     <input type="text" class="form-control" name="last_name" id="last-name" required  style="height: 71%; border-radius:4px;">
                                      </div>
                                        <div class="col-sm-2"></div>
                                      </div>
@@ -6117,7 +6026,7 @@ background-size: 8%;'></div>
                                             <p><span style="color:red;">*</span> Account:</div>
                                         <div class="col-sm-5">
                                                 <input type="text" id="contgetaccid" style="display:none">
-                                        <input type="text" required class="form-control" name="account" id="accountcont" style="height: 71%; border-radius:4px;">
+                                        <input type="text" required class="form-control" name="account" id="accountcont" disabled style="height: 71%; border-radius:4px;">
                                         </div>
                                         
                                         <div class="col-sm-1">		
@@ -6218,7 +6127,6 @@ background-size: 8%;'></div>
                             <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick="clearFormContact()">Cancel</button>
                         </div>
                     </div>
-
 
                 </form> 
         </div>

@@ -494,6 +494,8 @@
       ]
     },
 
+    
+
     {
       "route": "/contact",
       "type": "post",
@@ -1134,8 +1136,21 @@
         }
       ]
     },
-    {
     
+    {
+      "route": "/business",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "BusinessPage",
+      "description": "Route for listing all the active Businesspartners",
+      "examples": [
+        {
+          "param": "/business"
+        }
+      ]
+    },
+    {
       "route": "/addcontactinfo",
       "type": "post",
       "configured": true,

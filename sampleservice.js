@@ -522,6 +522,7 @@ exports.addContactPage = function (req, res) {
        
 exports.ContactPage = function (req, res) {
 
+    var Sid = req.params.i;
     let query = " CALL `devc4c`.`procAdminListAllContacts`()";
 
     db.query(query, (err, result) => {
@@ -603,6 +604,22 @@ exports.deletedisplaycont = function (req, res) {
     });
 
 };
+
+exports.BusinessPage = function (req, res) {
+
+    let query = "CALL `devc4c`.`procListAllBusinessPartners`()";
+
+    db.query(query, (err, result) => {
+
+        if (err) {
+            res.redirect('/');
+
+        }
+        res.status(200).json(result);
+
+    });
+};
+
 exports.addAccountPage = function (req, res) {
     
     let message = '';
