@@ -108,22 +108,24 @@ exports.addLead = function (req, res) {
 
     let message = '';
     let title = req.body.title;
-    let company = req.body.company;
-    let firstname = req.body.firstname;
-    let lastname = req.body.lastname;
+    console.log(title);
+    let companyacc = req.body.company;
+    let leadcontid = req.body.leadcontid;
+    let owner = req.body.owner;
     let status = req.body.status;
     let qul = req.body.qul;
     let source = req.body.source;
     let category = req.body.category;
     let priority = req.body.priority;
-    let owner = req.body.owner;
-
+    let leadnotes = req.body.leadnotes;
+    let icreatedby = req.body.icreatedby;
+  
     let query = "call procInsertLead('" +
-        title + "', '" + company + "', '" + firstname + "', '" + lastname + "','" + status + "','" + qul +
-        "',  '" + source + "',  '" + category + "',  '" + priority + "',  '" + owner + "')";
+        title + "', '" + companyacc + "', '" + leadcontid + "', '" + owner + "','" + status + "','" + qul +
+        "',  '" + source + "',  '" + category + "',  '" + priority + "', '" + leadnotes + "','" + icreatedby + "',@output)";
 console.log(query);
 
-    ddb.query(query, (err, result2) => {
+    db.query(query, (err, result2) => {
         if (err) {
             console.log(err)
             return res.status(500).send(err);
@@ -134,8 +136,8 @@ console.log(query);
                 console.log(err)
                 return res.status(500).send(err);
             }
-            res.status(200).json(result4);
-            console.log(result4);
+            res.status(200).json(result3);
+            console.log(result3);
         });
        
     });
@@ -156,20 +158,20 @@ exports.addleadcompany = function (req, res) {
 
 
     let query = "call `procInsertAccount`('" +company + "', '" + parentaccountID + "','" + accountcategory + "','" + status + "', '" + website + "','" + ownerID + "','" + own + "',@output,@output1)";
-    console.log(query);
+   // console.log(query);
     db.query(query, (err, result2) => {
         if (err) {
-            console.log(err)
+         //   console.log(err)
             return res.status(500).send(err);
         }
-        let query1="SELECT @output as oAcctID";
+        let query1="SELECT @output1 as oAcctID,@output as msg";
         db.query(query1, (err, result3) => {
             if (err) {
-                console.log(err)
+            //    console.log(err)
                 return res.status(500).send(err);
             }
             res.status(200).json(result3);
-            console.log(result3);
+         //   console.log(result3);
         });
        
     });
@@ -193,17 +195,17 @@ exports.addcontactinfo = function (req, res) {
 
     db.query(query, (err, result2) => {
         if (err) {
-            console.log(err)
+         //   console.log(err)
             return res.status(500).send(err);
         }
         let query1="SELECT @output as oContactID";
         db.query(query1, (err, result3) => {
             if (err) {
-                console.log(err)
+              //  console.log(err)
                 return res.status(500).send(err);
             }
             res.status(200).json(result3);
-            console.log(result3);
+        //    console.log(result3);
         });
        
     });
@@ -457,14 +459,14 @@ exports.addContactPage = function (req, res) {
         let iCreatedBy = req.body.iCreatedBy;
      
     let query = "CALL `procInsertAccountContact`('" + iAccountID + "', '" + iContactID + "', '" + iCreatedBy + "')"; 
-   
+  // console.log(query);
     db.query(query, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
             else {
                 res.status(200).json(result);
-            console.log(result);
+           // console.log(result);
             }
         });
     };
@@ -485,9 +487,10 @@ exports.addContactPage = function (req, res) {
         
     let query = "CALL `procInsertPhone`('" + iSourceID + "', '" + iAddressId + "', '" + iSourceType + "','" +iCountryID + "','"
      + iIsMobile + "','" + iIsFax + "','" + iAreaCode + "','" + iPhoneNumber + "','" + iCompleteNumber + "','" + iIsDefault + "','" + createdby + "')"; // query database to get emails in contactmodal
-      
+     console.log(query);
     db.query(query, (err, result) => {
             if (err) {
+                console.log(err);
                 return res.status(500).send(err);
             }
             else {
@@ -532,6 +535,7 @@ exports.ContactPage = function (req, res) {
 
         }
         res.status(200).json(result);
+      //  console.log(result);
 
     });
 };
@@ -667,8 +671,8 @@ exports.addAccountPage = function (req, res) {
 
 };
 exports.accaddress = function (req, res) {
-    let sourceid=req.body.accountid;
-    let source = req.body.sourcetype;
+    let sourceid=req.body.iSourceID;
+    let source = req.body.iSourceType;
     let addresstype = req.body.iAddressType;
     let addressline1 =req.body.iAddressLine1;
     let addressline2 =req.body.iAddressLine2;
@@ -684,7 +688,7 @@ exports.accaddress = function (req, res) {
     let createdby = req.body.iCreatedBy;
      let query = "call procInsertAddress('" +sourceid + "','" +source + "','" +addresstype + "', '" + addressline1 + "','" + addressline2 + "', '" + city + "','" + state + "','" + postalcode + "','" + country + "','" + billto + "','" + shipto + "','" + defaultadd + "','" + createdby + "',@output)";
 
-
+console.log(query);
     db.query(query, (err, result2) => {
         if (err) {
            
@@ -693,10 +697,11 @@ exports.accaddress = function (req, res) {
         let query1="SELECT @output as accaaddressid";
         db.query(query1, (err, result3) => {
             if (err) {
-               
+                console.log(err);
                 return res.status(500).send(err);
             }
             res.status(200).json(result3);
+            console.log(result3);
             
         });
        
@@ -1059,6 +1064,24 @@ exports.accowner = function (req, res) {
    });
    
    };
+   exports.leadcontactdisplay = function (req, res) {
+
+    var Sid = req.params.i;
+
+    let query = 'call procGetPhoneData (leadid)'
+
+    db.query(query, (err, result) => {
+
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+
+    });
+
+};
+
+
    
    
    

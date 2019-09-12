@@ -212,8 +212,15 @@ if (checkBox.checked == true){
     $("#leadphone").prop("disabled", true);
     $("#leadmobile").prop("disabled", true);
     $("#leademail").prop("disabled", true);
+    $("#owne").prop("disabled", true);
     $("#ownacc").prop("disabled", true);
     $("#owncont").prop("disabled", true);
+    $("#company").css('display','none');
+    $("#leadcompany").css('display','none');
+    $("#firnam").css('display','none');
+    $("#leadconfn").css('display','none');
+    $("#lasnam").css('display','none');
+    $("#leadconln").css('display','none');
     $("#leaduncheckcountry").css('display','block');
     $("#leaduncheckstate").css('display','block');
     $("#leadcountry").css('display','none');
@@ -224,10 +231,9 @@ if (checkBox.checked == true){
     $("#owncontact1").css('display','block');
     $("#ownshare").css('display','block');
     $("#ownshare1").css('display','block');
-    
+    addLead();
     
 } else {
-    
     $("#leadcity").val('');  
     $("#leaduncheckcountry").css('display','none');
     $("#leaduncheckstate").css('display','none');
@@ -239,12 +245,19 @@ if (checkBox.checked == true){
     $("#owncontact").css('display','none');
     $("#ownaccount").css('display','none');
     $("#ownshare1").css('display','none');
+    $("#owne").prop("disabled", false);
     $("#leadcity").prop("disabled", false);
     $("#leadcountry").prop("disabled", false);
     $("#leadstate").prop("disabled", false);
     $("#leadphone").prop("disabled", false);
     $("#leadmobile").prop("disabled", false);
     $("#leademail").prop("disabled", false);
+    $("#company").css('display','block');
+    $("#leadcompany").css('display','block');
+    $("#firnam").css('display','block');
+    $("#leadconfn").css('display','block');
+    $("#lasnam").css('display','block');
+    $("#leadconln").css('display','block');
     addleadcompany();
    
 }
@@ -718,29 +731,84 @@ function addOpportunity(){
         }
    
      function addLead() {
-        console.log("haii lead");
-         
         var title=$("#title").val();
-        var firstname=$("#firnam").val();
-        var lastname=$("#lasnam").val();
-        var status=$("#status").val();
+        title= $("#title").val();
+        if (title== "NULL" ||title== ""){
+              title= ""
+        } 
+
+        var leadaccountid=$("#leadacchiddenid").val();
+        var leadcontactid=$("#leadconthiddenid").val();
+        var status=$("#stats").val();
         var qul=$("#qul").val();
         var source=$("#source").val();
-        var category=$("#category").val();
+        var category=$("#categoryy").val();
         var priority=$("#priority").val();     
-        var owner=$("#owne").val();
         var owneridlead = $("#ownerleadidhidden").val();
+        var leadnotes=$("#notes").val();
+        leadnotes= $("#first-name").val();
+        if (leadnotes== "NULL" ||leadnotes== "")
+                {
+                        leadnotes= ""
+                    } 
         var data={
                 "title":title,
-                "company":company,
-                "firstname":firstname,
-                "lastname":lastname,
+                "company":leadaccountid,
+                "leadcontid":leadcontactid,
                 "status":status,
                 "qul":qul,
                 "source":source,
                 "category":category,
                 "priority":priority,
-                "owner":owner
+                "owner":owneridlead,
+                "leadnotes":leadnotes,
+                "icreatedby":'Admin'
+                }
+        data=JSON.stringify(data); 
+        if(title!="" &&company!="" &&qul!=""&&owner!=""){ 
+
+        $.ajax({
+            url: "https://localhost:9090/leads",
+            type: "POST",
+            async: false,
+            data: data,
+            contentType: "application/json",
+            dataType: "json",
+            success: function (result) {
+              
+            },      
+            error: function () {
+                console.log("err");
+            }
+        });
+         }else{
+            alert("enter required fields");
+            }
+        leadLoad();
+        }
+        function addLeaduncheck() {
+        var title=$("#title").val();
+        var leadaccountid=$("#uncheckcompanyid").val();
+        var leadcontactid=$("#uncheckfirnam").val();
+        var status=$("#stats").val();
+        var qul=$("#qul").val();
+        var source=$("#source").val();
+        var category=$("#categoryy").val();
+        var priority=$("#priority").val();     
+        var owneridlead = $("#ownerleadidhidden").val();
+        var leadnotes=$("#notes").val();
+        var data={
+                "title":title,
+                "company":leadaccountid,
+                "leadcontid":leadcontactid,
+                "status":status,
+                "qul":qul,
+                "source":source,
+                "category":category,
+                "priority":priority,
+                "owner":owneridlead,
+                "leadnotes":leadnotes,
+                "icreatedby":'Admin'
                 }
         data=JSON.stringify(data); 
         $.ajax({
@@ -751,7 +819,7 @@ function addOpportunity(){
             contentType: "application/json",
             dataType: "json",
             success: function (result) {
-                addleadcompany();
+              
             },      
             error: function () {
                 console.log("err");
@@ -760,10 +828,9 @@ function addOpportunity(){
         leadLoad();
         }
 
-            function addleadcompany() {
-                    alert( "lead company");
-                    var company=$("#company").val();
 
+            function addleadcompany() {
+                    var company=$("#company").val();
             var data={
                     
                     "company":company,
@@ -776,7 +843,7 @@ function addOpportunity(){
                     }
                     
             data=JSON.stringify(data); 
-            alert(data);
+            
             $.ajax({
                 url: "https://localhost:9090/addleadcompany",
                 type: "POST",
@@ -785,15 +852,24 @@ function addOpportunity(){
                 contentType: "application/json",
                 dataType: "json",
                 success: function (result) {
-                    addcontactinfo();
+                    $("#uncheckcompanyid").val(result[0].oAcctID);
+                    var leadmsg=result[0].msg;
+                  if (leadmsg==null){
+                   
+                   addcontactinfo(result[0].oAcctID);
+                  }
+               else{
+              alert("Account name already exists")
+                   }
+                  
+                   
                 },      
                 error: function () {
                 }
             });
             leadLoad();
             }
-            function addcontactinfo() {
-
+            function addcontactinfo(j) {
             var contlefname=$("#firnam").val();
             var contlelname=$("#lasnam").val();
 
@@ -816,11 +892,184 @@ function addOpportunity(){
             data: data,
             contentType: "application/json",
             dataType: "json",
-            success: function (data) {
-
+            success: function (result) {
+                $("#uncheckfirnam").val(result[0].oContactID);
+                var contacid=result[0].oContactID;
+                addacccontID(j,contacid);
             },      
             error: function () {
             }
+            });
+            leadLoad();
+            }
+
+
+     function addacccontID(j,k) {
+          var data={
+
+          "iAccountID":j,
+          "iContactID":k, 
+          "iCreatedBy":'admin',
+          
+          }
+
+          data=JSON.stringify(data); 
+          $.ajax({
+          url: "https://localhost:9090/insertcontactaccount",
+          type: "POST",
+          async: false,
+          data: data,
+          contentType: "application/json",
+          dataType: "json",
+          success: function (result) {
+         
+            addleadaccaddr(j,k);
+              
+          },      
+          error: function () {
+          }
+          });
+          leadLoad();
+          }
+
+        
+          function addleadaccaddr(j,k) {
+                    var iCity=$("#leadcity").val();
+                    var iStateID=$("#leadstate").val();
+                    var iCountryID=$("#leadcountry").val();     
+                
+            var data={
+                    "iSourceID":j,
+                    "iSourceType":"Lead",
+                    "iAddressType":"",
+                    "iAddressLine1":"", 
+                    "iAddressLine2":"",
+                    "iCity":iCity,
+                    "iStateID":iStateID,
+                    "iPostalCode":'',
+                    "iCountryID":iCountryID,
+                    "iBillTo":'Y',
+                    "iShipTo":'Y',
+                    "iIsDefault":'Y',
+                    "iCreatedBy":'Admin '
+                    }
+                    
+            data=JSON.stringify(data); 
+            $.ajax({
+                url: "https://localhost:9090/accaddress ",
+                type: "POST",
+                async: false,
+                data: data,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                    addleadcontphone(k);
+                },
+                error: function () {
+                    console.log("error is ");
+                   }
+            });
+            leadLoad();
+            }
+            
+            function addleadcontphone(k) {
+                    var iIsMobile=$("#leadmobile").val();
+                    var iPhoneNumber=$("#leadphone").val();
+
+            var data={
+                "iSourceID": k,
+                "iAddressId":'',
+                "iSourceType":'lead',
+                "iCountryID":'',
+                "iIsMobile":'N',
+                "iIsFax":'N',
+                "iAreaCode":'',
+                "iPhoneNumber":iPhoneNumber,
+                "iCompleteNumber":iPhoneNumber,
+                "iIsDefault":'Y',
+                "createdby": 'admin'
+                    }
+                    
+            data=JSON.stringify(data); 
+            $.ajax({
+                url: "https://localhost:9090/contactphone",
+                type: "POST",
+                async: false,
+                data: data,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                    addleadcontmobile(k);
+                },
+                error: function () {
+                    console.log("error is phone coming");
+                   }
+            });
+            leadLoad();
+            }
+            function addleadcontmobile(k) {
+            
+                    var iIsMobile=$("#leadmobile").val();
+                    var iPhoneNumber=$("#leadphone").val();
+
+            var data={
+                "iSourceID": k,
+                "iAddressId":'',
+                "iSourceType":'lead',
+                "iCountryID":'',
+                "iIsMobile":'Y',
+                "iIsFax":'N',
+                "iAreaCode":'',
+                "iPhoneNumber":iIsMobile,
+                "iCompleteNumber":iIsMobile,
+                "iIsDefault":'Y',
+                "createdby": 'admin'
+                    }
+                    
+            data=JSON.stringify(data); 
+            $.ajax({
+                url: "https://localhost:9090/contactphone",
+                type: "POST",
+                async: false,
+                data: data,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                    addleadcontemail(k);
+                },
+                error: function () {
+                    console.log("error is mobile coming");
+                   }
+            });
+            leadLoad();
+            }
+            function addleadcontemail(k) {
+                  
+                    var iEmail=$("#leademail").val();
+                   
+            var data={
+                "iSourceID": k,
+                "iAddressId":'',
+                "iSourceType":'lead',
+                "iEmail": iEmail,
+                "iIsDefault":'Y',
+                "createdby": 'admin',
+                    }
+                    
+            data=JSON.stringify(data); 
+            $.ajax({
+                url: "https://localhost:9090/contactemail",
+                type: "POST",
+                async: false,
+                data: data,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                    addLeaduncheck();
+                },
+                error: function () {
+                    console.log("error is email coming");
+                   }
             });
             leadLoad();
             }
@@ -931,8 +1180,8 @@ function addAccountAddress(i){
    
     
 var data={
-        "accountid":i,
-        "sourcetype":"Account",
+        "iSourceID":i,
+        "iSourceType":"Account",
         "iAddressType":'',
         "iAddressLine1":'',
         "iAddressLine2":'',
@@ -941,7 +1190,6 @@ var data={
         "iShipTo":'Y',
         "iIsDefault":'Y',
         "iCreatedBy":"Admin",
-        
         "accountry":accountry,
         "acccity":acccity,
         "accstate":accstate,
@@ -1003,15 +1251,9 @@ function addContact() {
 var data={
         "firstname":fname,
         "lastname":lname,
-        // "accountname":account,
         "jobtitle":title,
         "functionname":function1,
         "department":department,
-        // "phone":phone,
-        // "fax":fax,
-        // "mobile":mobile,
-        // "email":email,
-        // "contaccidname":contgetaccid,
         "createdby":'admin',
         }
 
@@ -1366,7 +1608,7 @@ chart3.render();  }
                         var leadstate="\""+result[0][i].state+"\"";
                         var leadcountry="\""+result[0][i].country+"\"";
                         
-                    tableData = tableData + " <tr class='customtr' onclick='parentacciddisplay("+acctparentid+","+acctparentname+"),leadcontactdisplay("+leadcity+","+leadstate+","+leadcountry+");' data-dismiss='modal'> " +
+                    tableData = tableData + " <tr class='customtr' onclick='parentacciddisplay("+acctparentid+","+acctparentname+"),leadaccounttdisplay("+leadcity+","+leadstate+","+leadcountry+");' data-dismiss='modal'> " +
                         "<td >" + result[0][i].ExternalID + "</td>" +
                         "<td >" + result[0][i].accountcode + "</td>" +
                         "<td >" + result[0][i].name + "</td>" +
@@ -1379,7 +1621,7 @@ chart3.render();  }
            
            
         }
-        function leadcontactdisplay(i,j,k) {
+        function leadaccounttdisplay(i,j,k) {
           
             $("#leadcity").val(i);
             $("#leaduncheckstate").val(j);
@@ -1617,6 +1859,7 @@ chart3.render();  }
 
                             $("#accountCounty").html(dropdowndata);
                             //$("#countryacc").html(dropdowndata);
+                            $("#leadcountry").html(dropdowndata);  
                            
                         }
                     });
@@ -1647,6 +1890,33 @@ chart3.render();  }
                         }
                     });
                 };
+
+                function leadstatedropdown() {
+                
+                let country=$("#leadcountry").find(":selected").val();
+                 
+                var dropdowndata = "";
+
+                 var url = "https://localhost:9090/accstate/" +country;
+                
+                 
+                 $.ajax({
+                     url: url,
+                     type: "GET",
+                     success: function (result) {
+                       
+                         for (var i = 0; i < result[0].length; i++) { 
+                            
+                             dropdowndata = dropdowndata  +
+                             '<option value= "' + result[0][i].state + '" >' + result[0][i].state +  '</option>' 
+                               
+                         }
+                        
+                         $("#leadstate").html(dropdowndata);
+                      
+                     }
+                 });
+             };
 
                 function acceditstatedropdown() {
           
@@ -1975,7 +2245,6 @@ clearFormContact();
                     url: url,
                     type: "GET",
                     success: function (result) {
-
                         $("#screenloading").css('display','none');
 
                         for (var i = 0; i < result[0].length; i++) {
@@ -1986,7 +2255,6 @@ clearFormContact();
                             }
                                 var contaccid="\""+result[0][i].accountid+"\"";
                                 var contaccname="\""+result[0][i].name+"\"";
-                   
                                 tableData = tableData + " <tr class='customtr' onclick='contacciddisplay(" + contaccid + "," + contaccname + ")'  data-dismiss='modal'> " +
                                                 
                                     "<td >" + result[0][i].ExternalID + "</td>" +
@@ -2006,10 +2274,53 @@ clearFormContact();
                  
             $("#contgetaccid").val(i);
             $("#accountcont").val(j);
-            editcontact();
-             
-        }
            
+            $("#owncont").val(j); 
+            $("#leadconthiddenid").val(i); 
+            editcontact();
+        }
+        function leadcontactdisplay() {
+         //alert("leadcontactdisplay");
+         var tableData;
+            
+         $.ajax({
+                            url: "https://localhost:9090/contact",
+                            type: "GET",
+                            success: function (result) {
+                        
+                                for (var i = 0; i < result[0].length; i++) {
+
+                           
+                                var leadcontid="\""+result[0][i].contactid+"\"";
+                                var leadcontphne="\""+result[0][i].Phone+"\"";
+                                var leadcontmob="\""+result[0][i].Mobile+"\"";
+                                var leadcontemail="\""+result[0][i].email+"\"";
+                                var leadcontname="\""+result[0][i].Name+"\"";
+                               
+                                tableData = tableData + " <tr class='customtr' onclick='leadcontdisplay(" + leadcontid + "," + leadcontphne + "," + leadcontmob + "," + leadcontemail + "," + leadcontname + ")'  data-dismiss='modal'> " +
+                                                
+                                    "<td >" + result[0][i].contactid + "</td>" +
+                                    "<td >" + result[0][i].Name + "</td>" +
+                                    "<td >" + result[0][i].Name + "</td>" +
+
+                                    "</tr>";
+                                }
+                                $("#allleadcontTable").html(tableData);
+                            }
+                        });
+
+
+
+           }
+           function leadcontdisplay(i,j,k,l,m) {
+                 
+                 $("#leadconthiddenid").val(i);
+                 $("#leadphone").val(j);
+                 $("#leadmobile").val(k);
+                 $("#leademail").val(l);
+                 $("#owncont").val(m); 
+                 
+             }
     function insertaccountcontact(i) {
          
         var accountcontactid = $("#contgetaccid").val();
@@ -3077,8 +3388,7 @@ function resetFormOpp() {
 }
 function resetFormLead() {
     
- //   $('#myCheck').prop('checked','false');
- //$('input:checkbox').each(function Check1() { this.checked = false;});
+
         $("#myCheck").prop("checked",false);
        // Check1();
         $('#stats').prop('selectedIndex',0);
@@ -3810,7 +4120,7 @@ background-size: 8%;'></div>
                             <header class="head-list">
                                 <div id="default_controls">
                                     <div class="pull-right" id="AddNewButton">
-                                        <a class="btn in-entity-modal" data-toggle="modal" href="#leadModal" onclick="resetFormLead();sourdropdownfun();qualidropdownfun();priodropdownfun();catdropdownfun();statusdropdownfun();"
+                                        <a class="btn in-entity-modal" data-toggle="modal" href="#leadModal" onclick="resetFormLead();sourdropdownfun();qualidropdownfun();priodropdownfun();catdropdownfun();statusdropdownfun();acccontdropdown();"
                                             data-entity-type="Contact" data-action="Create">
                                             New Lead
                                         </a>
@@ -5305,31 +5615,36 @@ background-size: 8%;'></div>
                                     <label class="control-label col-sm-12" for="name">Contact:</label>
                                 </div>
                                 <div class="col-sm-6" id="owncontact1" style="display:none" >
+                                    <input type="text" id="leadconthiddenid" style="display:none">
                                 <input type="text" class="form-control form-group" id="owncont" name="title" style="height:71%;width: 118%;"></div>
                                 <div class="col-sm-1" style="right:-48px;" >
-                                    <a href="#accmodal" data-toggle="modal" data-dismiss="modal" id="ownshare1" style="display:none;"> 
+                                    <a href="#leadcontmodal" data-toggle="modal"  onclick="leadcontactdisplay()" id="ownshare1" style="display:none;"> 
                                         <i class="fa fa-share"></i></a>
                                          </div>
                             </div>
                         <div class="row">
                             <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Company:</label>
+                                <label class="control-label col-sm-12" for="name" id="leadcompany">  <span style="color: red;">*</span>Company:</label>
                             </div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="company" name="company" style="height:71%;"  required></div>
+                                    <input type="text" class="form-control form-group" id="uncheckcompanyid" name="company" style="height:71%;display: none;" required>
+                                <input type="text" class="form-control form-group" id="company" name="company" style="height:71%;"  required>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Contact First Name:</label></div>
+                                <label class="control-label col-sm-12" for="name" id="leadconfn">  <span style="color: red;">*</span>Contact First Name:</label>
+                            </div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="firnam" name="first_name" style="height:71%;"  required></div>
+                                    <input type="text" class="form-control" id="uncheckfirnam" name="first_name" style="height:71%;display:none;"  required>
+                        <input type="text" class="form-control" id="firnam" name="first_name" style="height:71%;"  required>
+                    </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-5">
-                                <label class="control-label col-sm-12" for="name">  <span style="color: red;">*</span>Contact Last Name:</label></div>
+                                <label class="control-label col-sm-12" for="name" id="leadconln">  <span style="color: red;">*</span>Contact Last Name:</label></div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control form-group" id="lasnam" placeholder=""
-                                    name="last_name" style="height:71%;"  required></div>
+                                <input type="text" class="form-control form-group" id="lasnam" placeholder="" name="last_name" style="height:71%;"  required></div>
                         </div>
 
                         <div class="row">
@@ -5456,7 +5771,7 @@ background-size: 8%;'></div>
                             </div>
                             <div class="col-sm-7">
                                     <input type="text" id="leaduncheckcountry" style="display:none" disabled class="form-control form-group" name="city">
-                                <select class="form-control" id="leadcountry" name="country">
+                                <select class="form-control" id="leadcountry" name="country" onclick="leadstatedropdown();">
                                    
                                 </select>
                             </div>
@@ -5503,6 +5818,7 @@ background-size: 8%;'></div>
                                 <label class="control-label col-sm-12" for="name">E-mail:</label>
                             </div>
                             <div class="col-sm-7">
+                                
                                 <input type="text" class="form-control form-group" id="leademail" name="email" style="height:71%;"></div>
                         </div>
 
@@ -6225,7 +6541,90 @@ background-size: 8%;'></div>
                           </div>
                         
                       </div>
-
+                      <div id="leadcontmodal" class="modal no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
+                      style="height: auto; padding-right: 0px  ! important; top: 146px;">
+                                      
+                          <div class="modal-content">
+                                              
+                               <div class="modal-header" style="background-color: rgb(0, 63, 118);color: rgb(255, 255, 255);">
+                                        
+                                          <!-- Modal Header -->
+                                      
+                                      <h5 class="modal-title">Contacts</h5>
+                                      <button type="button" class="close" data-dismiss="modal" style="color:white; opacity:1;" >×</button>
+                                  </div>
+                                          
+                                  <!-- Modal body -->
+                                  <div class="modal-body" >
+                                          
+                                  <br>
+              
+                                  <div class="row">
+              
+                                      <div class="col-sm-3">
+              
+                                          <select class="form-control" name="modaldropdown" id="modaldropdown" style="height: 71%;">
+                                                             
+                                              <option selected>All</option>
+                                                            
+                                              <option>All My Contacts</option>
+                                                                
+                                              <option>My Contacts</option>
+                                                                
+                                              <option>My-Team's Contact's</option>   
+                                                      
+                                          </select>
+                                                      
+                                          </div>
+              
+                                          <div class="col-sm-5"></div>
+              
+                                              <div class="col-sm-3">
+              
+                                                  <input class="form-control" type="text" id="mySearch" placeholder="Search" style="left: 32%; position: relative; border-radius:4px;">
+              
+                                              </div>
+              
+                                          <div class="col-sm-1">
+              
+                                              <i class="fa fa-refresh"  style=" color:black; left: 100%; position: relative;"></i>
+              
+                                          </div>
+              
+                                          </div>
+                                          
+                                          <div id="main-content" class="contact">
+                                            
+                                                  <div id="tbMarksContainer"> 
+                                             
+                                                      <div class="entity-list" id="entity-list">
+                                                          <div  class="table table-responsive" style="overflow: auto;height:200px">
+                                                              <table class="table table-bordered">
+                                                                      <thead style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: 0px;">
+                                                                                             <tr style="  font-weight:bold ; ">
+                                                              <th>Contact ID</th>
+                                                              <th>Contact Name</th>
+                                                              <th>Account Name</th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody id="allleadcontTable">
+                                          
+                                                      </tbody>
+                                                  </table>
+                                              </div>
+                                          </div>
+              
+                                          </div>
+                                      </div>
+                                  </div>
+                                          <!-- Modal footer -->
+                                          <div class="modal-footer">
+                                           <button type="button" class="btn btn-primary" data-dismiss="modal" style=" background-color: #0F70A2; color:white; " >Cancel</button>
+                                          </div>
+                                          
+                                        </div>
+                                      
+                                    </div>
     </div>
     </div>
     </div>

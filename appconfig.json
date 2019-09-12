@@ -731,59 +731,16 @@
         "required": [
                 "title",
                 "company",
-                "firstname",
-                "lastname",
+                "leadcontid",
                 "status",
                 "qul",
                 "source",
                 "category",
                 "priority",
-                "owner"
-        ],
-        "properties": {
-          "title": {
-            "description": "Lead name",
-            "type": "string"
-          },
-          "company": {
-            "description": "Company name",
-            "type": "string"
-          },
-          "firstname": {
-            "description": "first Name",
-            "type": "string"
-          },
-          "lastname": {
-            "description": "Last name",
-            "type": "string"
-          },
-          "status": {
-            "description": "status",
-            "type": "string"
-          },
-          "qul": {
-            "description": "Qualification level",
-            "type": "string"
-          },
-          "source": {
-            "description": "Source of the lead",
-            "type": "string",
-            "minLength":3
-          },
-          "category": {
-            "description": "Category",
-            "type": "string"
-          },
-          "priority": {
-            "description": "Priority",
-            "type": "string",
-            "minLength":3
-          },
-          "owner": {
-            "description": "Owner of the Lead",
-            "type": "string"
-          }
-        }
+                "owner",
+                "leadnotes"
+        ]
+       
       },
       "examples": [
         {
