@@ -23,7 +23,7 @@ exports.validateLogin = function (req, res) {
     let psno = req.body.psno;
     let pwd = req.body.pwd;
 
-    var ldap = require('ldapjs');
+    /*var ldap = require('ldapjs');
     let usernameQuery = "call procUserAuthentication( '" + psno + "');";
 
     db.query(usernameQuery, (err, result) => {
@@ -60,6 +60,19 @@ exports.validateLogin = function (req, res) {
                 }
             });
         }
+
+    });*/
+    let query = "CALL procLoginAuthenticationWithoutLDAP('" +psno + "', '" + pwd + "')";
+
+    db.query(query, (err, result) => {
+
+        if (err) {
+            message = 'Incorrect Credentials';
+
+            return res.status(500).send(err);
+
+        }
+        res.redirect('/home');
 
     });
 
@@ -526,7 +539,7 @@ exports.addContactPage = function (req, res) {
 exports.ContactPage = function (req, res) {
 
     var Sid = req.params.i;
-    let query = " CALL `devc4c`.`procAdminListAllContacts`()";
+    let query = " CALL `procAdminListAllContacts`()";
 
     db.query(query, (err, result) => {
 
