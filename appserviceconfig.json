@@ -7,7 +7,7 @@
       "hostname": "localhost",
       "description": "REST END POINT For Sample Service.",
       "configfilepath": "./appconfig.json"
-     
+      
     }
   }
 }

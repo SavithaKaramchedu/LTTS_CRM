@@ -140,13 +140,13 @@ console.log(query);
 
     db.query(query, (err, result2) => {
         if (err) {
-            console.log(err)
+            //console.log(err)
             return res.status(500).send(err);
         }
         let query1="SELECT @output as leadID";
         db.query(query1, (err, result3) => {
             if (err) {
-                console.log(err)
+               // console.log(err)
                 return res.status(500).send(err);
             }
             res.status(200).json(result3);
@@ -276,7 +276,7 @@ exports.recorddisplaylead = function (req, res) {
 
     var Sid = req.params.i;
 
-    let query = 'select * from leadcirruswave where id="' + Sid + '" ';
+    let query = "call procDisplayLeadOnLeadMouseHover('" +Sid + "')";
 
     db.query(query, (err, result) => {
         if (err) {
@@ -807,32 +807,48 @@ exports.getOpportunityPage = function (req, res) {
     });
 },
 
-    exports.addOpportunity = function (req, res) {
-        let message = '';
-        let Name = req.body.oppName;
-        let Account = req.body.Accountopp;
-        let PrimaryContact = req.body.PrimaryContact;
-        let Source = req.body.Source;
-        let Exceptedvalue = req.body.Exceptedvalue;
-        let StartDate = req.body.StartDate;
-        let ClosingDate = req.body.ClosingDate;
-        let SalesCycle = req.body.SalesCycle;
-        let Salesphase = req.body.Salesphase;
-        let Probability = req.body.Probability;
-        let ForecastCategory = req.body.ForecastCategory;
-        let Category = req.body.convertcategory;
-        let Owner = req.body.Owneropp
-        let query = "INSERT INTO `opportunitiescirruswave`(name,account,primarycontact,source,exceptedvalue,startdate,closedate,salescycle,salesphase,probability,forecastcategory,category,owner) VALUES ('" +
-            Name + "', '" + Account + "','" + PrimaryContact + "', '" + Source + "','" + Exceptedvalue +
-            "','" + StartDate + "','" + ClosingDate + "','" + SalesCycle + "','" + Salesphase + "','" +
-            Probability + "','" + ForecastCategory + "','" + Category + "','" + Owner + "')";
-        db.query(query, (err, result) => {
+exports.addOpportunity = function (req, res) {
+    console.log('opportunity');
+    let message = '';
+    let iLeadID=req.body.leadid;
+    console.log(iLeadID);
+    let iTitle = req.body.oppName;
+    let iAccountID = req.body.Accountid;
+    let iOpportunitySourceID = req.body.Source;
+    let iExpectedValue = req.body.Exceptedvalue;
+    let iStartDate = req.body.StartDate;
+    let iEndD0ate = req.body.ClosingDate;
+    let iSalesCycleID = req.body.SalesCycle;
+    let iSalesPhaseID = req.body.Salesphase;
+    let iProbability = req.body.Probability;       
+    let iPublishToForecast = req.body.PublishtoForecast;
+    let iOpportunityCategoryID = req.body.convertcategory;
+    let iOwnerID = req.body.ownerid;
+    let iNote = req.body.opponote;
+    let iCreatedBy = req.body.createdby; 
+    let query = "call `procConvertLeadToOpportunity`('" + iLeadID + "','" + iTitle + "', '" + iAccountID + "','" + iOpportunitySourceID + "','" 
+    + iExpectedValue + "', '" + iStartDate + "', '" + iEndD0ate + "', '" + iSalesCycleID + "', '" 
+    + iSalesPhaseID + "','" + iProbability + "','" + iPublishToForecast + "','" + iOpportunityCategoryID + "','"
+     + iOwnerID + "','" + iNote + "','" + iCreatedBy + "', @output)";
+       console.log(query);
+        db.query(query, (err, result2) => {
             if (err) {
+                console.log(err)
                 return res.status(500).send(err);
             }
-            res.redirect("/home");
+            let query1="SELECT @output as oOpportunityID";
+            db.query(query1, (err, result3) => {
+                if (err) {
+                    console.log(err)
+                    return res.status(500).send(err);
+                }
+                res.status(200).json(result3);
+                console.log(result3);
+            });
+           
         });
-    };
+    
+};
 
 exports.updateOpportunity = function (req, res) {
     var Sid = req.body.id;

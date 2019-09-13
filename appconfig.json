@@ -610,111 +610,17 @@
     },
     
     {
-      "route": "/opportunity",
+      "route": "/addopportunity",
       "type": "post",
       "configured": true,
       "routeclass": "./sampleservice.js",
       "routefunction": "addOpportunity",
       "description": "Route for creation of new opportunity",
-      "bodyschema": {
-        "type": "object",
-        "required": [
-          "oppName",
-          "Accountopp",
-          "PrimaryContact",
-          "Source",
-          "Exceptedvalue",
-          "StartDate",
-          "ClosingDate",
-          "SalesCycle",
-          "Salesphase",
-          "Probability",
-          "PublishtoForecast",
-          "ForecastCategory",
-          "convertcategory",
-          "Owneropp"
-        ],
-        "properties": {
-          "oppName": {
-            "description": "Name of the opportunity",
-            "type": "string"
-          },
-          "Accountopp": {
-            "description": "Account of the opportunity",
-            "type": "string"
-          },
-          "PrimaryContact": {
-            "description": "Primary contact for the opportunity",
-            "type": "string"
-          },
-          "Source": {
-            "description": "Source",
-            "type": "string"
-          },
-          "Exceptedvalue": {
-            "description": "Exceptedvalue",
-            "type": "string"
-          },
-          "StartDate": {
-            "description": "Start Date",
-            "type": "string"
-          },
-          "ClosingDate": {
-            "description": "Closing Date",
-            "type": "string",
-            "minLength":3
-          },
-          "SalesCycle": {
-            "description": "Sales Cycle",
-            "type": "string"
-          },
-          "Salesphase": {
-            "description": "Sales Phase",
-            "type": "string",
-            "minLength":3
-          },
-          "Probability": {
-            "description": "Probability",
-            "type": "string"
-          },
-          "PublishtoForecast": {
-            "description": "Publish to Forecast",
-            "type": "string"
-          },
-          "ForecastCategory": {
-            "description": "Forecast Category",
-            "type": "string"
-          },
-          "convertcategory": {
-            "description": "convert category",
-            "type": "string"
-          },
-          "Owneropp": {
-            "description": "Owner of the opportunity",
-            "type": "string"
-          }
-
-        }
-      },
+     
       "examples": [
         {
-          "param": "/opportunity",
-          "payload": {
-            "oppName":"Google Opportunity",
-            "Accountopp":"Google",
-            "PrimaryContact":"Arpit",
-            "Source":"Current Account",
-            "Exceptedvalue":"2000000",
-            "StartDate":"31/03/19",
-            "ClosingDate":"31/03/20",
-            "SalesCycle":"New",
-            "Salesphase":"10% - Ideation",
-            "Probability":"50%",
-            "PublishtoForecast":"Yes",
-            "ForecastCategory":"Pipeline",
-            "convertcategory":"Consulting",
-            "Owneropp":"Arpit"
-            }
+          "param": "/opportunity"
+          
         }
       ]
     },
