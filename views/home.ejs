@@ -1087,7 +1087,7 @@ function addOpportunity(){
             }
 
      function AddAccounts() {
-
+       
             var name = $("#accountName").val();
 
             var status = $("#accountProspect").val();
@@ -1157,7 +1157,7 @@ var data={
 
 data=JSON.stringify(data); 
 
-
+if (name!="" && accountcategory!= "" && vertical!="" && country!="" && city!=""){
 $.ajax({
     url: "https://localhost:9090/account",
     type: "POST",
@@ -1166,6 +1166,9 @@ $.ajax({
     contentType: "application/json",
     dataType: "json",
     success: function (result) {
+        
+        $("#accountModal").modal("hide");
+        AccountLoad();
       var outputid=result[0].msg;
       if (outputid==null){
           addAccountAddress(result[0].id);
@@ -1180,8 +1183,13 @@ $.ajax({
        
     }
 });
+}
+/*else{
+    alert("please fill mandatory fields");
+    return false();
+}*/
 
-AccountLoad();
+
 
 }
 function addAccountAddress(i){
@@ -1469,6 +1477,7 @@ chart3.render();  }
                 url: url,
                 type: "GET",
                 success: function (result) {
+                    console.log(result)
                   
                    $("#loading").css('display','none');
                    
@@ -1505,11 +1514,13 @@ chart3.render();  }
                         if (result[0][i].CREATEDDATE == null || result[0][i].CREATEDDATE == 0){
                             result[0][i].CREATEDDATE = "";
                         } 
+                        
+                        var accountID="\""+result[0][i].accountid+"\"";
                         tableData = tableData + "  <tr> " +
 
                             "<td >" +  result[0][i].accountcode+ "</td>" +
                             "<td >" + result[0][i].ExternalID+ "</td>" +
-                            "<td >"+"<a href='#'>" + result[0][i].name+ "</a>"+"</td>" +
+                            "<td >"+"<a href='#editaccModal' data-toggle='modal' onclick='acccatdropdown(),resetFormAccount(),accvertdropdown(),acccontdropdown(),accountdisplay("+accountID+")'>" + result[0][i].name+ "</a>"+"</td>" +
                             "<td >" +"<a href='#'>" + result[0][i].Owner+ "</a>"+"</td>" +
                             "<td >" + result[0][i].Role+ "</td>" +
                             "<td >" + result[0][i].Status+ "</td>" +
@@ -1533,6 +1544,8 @@ chart3.render();  }
   
             $("#faname").prop("disabled", false);
             $("#Prospect").prop("disabled", false);
+            $("#Prospect").hide();
+            $("#Prospecteditshow").show();
             $("#paacc").prop("disabled", false);
             $("#website").prop("disabled", false);
             $("#acccat").prop("disabled", false);
@@ -1568,23 +1581,31 @@ chart3.render();  }
         function accountdisplay(i) {
             
             var url = "https://localhost:9090/account/" + i;
-        
+        console.log(url);
             $.ajax({
                 url: url,
                 type: "GET",
                 success: function (result) {
-                    var countryid= $("#countryacc").val();
-                    $("#Aid").text(result[0].id);
-                    $("#faname").val(result[0].name);
-                    $("#Prospect").val(result[0].prospect);
-                    $("#paacc").val(result[0].parentaccount);
-                    $("#website").val(result[0].website);
-                    $("select#acccat").val(result[0].accountcategory).attr('selected','selected');
-                    $("vertical").val(result[0].vertical).attr('selected','selected');
-                    $("select#countryacc").val(result[0].country).attr('selected','selected');
-                    $("#city").val(result[0].city);
-                    $("select#stateacc").val(result[0].state).attr('selected','selected');
-                    $("#owner").val(result[0].owner);
+                    if(result[0][0].IsProspect=='checked'){
+                        result[0][0].IsProspect="Y"
+                    }
+                    else{
+                        result[0][0].IsProspect="N"  
+                    }
+                    console.log(result[0][0]);
+                    console.log(result[0][0].AccountCategory);
+                   // var countryid= $("#countryacc").val();
+                    $("#Aid").text(i);
+                    $("#faname").val(result[0][0].Account);
+                    $("#Prospect").text(result[0][0].IsProspect);
+                    $("#paacc").val(result[0][0].ParentAccount);
+                    $("#website").val(result[0][0].WEBSITE);
+                    $("#acccat").val(result[0][0].AccountCategoryID).attr('selected','selected');
+                    $("vertical").val(result[0][0].vertical).attr('selected','selected');
+                    $("#countryacc").val(result[0][0].countryid).attr('selected','selected');
+                    $("#city").val(result[0][0].city);
+                    $("#stateacc").val(result[0][0].stateid).attr('selected','selected');
+                    $("#owner").val(result[0][0].Owner);
                   
              }
 
@@ -1826,7 +1847,7 @@ chart3.render();  }
                                 $("#accountCategory").html(dropdowndata);
                                 
                                 //$("#acccateg").html(dropdowndata);
-                               // $("#acccat").html(dropdowndata);
+                               $("#acccat").html(dropdowndata);
                                
                             }
                         });
@@ -1875,8 +1896,7 @@ chart3.render();  }
                             }
 
                             $("#accountCounty").html(dropdowndata);
-                            //$("#countryacc").html(dropdowndata);
-                            $("#leadcountry").html(dropdowndata);  
+                            $("#countryacc").html(dropdowndata);
                            
                         }
                     });
@@ -4758,7 +4778,7 @@ background-size: 8%;'></div>
                                         <!-- Button to Open the Modal -->
 
                                         <!-- The Modal -->
-                                        <div class="modal" id="editModal" style="height: 385px;width: 804px">
+                                        <div class="modal" id="editaccModal" style="height: 385px;width: 804px">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
 
@@ -4791,8 +4811,9 @@ background-size: 8%;'></div>
                                                                 <label id="size">Prospect:</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <input type="checkbox" id="Prospect" disabled
-                                                                    name="check" checked="">
+                                                                <p id=Prospect></p>
+                                                                <input type="checkbox" id="Prospecteditshow" style="display:none"
+                                                                    name="check">
                                                             </div>
                                                             <div class="col-sm-1"> </div>
                                                         </div>
@@ -4833,22 +4854,11 @@ background-size: 8%;'></div>
                                                             </div>
 
                                                             <div class="col-sm-2">
-                                                                <label>Vertical:</label>
+                                                                    <label>City:</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <select class="strike" id="vertical" disabled
-                                                                    name="vertex"
-                                                                    style="height:22px;font-size: 12px;width:100%;border-radius: 3px;">
-                                                                    <option style="display:none;"></option>
-                                                                    <option>L&amp;T Thales</option>
-                                                                    <option>L&amp;T Thales common</option>
-                                                                    <option>GDA IP</option>
-                                                                    <option>VLSI</option>
-                                                                    <option>Admin Own</option>
-                                                                    <option>CE's Office</option>
-                                                                    <option>Capability Enhancement Group</option>
-                                                                    
-                                                                </select>
+                                                                    <input type="text" disabled id="city"
+                                                                    class="form-control form-group">
                                                             </div>
                                                             <div class="col-sm-1"></div>
                                                         </div>
@@ -4874,10 +4884,10 @@ background-size: 8%;'></div>
                                                             </div>
 
                                                             <div class="col-sm-2">
-                                                                <label>City:</label>
+                                                                    <label>Owner:</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <input type="text" disabled id="city"
+                                                                    <input type="text" disabled id="owner"
                                                                     class="form-control form-group">
                                                             </div>
                                                             <div class="col-sm-1"></div>
@@ -4898,11 +4908,10 @@ background-size: 8%;'></div>
                                                             </div>
 
                                                             <div class="col-sm-2">
-                                                                <label>Owner:</label>
+                                                               
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <input type="text" disabled id="owner"
-                                                                    class="form-control form-group">
+                                                               
                                                             </div>
                                                             <div class="col-sm-1"></div>
                                                         </div>
@@ -5442,7 +5451,7 @@ background-size: 8%;'></div>
 
   <div id="accountModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
             style="height: auto; padding-right: 0px  ! important;">
-            <form method="post">
+            <form method="post" onsubmit="return false">
                     <div class="modal-content">
                         <div class="modal-header"
                             style="padding-left:0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;background-color: rgb(0, 63, 118);
@@ -5461,7 +5470,7 @@ background-size: 8%;'></div>
                                 </div>
     
                                 <div class="col-lg-7">
-                                    <input type="text" class="form-control" name="nam" id="accountName"
+                                    <input type="text" required class="form-control" name="nam" id="accountName"
                                         style="height:25px;width: 80%;">
                                        
                                 </div>
@@ -5498,7 +5507,7 @@ background-size: 8%;'></div>
                                 <div class="col-lg-5">
                                     <div class="form-group"><span style="color:red">*</span>Account Category:</div>
                                 </div>
-                                <div class="col-lg-7"><select
+                                <div class="col-lg-7"><select required
                                         style="height:25px;width: 80%;border-radius:4px;border: 1px solid #ccc;"
                                         name="acccat" id="accountCategory">
                                         <option style="display:none;"></option>
@@ -5509,7 +5518,7 @@ background-size: 8%;'></div>
                                 <div class="col-lg-5">
                                     <div class="form-group"><span style="color:red">*</span>Vertical:</div>
                                 </div>
-                                <div class="col-lg-7"><select
+                                <div class="col-lg-7"><select required
                                         style="height:25px;width: 80%;border-radius:4px;border: 1px solid #ccc;" name="vert"
                                         id="accountVertical">
                                         <option  style="display:none;"></option>
@@ -5520,7 +5529,7 @@ background-size: 8%;'></div>
                                 <div class="col-lg-5">
                                     <div class="form-group"><span style="color:red">*</span>Country:</div>
                                 </div>
-                                <div class="col-lg-7"><select onclick="accstatedropdown()"
+                                <div class="col-lg-7"><select onclick="accstatedropdown()" required
                                         style="height:25px;width: 80%;border-radius:4px;border: 1px solid #ccc; height: auto;"
                                         name="country" id="accountCounty">
                                         <option style="display:none;"></option>
@@ -5531,7 +5540,7 @@ background-size: 8%;'></div>
                                 <div class="col-lg-5">
                                     <div class="form-group"><span style="color:red">*</span>City:</div>
                                 </div>
-                                <div class="col-lg-7"><input type="text" class="form-control"
+                                <div class="col-lg-7"><input type="text" class="form-control" required
                                         style="height:25px;width: 80%;" name="city" id="accountCity"></div>
                             </div>
                             <div class="row">
@@ -5560,7 +5569,7 @@ background-size: 8%;'></div>
                           </div>
     
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="AddAccounts();clearFormAccount()">Save</button>
+                            <button type="submit" class="btn btn-primary" onclick="AddAccounts();clearFormAccount()">Save</button>
                             <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="clearFormAccount()">Cancel</button>
                         </div>
                     </div>

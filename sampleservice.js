@@ -764,9 +764,11 @@ exports.updateaccount = function (req, res) {
 };
 exports.recorddisplay = function (req, res) {
     var Sid = req.params.i;
-    let query = 'select * from accountcirruswave where id="' + Sid + '" ';
+    let query = 'call procEditAccount("' + Sid + '")';
+    console.log(query);
     db.query(query, (err, result) => {
         if (err) {
+            console.log(err)
             return res.status(500).send(err);
         }
         res.status(200).json(result);
