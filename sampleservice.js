@@ -557,7 +557,7 @@ exports.recorddisplaycont = function (req, res) {
 
     var Sid = req.params.i;
 
-    let query = 'select * from contactcirruswave where contactid = "' + Sid + '" ';
+    let query = "CALL `devc4c`.`procEditContact`('" + Sid + "')";
 
     db.query(query, (err, result) => {
 

@@ -1281,7 +1281,8 @@ if(lname !="" && account!="" && mobile!=""){
             contentType: "application/json",
             dataType: "json",
             success: function (data) {
-                
+               
+                contactLoad();
                 insertaccountcontact(data[0].contaccid);
             },
 
@@ -1290,11 +1291,12 @@ if(lname !="" && account!="" && mobile!=""){
             }
         });
    
-    }else{
-alert("enter required fields");
-   
     }
-        contactLoad();
+//     else{
+// alert("enter required fields");
+   
+//     }
+        
 
     }
    
@@ -1962,7 +1964,7 @@ chart3.render();  }
 
 
         function contactLoad() {
-
+            dropdownfun();
                 var tableData;
 
                 $("#screenloading").css('display','block');
@@ -1973,7 +1975,7 @@ chart3.render();  }
                     url: url,
                     type: "GET",
                     success: function (result) {
-console.log(result[0]);
+
                         $("#screenloading").css('display','none'); 
 
 
@@ -2006,7 +2008,7 @@ console.log(result[0]);
                             tableData = tableData + "  <tr> " +
                                 
                                 "<td id='' hidden>" + result[0][i].contactid + "</td>" +
-                                "<td >" + "<a href='#cmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false' onclick='recorddisplaycont("+contid+")'>" + result[0][i].Name + "</a>" + "</td>" +
+                                "<td >" + "<a href='#cmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false' onclick='dropdownfun(),dropdowndep(),recorddisplaycont(" + contid + ")'>" + result[0][i].Name + "</a>" + "</td>" +
                                 "<td >" + result[0][i].Account + "</td>" +
                                 "<td >" + result[0][i].jobfunction + "</td>" +
                                 "<td >" + result[0][i].DEPARTMENT + "</td>" +
@@ -2028,29 +2030,26 @@ console.log(result[0]);
 
             function recorddisplaycont(i) {
 
-$.ajax({
-    url: "https://localhost:9090/contact/" + i,
-    type: "GET",
-    success: function (result) {
-console.log(result);
-        $("#cid").val(i);
-        // $("#firstname").val(result[0].firstname);
-        // $("#lastname").val(result[0].lastname);
-        $("#acc").val(result[0].Account);
-        $("#jobtitle").val(result[0].jobfunction);
-        $("#funct").val(result[0].functionname);
-        $("#depart").val(result[0].DEPARTMENT);
-        $("#phn").val(result[0].Phone);
-        // $("#cit").val(result[0].city);
-        // $("#fa").val(result[0].fax);
-        $("#mob").val(result[0].Mobile);
-        $("#eml").val(result[0].email);
-    }
-});
+                    $.ajax({
+                        url: "https://localhost:9090/contact/" + i,
+                        type: "GET",
+                        success: function (result) {
+                            console.log(result);
+                            $("#cid").text(i);
+                            $("#firstname").val(result[0][0].FIRSTNAME);
+                            $("#lastname").val(result[0][0].LASTNAME);
+                            $("#acc").val(result[0][0].Account);
+                            $("#funct").val(result[0][0].JOBFUNCTIONID).attr('selected','selected');
+                            $("#depart").val(result[0][0].DEPARTMENTID).attr('selected','selected');
+                            $("#phn").val(result[0][0].Phone);
+                            $("#mob").val(result[0][0].Mobile);
+                            $("#eml").val(result[0][0].email);
+                        }
+                    });
 
-clearFormContact();
+                    clearFormContact();
 
-}
+                }
 
              function editcontact() {
                    
@@ -2104,8 +2103,6 @@ clearFormContact();
                     $("#cancelct").prop("hidden", true);
 
                 } 
-
-                
 
                     function updatereccontact() {
 
@@ -2214,12 +2211,13 @@ clearFormContact();
                         type: "GET",
                         success: function (result) {
                               
-                                    dropdowndata = dropdowndata+"<option style='display:none;'></option>";
+                                 //   dropdowndata = dropdowndata+"<option style='display:none;'></option>";
                                 for (var i = 0; i < result[0].length; i++) {
                                     dropdowndata = dropdowndata + '<option value="' + result[0][i].JOBFUNCTIONID + '">' + result[0][i].JOBFUNCTION + '</option>';
                             }                          
                             $("#contfunction1").html(dropdowndata);
-                            $("#funct").html(dropdowndata);             
+                            $("#funct").html(dropdowndata);   
+                                    
                         }
                     
                     });
@@ -2236,7 +2234,7 @@ clearFormContact();
                         type: "GET",
                         success: function (result) {
 
-                               dropdowndata = dropdowndata+"<option style='display:none;'></option>";
+                            //   dropdowndata = dropdowndata+"<option style='display:none;'></option>";
                             for (var i = 0; i < result[0].length; i++) {
                                 dropdowndata = dropdowndata +  '<option value="' + result[0][i].DepartmentID + '">' + result[0][i].Department + '</option>';
                             }                          
@@ -2324,10 +2322,9 @@ clearFormContact();
                             }
                         });
 
-
-
-           }
-           function leadcontdisplay(i,j,k,l,m) {
+                     }
+           
+        function leadcontdisplay(i,j,k,l,m) {
                  
                  $("#leadconthiddenid").val(i);
                  $("#leadphone").val(j);
@@ -2336,41 +2333,36 @@ clearFormContact();
                  $("#owncont").val(m); 
                  
              }
-    function insertaccountcontact(i) {
+        function insertaccountcontact(i) {
          
-        var accountcontactid = $("#contgetaccid").val();
+            var accountcontactid = $("#contgetaccid").val();
 
-        // if (result[0][i].accountcontactid== "null" || result[0][i].accountcontactid == "")
-        //                     {
-        //                         result[0][i].accountcontactid = "";
-        //                     }
+            var data = {
 
-        var data = {
-           
-            "iAccountID": accountcontactid,
-            "iContactID": i,
-            "iCreatedBy": 'admin',
-        }
-
-        data = JSON.stringify(data);
-
-        $.ajax({
-            url: "https://localhost:9090/insertcontactaccount",
-            type: "post",
-            async: false,
-            data: data,
-            contentType: "application/json",
-            dataType: "json",
-            success: function (result) {
-             
-                insertcontphone(i);
-            },
-
-            error: function () {
-               
+                "iAccountID": accountcontactid,
+                "iContactID": i,
+                "iCreatedBy": 'admin',
             }
-        });
-    }
+
+            data = JSON.stringify(data);
+
+            $.ajax({
+                url: "https://localhost:9090/insertcontactaccount",
+                type: "post",
+                async: false,
+                data: data,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+
+                    insertcontphone(i);
+                },
+
+                error: function () {
+
+                }
+            });
+        }
     
     function insertcontphone(i) {
         
@@ -2654,7 +2646,6 @@ clearFormBusiness();
         $("#cancelBusiness").prop("hidden", true);
 
 } 
-
 
         function leadLoad() {
             
@@ -3378,9 +3369,10 @@ clearFormBusiness();
         $('#first-name').val('');
         $('#last-name').val('');
         $('#accountcont').val('');
+        $('#contgetaccid').val(''); 
         $('#job-title').val('');
         $('#phone').val('');
-        $('#citycont').val('');
+       // $('#citycont').val('');
         $('#fax').val('');
         $('#mobile').val('');
         $('#email').val('');
@@ -3976,7 +3968,7 @@ background-size: 8%;'></div>
     
             </div>
            
-            <div class="modal fade docs-example-modal-lg" id="cmodal" tabindex="-1" role="dialog" style="height: 439px;top: 23%;"
+            <div class="modal fade docs-example-modal-lg" id="cmodal" tabindex="-1" role="dialog" style="height: 380px;top: 23%;"
         aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -4019,19 +4011,8 @@ background-size: 8%;'></div>
                             <input type="text" disabled required class="form-control" name="account" id="acc"
                                 style="height: 71%;">
     
-                        </div>
+                        </div>   
     
-    
-                        <div class="col-sm-2">Job Title:</div>
-                        <div class="col-sm-3">
-                            <input type="text" disabled required class="form-control" name="job_title" id="jobtitle"
-                                style="height: 71%;">
-                        </div>
-                        <div class="col-sm-1"></div>
-                    </div>
-    
-                    <div class="row">
-                        <div class="col-sm-1"></div>
                         <div class="col-sm-2"> Function:</p>
                         </div>
                         <div class="col-sm-3">
@@ -4039,38 +4020,31 @@ background-size: 8%;'></div>
     
                             </select>
                         </div>
+                        <div class="col-sm-1"></div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        
     
                         <div class="col-sm-2">Department:</div>
     
                         <div class="col-sm-3">
                             <select class="form-control" disabled name="department" id="depart" style="height: 71%;">
     
-                            </select>
-    
+                            </select>   
                         </div>
-                    </div>
-    
-                    <div class="row">
-                        <div class="col-sm-1"></div>
                         <div class="col-sm-2">Phone:</div>
     
                         <div class="col-sm-3">
                             <input type="text" disabled required class="form-control" name="phone" id="phn"
                                 style="height: 71%;">
                         </div>
-    
-                        <div class="col-sm-2">Fax:</div>
-    
-                        <div class="col-sm-3">
-                            <input type="text" disabled required class="form-control" name="fax" id="fa"
-                                style="height: 71%;">
-                        </div>
-    
+
                     </div>
     
                     <div class="row">
                         <div class="col-sm-1"></div>
-    
                         <div class="col-sm-2">
                             <p><span style="color:red;">*</span>Mobile:
                         </div>
@@ -4079,7 +4053,7 @@ background-size: 8%;'></div>
                             <input type="text" disabled required class="form-control" name="mobile" id="mob"
                                 style="height: 71%;">
                         </div>
-    
+                        
                         <div class="col-sm-2">Email:</div>
     
                         <div class="col-sm-3">
@@ -4088,6 +4062,7 @@ background-size: 8%;'></div>
                         </div>
     
                     </div>
+    
     
                     <br>
                 </div>
@@ -6350,7 +6325,7 @@ background-size: 8%;'></div>
 
         <div id="contactModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
             style="height: auto; padding-right: 0px  ! important;">
-            <form method="post" id="formContact" action="/action_page.php">
+            <form method="post" id="formContact" onsubmit="return false">
                     <div class="modal-content">
                         <div class="modal-header"
                             style="padding-left:0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: rgb(0, 63, 118);color: rgb(255, 255, 255);">
@@ -6482,7 +6457,7 @@ background-size: 8%;'></div>
                         </div>
     
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" data-dismiss="modal"  onclick="addContact()">Save</button>
+                            <button type="submit" class="btn btn-primary"  onclick="addContact()">Save</button>
                             <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick="clearFormContact()">Cancel</button>
                         </div>
                     </div>
