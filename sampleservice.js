@@ -879,7 +879,7 @@ exports.updateOpportunity = function (req, res) {
 
 exports.opportunitydisplay = function (req, res) {
     var Sid = req.params.i;
-    let query = 'select * from opportunitiescirruswave where id="' + Sid + '" ';
+    let query = "call `procDisplayOnOpportunityMouseHoover`('"+Sid + "' )";
     db.query(query, (err, result) => {
         if (err) {
             return res.status(500).send(err);

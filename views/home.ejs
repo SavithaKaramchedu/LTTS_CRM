@@ -123,15 +123,14 @@
     </style>
  
 
- <div id='screenloading' style='display: none;position: fixed;
- left: 0px;
+<div id='screenloading' style='display: none;position: fixed;left: 0px;
  top: 0px;
  width: 100%;
  height: 100%;
  z-index: 9999;
  background: url(./images/loader.gif) 50% 50% no-repeat rgb(249,249,249);
  opacity: .8;
- background-size: 8%;'></div> 
+ background-size: 8%;'></div>
 
 <script>
     $("#mySearch").on("keyup", function() {
@@ -734,12 +733,13 @@ function addOpportunity(){
             contentType: "application/json",
             dataType: "json",
             success: function (result) {   
+                opportunityLoad();
             },       
             error: function () {   
                console.log("error");
             }
         });
-        opportunityLoad();
+       
         }
    
      function addLead() {
@@ -2727,7 +2727,7 @@ clearFormBusiness();
                                 var leadoppoid="\""+result[0][i].LEADID+"\"";
                             tableData = tableData + "  <tr> " +
                                 //"<td hidden>" + result[0][i].LEADID+ "</td>" + 
-                                "<td >" + "<a href='#editleadmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false' onclick='recorddisplaylead("+leadoppoid+");sourdropdownfun();qualidropdownfun();priodropdownfun();catdropdownfun();statusdropdownfun();acccontdropdown();'>" + result[0][i].TITLE + "</a>" + "</td>" +
+                                "<td >" + "<a href='#editleadmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false' onclick='sourdropdownfun(),qualidropdownfun(),priodropdownfun(),catdropdownfun(),statusdropdownfun(),acccontdropdown(),recorddisplaylead("+leadoppoid+")'>" + result[0][i].TITLE + "</a>" + "</td>" +
                                 //"<td onclick='recorddisplaylead(" + result[i]. + ")'>" + "<a href='#editleadmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[i].title + "</a>" + "</td>" +
 
                                 "<td >" + result[0][i].ContactFirstName + "</td>" +
@@ -2792,28 +2792,24 @@ clearFormBusiness();
                             type: "GET",
 
                             success: function (result) {
-                                console.log(result);
-                                
-                              
-                                console.log(result[0][0].ACCOUNTID);
+                                console.log(result);                           
+                                console.log(result[0][0].LeadStatusID);
                                 $("#leadid").text(i);
                                 $("#oppleadid").val(i);
+                                $("#Accountopp").val(result[0][0].Account);
+                                $("#PrimaryContact").val(result[0][0].Contact);
                                 $("#oppaccountid").val(result[0][0].ACCOUNTID);
-                                $("#tit").val(result[0][0].TITLE);
-                               
+                                $("#tit").val(result[0][0].TITLE);                             
                                 $("#comp").val(result[0][0].Account);
                                $("#firname").val(result[0][0].Contact);
                                // $("#lasname").val(result[0].lastname);
-                                $("#stat").val(result[0][0].LEADSTATUS);
-                                $("#qual").val(result[0][0].LEADQUALIFICATION);
-                                $("#sour").val(result[0][0].LEADSOURCE);
-                                $("#cat").val(result[0][0].LEADCATEGORY);
-                                $("#prio").val(result[0][0].PRIORITY);
+                                $("#stat").val(result[0][0].LeadStatusID).attr('selected','selected');
+                                $("#qual").val(result[0][0].LEADQUALIFICATIONID).attr('selected','selected');
+                                $("#sour").val(result[0][0].LEADSOURCEID).attr('selected','selected');
+                                $("#cat").val(result[0][0].LEADCATEGORYID).attr('selected','selected');
+                                $("#prio").val(result[0][0].PRIORITYID).attr('selected','selected');
                                // alert(result[0][0].PRIORITY)
-                                $("#own").val(result[0][0].Owner);
-
-
-                                
+                                $("#own").val(result[0][0].Owner);   
                             }
                         });
                         clearFormLead();
@@ -2995,44 +2991,45 @@ clearFormBusiness();
 
                 };
                                     
-               function sourdropdownfun() {
-                        var dropdowndata = "";
+               function sourdropdownfun() {
+                    var dropdowndata = "";
 
-                        var url = "https://localhost:9090/sourdropdownfun";
+                    var url = "https://localhost:9090/sourdropdownfun";
 
-                        $.ajax({
-                        url: url,
-                        type: "GET",
-                        success: function (result) {
-                          
-                        for (var i = 0; i < result[0].length; i++) {
-                        dropdowndata = dropdowndata +
-                        '<option value= "' + result[0][i].LEADSOURCEID+ '" >' + result[0][i].LEADSOURCE+ '</option>'  
-                    }
-                        $("#source").html(dropdowndata);
-                      $("#sour").html(dropdowndata);
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+
+                            for (var i = 0; i < result[0].length; i++) {
+                                dropdowndata = dropdowndata +
+                                    '<option value= "' + result[0][i].LEADSOURCEID + '" >' + result[0][i].LEADSOURCE + '</option>'
+                            }
+                            $("#source").html(dropdowndata);
+                            $("#sour").html(dropdowndata);
                         }
-                        });
-                        }; 
+                    });
+                }; 
+                       
                         function statusdropdownfun() {
-                        var dropdowndata = "";
+                                var dropdowndata = "";
 
-                        var url = "https://localhost:9090/statusdropdownfun";
+                                var url = "https://localhost:9090/statusdropdownfun";
 
-                        $.ajax({
-                        url: url,
-                        type: "GET",
-                        success: function (result) {
-                      
-                        for (var i = 0; i < result[0].length; i++) {
-                        dropdowndata = dropdowndata +
-                        '<option value= "' + result[0][i].LEADSTATUSID+ '" >' + result[0][i].LEADSTATUS+ '</option>'  
-                    }
-                        $("#stats").html(dropdowndata);
-                    $("#stat").html(dropdowndata);
-                        }
-                        });
-                        }; 
+                                $.ajax({
+                                    url: url,
+                                    type: "GET",
+                                    success: function (result) {
+
+                                        for (var i = 0; i < result[0].length; i++) {
+                                            dropdowndata = dropdowndata +
+                                                '<option value= "' + result[0][i].LEADSTATUSID + '" >' + result[0][i]. LEADSTATUS + '</option>'
+                                        }
+                                        $("#stats").html(dropdowndata);
+                                        $("#stat").html(dropdowndata);
+                                    }
+                                });
+                            }; 
 
                         
 
@@ -3056,10 +3053,12 @@ clearFormBusiness();
                                             if (result[0][i].ChangedBy == null || result[0][i].ChangedBy == 0) {
                                                 result[0][i].ChangedBy = "";
                                             }
+                                            var oppoID="\""+result[0][i].OPPORTUNITYID+"\"";
+                                            
                                             tableData = tableData + "  <tr> " +
                                                 "<td >" + result[0][i].OPPORTUNITYCODE + "</td>" +
                                                 "<td >" + result[0][i].SOURCEC4COPPORTUNITYCODE + "</td>" +
-                                                "<td >" + "<a href='#opportunityeditModal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[0][i].Name + "</a>" + "</td>" +
+                                                "<td >" + "<a href='#opportunityeditModal' data-toggle='modal' data-backdrop='static' data-keyboard='false' onclick='oppoSalesCycledropdown(), oppoSalesphasedropdown(), oppoCategorydropdown(), opposourcedropdown(),opportunitydisplay("+oppoID+")'>" + result[0][i].Name + "</a>" + "</td>" +
                                                 //"<td + "<a href='#opportunityeditModal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>"+ result[0][i].Name + "</a>"+"</td>" +
                                                 "<td >" + result[0][i].Account + "</td>" +
                                                 "<td >" + result[0][i].CloseDate + "</td>" +
@@ -3085,19 +3084,23 @@ clearFormBusiness();
                 url: url,
                 type: "GET",
                 success: function (result) {
-                       
-                        $("#oid").val(result[0].id);
-                        $("#name").val(result[0].name);
-                        $("#account").val(result[0].account);
-                        $("#primarycontact").val(result[0].primarycontact);
-                        $("select#sourceedit").val(result[0].source).attr('selected','selected'); 
-                        $("#exceptedvalue").val(result[0].exceptedvalue);
-                        $("select#salescycle").val(result[0].salescycle).attr('selected','selected'); 
-                        $("select#salesphase").val(result[0].salesphase).attr('selected','selected'); 
-                        $("#probability").val(result[0].probability);
-                        $("#forecastcategory").val(result[0].forecastcategory);
-                        $("#Categoryoppo").val(result[0].category);
-                        $("#owneropportunity").val(result[0].owner);    
+                        $("#oid").text(i);
+                        //$("#oppaccountid").text(i);
+                        console.log(result);  
+                        $("#oid").val(result[0][0].OPPORTUNITYID);
+                        $("#name").val(result[0][0].TITLE);
+                        $("#account").val(result[0][0].Account);
+                        $("#primarycontact").val(result[0][0].PrimaryContact);
+                        $("#sourceedit").val(result[0][0].OPPORTUNITYSOURCEID).attr('selected','selected'); 
+                        $("#StartDate").val(result[0][0].STARTDATE); 
+                        $("#EndDate").val(result[0][0].ENDDATE);
+                        $("#exceptedvalue").val(result[0][0].EXPECTEDVALUE);
+                        $("#salescycle").val(result[0][0].SALESCYCLEID).attr('selected','selected'); 
+                        $("#salesphase").val(result[0][0].SALESPHASEID).attr('selected','selected'); 
+                        $("#probability").val(result[0][0].PROBABILITY);
+                        $("#forecastcategory").val(result[0][0].OPPORTUNITYCATEGORY);
+                        $("#category").val(result[0][0].CUSTOMCATEGORYID).attr('selected','selected');
+                        $("#owneropportunity").val(result[0][0].Owner);    
                 }      
             });
            
@@ -3177,25 +3180,23 @@ clearFormBusiness();
         }
     
         function opposourcedropdown() {
-        var sourcedata = "";
-        var url = "https://localhost:9090/sourceopp/";
+                var sourcedata = "";
+                var url = "https://localhost:9090/sourceopp/";
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
+                        console.log(result);
+                        for (var i = 0; i < result[0].length; i++) {
+                            sourcedata = sourcedata +
+                                '<option value="' + result[0][i].opportunitysourceid + '">' + result[0][i].opportunitysource + '</option>';
+                        }
+                        $("#Source").html(sourcedata);
+                         $("#sourceedit").html(sourcedata); 
+                    }
+                });
 
-        $.ajax({
-            url: url,
-            type: "GET",
-            success: function (result) {
-              
-                for (var i = 0; i < result[0].length; i++) {
-                   
-                    sourcedata = sourcedata +
-                        '<option value="' + result[0][i].opportunitysourceid + '">' + result[0][i].opportunitysource + '</option>';
-                }
-                $("#Source").html(sourcedata);
-               // $("#sourceedit").html(sourcedata); 
-            }
-        });
-
-    }   
+            }   
     function oppoSalesCycledropdown() {
             var SalesCycledata = "";
             var url = "https://localhost:9090/SalesCycle/";
@@ -3211,7 +3212,7 @@ clearFormBusiness();
                             '<option value="' + result[0][i].SalesCycleID + '">' + result[0][i].SalesCycle + '</option>';
                     }
                     $("#SalesCycle").html(SalesCycledata);
-                   // $("#salescycle").html(SalesCycledata);
+                    $("#salescycle").html(SalesCycledata);
                 }
             });
 
@@ -3231,7 +3232,7 @@ clearFormBusiness();
                             '<option value="' + result[0][i].salesphaseid + '">' + result[0][i].salesphase + '</option>';
                     }
                     $("#Salesphase").html(Salesphasedata);
-                    //$("#salesphase").html(Salesphasedata);
+                    $("#salesphase").html(Salesphasedata);
                 }
             });
 
@@ -3252,7 +3253,7 @@ clearFormBusiness();
                             '<option value="' + result[0][i].OPPORTUNITYCATEGORYID + '">' + result[0][i].OPPORTUNITYCATEGORY + '</option>';
                     }
                     $("#Categoryoppo").html(Categorydata);
-                    //$("#category").html(Categorydata);
+                    $("#category").html(Categorydata);
 
                 }
             });
@@ -3335,7 +3336,7 @@ clearFormBusiness();
         }
     </script>
 
-    <!--[if lt IE 10]><script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <!--[if lt IE 10]><script type="text/javascript" src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     <!-- Required for rendering HTML5 elements in older IE -->
     <!--[if lt IE 10]><script type="text/javascript" src="/Scripts/jquery.placeholder.js"></script><![endif]-->
     <!-- Required for placeholder text in inputs in IE -->
@@ -3360,7 +3361,7 @@ clearFormBusiness();
             var ga = document.createElement('script');
             ga.type = 'text/javascript';
             ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'https://www') + '.google-analytics.com/ga.js';
             var s = document.getElementsByTagName('script')[0];
             s.parentNode.insertBefore(ga, s);
         })();
@@ -3447,7 +3448,7 @@ function resetFormLead() {
 </script>
     <noscript>
         <p class="noscript"><b>For the full functionality of it is necessary to enable JavaScript in your web
-                browser.</b><br /><a href="http://www.enable-javascript.com/" target="_blank">Click here for step by
+                browser.</b><br /><a href="https://www.enable-javascript.com/" target="_blank">Click here for step by
                 step instructions on how to enable Javascript in your web browser.</a></p>
     </noscript>
 
@@ -3528,7 +3529,7 @@ background-size: 8%;'></div>
             <h1 class="logo ">
                 <a>
                     <svg style="height: 30px; width: 83px;" height="64.133331" id="svg2" version="1.1"
-                        viewbox="0 0 178.30667 64.133331" width="178.30667" xmlns="http://www.w3.org/2000/svg">
+                        viewbox="0 0 178.30667 64.133331" width="178.30667" xmlns="https://www.w3.org/2000/svg">
 
                  </svg>
 
@@ -3542,7 +3543,7 @@ background-size: 8%;'></div>
 
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                         <svg fill="#ffffff" height="24" viewBox="0 0 24 24" width="24"
-                            xmlns="http://www.w3.org/2000/svg" style="margin-top: 4px;margin-right: 12px;">
+                            xmlns="https://www.w3.org/2000/svg" style="margin-top: 4px;margin-right: 12px;">
                             <path
                                 d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
                             <path d="M0 0h24v24H0z" fill="none" />
@@ -3596,7 +3597,7 @@ background-size: 8%;'></div>
                     <a id="userNotifications" href="javascript:;">
                         <div class="notifications" title="Notifications">
                             <svg fill="#ffffff" height="24" viewBox="0 0 24 24" width="24"
-                                xmlns="http://www.w3.org/2000/svg">
+                                xmlns="https://www.w3.org/2000/svg">
                                 <path
                                     d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
                             </svg>
@@ -5036,7 +5037,7 @@ background-size: 8%;'></div>
                                           
                                             <!-- Modal Header -->
                                             <div class="modal-header">
-                                              <h4 class="modal-title" id="leadhead">Lead To Opportunity : </h4>
+                                              <h4 class="modal-title" id="leadhead">Opportunity Information : </h4>
                                               <h4 class="modal-title" id="saleshead" style="display: none" >Sales Team : </h4>
                                               <h4 class="modal-title" id="revenuehead" style="display: none">Revenue Split : </h4>
                                               <h4 class="modal-title" id="overviewhead" style="display: none">Overview: </h4>
@@ -5103,7 +5104,8 @@ background-size: 8%;'></div>
                                                    <div class="col-sm-1"></div> 
                                                    <div class="col-sm-2">Closing Date :</div>
                                                    <div class="col-sm-3">
-                                                   <input type="date" id="closingdate" class="form-control" style="width:100%; height:71%; padding:0px 0px;" name="StartDate" disabled></div>
+                                                        <input type="text" class="form-control form-control-sm" id="EndDate" placeholder="" style="height: 24px;"  disabled>
+                                                   <input type="date" id="closingdate" class="form-control" style="width:100%; height:71%; padding:0px 0px; display: none" name="StartDate" disabled ></div>
                                                      <div class="col-sm-2"><label style="width:108px"> Sales cycle :</label></div>
                                                      <div class="col-sm-3">
                                                     <select class="strike" id="salescycle" style="height:26px;width:158px;" disabled>
@@ -6066,7 +6068,7 @@ background-size: 8%;'></div>
 
         <div id="opportunityModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
             style="height: auto; padding-right: 0px  ! important;">
-            <form method="post">
+            <form method="post" onsubmit="return false";>
                 <div class="modal-content">
                     <div class="modal-header"
                         style="background-color: rgb(51, 122, 183);position: relative; top:0px;color: rgb(255, 255, 255); ">
@@ -6260,7 +6262,7 @@ background-size: 8%;'></div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="addOpportunity();">Save</button>
+                    <button type="submit" class="btn btn-primary"  onclick="addOpportunity();">Save</button>
                     <button type="reset" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                 </div>
             </form>
