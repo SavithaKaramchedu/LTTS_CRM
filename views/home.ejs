@@ -200,6 +200,100 @@
     </script>
 
 <script>
+   function removecheck(){
+     $('#myCheck').removeAttr('checked');
+     $("#leadcity").val('');  
+     $("#leadstate").val(''); 
+  $("#leaduncheckcountry").css('display','none');
+  $("#leaduncheckstate").css('display','none');
+    $("#leadacchiddenid").val('');
+  $("#leadcountry").css('display','block');
+  $("#owncontact1").css('display','none');
+  $("#ownaccount1").css('display','none');
+  $("#ownshare").css('display','none');
+  $("#leadstate").css('display','block');
+  $("#owncontact").css('display','none');
+  $("#ownaccount").css('display','none');
+  $("#ownshare1").css('display','none');
+  $("#owne").prop("disabled", false);
+  $("#leadcity").prop("disabled", false);
+  $("#leadcountry").prop("disabled", false);
+  $("#leadstate").prop("disabled", false);
+  $("#leadphone").prop("disabled", false);
+  $("#leadmobile").prop("disabled", false);
+  $("#leademail").prop("disabled", false);
+  $("#company").css('display','block');
+  $("#leadcompany").css('display','block');
+  $("#firnam").css('display','block');
+  $("#leadconfn").css('display','block');
+  $("#lasnam").css('display','block');
+  $("#leadconln").css('display','block');
+  
+    }
+
+    function checkboxcheck(){
+       
+        var checkBox = document.getElementById("myCheck");
+        if (checkBox.checked == true){
+  
+  $("#leadcity").prop("disabled", true);
+  $("#leadcountry").prop("disabled", true);
+  $("#leadstate").prop("disabled", true);
+  $("#leadphone").prop("disabled", true);
+  $("#leadmobile").prop("disabled", true);
+  $("#leademail").prop("disabled", true);
+  $("#owne").prop("disabled", true);
+  $("#ownacc").prop("disabled", true);
+  $("#owncont").prop("disabled", true);
+  $("#company").css('display','none');
+  $("#leadcompany").css('display','none');
+  $("#firnam").css('display','none');
+  $("#leadconfn").css('display','none');
+  $("#lasnam").css('display','none');
+  $("#leadconln").css('display','none');
+  $("#leaduncheckcountry").css('display','block');
+  $("#leaduncheckstate").css('display','block');
+  $("#leadcountry").css('display','none');
+  $("#leadstate").css('display','none');
+  $("#ownaccount").css('display','block');
+  $("#ownaccount1").css('display','block');
+  $("#owncontact").css('display','block');
+  $("#owncontact1").css('display','block');
+  $("#ownshare").css('display','block');
+  $("#ownshare1").css('display','block');
+ 
+  
+} else {
+  $("#leadcity").val('');  
+  $("#leaduncheckcountry").css('display','none');
+  $("#leaduncheckstate").css('display','none');
+  $("#leadcountry").css('display','block');
+  $("#owncontact1").css('display','none');
+  $("#ownaccount1").css('display','none');
+  $("#ownshare").css('display','none');
+  $("#leadstate").css('display','block');
+  $("#owncontact").css('display','none');
+  $("#ownaccount").css('display','none');
+  $("#ownshare1").css('display','none');
+  $("#owne").prop("disabled", false);
+  $("#leadcity").prop("disabled", false);
+  $("#leadcountry").prop("disabled", false);
+  $("#leadstate").prop("disabled", false);
+  $("#leadphone").prop("disabled", false);
+  $("#leadmobile").prop("disabled", false);
+  $("#leademail").prop("disabled", false);
+  $("#company").css('display','block');
+  $("#leadcompany").css('display','block');
+  $("#firnam").css('display','block');
+  $("#leadconfn").css('display','block');
+  $("#lasnam").css('display','block');
+  $("#leadconln").css('display','block');
+
+ 
+}
+
+    
+}
        function Check1() {
 
 var checkBox = document.getElementById("myCheck");
@@ -743,6 +837,7 @@ function addOpportunity(){
         }
    
      function addLead() {
+       
         var title=$("#title").val();
         title= $("#title").val();
         if (title== "NULL" ||title== ""){
@@ -777,8 +872,8 @@ function addOpportunity(){
                 "icreatedby":'Admin'
                 }
         data=JSON.stringify(data); 
-        if(title!="" &&company!="" &&qul!=""&&owner!=""){ 
-
+        if(title!="" &&leadaccountid!="" &&leadcontactid!=""&&owneridlead!=""){ 
+       console.log("in ajax");
         $.ajax({
             url: "https://localhost:9090/leads",
             type: "POST",
@@ -787,21 +882,28 @@ function addOpportunity(){
             contentType: "application/json",
             dataType: "json",
             success: function (result) {
-              
+                leadLoad();
             },      
             error: function () {
                 console.log("err");
             }
         });
          }else{
-            alert("enter required fields");
+             console.log(title);
+           // alert("Enter required fields");
             }
-        leadLoad();
+        
         }
+
         function addLeaduncheck() {
+
         var title=$("#title").val();
+        if (title== "NULL" ||title== ""){
+              title= ""
+        } 
         var leadaccountid=$("#uncheckcompanyid").val();
         var leadcontactid=$("#uncheckfirnam").val();
+
         var status=$("#stats").val();
         var qul=$("#qul").val();
         var source=$("#source").val();
@@ -809,6 +911,10 @@ function addOpportunity(){
         var priority=$("#priority").val();     
         var owneridlead = $("#ownerleadidhidden").val();
         var leadnotes=$("#notes").val();
+          if (leadnotes== "NULL" ||leadnotes== "")
+                {
+                        leadnotes= ""
+                    } 
         var data={
                 "title":title,
                 "company":leadaccountid,
@@ -823,6 +929,7 @@ function addOpportunity(){
                 "icreatedby":'Admin'
                 }
         data=JSON.stringify(data); 
+        if(title!="" &&leadaccountid!="" &&leadcontactid!=""&&owneridlead!=""){ 
         $.ajax({
             url: "https://localhost:9090/leads",
             type: "POST",
@@ -837,6 +944,9 @@ function addOpportunity(){
                // console.log("err");
             }
         });
+        }else{
+            alert("Enter required fields");
+            }
         leadLoad();
         }
 
@@ -957,7 +1067,7 @@ function addOpportunity(){
                     "iAddressLine1":"", 
                     "iAddressLine2":"",
                     "iCity":iCity,
-                    "iStateID":iStateID,
+                    "accstate":iStateID,
                     "iPostalCode":'',
                     "iCountryID":iCountryID,
                     "iBillTo":'Y',
@@ -985,9 +1095,8 @@ function addOpportunity(){
             }
             
             function addleadcontphone(k) {
-                    var iIsMobile=$("#leadmobile").val();
+                    var iIsMobile=$("#leadmobile").val();                 
                     var iPhoneNumber=$("#leadphone").val();
-
             var data={
                 "iSourceID": k,
                 "iAddressId":'',
@@ -1021,10 +1130,9 @@ function addOpportunity(){
             }
             function addleadcontmobile(k) {
             
-                    var iIsMobile=$("#leadmobile").val();
+                    var iIsMobile=$("#leadmobile").val();            
                     var iPhoneNumber=$("#leadphone").val();
-
-            var data={
+            var data={      
                 "iSourceID": k,
                 "iAddressId":'',
                 "iSourceType":'lead',
@@ -1119,8 +1227,10 @@ function addOpportunity(){
            
             var vertical = $("#accountVertical").val();
             var country = $("#accountCounty").val();
+            alert(country);
             var city = $("#accountCity").val();
             var state = $("#accoutState").val();
+            alert(state);
             if (state==null){
                 state="";
             }
@@ -1639,11 +1749,8 @@ chart3.render();  }
                         } 
                         var acctparentid="\""+result[0][i].accountid+"\"";
                         var acctparentname="\""+result[0][i].name+"\"";
-                        var leadcity="\""+result[0][i].city+"\"";
-                        var leadstate="\""+result[0][i].state+"\"";
-                        var leadcountry="\""+result[0][i].country+"\"";
                         
-                    tableData = tableData + " <tr class='customtr' onclick='parentacciddisplay("+acctparentid+","+acctparentname+"),leadaccounttdisplay("+leadcity+","+leadstate+","+leadcountry+");' data-dismiss='modal'> " +
+                    tableData = tableData + " <tr class='customtr' onclick='parentacciddisplay("+acctparentid+","+acctparentname+")' data-dismiss='modal'> " +
                         "<td >" + result[0][i].ExternalID + "</td>" +
                         "<td >" + result[0][i].accountcode + "</td>" +
                         "<td >" + result[0][i].name + "</td>" +
@@ -1656,16 +1763,7 @@ chart3.render();  }
            
            
         }
-        function leadaccounttdisplay(i,j,k) {
-          
-            $("#leadcity").val(i);
-            $("#leaduncheckstate").val(j);
-            $("#leaduncheckcountry").val(k);
-         
-            //$("#leadcity").prop('disabled','false');
-            //$("#leadstate").prop('disabled','false');
-            //$("#leadcountry").prop('disabled','false');
-             }
+        
         function parentacciddisplay(i,j) {
            
             $("#parentAccount").val(j);
@@ -1914,11 +2012,12 @@ chart3.render();  }
                         url: url,
                         type: "GET",
                         success: function (result) {
+                            console.log(result);
                             dropdowndata = dropdowndata+"<option style='display:none;'></option>"
                             for (var i = 0; i < result[0].length; i++) { 
                                
                                 dropdowndata = dropdowndata  +
-                                '<option value= "' + result[0][i].state + '" >' + result[0][i].state +  '</option>' 
+                                '<option value= "' + result[0][i].stateid + '" >' + result[0][i].state +  '</option>' 
                                   
                             }
                            
@@ -1941,7 +2040,7 @@ chart3.render();  }
                      url: url,
                      type: "GET",
                      success: function (result) {
-                       
+                        dropdowndata = dropdowndata+"<option style='display:none;'></option>"
                          for (var i = 0; i < result[0].length; i++) { 
                             
                              dropdowndata = dropdowndata  +
@@ -1995,7 +2094,6 @@ chart3.render();  }
                     url: url,
                     type: "GET",
                     success: function (result) {
-
                         $("#screenloading").css('display','none'); 
 
 
@@ -2278,6 +2376,7 @@ chart3.render();  }
                     url: url,
                     type: "GET",
                     success: function (result) {
+                        console.log(result);
                         $("#screenloading").css('display','none');
 
                         for (var i = 0; i < result[0].length; i++) {
@@ -2286,9 +2385,13 @@ chart3.render();  }
                             {
                                 result[0][i].ExternalID = "";
                             }
+                            
                                 var contaccid="\""+result[0][i].accountid+"\"";
                                 var contaccname="\""+result[0][i].name+"\"";
-                                tableData = tableData + " <tr class='customtr' onclick='contacciddisplay(" + contaccid + "," + contaccname + ")'  data-dismiss='modal'> " +
+                                var leadacccity="\""+result[0][i].city+"\"";
+                                var leadacccont="\""+result[0][i].country+"\"";
+                                var leadaccstate="\""+result[0][i].state+"\"";
+                                tableData = tableData + " <tr class='customtr' onclick='contacciddisplay(" + contaccid + "," + contaccname +" ,"+leadacccity+","+leadacccont+","+leadaccstate+")'  data-dismiss='modal'> " +
                                                 
                                     "<td >" + result[0][i].ExternalID + "</td>" +
                                     "<td >" + result[0][i].accountcode + "</td>" +
@@ -2303,24 +2406,38 @@ chart3.render();  }
 
                     }  
 
-        function contacciddisplay(i,j) {
-                 
+        function contacciddisplay(i,j,k,l,m) {
+            if(k=="null" || k==""||k=="undefined")
+          {
+              i=""
+          }
+          if(l=="null" || l==""||l=="undefined")
+          {
+              l=""
+          }
+          if(m=="null" || m==""||m=="undefined")
+          {
+              m=""
+          }
+        
             $("#contgetaccid").val(i);
             $("#accountcont").val(j);
-           
-            $("#owncont").val(j); 
-            $("#leadconthiddenid").val(i); 
+            $("#ownacc").val(j);
+           $("#leadcity").val(k);
+           $("#leaduncheckcountry").val(l);
+           $("#leaduncheckstate").val(m);
+            $("#leadacchiddenid").val(i); 
             editcontact();
         }
         function leadcontactdisplay() {
-         //alert("leadcontactdisplay");
+        
          var tableData;
             
          $.ajax({
                             url: "https://localhost:9090/contact",
                             type: "GET",
                             success: function (result) {
-                        
+                        console.log(result);
                                 for (var i = 0; i < result[0].length; i++) {
 
                            
@@ -2329,12 +2446,12 @@ chart3.render();  }
                                 var leadcontmob="\""+result[0][i].Mobile+"\"";
                                 var leadcontemail="\""+result[0][i].email+"\"";
                                 var leadcontname="\""+result[0][i].Name+"\"";
-                               
-                                tableData = tableData + " <tr class='customtr' onclick='leadcontdisplay(" + leadcontid + "," + leadcontphne + "," + leadcontmob + "," + leadcontemail + "," + leadcontname + ")'  data-dismiss='modal'> " +
+                                 var leadaccname="\""+result[0][i].accountid+"\"";
+                                tableData = tableData + " <tr class='customtr' onclick='leadcontdisplay(" + leadcontid + "," + leadcontphne + "," + leadcontmob + "," + leadcontemail + "," + leadcontname +" ," + leadaccname + ")'  data-dismiss='modal'> " +
                                                 
                                     "<td >" + result[0][i].contactid + "</td>" +
                                     "<td >" + result[0][i].Name + "</td>" +
-                                    "<td >" + result[0][i].Name + "</td>" +
+                                    "<td >" + result[0][i].Account + "</td>" +
 
                                     "</tr>";
                                 }
@@ -2342,16 +2459,27 @@ chart3.render();  }
                             }
                         });
 
-                     }
-           
-        function leadcontdisplay(i,j,k,l,m) {
+
+
+           }
+           function leadcontdisplay(i,j,k,l,m,n) {
                  
                  $("#leadconthiddenid").val(i);
+                 if(j=="null"||i==""){
+                     j=""
+                 }
+                 if(k=="null"||k==""){
+                     k=""
+                 }
+                 if(l=="null"||l==""){
+                     l=""
+                 }
                  $("#leadphone").val(j);
                  $("#leadmobile").val(k);
                  $("#leademail").val(l);
                  $("#owncont").val(m); 
-                 
+                 //alert(n);
+                 //$("#leadacchiddenid").val(n); 
              }
         function insertaccountcontact(i) {
          
@@ -2768,7 +2896,7 @@ clearFormBusiness();
 
 
                 function clearFormLead() {
-                  //  $('#myCheck').prop('checked','true');
+                   // $("#myCheck").prop("checked", false);
                     $("#tit").prop("disabled", true);
                     $("#comp").prop("disabled", true);
                     $("#firname").prop("disabled", true);
@@ -3430,10 +3558,7 @@ function resetFormOpp() {
         
 }
 function resetFormLead() {
-    
 
-        $("#myCheck").prop("checked",false);
-       // Check1();
         $('#stats').prop('selectedIndex',0);
         $('#qul').prop('selectedIndex',0);
         $('#source').prop('selectedIndex',0);
@@ -3441,9 +3566,19 @@ function resetFormLead() {
         $('#priority').prop('selectedIndex',0);
         $('#title').val('');
         $('#company').val('');
+        $('#uncheckcompanyid').val('');
         $('#firnam').val('');
         $('#lasnam').val('');
         $('#owne').val('');
+        $('#ownacc').val('');
+        $('#owncont').val('');
+        $('#leadcity').val('');
+        $('#leaduncheckcountry').val('');
+        $('#leaduncheckstate').val('');
+        $('#leadphone').val('');
+        $('#leadmobile').val('');
+        $('#leademail').val('');
+        $('#notes').val('');
 }
 </script>
     <noscript>
@@ -4146,7 +4281,7 @@ background-size: 8%;'></div>
                             <header class="head-list">
                                 <div id="default_controls">
                                     <div class="pull-right" id="AddNewButton">
-                                        <a class="btn in-entity-modal" data-toggle="modal" href="#leadModal" onclick="resetFormLead();qualidropdownfun();priodropdownfun();catdropdownfun();statusdropdownfun();acccontdropdown();"
+                                        <a class="btn in-entity-modal" data-toggle="modal" href="#leadModal" onclick="resetFormLead();qualidropdownfun();priodropdownfun();catdropdownfun();statusdropdownfun();acccontdropdown(),sourdropdownfun();"
                                             data-entity-type="Contact" data-action="Create">
                                             New Lead
                                         </a>
@@ -5583,18 +5718,19 @@ background-size: 8%;'></div>
 
         <div id="leadModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
             style="height: auto; padding-right: 0px  ! important;">
+            <form method="post" onsubmit="return false">
             <div class="modal-content">
                 <div class="modal-header"
                     style="padding-left:0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: rgb(51, 122, 183);
     color: rgb(255, 255, 255);">
                     <b class="modal-title" style="font-size:15px;margin-left:9px;">New Lead :</b>
                     <button type="button" class="close" data-dismiss="modal" style="opacity: 1;
-                    color: white;" onclick="resetFormLead();">×</button>
+                    color: white;" onclick="removecheck();">×</button>
                 </div>
 
                 <div class="modal-body" style="height: 388px;">
 
-                    <form method="post">
+                   
 
 
                             <div class="row">
@@ -5602,7 +5738,7 @@ background-size: 8%;'></div>
                                         <label class="control-label col-sm-12" for="name">Use Existing Account :</label>
                                     </div>
                                     <div class="col-sm-7">
-                         <input type="checkbox" class="form-control form-group" id="myCheck" name="title" style="height:71%;" onclick="Check1();" ></div>
+                         <input type="checkbox" class="form-control form-group" id="myCheck" name="title" style="height:71%;" onclick="checkboxcheck();" ></div>
                                     </div>
                             
                         <div class="row">
@@ -5621,7 +5757,7 @@ background-size: 8%;'></div>
                                     <input type="text" class="form-control form-group" id="ownacc" name="title" style="height:71%;width: 118%;">
                                 </div>
                                     <div class="col-sm-1" style="right:-48px;" >
-                                    <a data-toggle="modal" href="#parrentaccModal" onclick="parentAccountDisplay()" id="ownshare" style="display:none" > 
+                                    <a data-toggle="modal" href="#accmodal" onclick="contAccountDetails()" id="ownshare" style="display:none" > 
                                           
                                         <i class="fa fa-share"></i></a>
                                          </div>
@@ -5842,14 +5978,15 @@ background-size: 8%;'></div>
 
                 </div>
 
-                </form>
+                
 
             </div>
 
             <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="Check1();">Save</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="resetFormLead();">Cancel</button>
+            <button type="submit" class="btn btn-primary"  onclick="Check1();">Save</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="removecheck();">Cancel</button>
             </div>
+        </form>
         </div>
         
         <div id="parrentaccModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
@@ -6567,7 +6704,7 @@ background-size: 8%;'></div>
                                       
                           <div class="modal-content">
                                               
-                               <div class="modal-header" style="background-color: rgb(0, 63, 118);color: rgb(255, 255, 255);">
+                               <div class="modal-header" style="background-color:  rgb(51, 122, 183);color: rgb(255, 255, 255);">
                                         
                                           <!-- Modal Header -->
                                       

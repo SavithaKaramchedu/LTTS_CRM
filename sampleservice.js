@@ -180,7 +180,7 @@ exports.addleadcompany = function (req, res) {
         let query1="SELECT @output1 as oAcctID,@output as msg";
         db.query(query1, (err, result3) => {
             if (err) {
-            //    console.log(err)
+             console.log(err)
                 return res.status(500).send(err);
             }
             res.status(200).json(result3);
@@ -537,18 +537,19 @@ exports.addContactPage = function (req, res) {
     };
        
 exports.ContactPage = function (req, res) {
-
+console.log("ContactPage");
     var Sid = req.params.i;
     let query = " CALL `procAdminListAllContacts`()";
 
     db.query(query, (err, result) => {
 
         if (err) {
+            console.log(err);
             res.redirect('/');
 
         }
         res.status(200).json(result);
-      //  console.log(result);
+      console.log(result);
 
     });
 };
@@ -663,13 +664,13 @@ exports.addAccountPage = function (req, res) {
     let ownerID= req.body.ownerID;
   
     let query = "call `procInsertAccount`('" +name + "', '" + parentaccountID + "','" + accountcategory + "', '" + status + "','" + website + "','" + ownerID + "','" + own + "',@output,@output1)";
-
+console.log(query);
         db.query(query, (err, result2) => {
         if (err) {
            
             return res.status(500).send(err);
         }
-       
+       console.log(result2)
         let query1="SELECT @output as msg,@output1 as id";
         db.query(query1, (err, result3) => {
             if (err) {
