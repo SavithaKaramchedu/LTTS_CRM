@@ -141,7 +141,13 @@
   });
 </script>
 <script>
-    
+    var searchbar='';
+
+    function searchbarchange(moduleClicked){
+        searchbar=moduleClicked;
+        //alert(searchbar);
+        $('#_globalSearch').val('');
+    }
         $(document).ready(function () {
             
             $('#Salesdropdown').click(function () {
@@ -4101,7 +4107,7 @@ background-size: 8%;'></div>
                     <path d="M6 36h36v-4H6v4zm0-10h36v-4H6v4zm0-14v4h36v-4H6z"></path>
                 </svg></div>
             <div id="search">
-                <form id="globalSearchForm" method="get" action="/search" autocomplete="off">
+                <form id="globalSearchForm"  autocomplete="off">
                     <i id="search-btn" class="icon-white icon-search"></i>
                     <input type="text" id="_globalSearch" name="q" placeholder="Search all data...." autocomplete="off"
                         autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="100" />
@@ -4131,7 +4137,7 @@ background-size: 8%;'></div>
 
                 <li title="Tasks">
                 <li title="Accounts">
-                    <a id="navlink_report" class="sidebar_navlink " href="#accountTab" onClick="AccountLoad();"
+                    <a id="navlink_report" class="sidebar_navlink " href="#accountTab" onClick="AccountLoad(),searchbarchange('Account');"
                         data-toggle="tab">
                         <div>
                             <div class="navlink_img" id="navlink_organisation_img"></div>
@@ -4140,7 +4146,7 @@ background-size: 8%;'></div>
                     </a>
                 </li>
                 <li title="Employee">
-                    <a id="navlink_report" class="sidebar_navlink " href="#employeeTab" onclick="empLoad();"
+                    <a id="navlink_report" class="sidebar_navlink " href="#employeeTab" onclick="empLoad(),searchbarchange('Employee');"
                         data-toggle="tab">
                         <div>
                             <div class="navlink_img" id="navlink_report_img"></div>
@@ -4151,7 +4157,7 @@ background-size: 8%;'></div>
 
                 <li title="Opportunities">
                     <a id="navlink_opportunity" class="sidebar_navlink " href="#opportunityTab" data-toggle="tab"
-                        onclick="opportunityLoad();">
+                        onclick="opportunityLoad(),searchbarchange('Opportunity');">
                         <div>
                             <div class="navlink_img" id="navlink_opportunity_img"></div>
                             <span class="">Opportunities</span>
@@ -4161,7 +4167,7 @@ background-size: 8%;'></div>
 
                 <li title="Contacts">
                     <a id="navlink_contact" class="sidebar_navlink " href="#contactTab" data-toggle="tab"
-                        onclick="contactLoad();">
+                        onclick="contactLoad(),searchbarchange('Contact');">
                         <div>
                             <div class="navlink_img" id="navlink_contact_img"></div>
                             <span class="">Contacts</span>
@@ -4171,7 +4177,7 @@ background-size: 8%;'></div>
 
                 <li title="Leads">
                     <a id="navlink_lead" class="sidebar_navlink " href="#leadsTab" data-toggle="tab"
-                        onclick="leadLoad();">
+                        onclick="leadLoad(),searchbarchange('Lead');">
                         <div>
                             <div class="navlink_img" id="navlink_lead_img"></div>
                             <span class="">Leads</span>
@@ -4181,7 +4187,7 @@ background-size: 8%;'></div>
 
                 <li title="BusinessPartners">
                     <a id="navlink_business" class="sidebar_navlink " href="#businessTab" data-toggle="tab"
-                        onclick="businessLoad();">
+                        onclick="businessLoad(),searchbarchange('Business');">
                         <div>
                             <div class="navlink_img" id="navlink_project_img"></div>
                             <span class="">Business Partners</span>
@@ -4303,7 +4309,7 @@ background-size: 8%;'></div>
                            
                                     <div class="entity-list" id="entity-list">
                                         <div  class="table table-responsive" style="overflow: auto;height:400px">
-                                            <table class="table table-bordered">
+                                            <table class="table table-bordered" id="myContactTable">
                                                     <thead style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: 0px;">
                                                                            <tr style="  font-weight:bold ; ">
 
@@ -4649,7 +4655,7 @@ background-size: 8%;'></div>
 
                             <div class="entity-list" id="entity-list">
 
-                                <table class="table table-respnosive table table-bordered"  >
+                                <table class="table table-respnosive table table-bordered" id="myLeadTable"  >
 
                                     <thead class="table" style="font-weight: bold;background-color: rgb(51, 122, 183);position: relative;top: 0px;color: rgb(255, 255, 255); white-space: nowrap;">
                                         <tr >
@@ -5043,7 +5049,7 @@ background-size: 8%;'></div>
                                     
                                 <div class="table table-responsive" style="overflow: auto;height:400px">
                                     
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered" id="myBusinessTable">
                                         
                                         <thead style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: 0px; white-space: nowrap;">
                                             
@@ -5326,7 +5332,7 @@ background-size: 8%;'></div>
                                 
                                 
                                         <div  class="table table-responsive" style="height:400px;overflow: auto;">
-                                                <table class="table table-bordered">
+                                                <table class="table table-bordered" id="myAccountTable">
                                                         <thead style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: 0px;white-space: nowrap;">
                              
                                             <th>Account ID</th>
@@ -5347,6 +5353,48 @@ background-size: 8%;'></div>
                                     </tbody>
 
                                 </table>
+                                <script>
+                                    /*function filterTable(event) {
+                                        var filter = event.target.value.toUpperCase();
+                                        var rows = document.querySelector("#myAccountTable tbody").rows;
+                                           count=0;
+                                           var field=$('#_globalSearch').val();
+                                        var len=field.length;
+                                        for (var i = 0; i < rows.length; i++) {
+                                           if(len>0){
+                                                  //$('#searchclearEmployee').css('display','block');
+                                           }else if(len==0){
+                                                  $('#searchclearEmployee').css('display','none');
+                                           }
+                                            var firstCol = rows[i].cells[0].textContent.toUpperCase();
+                                            var secondCol = rows[i].cells[1].textContent.toUpperCase();
+                                            var thirdCol = rows[i].cells[2].textContent.toUpperCase();
+                                            var fourthCol = rows[i].cells[3].textContent.toUpperCase();
+                                            var fifthCol = rows[i].cells[4].textContent.toUpperCase();
+                                          
+                                            if (firstCol.indexOf(filter) > -1 || secondCol.indexOf(filter) > -1|| thirdCol.indexOf(filter) > -1
+                                                        || fourthCol.indexOf(filter) > -1 || fifthCol.indexOf(filter) > -1) {
+                                              
+                                                   rows[i].style.display = "";
+                                                   count++;
+                                            } else {
+                                                rows[i].style.display = "none";
+                                            }      
+                                        }
+                                        if(count==0)
+                                            {
+                                            var tableData="";
+                                            tableData="<tr><td></td><td></td><td><center>No Records Found</center></td><td></td><td></td></tr>";
+
+                                                  $("#employeesTable").html(tableData);
+                                            }
+                                        document.getElementById("countEmp").innerHTML = count;                                                                                    
+                                    }
+                                    document.querySelector('#myInputEmployee').addEventListener('keyup', filterTable, false);
+                                    
+                                                                                           
+                                    </script>*/
+
                                 <div class="container">
 
                                         <!-- Button to Open the Modal -->
@@ -5960,7 +6008,7 @@ background-size: 8%;'></div>
                                        
                                                 <div class="entity-list" id="entity-list">
                                                     <div  class="table table-responsive" style="overflow: auto;height:400px">
-                                                        <table class="table table-bordered">
+                                                        <table class="table table-bordered" id="myOppTable">
                                                                 <thead style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: 0px;white-space: nowrap;">
                                                                                        <tr style="  font-weight:bold ; ">
                                                         <th>ID </th>
@@ -6079,7 +6127,7 @@ background-size: 8%;'></div>
                            
                                     <div class="entity-list" id="entity-list">
                                         <div  class="table table-responsive" style="overflow: auto;height:400px">
-                                            <table class="table table-bordered">
+                                            <table class="table table-bordered" id="myTableEmp">
                                                     <thead style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: 0px;">
                                                                            <tr style="  font-weight:bold ; ">
                                             <th scope="col">Name</th>
@@ -6096,6 +6144,280 @@ background-size: 8%;'></div>
 
 
                                 </table>
+                                <script>
+                                    function filterTable(event) {
+                                        //alert(searchbar);
+                                        if (searchbar=="Employee")
+                                        {
+                                        var filter = event.target.value.toUpperCase();
+                                        var rows = document.querySelector("#myTableEmp tbody").rows;
+                                           count=0;
+                                           var field=$('#_globalSearch').val();
+                                        var len=field.length;
+                                        //alert(field);
+                                        for (var i = 0; i < rows.length; i++) {
+                                           if(len>0){
+                                                  //$('#searchclearEmployee').css('display','block');
+                                           }else if(len==0){
+                                                 empLoad();
+                                           }
+                                            var firstCol = rows[i].cells[0].textContent.toUpperCase();
+                                            var secondCol = rows[i].cells[1].textContent.toUpperCase();
+                                            var thirdCol = rows[i].cells[2].textContent.toUpperCase();
+                                            var fourthCol = rows[i].cells[3].textContent.toUpperCase();
+                                            
+                                          
+                                            if (firstCol.indexOf(filter) > -1 || secondCol.indexOf(filter) > -1|| thirdCol.indexOf(filter) > -1
+                                                        || fourthCol.indexOf(filter) > -1 ) {
+                                              
+                                                   rows[i].style.display = "";
+                                                   count++;
+                                            } else {
+                                                rows[i].style.display = "none";
+                                            }      
+                                        }
+                                        if(count==0)
+                                            {
+                                            var tableData="";
+                                            tableData="<tr><td></td><td></td><td><center>No Records Found</center></td><td></td><td></td></tr>";
+
+                                                  $("#empTable").html(tableData);
+                                            }
+                                        document.getElementById("empcount").innerHTML = count;                                                                                    
+                                    }
+                                    
+                                    else if (searchbar=="Contact"){
+                                        var filter = event.target.value.toUpperCase();
+                                        var rows = document.querySelector("#myContactTable tbody").rows;
+                                           count=0;
+                                           var field=$('#_globalSearch').val();
+                                        var len=field.length;
+                                        //alert(field);
+                                        for (var i = 0; i < rows.length; i++) {
+                                           if(len>0){
+                                                  //$('#searchclearEmployee').css('display','block');
+                                           }else if(len==0){
+                                            contactLoad();
+                                           }
+                                            var firstCol = rows[i].cells[0].textContent.toUpperCase();
+                                            var secondCol = rows[i].cells[1].textContent.toUpperCase();
+                                            var thirdCol = rows[i].cells[2].textContent.toUpperCase();
+                                            var fourthCol = rows[i].cells[3].textContent.toUpperCase();
+                                            var fifthCol = rows[i].cells[4].textContent.toUpperCase();
+                                            var sixthCol = rows[i].cells[5].textContent.toUpperCase();
+                                            var seventhCol = rows[i].cells[6].textContent.toUpperCase();
+                                            var eighthCol = rows[i].cells[7].textContent.toUpperCase();
+                                          
+                                            if (firstCol.indexOf(filter) > -1 || secondCol.indexOf(filter) > -1|| thirdCol.indexOf(filter) > -1
+                                                        || fourthCol.indexOf(filter) > -1  || fifthCol.indexOf(filter) > -1  || sixthCol.indexOf(filter) > -1 
+                                                         || seventhCol.indexOf(filter) > -1  || eighthCol.indexOf(filter) > -1) {
+                                              
+                                                   rows[i].style.display = "";
+                                                   count++;
+                                            } else {
+                                                rows[i].style.display = "none";
+                                            }      
+                                        }
+                                        if(count==0)
+                                            {
+                                            var tableData="";
+                                            tableData="<tr><td></td><td></td><td><center>No Records Found</center></td><td></td><td></td></tr>";
+
+                                                  $("#contactTable").html(tableData);
+                                            }
+                                        document.getElementById("contcount").innerHTML = count;                                                                                    
+                                    }  
+                                    
+                                    else if (searchbar=="Account"){
+                                        var filter = event.target.value.toUpperCase();
+                                        var rows = document.querySelector("#myAccountTable tbody").rows;
+                                           count=0;
+                                           var field=$('#_globalSearch').val();
+                                        var len=field.length;
+                                        //alert(field);
+                                        for (var i = 0; i < rows.length; i++) {
+                                           if(len>0){
+                                                  //$('#searchclearEmployee').css('display','block');
+                                           }else if(len==0){
+                                            AccountLoad();
+                                           }
+                                            var firstCol = rows[i].cells[0].textContent.toUpperCase();
+                                            var secondCol = rows[i].cells[1].textContent.toUpperCase();
+                                            var thirdCol = rows[i].cells[2].textContent.toUpperCase();
+                                            var fourthCol = rows[i].cells[3].textContent.toUpperCase();
+                                            var fifthCol = rows[i].cells[4].textContent.toUpperCase();
+                                            var sixthCol = rows[i].cells[5].textContent.toUpperCase();
+                                            var seventhCol = rows[i].cells[6].textContent.toUpperCase();
+                                            var eighthCol = rows[i].cells[7].textContent.toUpperCase();
+                                            var ninthCol = rows[i].cells[8].textContent.toUpperCase();
+                                            var tenthCol = rows[i].cells[9].textContent.toUpperCase();
+                                          
+                                            if (firstCol.indexOf(filter) > -1 || secondCol.indexOf(filter) > -1|| thirdCol.indexOf(filter) > -1
+                                                        || fourthCol.indexOf(filter) > -1  || fifthCol.indexOf(filter) > -1  || sixthCol.indexOf(filter) > -1 
+                                                         || seventhCol.indexOf(filter) > -1  || eighthCol.indexOf(filter) > -1 || ninthCol.indexOf(filter) > -1
+                                                         || tenthCol.indexOf(filter) > -1) {
+                                              
+                                                   rows[i].style.display = "";
+                                                   count++;
+                                            } else {
+                                                rows[i].style.display = "none";
+                                            }      
+                                        }
+                                        if(count==0)
+                                            {
+                                            var tableData="";
+                                            tableData="<tr><td></td><td></td><td><center>No Records Found</center></td><td></td><td></td></tr>";
+
+                                                  $("#contactTable").html(tableData);
+                                            }
+                                        document.getElementById("accountcount").innerHTML = count;                                                                                    
+                                    }  
+                                    
+                                    else if (searchbar=="Lead"){
+                                        var filter = event.target.value.toUpperCase();
+                                        var rows = document.querySelector("#myLeadTable tbody").rows;
+                                           count=0;
+                                           var field=$('#_globalSearch').val();
+                                        var len=field.length;
+                                        //alert(field);
+                                        for (var i = 0; i < rows.length; i++) {
+                                           if(len>0){
+                                                  //$('#searchclearEmployee').css('display','block');
+                                           }else if(len==0){
+                                            leadLoad();
+                                           }
+                                            var firstCol = rows[i].cells[0].textContent.toUpperCase();
+                                            var secondCol = rows[i].cells[1].textContent.toUpperCase();
+                                            var thirdCol = rows[i].cells[2].textContent.toUpperCase();
+                                            var fourthCol = rows[i].cells[3].textContent.toUpperCase();
+                                            var fifthCol = rows[i].cells[4].textContent.toUpperCase();
+                                            var sixthCol = rows[i].cells[5].textContent.toUpperCase();
+                                            var seventhCol = rows[i].cells[6].textContent.toUpperCase();
+                                            var eighthCol = rows[i].cells[7].textContent.toUpperCase();
+                                            var ninthCol = rows[i].cells[8].textContent.toUpperCase();
+                                            var tenthCol = rows[i].cells[9].textContent.toUpperCase();
+                                            var eleventhCol = rows[i].cells[10].textContent.toUpperCase();
+                                            var twelvthCol = rows[i].cells[11].textContent.toUpperCase();
+                                          
+                                            if (firstCol.indexOf(filter) > -1 || secondCol.indexOf(filter) > -1|| thirdCol.indexOf(filter) > -1
+                                                        || fourthCol.indexOf(filter) > -1  || fifthCol.indexOf(filter) > -1  || sixthCol.indexOf(filter) > -1 
+                                                         || seventhCol.indexOf(filter) > -1  || eighthCol.indexOf(filter) > -1 || ninthCol.indexOf(filter) > -1
+                                                         || tenthCol.indexOf(filter) > -1 || eleventhCol.indexOf(filter) > -1 || twelvthCol.indexOf(filter) > -1) {
+                                              
+                                                   rows[i].style.display = "";
+                                                   count++;
+                                            } else {
+                                                rows[i].style.display = "none";
+                                            }      
+                                        }
+                                        if(count==0)
+                                            {
+                                            var tableData="";
+                                            tableData="<tr><td></td><td></td><td><center>No Records Found</center></td><td></td><td></td></tr>";
+
+                                                  $("#leadTable").html(tableData);
+                                            }
+                                        document.getElementById("allleadscount").innerHTML = count;                                                                                    
+                                    }  
+                                    
+                                    else if (searchbar=="Opportunity"){
+                                        var filter = event.target.value.toUpperCase();
+                                        var rows = document.querySelector("#myOppTable tbody").rows;
+                                           count=0;
+                                           var field=$('#_globalSearch').val();
+                                        var len=field.length;
+                                        //alert(field);
+                                        for (var i = 0; i < rows.length; i++) {
+                                           if(len>0){
+                                                  //$('#searchclearEmployee').css('display','block');
+                                           }else if(len==0){
+                                            opportunityLoad();
+                                           }
+                                            var firstCol = rows[i].cells[0].textContent.toUpperCase();
+                                            var secondCol = rows[i].cells[1].textContent.toUpperCase();
+                                            var thirdCol = rows[i].cells[2].textContent.toUpperCase();
+                                            var fourthCol = rows[i].cells[3].textContent.toUpperCase();
+                                            var fifthCol = rows[i].cells[4].textContent.toUpperCase();
+                                            var sixthCol = rows[i].cells[5].textContent.toUpperCase();
+                                            var seventhCol = rows[i].cells[6].textContent.toUpperCase();
+                                            var eighthCol = rows[i].cells[7].textContent.toUpperCase();
+                                            var ninthCol = rows[i].cells[8].textContent.toUpperCase();
+                                            var tenthCol = rows[i].cells[9].textContent.toUpperCase();
+                                            var eleventhCol = rows[i].cells[10].textContent.toUpperCase();
+                                            var twelvthCol = rows[i].cells[11].textContent.toUpperCase();
+                                          
+                                            if (firstCol.indexOf(filter) > -1 || secondCol.indexOf(filter) > -1|| thirdCol.indexOf(filter) > -1
+                                                        || fourthCol.indexOf(filter) > -1  || fifthCol.indexOf(filter) > -1  || sixthCol.indexOf(filter) > -1 
+                                                         || seventhCol.indexOf(filter) > -1  || eighthCol.indexOf(filter) > -1 || ninthCol.indexOf(filter) > -1
+                                                         || tenthCol.indexOf(filter) > -1 || eleventhCol.indexOf(filter) > -1 || twelvthCol.indexOf(filter) > -1) {
+                                              
+                                                   rows[i].style.display = "";
+                                                   count++;
+                                            } else {
+                                                rows[i].style.display = "none";
+                                            }      
+                                        }
+                                        if(count==0)
+                                            {
+                                            var tableData="";
+                                            tableData="<tr><td></td><td></td><td><center>No Records Found</center></td><td></td><td></td></tr>";
+
+                                                  $("#opportunityTable").html(tableData);
+                                            }
+                                        document.getElementById("opportunityid").innerHTML = count;                                                                                    
+                                    }  
+                                    
+                                    else if (searchbar=="Business"){
+                                        var filter = event.target.value.toUpperCase();
+                                        var rows = document.querySelector("#myBusinessTable tbody").rows;
+                                           count=0;
+                                           var field=$('#_globalSearch').val();
+                                        var len=field.length;
+                                        //alert(len);
+                                        for (var i = 0; i < rows.length; i++) {
+                                           if(len>0){
+                                                  //$('#searchclearEmployee').css('display','block');
+                                           }else if(len==0){
+                                            businessLoad();
+                                           }
+                                            var firstCol = rows[i].cells[0].textContent.toUpperCase();
+                                            var secondCol = rows[i].cells[1].textContent.toUpperCase();
+                                            var thirdCol = rows[i].cells[2].textContent.toUpperCase();
+                                            var fourthCol = rows[i].cells[3].textContent.toUpperCase();
+                                            var fifthCol = rows[i].cells[4].textContent.toUpperCase();
+                                            var sixthCol = rows[i].cells[5].textContent.toUpperCase();
+                                            var seventhCol = rows[i].cells[6].textContent.toUpperCase();
+                                            var eighthCol = rows[i].cells[7].textContent.toUpperCase();
+                                            var ninthCol = rows[i].cells[8].textContent.toUpperCase();
+                                            var tenthCol = rows[i].cells[9].textContent.toUpperCase();
+                                            var eleventhCol = rows[i].cells[10].textContent.toUpperCase();
+                                            var twelvthCol = rows[i].cells[11].textContent.toUpperCase();
+                                          
+                                            if (firstCol.indexOf(filter) > -1 || secondCol.indexOf(filter) > -1|| thirdCol.indexOf(filter) > -1
+                                                        || fourthCol.indexOf(filter) > -1  || fifthCol.indexOf(filter) > -1  || sixthCol.indexOf(filter) > -1 
+                                                         || seventhCol.indexOf(filter) > -1  || eighthCol.indexOf(filter) > -1 || ninthCol.indexOf(filter) > -1
+                                                         || tenthCol.indexOf(filter) > -1 || eleventhCol.indexOf(filter) > -1 || twelvthCol.indexOf(filter) > -1) {
+                                              
+                                                   rows[i].style.display = "";
+                                                   count++;
+                                            } else {
+                                                rows[i].style.display = "none";
+                                            }      
+                                        }
+                                        if(count==0)
+                                            {
+                                            var tableData="";
+                                            tableData="<tr><td></td><td></td><td><center>No Records Found</center></td><td></td><td></td></tr>";
+
+                                                  $("#businessTable").html(tableData);
+                                            }
+                                        document.getElementById("bpcount").innerHTML = count;                                                                                    
+                                    }  
+                                    }
+                                    document.querySelector('#_globalSearch').addEventListener('keyup', filterTable, false);
+                                    
+                                                                                           
+                                    </script>
 
                             </div>
 

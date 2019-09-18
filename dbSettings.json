@@ -1,5 +1,5 @@
 {
-    "host" : "HYTSP00068",
+    "host" : "localhost",
     "user" : "crpuser",
 "password" : "User%853",
 "database" : "devc4c"
