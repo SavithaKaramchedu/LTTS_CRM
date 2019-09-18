@@ -164,7 +164,7 @@
       "description": "Routes to get the source dropdown value in leadmodal",
       "examples": [
         {
-          "param": "/sourdropfun"
+          "param": "/sourdropdownfun"
         }
       ]
     },

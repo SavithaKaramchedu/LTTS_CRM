@@ -327,7 +327,7 @@ if (checkBox.checked == true){
     addLead();
     
 } else {
-    $("#leadcity").val('');  
+   // $("#leadcity").val('');  
     $("#leaduncheckcountry").css('display','none');
     $("#leaduncheckstate").css('display','none');
     $("#leadcountry").css('display','block');
@@ -767,16 +767,10 @@ function clearFormopportunity() {
     $("#cancelopp").prop("hidden", true);
 
 }
-// $( window ).load(function() {
-//     statusdropdownfun();
-//     qualidropdownfun();
-//     priodropdownfun();
-//     catdropdownfun();
-//     sourdropdownfun();
-// });
+
 
 function addOpportunity(){
-        console.log("enterd");
+      //  console.log("enterd");
         var oppName=$("#oppName").val();
         var Accountopp=$("#Accountopp").val();
         var leadid=$("#oppleadid").val();
@@ -816,7 +810,7 @@ function addOpportunity(){
                 }   
         
         data=JSON.stringify(data); 
-        console.log(data);
+      //  console.log(data);
         var url= "https://localhost:9090/addopportunity";
         //console.log(url);
           $.ajax({
@@ -873,7 +867,7 @@ function addOpportunity(){
                 }
         data=JSON.stringify(data); 
         if(title!="" &&leadaccountid!="" &&leadcontactid!=""&&owneridlead!=""){ 
-       console.log("in ajax");
+     
         $.ajax({
             url: "https://localhost:9090/leads",
             type: "POST",
@@ -889,7 +883,7 @@ function addOpportunity(){
             }
         });
          }else{
-             console.log(title);
+             console.log("enter required feilds");
            // alert("Enter required fields");
             }
         
@@ -911,6 +905,7 @@ function addOpportunity(){
         var priority=$("#priority").val();     
         var owneridlead = $("#ownerleadidhidden").val();
         var leadnotes=$("#notes").val();
+
           if (leadnotes== "NULL" ||leadnotes== "")
                 {
                         leadnotes= ""
@@ -1057,19 +1052,22 @@ function addOpportunity(){
         
           function addleadaccaddr(j,k) {
                     var iCity=$("#leadcity").val();
-                    var iStateID=$("#leadstate").val();
+                    alert(iCity);
                     var iCountryID=$("#leadcountry").val();     
-                
+                    alert(iCountryID);
+                    var iStateID=$("#leadstate").val();
+                    alert(iStateID);
+                   
             var data={
                     "iSourceID":j,
                     "iSourceType":"Lead",
                     "iAddressType":"",
                     "iAddressLine1":"", 
                     "iAddressLine2":"",
-                    "iCity":iCity,
+                    "acccity":iCity,
                     "accstate":iStateID,
                     "iPostalCode":'',
-                    "iCountryID":iCountryID,
+                    "accountry":iCountryID,
                     "iBillTo":'Y',
                     "iShipTo":'Y',
                     "iIsDefault":'Y',
@@ -1077,6 +1075,7 @@ function addOpportunity(){
                     }
                     
             data=JSON.stringify(data); 
+            alert(data);
             $.ajax({
                 url: "https://localhost:9090/accaddress ",
                 type: "POST",
@@ -1088,7 +1087,7 @@ function addOpportunity(){
                     addleadcontphone(k);
                 },
                 error: function () {
-                    console.log("error is ");
+                    console.log("error in addleadaccaddr ");
                    }
             });
             leadLoad();
@@ -1123,7 +1122,7 @@ function addOpportunity(){
                     addleadcontmobile(k);
                 },
                 error: function () {
-                    console.log("error is phone coming");
+                    console.log("error in addleadcontphone");
                    }
             });
             leadLoad();
@@ -1158,7 +1157,7 @@ function addOpportunity(){
                     addleadcontemail(k);
                 },
                 error: function () {
-                    console.log("error is mobile coming");
+                    console.log("error in addleadcontmobile");
                    }
             });
             leadLoad();
@@ -1188,7 +1187,7 @@ function addOpportunity(){
                     addLeaduncheck();
                 },
                 error: function () {
-                    console.log("error is email coming");
+                    console.log("error in addleadcontemail");
                    }
             });
             leadLoad();
@@ -1995,6 +1994,8 @@ chart3.render();  }
 
                             $("#accountCounty").html(dropdowndata);
                             $("#countryacc").html(dropdowndata);
+                            $("#leadcountry").html(dropdowndata);
+                            
                            
                         }
                     });
@@ -2040,11 +2041,12 @@ chart3.render();  }
                      url: url,
                      type: "GET",
                      success: function (result) {
+                         console.log(result);
                         dropdowndata = dropdowndata+"<option style='display:none;'></option>"
                          for (var i = 0; i < result[0].length; i++) { 
                             
                              dropdowndata = dropdowndata  +
-                             '<option value= "' + result[0][i].state + '" >' + result[0][i].state +  '</option>' 
+                             '<option value= "' + result[0][i].stateid + '" >' + result[0][i].state +  '</option>' 
                                
                          }
                         
@@ -2426,7 +2428,11 @@ chart3.render();  }
            $("#leadcity").val(k);
            $("#leaduncheckcountry").val(l);
            $("#leaduncheckstate").val(m);
-            $("#leadacchiddenid").val(i); 
+            $("#leadacchiddenid").val(i);
+            $("#comp").val(j);
+            $("#lcity").val(k);
+            $("#lcountry").val(l);
+            $("#lstate").val(m);
             editcontact();
         }
         function leadcontactdisplay() {
@@ -2437,7 +2443,7 @@ chart3.render();  }
                             url: "https://localhost:9090/contact",
                             type: "GET",
                             success: function (result) {
-                        console.log(result);
+                      //  console.log(result);
                                 for (var i = 0; i < result[0].length; i++) {
 
                            
@@ -2478,8 +2484,12 @@ chart3.render();  }
                  $("#leadmobile").val(k);
                  $("#leademail").val(l);
                  $("#owncont").val(m); 
-                 //alert(n);
-                 //$("#leadacchiddenid").val(n); 
+                 $("#firname").val(m);
+                 $("#lphone").val(j);
+                 $("#lmobile").val(k);
+                 $("#lemail").val(l);
+                
+                
              }
         function insertaccountcontact(i) {
          
@@ -2891,7 +2901,21 @@ clearFormBusiness();
                     $("#stat").prop("disabled", false);
                     $("#editlead").hide();
                     $("#savelead").prop("hidden", false);
-                    $("#cancellead").prop("hidden", false);
+                    $("#lnote").prop("disabled", false);
+                //    $("#leadidfeild").prop("disabled", false);
+                   // $("#lhousenumber").prop("disabled", false);
+                   // $("#lstreet").prop("disabled", false);
+                   // $("#lcity").prop("disabled", false);
+                   // $("#lcountry").prop("disabled", false);
+                    //$("#lstate").prop("disabled", false);
+                   // $("#lpostalcode").prop("disabled", false);
+                   // $("#lphone").prop("disabled", false);
+                  //  $("#lmobile").prop("disabled", false);
+                  //  $("#lemail").prop("disabled", false);
+                    $("#compshare").show();
+                    $("#contnashare").show();
+                    $("#elownshare").show();
+
                 }
 
 
@@ -2910,6 +2934,20 @@ clearFormBusiness();
                     $("#editlead").show();
                     $("#savelead").prop("hidden", true);
                     $("#cancellead").prop("hidden", true);
+                    $("#lnote").prop("disabled", true);
+                    $("#leadidfeild").prop("disabled", true);
+                    $("#lhousenumber").prop("disabled", true);
+                    $("#lstreet").prop("disabled", true);
+                    $("#lcity").prop("disabled", true);
+                    $("#lcountry").prop("disabled", true);
+                    $("#lstate").prop("disabled", true);
+                    $("#lpostalcode").prop("disabled", true);
+                    $("#lphone").prop("disabled", true);
+                    $("#lmobile").prop("disabled", true);
+                    $("#lemail").prop("disabled", true);
+                    $("#compshare").hide();
+                    $("#contnashare").hide();
+                    $("#elownshare").hide();
                 } 
 
                 function recorddisplaylead(i) { 
@@ -2921,7 +2959,7 @@ clearFormBusiness();
 
                             success: function (result) {
                                 console.log(result);                           
-                                console.log(result[0][0].LeadStatusID);
+                               // console.log(result[0][0].LeadStatusID);
                                 $("#leadid").text(i);
                                 $("#oppleadid").val(i);
                                 $("#Accountopp").val(result[0][0].Account);
@@ -2936,8 +2974,21 @@ clearFormBusiness();
                                 $("#sour").val(result[0][0].LEADSOURCEID).attr('selected','selected');
                                 $("#cat").val(result[0][0].LEADCATEGORYID).attr('selected','selected');
                                 $("#prio").val(result[0][0].PRIORITYID).attr('selected','selected');
-                               // alert(result[0][0].PRIORITY)
-                                $("#own").val(result[0][0].Owner);   
+                               
+                                $("#own").val(result[0][0].Owner);  
+                                $("#lnote").val(result[0][0].NOTES);  
+                                $("#leadidfeild").val(result[0][0].LEADCODE);  
+                                $("#lhousenumber").val('');  
+                                $("#lstreet").val('');  
+                                $("#lcity").val(result[0][0].city);  
+                                $("#lcountry").val(result[0][0].country);  
+                                $("#lstate").val(result[0][0].state);  
+                                $("#lpostalcode").val('');  
+                                $("#lphone").val(result[0][0].phone);  
+                                $("#lmobile").val(result[0][0].mobile);  
+                                $("#lemail").val(result[0][0].EMAIL);  
+
+
                             }
                         });
                         clearFormLead();
@@ -4371,8 +4422,8 @@ background-size: 8%;'></div>
                                     </thead>
                                     <tbody id="leadTable" >                           
                                     
-                                    </tbody>
-                                    <div class="modal fade" id="editleadmodal" style="top:24%;height:398px;">
+                                </tbody>
+                                     <div class="modal fade" id="editleadmodal" style="top:24%;height:398px;">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                 
@@ -4386,20 +4437,28 @@ background-size: 8%;'></div>
                                                     <button type="button" class="close" data-dismiss="modal" data-backdrop="static" data-keyboard="false" style="opacity: 1;color:white;"  onclick="clearFormLead()">&times;</button>
                                                 </div>
                                 
-                                                <!-- Modal body -->
-                                                <div class="modal-body" id="size">
+                                                  <!-- Modal body -->
+                                                 <div class="modal-body" id="size" style="overflow:auto;height:205px;">
                                 
+                                                        <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group col-sm-12"></div>
+                                                                        <label>Lead Information</label></div>
+                                                                </div>
+                                                                
+                                                            <hr style="top: -10px;
+                                                            position: relative;">
+
                                                     <div class="row">
-                                                        <div class="col-sm-1">
-                                                        </div>
                                                         <div class="col-sm-2">
-                                                            <label>Tittle:</label>
+                                                            <label><span style="color:red">*</span>Tittle:</label>
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <p id="leadid" style="display:none;"></p>
                                                             <input type="text" class="form-control form-group" id="tit" disabled>
                                                         </div>
-                                
+                                                        <div class="col-sm-1"></div>
+                                                           
                                                         <div class="col-sm-2">
                                                             <label style="width: 113px;">Qualification Level:</label>
                                                         </div>
@@ -4412,14 +4471,17 @@ background-size: 8%;'></div>
                                                     </div>
                                 
                                                     <div class="row">
-                                                        <div class="col-sm-1"></div>
+                                                         
                                                         <div class="col-sm-2">
                                                             <label>Company:</label>
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <input type="text" class="form-control form-group" id="comp" disabled>
                                                         </div>
-                                
+                                                        <div class="col-sm-1" style="right:19px;" >
+                                                        <a data-toggle="modal" href="#accmodal" onclick="contAccountDetails()" id="compshare" style="display:block" >                                                                           
+                                                        <i class="fa fa-share"></i></a>
+                                                       </div>
                                                         <div class="col-sm-2">
                                                             <label>Source:</label>
                                                         </div>
@@ -4432,7 +4494,7 @@ background-size: 8%;'></div>
                                                     </div>
                                 
                                                     <div class="row">
-                                                        <div class="col-sm-1"></div>
+                                                       
                                                         <div class="col-sm-2">
                                                             <label style="width: 113px;">Contact Name:</label>
                                                         </div>
@@ -4440,6 +4502,11 @@ background-size: 8%;'></div>
                                                             <input type="text" class="form-control form-group" id="firname" disabled>
                                                         </div>
                                 
+                                                        <div class="col-sm-1" style="right:19px;" >
+                                                                <a href="#leadcontmodal" data-toggle="modal"  onclick="leadcontactdisplay()" id="contnashare" style="display:block;"> 
+                                                                    <i class="fa fa-share"></i></a>
+                                                                     </div>
+
                                                         <div class="col-sm-2">
                                                             <label>Category:</label>
                                                         </div>
@@ -4453,7 +4520,7 @@ background-size: 8%;'></div>
                                                     </div>
                                 
                                                     <div class="row">
-                                                        <div class="col-sm-1"></div>
+                                                        
                                                         <div class="col-sm-2">
                                                             <label>Priority:</label>
                                                         </div>
@@ -4463,7 +4530,7 @@ background-size: 8%;'></div>
                                                            
                                                         </select>
                                                         </div>
-                                
+                                                        <div class="col-sm-1"></div>
                                                         <div class="col-sm-2">
                                                             <label>Status:</label>
                                                         </div>
@@ -4476,10 +4543,8 @@ background-size: 8%;'></div>
                                                         <div class="col-sm-1"></div>
                                                     </div>
                                 
-                                
-                                
                                                     <div class="row">
-                                                        <div class="col-sm-1"></div>
+                                                        
                                                         <div class="col-sm-2">
                                                             <label>Owner:</label>
                                                         </div>
@@ -4487,15 +4552,141 @@ background-size: 8%;'></div>
                                                             <input type="text" class="form-control form-group" id="own" disabled>
                                                         </div>
                                 
-                                                        <div class="col-sm-2">
+                                                        <div class="col-sm-1" style="right:19px;">
+                                                                <a data-toggle="modal" href="#owneraccModal" id="elownshare" > 
+                                                                    <i class="fa fa-share" onclick="ownerAccountDisplay();"></i></a>
+                                                                     </div>
 
+                                                        <div class="col-sm-2">
+                                                            <label>Note:</label>
                                                         </div>
                                                         <div class="col-sm-3">
-                                                           
+                                                            <input type="text" class="form-control form-group" id="lnote" disabled>
                                                         </div>
                                                         <div class="col-sm-1"></div>
                                                     </div>
-                                
+
+                                                    <div class="row">
+                                                         
+                                                            <div class="col-sm-2">
+                                                                <label>Lead Id:</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <input type="text" class="form-control form-group" id="leadidfeild" disabled>
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-2">                                                             
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+                                                        
+                                                        <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group col-sm-12"></div>
+                                                                        <label>Account Information</label></div>
+                                                                </div>
+                                                                
+                                                            <hr style="top: -10px;
+                                                            position: relative;">
+                                                           
+                                                           <div class="row">
+                                                               
+                                                                <div class="col-sm-2">
+                                                                    <label>House Number:</label>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <input type="text" class="form-control form-group" id="lhousenumber" disabled>
+                                                                </div>
+                                                                <div class="col-sm-1"></div>
+                                                                <div class="col-sm-2">
+                                                                    <label>Street:</label>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <input type="text" class="form-control form-group" id="lstreet" disabled>
+                                                                </div>
+                                                                <div class="col-sm-1"></div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                   
+                                                                    <div class="col-sm-2">
+                                                                        <label>City:</label>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <input type="text" class="form-control form-group" id="lcity" disabled>
+                                                                    </div>
+                                                                    <div class="col-sm-1"></div>
+                                                                    <div class="col-sm-2">
+                                                                        <label>Country:</label>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <input type="text" class="form-control form-group" id="lcountry" disabled>
+                                                                    </div>
+                                                                    <div class="col-sm-1"></div>
+                                                                </div>
+                                                                <div class="row">
+                                                                        
+                                                                        <div class="col-sm-2">
+                                                                            <label>State:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <input type="text" class="form-control form-group" id="lstate" disabled>
+                                                                        </div>
+                                                                        <div class="col-sm-1"></div>
+                                                                        <div class="col-sm-2">
+                                                                            <label>Postal Code:</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <input type="text" class="form-control form-group" id="lpostalcode" disabled>
+                                                                        </div>
+                                                                        <div class="col-sm-1"></div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <div class="form-group col-sm-12"></div>
+                                                                                    <label>Contact Information</label></div>
+                                                                            </div>
+                                                                            
+                                                                        <hr style="top: -10px;
+                                                                        position: relative;">
+                                                                       
+                                                                       <div class="row">
+                                                                          
+                                                                            <div class="col-sm-2">
+                                                                                <label>Phone:</label>
+                                                                            </div>
+                                                                            <div class="col-sm-3">
+                                                                                <input type="text" class="form-control form-group" id="lphone" disabled>
+                                                                            </div>
+                                                                            <div class="col-sm-1"></div>
+                                                                            <div class="col-sm-2">
+                                                                                <label>Mobile:</label>
+                                                                            </div>
+                                                                            <div class="col-sm-3">
+                                                                                <input type="text" class="form-control form-group" id="lmobile" disabled>
+                                                                            </div>
+                                                                            <div class="col-sm-1"></div>
+                                                                        </div>
+            
+                                                                        <div class="row">
+                                                                                
+                                                                                <div class="col-sm-2">
+                                                                                    <label>Email:</label>
+                                                                                </div>
+                                                                                <div class="col-sm-3">
+                                                                                    <input type="text" class="form-control form-group" id="lemail" disabled>
+                                                                                </div>
+                                                                                <div class="col-sm-1"></div>
+                                                                                <div class="col-sm-2">
+                                                                                </div>
+                                                                                <div class="col-sm-3">                                                                                   
+                                                                                </div>
+                                                                                <div class="col-sm-1"></div>
+                                                                            </div>
+                                                                           
+            
                                 
                                                 </div>
                                 

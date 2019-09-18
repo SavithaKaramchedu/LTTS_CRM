@@ -136,7 +136,7 @@ exports.addLead = function (req, res) {
     let query = "call procInsertLead('" +
         title + "', '" + companyacc + "', '" + leadcontid + "', '" + owner + "','" + status + "','" + qul +
         "',  '" + source + "',  '" + category + "',  '" + priority + "', '" + leadnotes + "','" + icreatedby + "',@output)";
-console.log(query);
+//console.log(query);
 
     db.query(query, (err, result2) => {
         if (err) {
@@ -150,7 +150,7 @@ console.log(query);
                 return res.status(500).send(err);
             }
             res.status(200).json(result3);
-            console.log(result3);
+            //console.log(result3);
         });
        
     });
@@ -411,21 +411,6 @@ exports.priodropdownfun = function (req, res) {
     });
 
 };
-exports.sourdropfun = function (req, res) {
-
-    let query = "CALL procLookUpLeadSources()";
-
-    db.query(query, (err, result) => {
-        if (err) {
-
-            return res.status(500).send(err);
-        }
-        res.status(200).json(result);
-
-    });
-
-};
-
 exports.getBackPage = function (req, res) {
     res.render('login.ejs', {
         title: "Welcome to Crm Application"
