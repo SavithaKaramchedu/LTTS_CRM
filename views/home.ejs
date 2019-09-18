@@ -1658,7 +1658,20 @@ chart3.render();  }
             $("#paacc").prop("disabled", false);
             $("#website").prop("disabled", false);
             $("#acccat").prop("disabled", false);
-            $("#vertical").prop("disabled", false);
+            $("#accvertical").prop("disabled", false);
+            $("#accountcode").prop("disabled", false);
+            $("#externalid").prop("disabled", false);
+            $("#ytdrevenue").prop("disabled", false);
+            $("#accstatus").prop("disabled", false);
+            $("#maincontact").prop("disabled", false);
+            $("#accsalesregion").prop("disabled", false);
+            $("#accpipeline").prop("disabled", false);
+            $("#accphone").prop("disabled", false);
+            $("#accfax").prop("disabled", false);
+            $("#accreadonly").prop("disabled", false);
+            $("#acccreatedby").prop("disabled", false);
+            $("#accpostcode").prop("disabled", false);
+            $("#accraddrline").prop("disabled", false);
             $("#countryacc").prop("disabled", false);
             $("#city").prop("disabled", false);
             $("#stateacc").prop("disabled", false);
@@ -1666,6 +1679,11 @@ chart3.render();  }
             $("#editAccount").hide();
             $("#saveAccount").prop("hidden", false);
             $("#cancelAccount").prop("hidden", false);
+            $("#editAccount").hide();
+            $("#acchide1").show();
+            $("#acchide2").show();
+            $("#acchide3").show();
+           
 
         }
         function clearFormAccount() {
@@ -1695,12 +1713,38 @@ chart3.render();  }
                 url: url,
                 type: "GET",
                 success: function (result) {
+                    console.log(result);
+                    if(result[0][0].Account==""||result[0][0].Account==null||result[0][0].Account==undefined){
+                        result[0][0].Account="NA"
+                    }
                     if(result[0][0].IsProspect=='checked'){
                         result[0][0].IsProspect="Y"
                     }
                     else{
                         result[0][0].IsProspect="N"  
                     }
+                    if(result[0][0].ParentAccount==""||result[0][0].ParentAccount==null||result[0][0].ParentAccount==undefined){
+                        result[0][0].ParentAccount="NA"
+                    }
+                    if(result[0][0].WEBSITE==""||result[0][0].WEBSITE==null||result[0][0].WEBSITE==undefined){
+                        result[0][0].WEBSITE="NA"
+                    }
+                    if(result[0][0].AccountCategoryID==""||result[0][0].AccountCategoryID==null||result[0][0].AccountCategoryID==undefined){
+                        result[0][0].AccountCategoryID="NA"
+                    }
+                    if(result[0][0].countryid==""||result[0][0].countryid==null||result[0][0].countryid==undefined){
+                        result[0][0].countryid="NA"
+                    }
+                    if(result[0][0].city==""||result[0][0].city==null||result[0][0].city=="undefined"){
+                        result[0][0].city="NA"
+                    }
+                    if(result[0][0].stateid==""||result[0][0].stateid==null||result[0][0].stateid==undefined){
+                        result[0][0].stateid="NA"
+                    }
+                    if(result[0][0].Owner==""||result[0][0].Owner==null||result[0][0].Owner==undefined){
+                        result[0][0].Owner="NA"
+                    }
+                   
                     console.log(result[0][0]);
                     console.log(result[0][0].AccountCategory);
                    // var countryid= $("#countryacc").val();
@@ -5314,17 +5358,17 @@ background-size: 8%;'></div>
 
                                                     <!-- Modal Header -->
                                                     <div class="modal-header"
-                                                        style="padding-left: 0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color: #e6e0e094;">
+                                                        style="padding-left: 0;border-bottom: 1px solid #d2c7c7;margin-bottom: 20px;background-color:rgb(51, 122, 183);color:white">
 
                                                         <b class="modal-title"
                                                             style="font-size:15px;margin-left:9px;">New Account:</b>
 
-                                                        <button type="button" class="close" onclick="clearFormAccount()"
+                                                        <button type="button" style="color:white;opacity:1;" class="close" onclick="clearFormAccount()"
                                                             data-dismiss="modal">&times;</button>
                                                     </div>
 
                                                     <!-- Modal body -->
-                                                    <div class="modal-body" id="size">
+                                                    <div class="modal-body" id="size" style="overflow: auto;height:192px;">
 
                                                         <div class="row">
                                                             <div class="col-sm-1"> </div>
@@ -5384,21 +5428,21 @@ background-size: 8%;'></div>
                                                             </div>
 
                                                             <div class="col-sm-2">
-                                                                    <label>City:</label>
+                                                                    <label>Owner:</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                    <input type="text" disabled id="city"
+                                                                    <input type="text" disabled id="owner"
                                                                     class="form-control form-group">
                                                             </div>
                                                             <div class="col-sm-1"></div>
                                                         </div>
 
-                                                        <div class="row">
+                                                        <div class="row" style="display: none;" id="acchide1">
                                                             <div class="col-sm-1"></div>
-                                                            <div class="col-sm-2">
+                                                            <div class="col-sm-2" >
                                                                 <label style="width: 113px;">Country:</label>
                                                             </div>
-                                                            <div class="col-sm-3">
+                                                            <div class="col-sm-3" >
                                                                 <select class="strike" id="countryacc" disabled onclick="acceditstatedropdown()"
                                                                     name="country"
                                                                     style="height:22px;font-size: 12px;width:100%;border-radius: 3px;">
@@ -5414,11 +5458,10 @@ background-size: 8%;'></div>
                                                             </div>
 
                                                             <div class="col-sm-2">
-                                                                    <label>Owner:</label>
+                                                                  <label>City:</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                    <input type="text" disabled id="owner"
-                                                                    class="form-control form-group">
+                                                            <input type="text" disabled id="city" class="form-control form-group">
                                                             </div>
                                                             <div class="col-sm-1"></div>
                                                         </div>
@@ -5426,25 +5469,157 @@ background-size: 8%;'></div>
                                                         <div class="row">
                                                             <div class="col-sm-1"></div>
                                                             <div class="col-sm-2">
-                                                                <label>State:</label>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <select class="strike" id="stateacc" disabled
-                                                                    name="stat"
-                                                                    style="height: 22px;font-size: 12px;width:100%;border-radius: 3px;">
-                                                                    
-                                                                    
-                                                                </select>
-                                                            </div>
+                                                                    <label>Vertical:</label>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                        <select class="strike" id="accvertical" disabled name="stat"
+                                                                        style="height: 22px;font-size: 12px;width:100%;border-radius: 3px;">                                                                                                                                 
+                                                                    </select>
+                                                                </div>
+                                                            
 
                                                             <div class="col-sm-2">
-                                                               
+                                                                    <label>Accountid:</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                               
+                                                                    <input type="text" disabled id="accountcode"
+                                                                    class="form-control form-group">
                                                             </div>
                                                             <div class="col-sm-1"></div>
                                                         </div>
+                                                        <div class="row">
+                                                                <div class="col-sm-1"></div>
+                                                                <div class="col-sm-2">
+                                                                    <label>External ID (Old C4C ID):</label>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                        <input type="text" disabled id="externalid"
+                                                                        class="form-control form-group">
+                                                                </div>
+    
+                                                                <div class="col-sm-2">
+                                                                        <label>Active Pipeline:</label>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                        <input type="text" disabled id="accpipeline"
+                                                                        class="form-control form-group">
+                                                                </div>
+                                                                <div class="col-sm-1"></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                    <div class="col-sm-1"></div>
+                                                                    <div class="col-sm-2">
+                                                                        <label>YTD Revenue:</label>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                            <input type="text" disabled id="ytdrevenue"
+                                                                            class="form-control form-group">
+                                                                    </div>
+        
+                                                                    <div class="col-sm-2">
+                                                                            <label>Status :</label>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                            <input type="text" disabled id="accstatus"
+                                                                            class="form-control form-group">
+                                                                    </div>
+                                                                    <div class="col-sm-1"></div>
+                                                                </div>
+
+
+                                                                <div class="row">
+                                                                        <div class="col-sm-1"></div>
+                                                                        <div class="col-sm-2">
+                                                                            <label>Main Contact :</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                                <input type="text" disabled id="maincontact" class="form-control form-group">
+                                                                        </div>
+            
+                                                                        <div class="col-sm-2">
+                                                                                <label>Sales Region :</label>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                                <select class="strike" id="accsalesregion" disabled name="stat"
+                                                                    style="height: 22px;font-size: 12px;width:100%;border-radius: 3px;">                                                                                                                                 
+                                                                </select>
+                                                                        </div>
+                                                                        <div class="col-sm-1"></div>
+                                                                    </div>
+        
+                                                                    <div class="row">
+                                                                            <div class="col-sm-1"></div>
+                                                                            <div class="col-sm-2">
+                                                                                <label>Phone:</label>
+                                                                            </div>
+                                                                            <div class="col-sm-3">
+                                                                                    <input type="text" disabled id="accphone" class="form-control form-group">
+                                                                            </div>
+                
+                                                                            <div class="col-sm-2">
+                                                                                    <label>Fax:</label>
+                                                                            </div>
+                                                                            <div class="col-sm-3">
+                                                                                    <input type="text" disabled id="accfax" class="form-control form-group">
+                                                                            </div>
+                                                                            <div class="col-sm-1"></div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                                <div class="col-sm-1"></div>
+                                                                                <div class="col-sm-2">
+                                                                                    <label>Created By:</label>
+                                                                                </div>
+                                                                                <div class="col-sm-3">
+                                                                                        <input type="text" disabled id="acccreatedby" class="form-control form-group">
+                                                                                </div>
+                    
+                                                                                <div class="col-sm-2">
+                                                                                        <label>Read Only :</label>
+                                                                                </div>
+                                                                                <div class="col-sm-3">
+                                                                                        <input type="checkbox" disabled id="accreadonly" class="form-control form-group">
+                                                                                </div>
+                                                                                <div class="col-sm-1"></div>
+                                                                            </div>
+                                                                            <div class="row" style="display: none" id="acchide2">
+                                                                                    <div class="col-sm-1"></div>
+                                                                                    <div class="col-sm-2">
+                                                                                        <label>Postal Code:</label>
+                                                                                    </div>
+                                                                                    <div class="col-sm-3">
+                                                                                            <input type="text" disabled id="accpostcode" class="form-control form-group">
+                                                                                    </div>
+                        
+                                                                                    <div class="col-sm-2">
+                                                                                            <label>Address line1 :</label>
+                                                                                    </div>
+                                                                                    <div class="col-sm-3">
+                                                                                            <input type="text" disabled id="accraddrline" class="form-control form-group">
+                                                                                    </div>
+                                                                                    <div class="col-sm-1"></div>
+                                                                                </div>
+                                                                                <div class="row" style="display: none" id="acchide3">
+                                                                                        <div class="col-sm-1"></div>
+                                                                                        <div class="col-sm-2">
+                                                                                                <label>State:</label>
+                                                                                            </div>
+                                                                                            <div class="col-sm-3">
+                                                                                                <select class="strike" id="stateacc" disabled
+                                                                                                    name="stat"
+                                                                                                    style="height: 22px;font-size: 12px;width:100%;border-radius: 3px;">
+                                                                                                    
+                                                                                                    
+                                                                                                </select>
+                                                                                            </div>
+                            
+                                                                                        <div class="col-sm-2">
+                                                                                              
+                                                                                        </div>
+                                                                                        <div class="col-sm-3">
+                                                                                               
+                                                                                        </div>
+                                                                                        <div class="col-sm-1"></div>
+                                                                                    </div>
 
 
                                                     </div>
