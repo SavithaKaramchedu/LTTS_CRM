@@ -121,7 +121,7 @@ exports.addLead = function (req, res) {
 
     let message = '';
     let title = req.body.title;
-    console.log(title);
+   // console.log(title);
     let companyacc = req.body.company;
     let leadcontid = req.body.leadcontid;
     let owner = req.body.owner;
@@ -485,10 +485,10 @@ exports.addContactPage = function (req, res) {
         
     let query = "CALL `procInsertPhone`('" + iSourceID + "', '" + iAddressId + "', '" + iSourceType + "','" +iCountryID + "','"
      + iIsMobile + "','" + iIsFax + "','" + iAreaCode + "','" + iPhoneNumber + "','" + iCompleteNumber + "','" + iIsDefault + "','" + createdby + "')"; // query database to get emails in contactmodal
-     console.log(query);
+    // console.log(query);
     db.query(query, (err, result) => {
             if (err) {
-                console.log(err);
+               // console.log(err);
                 return res.status(500).send(err);
             }
             else {
@@ -551,7 +551,7 @@ exports.recorddisplaycont = function (req, res) {
             return res.status(500).send(err);
         }
         res.status(200).json(result);
-
+       // console.log(result);
     });
 
 };
@@ -559,25 +559,37 @@ exports.recorddisplaycont = function (req, res) {
 exports.updatereccontact = function (req, res) {
 
     var Sid = req.body.id;
-    let firstname = req.body.firstname;
-    let lastname = req.body.lastname;
+    let contactid = req.body.contid;
     let acc = req.body.accountname;
+    let firstname = req.body.firstname;
+    let lastname = req.body.lastname;  
     let jobtitle = req.body.jobtitle;
     let funct = req.body.functionname;
     let depart = req.body.department;
     let phn = req.body.phone;
-    let cit = req.body.city;
+    // let cit = req.body.city;
     let fa = req.body.fax;
     let mob = req.body.mobile;
     let eml = req.body.email;
+    let salid = req.body.salutation;
+    let actitle = req.body.academicTitle;
+    let mname = req.body.middleName;
+    let businessadd = req.body.businessAddress;
+    let bestreachid = req.body.bestReachedBy;
+    let contpermid = req.body.contactPermission;
 
-    let query = "UPDATE `contactcirruswave` SET `firstname` = '" + firstname + "', `lastname` = '" + lastname + "',`accountname` = '" + acc + "', `jobtitle` = '" + jobtitle + "',`functionname` = '" + funct + "', `department` = '" + depart + "',`phone` = '" + phn + "',`city` = '" + cit + "',`fax` = '" + fa + "',`mobile` = '" + mob + "',`email` = '" + eml + "' WHERE `contactid` = '" + Sid + "'";
+   
+    let query = "CALL `procUpdateContact`('" + contactid + "','" + firstname + "','" + lastname + "','" + acc + "','" + jobtitle + "','" + funct + "', '" + depart + "','"
+     + phn + "','" + fa + "','" + mob + "','" + eml + "','" + salid + "','" + actitle + "','" + mname + "','" + businessadd + "','" + bestreachid + "','" + contpermid + "','" + Sid + "')";
     db.query(query, (err, result) => {
+
         if (err) {
             return res.status(500).send(err);
         }
-        res.redirect('/home');
+        res.status(200).json(result);
+       // console.log(result);
     });
+
 };
 
 exports.deletecont = function (req, res) {
@@ -687,7 +699,7 @@ exports.accaddress = function (req, res) {
     let createdby = req.body.iCreatedBy;
      let query = "call procInsertAddress('" +sourceid + "','" +source + "','" +addresstype + "', '" + addressline1 + "','" + addressline2 + "', '" + city + "','" + state + "','" + postalcode + "','" + country + "','" + billto + "','" + shipto + "','" + defaultadd + "','" + createdby + "',@output)";
 
-console.log(query);
+//console.log(query);
     db.query(query, (err, result2) => {
         if (err) {
            
@@ -696,11 +708,11 @@ console.log(query);
         let query1="SELECT @output as accaaddressid";
         db.query(query1, (err, result3) => {
             if (err) {
-                console.log(err);
+               // console.log(err);
                 return res.status(500).send(err);
             }
             res.status(200).json(result3);
-            console.log(result3);
+           // console.log(result3);
             
         });
        
@@ -796,10 +808,10 @@ exports.getOpportunityPage = function (req, res) {
 },
 
 exports.addOpportunity = function (req, res) {
-    console.log('opportunity');
+   // console.log('opportunity');
     let message = '';
     let iLeadID=req.body.leadid;
-    console.log(iLeadID);
+   // console.log(iLeadID);
     let iTitle = req.body.oppName;
     let iAccountID = req.body.Accountid;
     let iOpportunitySourceID = req.body.Source;
@@ -818,20 +830,20 @@ exports.addOpportunity = function (req, res) {
     + iExpectedValue + "', '" + iStartDate + "', '" + iEndD0ate + "', '" + iSalesCycleID + "', '" 
     + iSalesPhaseID + "','" + iProbability + "','" + iPublishToForecast + "','" + iOpportunityCategoryID + "','"
      + iOwnerID + "','" + iNote + "','" + iCreatedBy + "', @output)";
-       console.log(query);
+    //   console.log(query);
         db.query(query, (err, result2) => {
             if (err) {
-                console.log(err)
+             //   console.log(err)
                 return res.status(500).send(err);
             }
             let query1="SELECT @output as oOpportunityID";
             db.query(query1, (err, result3) => {
                 if (err) {
-                    console.log(err)
+               //     console.log(err)
                     return res.status(500).send(err);
                 }
                 res.status(200).json(result3);
-                console.log(result3);
+              //  console.log(result3);
             });
            
         });
@@ -960,6 +972,70 @@ exports.Contactfun = function (req, res) {
 exports.Contactdep = function (req, res) {
 
     let query = 'call procLookUpDepartments();';
+
+    db.query(query, (err, result) => {
+
+        if (err) {
+
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+
+    });
+
+};
+
+exports.Contactacademictitles = function (req, res) {
+
+    let query = 'call procLookUpAcademicTitles();';
+
+    db.query(query, (err, result) => {
+
+        if (err) {
+
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+
+    });
+
+};
+
+exports.Contactsalutations = function (req, res) {
+
+    let query = 'call procLookUpSalutations();';
+
+    db.query(query, (err, result) => {
+
+        if (err) {
+
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+
+    });
+
+};
+
+exports.Contactbestreachedby = function (req, res) {
+
+    let query = 'call procLookUpBestReachedBy();';
+
+    db.query(query, (err, result) => {
+
+        if (err) {
+
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+
+    });
+
+};
+
+exports.Contactcontpermission = function (req, res) {
+
+    let query = 'call procLookUpContactPermissions();';
 
     db.query(query, (err, result) => {
 

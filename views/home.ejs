@@ -824,7 +824,7 @@ function addOpportunity(){
                 opportunityLoad();
             },       
             error: function () {   
-               console.log("error");
+              // console.log("error");
             }
         });
        
@@ -879,7 +879,7 @@ function addOpportunity(){
                 leadLoad();
             },      
             error: function () {
-                console.log("err");
+              //  console.log("err");
             }
         });
          }else{
@@ -2085,7 +2085,7 @@ chart3.render();  }
 
 
         function contactLoad() {
-            dropdownfun();
+           
                 var tableData;
 
                 $("#screenloading").css('display','block');
@@ -2128,7 +2128,7 @@ chart3.render();  }
                             tableData = tableData + "  <tr> " +
                                 
                                 "<td id='' hidden>" + result[0][i].contactid + "</td>" +
-                                "<td >" + "<a href='#cmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false' onclick='dropdownfun(),dropdowndep(),recorddisplaycont(" + contid + ")'>" + result[0][i].Name + "</a>" + "</td>" +
+                                "<td >" + "<a href='#cmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false' onclick='dropdownfun(),dropdowndep(),dropdownacademictitles(),dropdownsalutations(),dropdownbestreachedby(),dropdowncontpermission(),recorddisplaycont(" + contid + ")'>" + result[0][i].Name + "</a>" + "</td>" +
                                 "<td >" + result[0][i].Account + "</td>" +
                                 "<td >" + result[0][i].jobfunction + "</td>" +
                                 "<td >" + result[0][i].DEPARTMENT + "</td>" +
@@ -2159,11 +2159,21 @@ chart3.render();  }
                             $("#firstname").val(result[0][0].FIRSTNAME);
                             $("#lastname").val(result[0][0].LASTNAME);
                             $("#acc").val(result[0][0].Account);
+                            $("#jobtitle").val(result[0][0].JOBTITLE);
                             $("#funct").val(result[0][0].JOBFUNCTIONID).attr('selected','selected');
                             $("#depart").val(result[0][0].DEPARTMENTID).attr('selected','selected');
                             $("#phn").val(result[0][0].Phone);
+                            $("#fa").val(result[0][0].Fax);
                             $("#mob").val(result[0][0].Mobile);
                             $("#eml").val(result[0][0].email);
+                            $("#contstatus").val(result[0][0].Status);
+                            $("#conttitle").val(result[0][0].SALUTATIONID).attr('selected','selected');
+                            $("#academictitle").val(result[0][0].academictitle).attr('selected','selected'); 
+                            $("#middlename").val(result[0][0].MIDDLENAME); 
+                            $("#businessaddress").val(result[0][0].AddressLine1);
+                            $("#businessaddress").val(result[0][0].AddressLine2);
+                            $("#bestreachedby").val(result[0][0].BESTREACHEDBYID).attr('selected','selected');
+                            $("#contpermission").val(result[0][0].CONTACTPERMISSIONID).attr('selected','selected'); 
                         }
                     });
 
@@ -2192,6 +2202,12 @@ chart3.render();  }
                     $("#mobile").prop("disabled", false);
                     $("#eml").prop("disabled", false);
                     $("#email").prop("disabled", false);
+                    $("#conttitle").prop("disabled", false);
+                    $("#academictitle").prop("disabled", false);
+                    $("#middlename").prop("disabled", false);
+                    $("#businessaddress").prop("disabled", false);
+                    $("#bestreachedby").prop("disabled", false);
+                    $("#contpermission").prop("disabled", false);
                     $("#editct").hide();
                     $("#savect").prop("hidden", false);
                     $("#cancelct").prop("hidden", false);
@@ -2227,6 +2243,7 @@ chart3.render();  }
                     function updatereccontact() {
 
                         var id = $("#cid").val();
+                        var contactid = $("#cdid").val();                        
                         var firstname = $("#firstname").val();
                         var lastname = $("#lastname").val();
                         var accountname = $("#acc").val();
@@ -2238,10 +2255,25 @@ chart3.render();  }
                         var fax = $("#fa").val();
                         var mobile = $("#mob").val();
                         var email = $("#eml").val();
+                        var salutationID = $("#conttitle").val();
+                        var academicTitleID = $("#academictitle").val();
+                        var middleName = $("#middlename").val();
+                        var businessaddress = $("#businessaddress").val();
+                        var bestReachedByID = $("#bestreachedby").val();
+                        var contactPermissionID = $("#contpermission").val();
+
+                        
 
 
                         var data = {
                             "id": id,
+                          "salutation" : salutationID,
+                          "academicTitle" : academicTitleID,
+                          "middleName" : middleName,
+                          "businessAddress" : businessaddress,
+                          "bestReachedBy" : bestReachedByID,
+                          "contactPermission" : contactPermissionID,
+                          "contid" : contactid,
                             "firstname": firstname,
                             "lastname": lastname,
                             "accountname": accountname,
@@ -2249,7 +2281,7 @@ chart3.render();  }
                             "functionname": functionname,
                             "department": department,
                             "phone": phone,
-                            "city": city,
+                           // "city": city,
                             "fax": fax,
                             "mobile": mobile,
                             "email": email,
@@ -2365,6 +2397,94 @@ chart3.render();  }
                     });
 
                 } 
+
+                function dropdownacademictitles() {
+                   
+                   var url = "https://localhost:9090/dropdownacademictitles";
+                    var dropdowndata="";
+
+                   $.ajax({
+                       url: url,
+                       type: "GET",
+                       success: function (result) {
+
+                           //   dropdowndata = dropdowndata+"<option style='display:none;'></option>";
+                           for (var i = 0; i < result[0].length; i++) {
+                               dropdowndata = dropdowndata +  '<option value="' + result[0][i].ACADEMICTITLEID + '">' + result[0][i].ACADEMICTITLE + '</option>';
+                           }                          
+                           $("#academictitle").html(dropdowndata);
+                                            
+                       }
+                   
+                   });
+
+               } 
+
+               function dropdownsalutations() {
+                   
+                   var url = "https://localhost:9090/dropdownsalutations";
+                    var dropdowndata="";
+
+                   $.ajax({
+                       url: url,
+                       type: "GET",
+                       success: function (result) {
+
+                           //   dropdowndata = dropdowndata+"<option style='display:none;'></option>";
+                           for (var i = 0; i < result[0].length; i++) {
+                               dropdowndata = dropdowndata +  '<option value="' + result[0][i].SALUTATIONID + '">' + result[0][i].SALUTATION + '</option>';
+                           }                          
+                           $("#conttitle").html(dropdowndata);
+                                                
+                       }
+                   
+                   });
+
+               } 
+
+               function dropdownbestreachedby() {
+                   
+                   var url = "https://localhost:9090/dropdownbestreachedby";
+                    var dropdowndata="";
+
+                   $.ajax({
+                       url: url,
+                       type: "GET",
+                       success: function (result) {
+
+                           //   dropdowndata = dropdowndata+"<option style='display:none;'></option>";
+                           for (var i = 0; i < result[0].length; i++) {
+                               dropdowndata = dropdowndata +  '<option value="' + result[0][i].BESTREACHEDBYID + '">' + result[0][i].BESTREACHEDBY + '</option>';
+                           }                          
+                           $("#bestreachedby").html(dropdowndata);
+                                             
+                       }
+                   
+                   });
+
+               } 
+
+               function dropdowncontpermission() {
+                   
+                   var url = "https://localhost:9090/dropdowncontpermission";
+                    var dropdowndata="";
+
+                   $.ajax({
+                       url: url,
+                       type: "GET",
+                       success: function (result) {
+
+                           //   dropdowndata = dropdowndata+"<option style='display:none;'></option>";
+                           for (var i = 0; i < result[0].length; i++) {
+                               dropdowndata = dropdowndata +  '<option value="' + result[0][i].CONTACTPERMISSIONID + '">' + result[0][i].CONTACTPERMISSION + '</option>';
+                           }                          
+                           $("#contpermission").html(dropdowndata);
+                                                  
+                       }
+                   
+                   });
+
+               } 
 
             function contAccountDetails() {
 
@@ -2816,7 +2936,7 @@ clearFormBusiness();
                     type: "GET",
 
                     success: function (result) {
-                    console.log(result);
+                //    console.log(result);
                 
 
                         $("#leadloading").css('display','none');
@@ -2952,7 +3072,7 @@ clearFormBusiness();
 
                 function recorddisplaylead(i) { 
                         var url = "https://localhost:9090/leads/" + i;    
-                        console.log(url);                   
+                   //     console.log(url);                   
                         $.ajax({
                             url: url,
                             type: "GET",
@@ -4175,7 +4295,7 @@ background-size: 8%;'></div>
     
             </div>
            
-            <div class="modal fade docs-example-modal-lg" id="cmodal" tabindex="-1" role="dialog" style="height: 380px;top: 23%;"
+            <div class="modal fade docs-example-modal-lg" id="cmodal" tabindex="-1" role="dialog" style="height: 375px;top: 23%;"
         aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -4187,7 +4307,7 @@ background-size: 8%;'></div>
                 </div>
     
                 <!-- Modal body -->
-                <div class="modal-body" style="padding: 13px 25px;">
+                <div class="modal-body" style="padding: 20px 25px;height: 190px;overflow:auto;">
     
                     <div class="row">
     
@@ -4219,7 +4339,20 @@ background-size: 8%;'></div>
                                 style="height: 71%;">
     
                         </div>   
+                         
+                        <div class="col-sm-2">Jobtitle:</div>
     
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="jobtitle" id="jobtitle" disabled=""
+                             style="height: 71%; "> 
+                        </div>
+                       
+                        <div class="col-sm-1"></div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        
                         <div class="col-sm-2"> Function:</p>
                         </div>
                         <div class="col-sm-3">
@@ -4227,13 +4360,6 @@ background-size: 8%;'></div>
     
                             </select>
                         </div>
-                        <div class="col-sm-1"></div>
-                    </div>
-    
-                    <div class="row">
-                        <div class="col-sm-1"></div>
-                        
-    
                         <div class="col-sm-2">Department:</div>
     
                         <div class="col-sm-3">
@@ -4241,15 +4367,27 @@ background-size: 8%;'></div>
     
                             </select>   
                         </div>
+                        
+                    </div>
+                   
+                    <div class="row">
+                        <div class="col-sm-1"></div>
                         <div class="col-sm-2">Phone:</div>
     
                         <div class="col-sm-3">
-                            <input type="text" disabled required class="form-control" name="phone" id="phn"
+                            <input type="text" disabled  class="form-control" name="phone" id="phn"
                                 style="height: 71%;">
                         </div>
-
-                    </div>
+                        
+                        <div class="col-sm-2">Fax:</div>
     
+                        <div class="col-sm-3">
+                            <input type="text" disabled  class="form-control" name="fax" id="fa"
+                                style="height: 71%;">
+                        </div>
+    
+                    </div>
+                   
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-2">
@@ -4269,8 +4407,73 @@ background-size: 8%;'></div>
                         </div>
     
                     </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2">Status:</div>
     
+                        <div class="col-sm-3">
+                            <input type="text" disabled  class="form-control" name="status" id="contstatus"
+                                style="height: 71%;">
+                        </div>
+                        
+                        <div class="col-sm-2">Title:</div>
     
+                        <div class="col-sm-3">
+                                <select class="form-control" disabled name="title" id="conttitle" style="height: 71%;">
+    
+                                </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-2">Academic Title:</div>
+        
+                            <div class="col-sm-3">
+                                    <select class="form-control" disabled name="atitle" id="academictitle" style="height: 71%;">
+    
+                                        </select>
+                            </div>
+                            
+                            <div class="col-sm-2">Middle Name:</div>
+        
+                            <div class="col-sm-3">
+                                    <input type="text" disabled  class="form-control" name="middlename" id="middlename"
+                                    style="height: 71%;">
+                            </div>
+                        </div>
+
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2">Business Address:</div>
+    
+                        <div class="col-sm-3">
+                            <input type="text" disabled  class="form-control" name="businessaddress" id="businessaddress"
+                                style="height: 71%;">
+                        </div>
+                        
+                        <div class="col-sm-2">Best Reached By:</div>
+    
+                        <div class="col-sm-3">
+                                <select class="form-control" disabled name="bestreachedby" id="bestreachedby" style="height: 71%;">
+    
+                                </select>
+                                
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2">Contact Permission:</div>
+    
+                        <div class="col-sm-3">
+                                <select class="form-control" disabled name="contpermission" id="contpermission" style="height: 71%;">
+    
+                                </select>
+                        </div>
+                    </div>
+                   
                     <br>
                 </div>
                 <!-- Modal footer -->

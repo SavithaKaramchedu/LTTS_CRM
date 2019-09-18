@@ -245,7 +245,7 @@
       "configured": true,
       "routeclass": "./sampleservice.js",
       "routefunction": "recorddisplaycont",
-      "description": "Routes to display record value in modal",
+      "description": "Route to display record value in modal",
       "examples": [
         {
           "param": "/contact/:i"
@@ -259,7 +259,7 @@
        "configured": true,
        "routeclass": "./sampleservice.js",
        "routefunction": "updatereccontact",
-       "description": "Routes to update record value in table",
+       "description": "Route to update record value in table",
        "examples": [
       {
        "param": "/contact/:i"
@@ -824,6 +824,58 @@
       "examples": [
         {
           "param": "/depdropdown"
+        }
+      ]
+    },
+    {
+      "route": "/dropdownacademictitles",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "Contactacademictitles",
+      "description": "Route for dynamic dropdown academictitles",
+      "examples": [
+        {
+          "param": "/academictitlesdropdown"
+        }
+      ]
+    },
+    {
+      "route": "/dropdownsalutations",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "Contactsalutations",
+      "description": "Route for dynamic dropdown salutations",
+      "examples": [
+        {
+          "param": "/salutationsdropdown"
+        }
+      ]
+    },
+    {
+      "route": "/dropdownbestreachedby",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "Contactbestreachedby",
+      "description": "Route for dynamic dropdown bestreachedby",
+      "examples": [
+        {
+          "param": "/bestreachedbydropdown"
+        }
+      ]
+    },
+    {
+      "route": "/dropdowncontpermission",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "Contactcontpermission",
+      "description": "Route for dynamic dropdown contpermission",
+      "examples": [
+        {
+          "param": "/contpermissiondropdown"
         }
       ]
     },

@@ -1,6 +1,6 @@
 {
-    "host" : "cirrusewave-mysql.cwdz2gba2v2u.us-east-1.rds.amazonaws.com",
-    "user" : "root",
-"password" : "root1234",
-"database" : "cirruswave"
+    "host" : "HYTSP00068",
+    "user" : "crpuser",
+"password" : "User%853",
+"database" : "devc4c"
 }
