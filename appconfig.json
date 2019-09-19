@@ -921,6 +921,19 @@
       ]
     },
     {
+      "route": "/accsalereg",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "accountsalesregion",
+      "description": "Routes to display values dynamically inside vertical dropdown",
+      "examples": [
+        {
+          "param": "/account/:i"
+        }
+      ]
+    },
+    {
       "route": "/acccont",
       "type": "get",
       "configured": true,

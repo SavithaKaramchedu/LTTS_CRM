@@ -1096,6 +1096,21 @@ exports.accountvert = function (req, res) {
     });
 
 };
+exports.accountsalesregion = function (req, res) {
+
+    let query1 = "call procLookUpSalesregions()";
+
+    db.query(query1, (err, result) => {
+        if (err) {
+
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+
+    });
+
+};
+
 exports.accountcont = function (req, res) {
 
     let query1 = "call procLookUpCountries()";

@@ -1637,7 +1637,7 @@ chart3.render();  }
 
                             "<td >" +  result[0][i].accountcode+ "</td>" +
                             "<td >" + result[0][i].ExternalID+ "</td>" +
-                            "<td >"+"<a href='#editaccModal' data-toggle='modal' onclick='acccatdropdown(),resetFormAccount(),accvertdropdown(),acccontdropdown(),accountdisplay("+accountID+")'>" + result[0][i].name+ "</a>"+"</td>" +
+                            "<td >"+"<a href='#editaccModal' data-toggle='modal' onclick='acccatdropdown(),resetFormAccount(),accvertdropdown(),acccontdropdown(),accsaleregdropdown(),accountdisplay("+accountID+")'>" + result[0][i].name+ "</a>"+"</td>" +
                             "<td >" +"<a href='#'>" + result[0][i].Owner+ "</a>"+"</td>" +
                             "<td >" + result[0][i].Role+ "</td>" +
                             "<td >" + result[0][i].Status+ "</td>" +
@@ -1658,22 +1658,23 @@ chart3.render();  }
         }
 
         function editAccount() {
+  $("#parentshare").show();
+  $("#ownershare").show();
   
             $("#faname").prop("disabled", false);
             $("#Prospect").prop("disabled", false);
-            $("#Prospect").hide();
-            $("#Prospecteditshow").show();
+            
             $("#paacc").prop("disabled", false);
             $("#website").prop("disabled", false);
             $("#acccat").prop("disabled", false);
             $("#accvertical").prop("disabled", false);
-            $("#accountcode").prop("disabled", false);
-            $("#externalid").prop("disabled", false);
-            $("#ytdrevenue").prop("disabled", false);
-            $("#accstatus").prop("disabled", false);
-            $("#maincontact").prop("disabled", false);
+           // $("#accountcode").prop("disabled", false);
+            //$("#externalid").prop("disabled", false);
+           // $("#ytdrevenue").prop("disabled", false);
+           // $("#accstatus").prop("disabled", false);
+            //$("#maincontact").prop("disabled", false);
             $("#accsalesregion").prop("disabled", false);
-            $("#accpipeline").prop("disabled", false);
+           // $("#accpipeline").prop("disabled", false);
             $("#accphone").prop("disabled", false);
             $("#accfax").prop("disabled", false);
             $("#accreadonly").prop("disabled", false);
@@ -1684,6 +1685,7 @@ chart3.render();  }
             $("#city").prop("disabled", false);
             $("#stateacc").prop("disabled", false);
             $("#owner").prop("disabled", false);
+            $("#Prospecteditshow").prop("disabled", false);
             $("#editAccount").hide();
             $("#saveAccount").prop("hidden", false);
             $("#cancelAccount").prop("hidden", false);
@@ -1695,6 +1697,27 @@ chart3.render();  }
 
         }
         function clearFormAccount() {
+           //$("#Prospect").val('');
+           $("#editparrentaccid").val('');
+           $("#editownerid").val('');
+            $("#parentshare").hide();
+           $("#ownershare").hide();
+            $("#acchide1").hide();
+            $("#acchide2").hide();
+            $("#acchide3").hide();        
+          //  $("#accountcode").prop("disabled", true);
+          //  $("#externalid").prop("disabled", true);
+           // $("#ytdrevenue").prop("disabled", true);
+           // $("#accstatus").prop("disabled", true);
+           // $("#maincontact").prop("disabled", true);
+            $("#accsalesregion").prop("disabled", true);
+            //$("#accpipeline").prop("disabled", true);
+            $("#accphone").prop("disabled", true);
+            $("#accfax").prop("disabled", true);
+            $("#accreadonly").prop("disabled", true);
+            $("#acccreatedby").prop("disabled", true);
+            $("#accpostcode").prop("disabled", true);
+            $("#accraddrline").prop("disabled", true);
             $("#parentAccount").prop("disabled", true);
             $("#accountOwner").prop("disabled", true);
             $("#faname").prop("disabled", true);
@@ -1702,7 +1725,7 @@ chart3.render();  }
             $("#paacc").prop("disabled", true);
             $("#website").prop("disabled", true);
             $("#acccat").prop("disabled", true);
-            $("#vertical").prop("disabled", true);
+            $("#accvertical").prop("disabled", true);
             $("#countryacc").prop("disabled", true);
             $("#city").prop("disabled", true);
             $("#stateacc").prop("disabled", true);
@@ -1725,11 +1748,14 @@ chart3.render();  }
                     if(result[0][0].Account==""||result[0][0].Account==null||result[0][0].Account==undefined){
                         result[0][0].Account="NA"
                     }
-                    if(result[0][0].IsProspect=='checked'){
-                        result[0][0].IsProspect="Y"
+                    if(result[0][0].IsProspect=="Y"){
+                       
+                        $("#Prospect").prop('checked',true);
                     }
-                    else{
-                        result[0][0].IsProspect="N"  
+                    else if(result[0][0].IsProspect=="N") {
+                        
+                        $("#Prospect").prop('checked',false);  
+                       
                     }
                     if(result[0][0].ParentAccount==""||result[0][0].ParentAccount==null||result[0][0].ParentAccount==undefined){
                         result[0][0].ParentAccount="NA"
@@ -1752,13 +1778,11 @@ chart3.render();  }
                     if(result[0][0].Owner==""||result[0][0].Owner==null||result[0][0].Owner==undefined){
                         result[0][0].Owner="NA"
                     }
-                   
-                    console.log(result[0][0]);
-                    console.log(result[0][0].AccountCategory);
-                   // var countryid= $("#countryacc").val();
+                    
+                  
                     $("#Aid").text(i);
                     $("#faname").val(result[0][0].Account);
-                    $("#Prospect").text(result[0][0].IsProspect);
+                    $("#Prospect").val(result[0][0].IsProspect);
                     $("#paacc").val(result[0][0].ParentAccount);
                     $("#website").val(result[0][0].WEBSITE);
                     $("#acccat").val(result[0][0].AccountCategoryID).attr('selected','selected');
@@ -1767,7 +1791,17 @@ chart3.render();  }
                     $("#city").val(result[0][0].city);
                     $("#stateacc").val(result[0][0].stateid).attr('selected','selected');
                     $("#owner").val(result[0][0].Owner);
-                  
+                    $("#accountcode").val(result[0][0].AccountCode);
+                    $("#accpipeline").val(result[0][0].ActivePipeline);
+                    $("#maincontact").val(result[0][0].MainContact);
+                    $("#accsalesregion").val(result[0][0].SalesRegionID).attr('selected','selected');
+                    $("#accphone").val(result[0][0].Phone);
+                   // $("#accfax").val(result[0][0].ActivePipeline);
+                    $("#acccreatedby").val(result[0][0].CreatedBy);
+                    $("#accstatus").val(result[0][0].Status);
+                    $("#ytdrevenue").val(result[0][0].YTDRevenue);
+                    $("#editparrentaccid").val(result[0][0].ParentAccountID);
+                       $("#editownerid").val(result[0][0].OwnerID);
              }
 
             });
@@ -1816,13 +1850,17 @@ chart3.render();  }
         }
         
         function parentacciddisplay(i,j) {
-           
+            
+            $("#editparrentaccid").val(i);
+
             $("#parentAccount").val(j);
             $("#parentaccidhidden").val(i);
             $("#parentAccount").prop("disabled", false);
-           
+            
+            $("#paacc").val(j);
             $("#leadacchiddenid").val(i);
             $("#ownacc").val(j);
+           
              }
            
        
@@ -1861,6 +1899,8 @@ chart3.render();  }
         }
         function owneracciddisplay(i,j) {
             
+            $("#owner").val(j);
+            $("#editownerid").val(i);
             $("#accountOwner").val(j);
            $("#owneraccidhidden").val(i);
            $("#accountOwner").prop("disabled", false);
@@ -2023,6 +2063,30 @@ chart3.render();  }
                             }
 
                             $("#accountVertical").html(dropdowndata);
+                            $("#accvertical").html(dropdowndata);
+                        }
+                    });
+                };
+                function accsaleregdropdown() {
+                    
+                    var dropdowndata = "";
+
+                    var url = "https://localhost:9090/accsalereg";
+
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+                            dropdowndata = dropdowndata+"<option style='display:none;'></option>"
+                            for (var i = 0; i < result[0].length; i++) {
+                             
+
+                                dropdowndata = dropdowndata  +
+                                '<option value= "' + result[0][i].SALESREGIONID + '" >' + result[0][i].SALESREGION +  '</option>' 
+                                    
+                            }
+
+                            $("#accsalesregion").html(dropdowndata);
                             //$("#vertical").html(dropdowndata);
                         }
                     });
@@ -5405,7 +5469,7 @@ background-size: 8%;'></div>
                                                     <div class="modal-body" id="size" style="overflow: auto;height:192px;">
 
                                                         <div class="row">
-                                                            <div class="col-sm-1"> </div>
+                                                           
                                                             <div class="col-sm-2">
                                                                 <label>Name:</label>
                                                             </div>
@@ -5414,28 +5478,31 @@ background-size: 8%;'></div>
                                                                 <input type="text" id="faname" disabled value=""
                                                                     class="form-control form-group">
                                                             </div>
-
+                                                            <div class="col-sm-1"></div>
+                                                            
                                                             <div class="col-sm-2">
                                                                 <label id="size">Prospect:</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <p id=Prospect></p>
-                                                                <input type="checkbox" id="Prospecteditshow" style="display:none"
-                                                                    name="check">
+                                                                
+                                                                <input type="checkbox" id="Prospect" name="check">
+     
                                                             </div>
-                                                            <div class="col-sm-1"> </div>
+                                                            <div class="col-sm-1"></div>
                                                         </div>
 
                                                         <div class="row">
-                                                            <div class="col-sm-1"> </div>
+                                                           
                                                             <div class="col-sm-2">
                                                                 <label>Parent Account:</label>
                                                             </div>
                                                             <div class="col-sm-3">
                                                                 <input type="text" disabled id="paacc" value=""
                                                                     class="form-control form-group">
+                                                                    <input type="text" id="editparrentaccid" style="display:none;">
                                                             </div>
-
+                                                            <div class="col-sm-1"><a href="#parrentaccModal"  data-toggle="modal" onclick="parentAccountDisplay();"><span class="fa fa-share" id="parentshare" style="display:none;"></span></a></span></div>
+                                                            
                                                             <div class="col-sm-2">
                                                                 <label>Website:</label>
                                                             </div>
@@ -5447,7 +5514,7 @@ background-size: 8%;'></div>
                                                         </div>
 
                                                         <div class="row">
-                                                            <div class="col-sm-1"></div>
+                                                            
                                                             <div class="col-sm-2">
                                                                 <label style="width: 113px;">Account
                                                                     Category:</label>
@@ -5460,19 +5527,21 @@ background-size: 8%;'></div>
                                                                     
                                                                 </select>
                                                             </div>
-
+                                                            <div class="col-sm-1"></div>
                                                             <div class="col-sm-2">
                                                                     <label>Owner:</label>
                                                             </div>
                                                             <div class="col-sm-3">
                                                                     <input type="text" disabled id="owner"
                                                                     class="form-control form-group">
+                                                                    <input type="text" id="editownerid" style="display:none;">
                                                             </div>
-                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-1"><a href="#owneraccModal" data-toggle="modal" onclick="ownerAccountDisplay()">
+                                                                   <span class="fa fa-share" id="ownershare" style="display:none;"></span></a></div>
                                                         </div>
 
                                                         <div class="row" style="display: none;" id="acchide1">
-                                                            <div class="col-sm-1"></div>
+                                                          
                                                             <div class="col-sm-2" >
                                                                 <label style="width: 113px;">Country:</label>
                                                             </div>
@@ -5490,7 +5559,7 @@ background-size: 8%;'></div>
                                                                     
                                                                 </select>
                                                             </div>
-
+                                                            <div class="col-sm-1"></div>
                                                             <div class="col-sm-2">
                                                                   <label>City:</label>
                                                             </div>
@@ -5501,7 +5570,7 @@ background-size: 8%;'></div>
                                                         </div>
 
                                                         <div class="row">
-                                                            <div class="col-sm-1"></div>
+                                                           
                                                             <div class="col-sm-2">
                                                                     <label>Vertical:</label>
                                                                 </div>
@@ -5511,26 +5580,26 @@ background-size: 8%;'></div>
                                                                     </select>
                                                                 </div>
                                                             
-
+                                                                <div class="col-sm-1"></div>
                                                             <div class="col-sm-2">
                                                                     <label>Accountid:</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                    <input type="text" disabled id="accountcode"
-                                                                    class="form-control form-group">
+                                                                    
+                                                                    <input type="text" disabled id="accountcode" class="form-control form-group">
                                                             </div>
                                                             <div class="col-sm-1"></div>
                                                         </div>
                                                         <div class="row">
-                                                                <div class="col-sm-1"></div>
+                                                                
                                                                 <div class="col-sm-2">
                                                                     <label>External ID (Old C4C ID):</label>
                                                                 </div>
                                                                 <div class="col-sm-3">
-                                                                        <input type="text" disabled id="externalid"
-                                                                        class="form-control form-group">
+                                                                        
+                                                                        <input type="text" disabled id="externalid" class="form-control form-group">
                                                                 </div>
-    
+                                                                <div class="col-sm-1"></div>
                                                                 <div class="col-sm-2">
                                                                         <label>Active Pipeline:</label>
                                                                 </div>
@@ -5541,7 +5610,7 @@ background-size: 8%;'></div>
                                                                 <div class="col-sm-1"></div>
                                                             </div>
                                                             <div class="row">
-                                                                    <div class="col-sm-1"></div>
+                                                                   
                                                                     <div class="col-sm-2">
                                                                         <label>YTD Revenue:</label>
                                                                     </div>
@@ -5549,7 +5618,7 @@ background-size: 8%;'></div>
                                                                             <input type="text" disabled id="ytdrevenue"
                                                                             class="form-control form-group">
                                                                     </div>
-        
+                                                                    <div class="col-sm-1"></div>
                                                                     <div class="col-sm-2">
                                                                             <label>Status :</label>
                                                                     </div>
@@ -5562,14 +5631,14 @@ background-size: 8%;'></div>
 
 
                                                                 <div class="row">
-                                                                        <div class="col-sm-1"></div>
+                                                                        
                                                                         <div class="col-sm-2">
                                                                             <label>Main Contact :</label>
                                                                         </div>
                                                                         <div class="col-sm-3">
                                                                                 <input type="text" disabled id="maincontact" class="form-control form-group">
                                                                         </div>
-            
+                                                                        <div class="col-sm-1"></div>
                                                                         <div class="col-sm-2">
                                                                                 <label>Sales Region :</label>
                                                                         </div>
@@ -5582,14 +5651,14 @@ background-size: 8%;'></div>
                                                                     </div>
         
                                                                     <div class="row">
-                                                                            <div class="col-sm-1"></div>
+                                                                            
                                                                             <div class="col-sm-2">
                                                                                 <label>Phone:</label>
                                                                             </div>
                                                                             <div class="col-sm-3">
                                                                                     <input type="text" disabled id="accphone" class="form-control form-group">
                                                                             </div>
-                
+                                                                            <div class="col-sm-1"></div>
                                                                             <div class="col-sm-2">
                                                                                     <label>Fax:</label>
                                                                             </div>
@@ -5599,14 +5668,14 @@ background-size: 8%;'></div>
                                                                             <div class="col-sm-1"></div>
                                                                         </div>
                                                                         <div class="row">
-                                                                                <div class="col-sm-1"></div>
+                                                                               
                                                                                 <div class="col-sm-2">
                                                                                     <label>Created By:</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
                                                                                         <input type="text" disabled id="acccreatedby" class="form-control form-group">
                                                                                 </div>
-                    
+                                                                                <div class="col-sm-1"></div>
                                                                                 <div class="col-sm-2">
                                                                                         <label>Read Only :</label>
                                                                                 </div>
@@ -5616,14 +5685,14 @@ background-size: 8%;'></div>
                                                                                 <div class="col-sm-1"></div>
                                                                             </div>
                                                                             <div class="row" style="display: none" id="acchide2">
-                                                                                    <div class="col-sm-1"></div>
+                                                                                   
                                                                                     <div class="col-sm-2">
                                                                                         <label>Postal Code:</label>
                                                                                     </div>
                                                                                     <div class="col-sm-3">
                                                                                             <input type="text" disabled id="accpostcode" class="form-control form-group">
                                                                                     </div>
-                        
+                                                                                    <div class="col-sm-1"></div>
                                                                                     <div class="col-sm-2">
                                                                                             <label>Address line1 :</label>
                                                                                     </div>
@@ -5633,7 +5702,7 @@ background-size: 8%;'></div>
                                                                                     <div class="col-sm-1"></div>
                                                                                 </div>
                                                                                 <div class="row" style="display: none" id="acchide3">
-                                                                                        <div class="col-sm-1"></div>
+                                                                                        
                                                                                         <div class="col-sm-2">
                                                                                                 <label>State:</label>
                                                                                             </div>
@@ -5645,7 +5714,7 @@ background-size: 8%;'></div>
                                                                                                     
                                                                                                 </select>
                                                                                             </div>
-                            
+                                                                                            <div class="col-sm-1"></div>
                                                                                         <div class="col-sm-2">
                                                                                               
                                                                                         </div>
