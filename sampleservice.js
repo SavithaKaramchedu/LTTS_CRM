@@ -865,10 +865,33 @@ exports.updateOpportunity = function (req, res) {
     let ForecastCategory = req.body.forecastcategory;
     let Category = req.body.category;
     let Owner = req.body.owner;
-    let query = "UPDATE `opportunitiescirruswave` SET  `name` = '" + Name + "', `account` = '" + Account + "', `primarycontact` = '" + PrimaryContact + "',`source` = '" + Source + "',`exceptedvalue` = '" + Exceptedvalue + "',`startdate` = '" + StartDate + "',`closedate` = '" + ClosingDate + "',`salescycle` = '" + SalesCycle + "',`salesphase` = '" + Salesphase + "',`probability` = '" + Probability + "',`forecastcategory` = '" + ForecastCategory + "',`category` = '" + Category + "',`owner` = '" + Owner + "' WHERE `id` = '" + Sid + "'";
+    let tcv = req.body.ProposedTCV;
+    let value = req.body.TotalNegotiatedValue;
+    let wvalue = req.body.Weightedvalue;
+    let oppvertical = req.body.Vertical;
+    let opptype = req.body.OpportunityType;
+    let oppstat = req.body.OpportunityStatus;
+    let opportunitystat = req.body.OppStatus;
+    let rstatus = req.body.ReasonStatus;
+    let rstart = req.body.RevenueStart;
+    let rend = req.body.Revenueend;
+    let sorg = req.body.salesorg;
+    let sunit = req.body.salesunit;
+    let soffice = req.body.salesoffice;
+    let oppcustom = req.body.custom;
+    let oppdate = req.body.wdate;
+
+
+    let query = "call `procUpdateOpportunity` ('" + Name + "', '" + Account + "', '" + PrimaryContact + "','" + Source + "','" + Exceptedvalue + "','"
+        + StartDate + "', '" + ClosingDate + "','" + SalesCycle + "','" + Salesphase + "','"
+        + Probability + "', '" + ForecastCategory + "','" + Category + "','" + Owner + "', '"
+        + Sid + "','" + tcv + "','" + value + "','" + wvalue + "','" + oppvertical + "','"
+        + opptype + "','" + oppstat + "','" + opportunitystat + "','" + rstatus + "','" + rstart + "','"
+        + rend + "','" + sorg + "','" + sunit + "','" + soffice + "','" + oppcustom + "','" + oppdate + "')";
 
     db.query(query, (err, result) => {
         if (err) {
+            console.log(err)
             return res.status(500).send(err);
         }
         res.redirect('/home');
@@ -951,6 +974,68 @@ exports.Category = function (req, res) {
         res.status(200).json(result);
     });
 };
+
+
+exports.oppotype = function (req, res) {
+    let opposourceQuery = "CALL procLookUpOpportunityTypes()";
+    db.query(opposourceQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+    });
+};
+
+exports.oppostatus = function (req, res) {
+    let opposourceQuery = "CALL procLookUpOpportunityStatuses()";
+    db.query(opposourceQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+    });
+};
+
+exports.salesorg = function (req, res) {
+    let opposourceQuery = "CALL procLookUpEmployeeRegions()";
+    db.query(opposourceQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+    });
+};
+
+exports.salesuni = function (req, res) {
+    let opposourceQuery = "CALL procLookUpSalesUnits()";
+    db.query(opposourceQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+    });
+};
+
+exports.salesoff = function (req, res) {
+    let opposourceQuery = "CALL procLookUpSalesOffices()";
+    db.query(opposourceQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+    });
+};
+
+exports.customcat = function (req, res) {
+    let opposourceQuery = "CALL procLookUpCustomCategories()";
+    db.query(opposourceQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+    });
+};
+
 
 exports.Contactfun = function (req, res) {
 

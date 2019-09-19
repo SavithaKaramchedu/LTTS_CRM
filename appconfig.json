@@ -481,7 +481,7 @@
     },
 
     {
-      "route": "/category",
+      "route": "/oppcategory",
       "type": "get",
       "configured": true,
       "routeclass": "./sampleservice.js",
@@ -489,12 +489,94 @@
       "description": "Category dropdown dynamically",
       "examples": [
         {
-          "param": "/category"
+          "param": "/oppcategory"
         }
       ]
     },
 
-    
+    {
+      "route": "/OpportunityType",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "oppotype",
+      "description": "Opportunity Type dropdown dynamically",
+      "examples": [
+        {
+          "param": "/OpportunityType"
+        }
+      ]
+    },
+
+    {
+      "route": "/OpportunityStatus",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "oppostatus",
+      "description": "OpportunityStatus dropdown dynamically",
+      "examples": [
+        {
+          "param": "/OpportunityStatus"
+        }
+      ]
+    },
+
+    {
+      "route": "/SalesOrganization",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "salesorg",
+      "description": "SalesOrganization dropdown dynamically",
+      "examples": [
+        {
+          "param": "/SalesOrganization "
+        }
+      ]
+    },
+
+    {
+      "route": "/Salesunit",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "salesuni",
+      "description": "Salesunit dropdown dynamically",
+      "examples": [
+        {
+          "param":"/Salesunit"
+        }
+      ]
+    },
+
+    {
+      "route": "/Salesoffice",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "salesoff",
+      "description": "Salesoffice dropdown dynamically",
+      "examples": [
+        {
+          "param": "/Salesoffice"
+        }
+      ]
+    },
+
+    {
+      "route": "/CustomCategory",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "customcat",
+      "description": "CustomCategory : dropdown dynamically",
+      "examples": [
+        {
+          "param":"/CustomCategory"
+        }
+      ]
+    },
 
     {
       "route": "/contact",

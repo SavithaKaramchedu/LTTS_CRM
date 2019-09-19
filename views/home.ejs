@@ -730,55 +730,100 @@ $.fn.cellPos = function (rescan) {
 
     <script>
 
-function opportunityedit(){
-    $("#name").prop("disabled", false);
-    $("#account").prop("disabled", false);
-    $("#primarycontact").prop("disabled", false);
-    $("#sourceedit").prop("disabled", false);
-    $("#exceptedvalue").prop("disabled", false);
-    $("#StartDate").prop("disabled", false);
-    $("#closingdate").prop("disabled", false);
-    $("#salescycle").prop("disabled", false);
-    $("#salesphase").prop("disabled", false);
-    $("#probability").prop("disabled", false);
-    $("#publishtoforecast").prop("disabled",false);
-    $("#forecastcategory").prop("disabled", false);
-    $("#category").prop("disabled", false);
-    $("#owneropportunity").prop("disabled", false);
-    $("#Owneropp").prop("disabled", false);
-    $("#Note").prop("disabled", false);
-    $("#Editopp").hide();
-    $("#saveopp").prop("hidden", false);
-    $("#cancelopp").prop("hidden", false);
+        function opportunityedit() {
+            $("#name").prop("disabled", false);
+            $("#account").prop("disabled", false);
+            $("#primarycontact").prop("disabled", false);
+            $("#sourceedit").prop("disabled", false);
+            $("#exceptedvalue").prop("disabled", false);
+            $("#StartDate").prop("disabled", false);
+            $("#closingdate").prop("disabled", false);
+            $("#salescycle").prop("disabled", false);
+            $("#salesphase").prop("disabled", false);
+            $("#probability").prop("disabled", false);
+            $("#publishtoforecast").prop("disabled", false);
+            $("#forecastcategory").prop("disabled", false);
+            $("#category").prop("disabled", false);
+            $("#owneropportunity").prop("disabled", false);
+            $("#Owneropp").prop("disabled", false);
+            $("#Note").prop("disabled", false);
+            $("#Proposed").prop("disabled", false);
+            $("#Total").prop("disabled", false);
+            $("#weightedvalue").prop("disabled", false);
+            $("#vertical").prop("disabled", false);
+            $("#AllianceDependencies").prop("disabled", false);
+            $("#type").prop("disabled", false);
+            $("#opportunityStatus").prop("disabled", false);
+            $("#Status").prop("disabled", false);
+            $("#reasonStatus").prop("disabled", false);
+            $("#RevenueStartDate").prop("disabled", false);
+            $("#RevenueEndDate").prop("disabled", false);
+            $("#sales").prop("disabled", false);
+            $("#unit").prop("disabled", false);
+            $("#soffice").prop("disabled", false);
+            $("#customcategory").prop("disabled", false);
+            $("#wondate").prop("disabled", false);
+            $("#Editopp").hide();
+            $("#saveopp").prop("hidden", false);
+            $("#cancelopp").prop("hidden", false);
+            $("#accdisplayshare1").show();
+            $("#accdisplayshare2").show();
+            $("#accdisplayshare3").show();
+            $("#opportunitynote").prop("disabled", false);
 
-}
+        }
 
-function clearFormopportunity() {
-    $("#name").prop("disabled", true);
-    $("#account").prop("disabled", true);
-    $("#primarycontact").prop("disabled", true);
-    $("#sourceedit").prop("disabled", true);
-    $("#exceptedvalue").prop("disabled", true);
-    $("#StartDate").prop("disabled", true);
-    $("#closingdate").prop("disabled", true);
-    $("#salescycle").prop("disabled", true);
-    $("#salesphase").prop("disabled", true);
-    $("#probability").prop("disabled", true);
-    $("#publishtoforecast").prop("disabled", true);
-    $("#forecastcategory").prop("disabled", true);
-    $("#category").prop("disabled", true);
-    $("#owneropportunity").prop("disabled", true);
-    $("#Owneropp").prop("disabled", true);
-    $("#Note").prop("disabled", true);
-    $("#Editopp").show();
-    $("#saveopp").prop("hidden", true);
-    $("#cancelopp").prop("hidden", true);
-
-}
-
+        function clearFormopportunity() {
+            $("#name").prop("disabled", true);
+            $("#account").prop("disabled", true);
+            $("#primarycontact").prop("disabled", true);
+            $("#sourceedit").prop("disabled", true);
+            $("#exceptedvalue").prop("disabled", true);
+            $("#StartDate").prop("disabled", true);
+            $("#closingdate").prop("disabled", true);
+            $("#salescycle").prop("disabled", true);
+            $("#salesphase").prop("disabled", true);
+            $("#probability").prop("disabled", true);
+            $("#publishtoforecast").prop("disabled", true);
+            $("#forecastcategory").prop("disabled", true);
+            $("#category").prop("disabled", true);
+            $("#owneropportunity").prop("disabled", true);
+            $("#Owneropp").prop("disabled", true);
+            $("#Note").prop("disabled", true);
+            $("#Proposed").prop("disabled", true);
+            $("#Total").prop("disabled", true);
+            $("#weightedvalue").prop("disabled", true);
+            $("#vertical").prop("disabled", true);
+            $("#AllianceDependencies").prop("disabled", true);
+            $("#type").prop("disabled", true);
+            $("#opportunityStatus").prop("disabled", true);
+            $("#Status").prop("disabled", true);
+            $("#reasonStatus").prop("disabled", true);
+            $("#RevenueStartDate").prop("disabled", true);
+            $("#RevenueEndDate").prop("disabled", true);
+            $("#sales").prop("disabled", true);
+            $("#unit").prop("disabled", true);
+            $("#soffice").prop("disabled", true);
+            $("#customcategory").prop("disabled", true);
+            $("#wondate").prop("disabled", true);
+            $("#Editopp").show();
+            $("#saveopp").prop("hidden", true);
+            $("#cancelopp").prop("hidden", true);
+            $("#opportunitynote").prop("disabled", true);
+            $("#accdisplayshare1").hide();
+            $("#accdisplayshare2").hide();
+            $("#accdisplayshare3").hide();
+        }
+// $( window ).load(function() {
+//     statusdropdownfun();
+//     qualidropdownfun();
+//     priodropdownfun();
+//     catdropdownfun();
+//     sourdropdownfun();
+// });
 
 function addOpportunity(){
-      //  console.log("enterd");
+       
         var oppName=$("#oppName").val();
         var Accountopp=$("#Accountopp").val();
         var leadid=$("#oppleadid").val();
@@ -820,7 +865,7 @@ function addOpportunity(){
         data=JSON.stringify(data); 
       //  console.log(data);
         var url= "https://localhost:9090/addopportunity";
-        //console.log(url);
+       
           $.ajax({
             url: url,
             type: "POST",
@@ -944,7 +989,7 @@ function addOpportunity(){
               
             },      
             error: function () {
-               // console.log("err");
+              
             }
         });
         }else{
@@ -1029,14 +1074,14 @@ function addOpportunity(){
             }
 
 
-     function addacccontID(j,k) {
-          var data={
+     function addacccontID(j, k) {
+            var data = {
 
-          "iAccountID":j,
-          "iContactID":k, 
-          "iCreatedBy":'admin',
-          
-          }
+                "iAccountID": j,
+                "iContactID": k,
+                "iCreatedBy": 'admin',
+
+            }
 
           data=JSON.stringify(data); 
           $.ajax({
@@ -1594,7 +1639,7 @@ chart3.render();  }
                 url: url,
                 type: "GET",
                 success: function (result) {
-                    console.log(result)
+                 //   console.log(result)
                   
                    $("#loading").css('display','none');
                    
@@ -2271,7 +2316,7 @@ chart3.render();  }
                         url: "https://localhost:9090/contact/" + i,
                         type: "GET",
                         success: function (result) {
-                            console.log(result);
+                          //  console.log(result);
                             $("#cid").text(i);
                             $("#firstname").val(result[0][0].FIRSTNAME);
                             $("#lastname").val(result[0][0].LASTNAME);
@@ -2435,7 +2480,7 @@ chart3.render();  }
                         deleteoppodisplay(i);
                     }
                     else{
-                        console.log("no function called");
+                       // console.log("no function called");
                     }
 			} 
 						
@@ -3495,7 +3540,7 @@ clearFormBusiness();
                                             tableData = tableData + "  <tr> " +
                                                 "<td >" + result[0][i].OPPORTUNITYCODE + "</td>" +
                                                 "<td >" + result[0][i].SOURCEC4COPPORTUNITYCODE + "</td>" +
-                                                "<td >" + "<a href='#opportunityeditModal' data-toggle='modal' data-backdrop='static' data-keyboard='false' onclick='oppoSalesCycledropdown(), oppoSalesphasedropdown(), oppoCategorydropdown(), opposourcedropdown(),opportunitydisplay("+oppoID+")'>" + result[0][i].Name + "</a>" + "</td>" +
+                                                "<td >" + "<a href='#opportunityeditModal' data-toggle='modal' data-backdrop='static' data-keyboard='false' onclick='oppoSalesCycledropdown(), oppoSalesphasedropdown(), oppoCategorydropdown(), opposourcedropdown(),oppotypedropdown(),oppostatusdropdown(),opportunitysalesorgdropdown(),opposalesunitdropdown(),opposalesofficedropdown(),oppocustomcategorydropdown(),opportunitydisplay("+oppoID+")'>" + result[0][i].Name + "</a>" + "</td>" +
                                                 //"<td + "<a href='#opportunityeditModal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>"+ result[0][i].Name + "</a>"+"</td>" +
                                                 "<td >" + result[0][i].Account + "</td>" +
                                                 "<td >" + result[0][i].CloseDate + "</td>" +
@@ -3523,7 +3568,7 @@ clearFormBusiness();
                 success: function (result) {
                         $("#oid").text(i);
                         //$("#oppaccountid").text(i);
-                        console.log(result);  
+                       console.log(result);  
                         $("#oid").val(result[0][0].OPPORTUNITYID);
                         $("#name").val(result[0][0].TITLE);
                         $("#account").val(result[0][0].Account);
@@ -3536,7 +3581,22 @@ clearFormBusiness();
                         $("#salesphase").val(result[0][0].SALESPHASEID).attr('selected','selected'); 
                         $("#probability").val(result[0][0].PROBABILITY);
                         $("#forecastcategory").val(result[0][0].OPPORTUNITYCATEGORY);
-                        $("#category").val(result[0][0].CUSTOMCATEGORYID).attr('selected','selected');
+                        $("#category").val(result[0][0].OPPORTUNITYCATEGORYID).attr('selected','selected');
+                        $("#Proposed").val(result[0][0].PROPOSEDTCV);
+                        $("#Total").val(result[0][0].TOTALNEGOTIATEDVALUE);
+                        $("#weightedvalue").val(result[0][0].WEIGHTEDVALUE);
+                        $("#vertical").val(result[0][0].VERTICAL);
+                        $("#type").val(result[0][0].OPPORTUNITYTYPEID).attr('selected','selected');
+                        $("#opportunityStatus").val(result[0][0].OPPORTUNITYSTATUSID).attr('selected','selected');
+                        $("#Status").val(result[0][0].Status);
+                        $("#reasonStatus").val(result[0][0].REASONFORSTATUS);
+                        $("#RevenueStartDate").val(result[0][0].REVENUESTARTDATE);
+                        $("#RevenueEndDate").val(result[0][0].REVENUEENDDATE); 
+                        $("#sales").val(result[0][0].SALESORGID).attr('selected','selected');
+                        $("#unit").val(result[0][0].SALESUNITID).attr('selected','selected');
+                        $("#soffice").val(result[0][0].SALESOFFICEID).attr('selected','selected');
+                        $("#customcategory").val(result[0][0].CUSTOMCATEGORYID).attr('selected','selected');
+                        $("#wondate").val(result[0][0].OPPORTUNITYWONDATE); 
                         $("#owneropportunity").val(result[0][0].Owner);    
                 }      
             });
@@ -3545,76 +3605,105 @@ clearFormBusiness();
         }
        
         function updateopportunityrecord() {
-           
-            var id=$("#oid").val(); 
-            var Name=$("#name").val();
-            var Account=$("#account").val();
-            var Primarycontact=$("#primarycontact").val();
-            var Source=$("#sourceedit").children("option:selected").text() ;
-            var Exceptedvalue=$("#exceptedvalue").val();  
-            var startdate=$("#StartDate").val();
-            if (startdate==null||startdate==0){
-                startdate="2018-09-13 00:00:00";
-           }else{
-            startdate=$("#StartDate").val();
+                var iOpportunityID = $("#oid").val();
+                var iTitle = $("#name").val();
+                var iAccountID = $("#account").val();
+                var iContactID = $("#primarycontact").val();
+                var Source = $("#sourceedit").children("option:selected").text();
+                var iExpectedValue = $("#exceptedvalue").val();
+                var iStartDate = $("#StartDate").val();
+                if (iStartDate == null || iStartDate == 0) {
+                    iStartDate = "2018-09-13 00:00:00";
+                } else {
+                    startdate = $("#StartDate").val();
+                }
+                var iEndDate = $("#closingdate").val();
+                if (iEndDate == null || iEndDate == 0) {
+                    iEndDate = "2018-08-13 00:00:00";
+                } else {
+                    iEndDate = $("#closingdate").val();
+                }
+                var Salescycle = $("#salescycle").children("option:selected").text();
+                var iSalesPhaseID = $("#salesphase").children("option:selected").text();
+                var Probability = $("#probability").val();
+                var Forecastcategory = $("#forecastcategory").val();
+                var iOpportunityCategoryID = $("#category").children("option:selected").text();
+                var iOwnerID = $("#owneropportunity").val();  
+                var ProposedTCV = $("#Proposed").val();
+                var TotalNegotiatedValue = $("#Total").val();
+                var Weightedvalue = $("#weightedvalue").val();
+                var Vertical = $("#vertical").val();
+                var OpportunityType = $("#type").children("option:selected").text();
+                var OpportunityStatus = $("#opportunityStatus").val();
+                var OppStatus = $("#Status").children("option:selected").text();
+                var ReasonStatus = $("#reasonStatus").val();
+                var RevenueStart = $("#RevenueStartDate").val();
+                var Revenueend = $("#RevenueEndDate").val();
+                var salesorg = $("#sales").children("option:selected").text();
+                var salesunit = $("#unit").children("option:selected").text();
+                var salesoffice = $("#soffice").children("option:selected").text();
+                var custom = $("#customcategory").children("option:selected").text();
+                var wdate = $("#wondate").val();
+                var data = {
+                    "id": id,
+                    "name": Name,
+                    "account": Account,
+                    "primarycontact": Primarycontact,
+                    "source": Source,
+                    "exceptedvalue": Exceptedvalue,
+                    "startdate": startdate,
+                    "closedate": closedate,
+                    "salescycle": Salescycle,
+                    "salesphase": Salesphase,
+                    "probability": Probability,
+                    "forecastcategory": Forecastcategory,
+                    "category": Category,
+                    "owner": Owner,
+                    "propTCV":ProposedTCV,
+                    "TNvalue":TotalNegotiatedValue,
+                    "wvalue":Weightedvalue,
+                    "vertic":Vertical,
+                    "opptype":OpportunityType,
+                    "oppstatus":OpportunityStatus,
+                    "ostatus":OppStatus,
+                    "Rstatus":ReasonStatus,
+                    "Rstart":RevenueStart,
+                    "Rend":Revenueend,
+                    "sorg":salesorg,
+                    "sunit":salesunit,
+                    "soffice":salesoffice,
+                    "CUSTOM":custom,
+                    "wondate":wdate
+                }
+                data = JSON.stringify(data);
+
+                var url = "https://localhost:9090/opportunity/" + id;
+
+                $.ajax({
+                    url: url,
+                    type: "put",
+                    async: true,
+                    data: data,
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+
+                    },
+                });
+                opportunityLoad();
             }
-            var closedate=$("#closingdate").val();
-            if (closedate==null||closedate==0){
-                closedate="2018-08-13 00:00:00";
-           }else{
-            closedate=$("#closingdate").val();
-            }
-            var Salescycle=$("#salescycle").children("option:selected").text() ;             
-            var Salesphase=$("#salesphase").children("option:selected").text() ;              
-            var Probability=$("#probability").val();
-            var Forecastcategory=$("#forecastcategory").val();
-            var Category=$("#category").children("option:selected").text() ; 
-            var Owner=$("#owneropportunity").val();
-            var data={
-                    "id":id,
-                    "name":Name,
-                    "account":Account,
-                    "primarycontact":Primarycontact,
-                    "source":Source,
-                    "exceptedvalue":Exceptedvalue,
-                    "startdate":startdate,
-                    "closedate":closedate,
-                    "salescycle":Salescycle,
-                    "salesphase":Salesphase,
-                    "probability":Probability,
-                    "forecastcategory":Forecastcategory,
-                    "category":Category,
-                    "owner":Owner
-                    }
-                        data=JSON.stringify(data); 
-                        
-                        var url="https://localhost:9090/opportunity/"+id;
-                        
+                    function deleteoppodisplay(i) {
+                        var url = "https://localhost:9090/deleteopp/" + i;
                         $.ajax({
                             url: url,
-                            type: "put",
-                            async: true,
-                            data: data,
-                            contentType: "application/json",
-                            dataType: "json",
-                            success: function (data) {
-                           
-                            },                            
+                            type: "GET",
+                            success: function (result) {
+                                var c = $("#cdid").text(result[0].id);
+                                document.getElementById("deleteid").setAttribute("onclick", "deleteopportunity();");
+                            }
                         });
-                        opportunityLoad();
-                }
-                function deleteoppodisplay(i) {               
-                    var url = "https://localhost:9090/deleteopp/" + i;
-                    $.ajax({
-                    url: url,
-                    type: "GET",
-                    success: function (result) {
-                    var c= $("#cdid").text(result[0].id);    
-                    document.getElementById("deleteid").setAttribute("onclick", "deleteopportunity();");              
-                }
-            });
-            
-        }
+
+                    }
     
         function opposourcedropdown() {
                 var sourcedata = "";
@@ -3623,7 +3712,7 @@ clearFormBusiness();
                     url: url,
                     type: "GET",
                     success: function (result) {
-                        console.log(result);
+                      //  console.log(result);
                         for (var i = 0; i < result[0].length; i++) {
                             sourcedata = sourcedata +
                                 '<option value="' + result[0][i].opportunitysourceid + '">' + result[0][i].opportunitysource + '</option>';
@@ -3634,7 +3723,7 @@ clearFormBusiness();
                 });
 
             }   
-    function oppoSalesCycledropdown() {
+         function oppoSalesCycledropdown() {
             var SalesCycledata = "";
             var url = "https://localhost:9090/SalesCycle/";
 
@@ -3677,7 +3766,7 @@ clearFormBusiness();
 
         function oppoCategorydropdown() {
             var Categorydata = "";
-            var url = "https://localhost:9090/category";
+            var url = "https://localhost:9090/oppcategory";
 
             $.ajax({
                 url: url,
@@ -3696,6 +3785,125 @@ clearFormBusiness();
             });
 
         } 
+
+
+        function oppotypedropdown() {
+                var sourcedata = "";
+                var url = "https://localhost:9090/OpportunityType/";
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
+                       // console.log(result);
+                        for (var i = 0; i < result[0].length; i++) {
+                            sourcedata = sourcedata +
+                                '<option value="' + result[0][i].opportunitytypeid + '">' + result[0][i].opportunitytype + '</option>';
+                        }
+                         $("#type").html(sourcedata);
+                        // $("#sourceedit").html(sourcedata); 
+                    }
+                });
+
+            }  
+
+
+            function oppostatusdropdown() {
+                    var sourcedata = "";
+                    var url = "https://localhost:9090/OpportunityStatus/";
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+                           // console.log(result);
+                            for (var i = 0; i < result[0].length; i++) {
+                                sourcedata = sourcedata +
+                                    '<option value="' + result[0][i].opportunitystatusid + '">' + result[0][i].opportunitystatus + '</option>';
+                            }
+                            $("#opportunityStatus").html(sourcedata);
+                            // $("#sourceedit").html(sourcedata);
+                        }
+                    });
+
+                } 
+
+
+                function opportunitysalesorgdropdown() {
+                        var sourcedata = "";
+                        var url = "https://localhost:9090/SalesOrganization/";
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+                            success: function (result) {
+                               // console.log(result);
+                                for (var i = 0; i < result[0].length; i++) {
+                                    sourcedata = sourcedata +
+                                        '<option value="' + result[0][i].REGIONID + '">' + result[0][i].REGION + '</option>';
+                                }
+                                $("#sales").html(sourcedata);
+                               // $("#sourceedit").html(sourcedata);
+                            }
+                        });
+
+                    }
+
+                 function opposalesunitdropdown() {
+                        var sourcedata = "";
+                        var url = "https://localhost:9090/Salesunit/";
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+                            success: function (result) {
+                              //  console.log(result);
+                                for (var i = 0; i < result[0].length; i++) {
+                                    sourcedata = sourcedata +
+                                        '<option value="' + result[0][i].salesunitid + '">' + result[0][i].salesunit + '</option>';
+                                }
+                                $("#unit").html(sourcedata);
+                                //$("#sourceedit").html(sourcedata);
+                            }
+                        });
+
+                    } 
+                    
+                    
+                    function opposalesofficedropdown() {
+                            var sourcedata = "";
+                            var url = "https://localhost:9090/Salesoffice/";
+                            $.ajax({
+                                url: url,
+                                type: "GET",
+                                success: function (result) {
+                                   // console.log(result);
+                                    for (var i = 0; i < result[0].length; i++) {
+                                        sourcedata = sourcedata +
+                                            '<option value="' + result[0][i].SALESOFFICEID + '">' + result[0][i].SALESOFFICE + '</option>';
+                                    }
+                                    $("#soffice").html(sourcedata);
+                                    //$("#sourceedit").html(sourcedata);
+                                }
+                            });
+
+                        }
+
+                        function oppocustomcategorydropdown() {
+                                var sourcedata = "";
+                                var url = "https://localhost:9090/CustomCategory/";
+                                $.ajax({
+                                    url: url,
+                                    type: "GET",
+                                    success: function (result) {
+                                      //  console.log(result);
+                                        for (var i = 0; i < result[0].length; i++) {
+                                            sourcedata = sourcedata +
+                                                '<option value="' + result[0][i].customcategoryid + '">' + result[0][i].customcategory + '</option>';
+                                        }
+                                        $("#customcategory").html(sourcedata);
+                                       // $("#sourceedit").html(sourcedata);
+                                    }
+                                });
+
+                            }  
+
 
         function deleteopportunity() {
             var id=$("#cdid").text();
@@ -5045,7 +5253,7 @@ background-size: 8%;'></div>
                                                             <button class="btn btn-primary dropdown-toggle" type="button" id="about-us" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Actions
                                                             </button>
                                                             <div class="dropdown-menu" aria-labelledby="about-us" style="position: absolute; transform: translate3d(-35px, -99px, 0px);top: -12px; left: -19px; will-change: transform;height: 42px; font-size: 13px;">
-                                                            <a class="dropdown-item" data-toggle="modal" href="#opportunityModal" onclick="opposourcedropdown(), oppoSalesCycledropdown(),oppoSalesphasedropdown(),oppoCategorydropdown(),opposourcedropdownedit();" data-backdrop="static" data-keyboard="false" data-dismiss="modal">Lead to oppurtunity</a>
+                                                            <a class="dropdown-item" data-toggle="modal" href="#opportunityModal" onclick="opposourcedropdown(), oppoSalesCycledropdown(),oppoSalesphasedropdown(),oppoCategorydropdown(),opposourcedropdownedit(),oppotypedropdown(),oppostatusdropdown(),opportunitysalesorgdropdown(),opposalesunitdropdown(),opposalesofficedropdown(),oppocustomcategorydropdown();" data-backdrop="static" data-keyboard="false" data-dismiss="modal">Lead to oppurtunity</a>
                                                            
                                                             </div>
                                                             </div>                                              
@@ -5838,138 +6046,319 @@ background-size: 8%;'></div>
                                 </header>
                             </div>
                         <div id="main-content" class="contact" >
-                                <div class="modal fade" class="modal modal-fixed-footer" id="opportunityeditModal" style="height:519px;top:10%;">
+                                <div class="modal fade" class="modal modal-fixed-footer" id="opportunityeditModal" style="height:400px;top:20%;">
                                         <div class="modal-dialog modal-lg">
                                           <div class="modal-content">
                                           
                                             <!-- Modal Header -->
-                                            <div class="modal-header">
+                                            <div class="modal-header" style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: -20px;">
                                               <h4 class="modal-title" id="leadhead">Opportunity Information : </h4>
                                               <h4 class="modal-title" id="saleshead" style="display: none" >Sales Team : </h4>
                                               <h4 class="modal-title" id="revenuehead" style="display: none">Revenue Split : </h4>
                                               <h4 class="modal-title" id="overviewhead" style="display: none">Overview: </h4>
-                                              <button type="button" id="oppexit" class="close" data-dismiss="modal" >&times;</button>
+                                              <button type="button" id="oppexit" class="close" data-dismiss="modal" style="color: white">&times;</button>
                                             </div>
                                              
                                             <!-- Modal body -->
                             
-                                            <div class="modal-body" style="font-size:12px">
-                                                  
+                                            <div class="modal-body" style="font-size:12px;overflow: auto;height:200px;">
+                                            
                                                 <div class="form-group row">
-                                                   <div class="col-sm-1"></div>
-                                                   <div class="col-sm-2"><label style="width:108px"> Name :</label></div>
-                                                   <div class="col-sm-3">
-                                                        <p id="oid" style="display:none;"></p> 
-                                                   <input type="text" class="form-control form-control-sm" id="name" placeholder="" style="height: 24px;" disabled>
-                                                   </div>
-                                                   <div class="col-sm-2">Account :</div>
-                                                   <div class="col-sm-3">
-                                                   <input type="text" class="form-control form-control-sm" id="account" placeholder="" style=" height: 24px;" disabled>
-                                                   </div>
-                                                   <div class="col-sm-1"></div> 
-                                                </div>
-                                                
-                                                <div class="form-group row">
-                                                   <div class="col-sm-1"></div>
-                                                   <div class="col-sm-2"><label style="width:108px"> Primary Contact:</label></div>
-                                                   <div class="col-sm-3">
-                                                   <input type="text" class="form-control form-control-sm" id="primarycontact" placeholder="" style=" height: 22px;width:157px; " disabled>
-                                                   </div>
-                                                   <div class="col-sm-2"><label style="width:108px"> Source :</label></div>
-                                                   <div class="col-sm-3">
-                                                    <select class="strike" id="sourceedit" style="height:27px;width:157px;" disabled>
-                                                        
-                                                    </select>
-                                                   </div>
-                                                   <div class="col-sm-1"></div> 
-                                                </div> 
-                                                
-                                                 <div class="form-group row">
-                                                   <div class="col-sm-1"></div>
-                                                   <div class="col-sm-2"><label style="width:108px">Expected Value:</label></div>
-                                                   <div class="col-sm-1">
-                                                   <input type="text" class="form-control form-control-sm" id="exceptedvalue" placeholder="" style="height: 24px;width: 57px;"  disabled>
-                                                   </div>
-                                                     <div class="col-sm-2">
-                                                     <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
-                                                            <option>AUD</option>
-                                                            <option>EUR</option>
-                                                            <option>GBP</option>
-                                                            <option>INR</option>
-                                                            <option>USD</option>
-                                                            <option>YEN</option>
-                                                       
-                                                    </select>
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-2"><label style="width:108px"> Name :</label></div>
+                                                    <div class="col-sm-3">
+                                                        <p id="oid" style="display:none;"></p>
+                                                        <input type="text" class="form-control form-control-sm" id="name" placeholder="" style="height: 24px;" disabled>
                                                     </div>
-                                                   <div class="col-sm-2"><label style="width:108px"> Start Date :</label></div>
-                                                   <div class="col-sm-3">
-                                                   <input type="date" id="StartDate" class="form-control" style="width:100%; height:64%; padding:2px 0px;" name="StartDate" disabled></div>
-                                                   <div class="col-sm-1"></div> 
-                                                </div> 
-                                                
+                                                    <div class="col-sm-2">Account :</div>
+                                                    <div class="col-sm-3">
+                                                        <input type="text" class="form-control form-control-sm" id="account" placeholder="" style=" height: 24px;"disabled>
+                                                    </div>
+                                                    <div class="col-sm-1"><a href="#parrentaccModal" data-toggle="modal" onclick="parentAccountDisplay()"><span class="fa fa-share" id="accdisplayshare1"style="margin-left: -21px;" ></span> </a></div>
+                                                </div>
                                                 <div class="form-group row">
-                                                   <div class="col-sm-1"></div> 
-                                                   <div class="col-sm-2">Closing Date :</div>
-                                                   <div class="col-sm-3">
-                                                        <input type="text" class="form-control form-control-sm" id="EndDate" placeholder="" style="height: 24px;"  disabled>
-                                                   <input type="date" id="closingdate" class="form-control" style="width:100%; height:71%; padding:0px 0px; display: none" name="StartDate" disabled ></div>
-                                                     <div class="col-sm-2"><label style="width:108px"> Sales cycle :</label></div>
-                                                     <div class="col-sm-3">
+                                                        <div class="col-sm-1"></div>                    
+                                                        <div class="col-sm-2"><label style="width:108px"> Source :</label></div>
+                                                        <div class="col-sm-3">
+                                                            <select class="strike" id="sourceedit" style="height:27px;width:157px;" disabled>                                            
+                                                            </select>
+                                                        </div>
+                                                         <div class="col-sm-2"><label style="width:108px"> Primary Contact:</label></div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" class="form-control form-control-sm" id="primarycontact" placeholder=""
+                                                                style=" height: 22px;width:157px; " disabled>
+                                                        </div>
+                                                        <div class="col-sm-1"><a href="#leadcontmodal" data-toggle="modal" onclick="leadcontactdisplay()"><span class="fa fa-share" id="accdisplayshare2" style="margin-left: -21px;"></span> </a></div>
+                                                    </div>
+                                            
+                                            <div class="form-group row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2"><label style="width:108px">Expected Value:</label></div>
+                                                <div class="col-sm-1">
+                                                    <input type="text" class="form-control form-control-sm" id="exceptedvalue" placeholder=""
+                                                        style="height: 24px;width: 57px;" disabled>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
+                                                        <option>AUD</option>
+                                                        <option>EUR</option>
+                                                        <option>GBP</option>
+                                                        <option>INR</option>
+                                                        <option>USD</option>
+                                                        <option>YEN</option>
+                                            
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-2"><label style="width:108px"> Start Date :</label></div>
+                                                <div class="col-sm-3">
+                                                    <input type="date" id="StartDate" class="form-control" style="width:100%; height:64%; padding:2px 0px;"
+                                                        name="StartDate" disabled></div>
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                            
+                                            <div class="form-group row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2">Closing Date :</div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control form-control-sm" id="EndDate" placeholder="" style="height: 24px;"
+                                                        disabled>
+                                                    <input type="date" id="closingdate" class="form-control"
+                                                        style="width:100%; height:71%; padding:0px 0px; display: none" name="StartDate" disabled></div>
+                                                <div class="col-sm-2"><label style="width:108px"> Sales cycle :</label></div>
+                                                <div class="col-sm-3">
                                                     <select class="strike" id="salescycle" style="height:26px;width:158px;" disabled>
-                                                            
+                                            
                                                     </select>
-                                                   </div>
-                                                   <div class="col-sm-1"></div> 
                                                 </div>
-                                                <div class="form-group row">
-                                                   <div class="col-sm-1"></div> 
-                                                     <div class="col-sm-2"><label style="width:108px"> Sales phase :</label></div>
-                                                     <div class="col-sm-3">
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2"><label style="width:108px"> Sales phase :</label></div>
+                                                <div class="col-sm-3">
                                                     <select class="strike" id="salesphase" style="height:27px;width:159px;" disabled>
-                                                           
+                                            
                                                     </select>
-                                                      </div>
-                                                      <div class="col-sm-2">Probability :</div>
-                                                      <div class="col-sm-3">
-                                                      <input type="text" class="form-control form-control-sm" id="probability" placeholder="" style=" height: 25px;"disabled>
-                                                      </div>
-                                                   <div class="col-sm-1"></div> 
                                                 </div>
-                                                <div class="form-group row">
-                                                   <div class="col-sm-1"></div>
-                                                   <div class="col-sm-2"><label style="width:108px;"> Publish to Forecast :</label></div>
-                                                   <div class="col-sm-3">
-                                                   <input type="checkbox" id="publishtoforecast" name="publishtoforecast" checked style="width:17px;height:12px;" disabled>
-                                                   </div>
-                                                   <div class="col-sm-2">Forecast category :</div>
-                                                   <div class="col-sm-3">
-                                                   <input type="text" class="form-control form-control-sm" id="forecastcategory" placeholder="" style="    height: 27px;" disabled>
-                                                   </div>
-                                                   <div class="col-sm-1"></div> 
+                                                <div class="col-sm-2">Probability :</div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control form-control-sm" id="probability" placeholder="" style=" height: 25px;"
+                                                        disabled>
                                                 </div>
-                                                 <div class="form-group row">
-                                                   <div class="col-sm-1"></div> 
-                                                     <div class="col-sm-2"><label style="width:108px"> Category :</label></div>
-                                                     <div class="col-sm-3">
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2"><label style="width:108px;"> Publish to Forecast :</label></div>
+                                                <div class="col-sm-3">
+                                                    <input type="checkbox" id="publishtoforecast" name="publishtoforecast" checked style="width:17px;height:12px;"
+                                                        disabled>
+                                                </div>
+                                                <div class="col-sm-2">Forecast category :</div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control form-control-sm" id="forecastcategory" placeholder=""
+                                                        style="    height: 27px;" disabled>
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2"><label style="width:108px"> Category :</label></div>
+                                                <div class="col-sm-3">
                                                     <select class="strike" id="category" style="height:25px;width:159px;" disabled>
-                                                        
+                                            
                                                     </select>
-                                                      </div>
-                                                      <div class="col-sm-2">Owner :</div>
-                                                      <div class="col-sm-3">
-                                                      <input type="text" class="form-control form-control-sm" id="owneropportunity" placeholder="" style="height: 27px;" disabled>
-                                                      </div>
-                                                   <div class="col-sm-1"></div> 
                                                 </div>
-                                                 <div class="form-group row">
-                                                   <div class="col-sm-1"></div>
-                                                   <div class="col-sm-2"><label style="width:108px"> Note :</label></div>
-                                                   <div class="col-sm-3">
-                                                   <textarea rows="3" cols="22" id="note" class="form-control" style="width:100%" name="Note"></textarea> </div>
-                                                   
-                                                   <div class="col-sm-1"></div> 
+                                                <div class="col-sm-2">Owner :</div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control form-control-sm" id="owneropportunity" placeholder=""
+                                                        style="height: 27px;" disabled>
                                                 </div>
-                                           
+                                                <div class="col-sm-1"><a href="#oppgifmodal" data-toggle="modal" onclick="ownerAccountDisplay()"><span class="fa fa-share" id="accdisplayshare3" style="margin-left: -21px;"></span> </a></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2"><label style="width:108px">Proposed TCV:</label></div>
+                                                <div class="col-sm-1">
+                                                    <input type="text" class="form-control form-control-sm" id="Proposed" placeholder=""
+                                                        style="height: 24px;width: 57px;" disabled>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
+                                                        <option>AUD</option>
+                                                        <option>EUR</option>
+                                                        <option>GBP</option>
+                                                        <option>INR</option>
+                                                        <option>USD</option>
+                                                        <option>YEN</option>
+                                            
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-2"><label style="width:108px">Total Negotiated Value :</label></div>
+                                                <div class="col-sm-1">
+                                                    <input type="text" class="form-control form-control-sm" id="Total" placeholder=""
+                                                        style="height: 24px;width: 57px;" disabled>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
+                                                        <option>AUD</option>
+                                                        <option>EUR</option>
+                                                        <option>GBP</option>
+                                                        <option>INR</option>
+                                                        <option>USD</option>
+                                                        <option>YEN</option>
+                                            
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2"><label style="width:108px">Weighted value :</label></div>
+                                                <div class="col-sm-1">
+                                                    <input type="text" class="form-control form-control-sm" id="weightedvalue" placeholder=""
+                                                        style="height: 24px;width: 57px;" disabled>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
+                                                        <option>AUD</option>
+                                                        <option>EUR</option>
+                                                        <option>GBP</option>
+                                                        <option>INR</option>
+                                                        <option>USD</option>
+                                                        <option>YEN</option>
+                                            
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-2"><label style="width:108px"> Vertical :</label></div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" id="vertical" class="form-control" style="width:100%; height:64%; padding:2px 0px;"
+                                                        name="vertical" disabled></div>
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2"><label style="width:108px;"> Alliance Dependencies :</label></div>
+                                                <div class="col-sm-3">
+                                                    <input type="checkbox" id="AllianceDependencies" name="AllianceDependencies" checked
+                                                        style="width:17px;height:12px;" disabled>
+                                                </div>
+                                                <div class="col-sm-2"><label style="width:108px"> Opportunity Type :</label></div>
+                                                <div class="col-sm-3">
+                                                    <select class="strike" id="type" style="height:27px;width:157px;" disabled>
+                                                        <option>Proactive Opportunity</option>
+                                                        <option>Reactive Opportunity</option>
+                                            
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2"><label style="width:108px"> Opportunity Status : </label></div>
+                                                <div class="col-sm-3">
+                                                    <select class="strike" id="opportunityStatus" style="height:27px;width:159px;" disabled>
+                                                        <option>Open</option>
+                                                        <option>In Process</option>
+                                                        <option>Won</option>
+                                                        <option>Lost</option>
+                                                        <option>Abort</option>
+                                                        <option>On Hold</option>
+                                                        <option>Converted</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-2">Status : </div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control form-control-sm" id="Status" placeholder="" style=" height: 25px;"
+                                                        disabled>
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2"><label style="width:108px"> Reason for Status :</label></div>
+                                                <div class="col-sm-3">
+                                                    <p id="oid" style="display:none;"></p>
+                                                    <input type="text" class="form-control form-control-sm" id="reasonStatus" placeholder="" style="height: 24px;"
+                                                        disabled>
+                                                </div>
+                                                <div class="col-sm-2">Revenue Start Date:</div>
+                                                <div class="col-sm-3">
+                                                    <input type="date" class="form-control form-control-sm" id="RevenueStartDate" placeholder=""
+                                                        style=" height: 24px;" disabled>
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2"><label style="width:108px"> Revenue End Date:</label></div>
+                                                <div class="col-sm-3">
+                                                    <p id="oid" style="display:none;"></p>
+                                                    <input type="date" class="form-control form-control-sm" id="RevenueEndDate" placeholder="" style="height: 24px;"
+                                                        disabled>
+                                                </div>
+                                                <div class="col-sm-2"><label style="width:108px"> Sales Organization :</label></div>
+                                                <div class="col-sm-3">
+                                                    <select class="strike" id="sales" style="height:27px;width:157px;" disabled>
+                                                        <option>LTTS</option>
+                                                        <option>ROW1_T1</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2"><label style="width:108px"> Sales Unit : </label></div>
+                                                <div class="col-sm-3">
+                                                    <select class="strike" id="unit" style="height:27px;width:159px;" disabled>
+                                                        <option>Chevron</option>
+                                                        <option>Medtronic</option>
+                                                        <option>Exxon</option>
+                                            
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-2"><label style="width:108px"> Sales Office : </label></div>
+                                                <div class="col-sm-3">
+                                                    <select class="strike" id="soffice" style="height:27px;width:159px;" disabled>
+                                                        <option>California</option>
+                                                        <option>Singapore</option>
+                                                        <option>Denmark</option>
+                                                        <option>Belgium</option>
+                                                        <option>Illinois</option>
+                                                        <option>Georgia</option>
+                                                        <option>Ontario</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2"><label style="width:108px"> Custom Category : </label></div>
+                                                <div class="col-sm-3">
+                                                    <select class="strike" id="customcategory" style="height:27px;width:159px;" disabled>
+                                                        <option>Solution Offering</option>
+                                                        <option>Project</option>
+                                                        <option>Staffing</option>
+                                                        <option>Allied Dependencies</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-2">Opportunity Won Date: </div>
+                                                <div class="col-sm-3">
+                                                    <input type="date" class="form-control form-control-sm" id="wondate" placeholder="" style=" height: 25px;"
+                                                        disabled>
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-2"><label style="width:108px"> Note :</label></div>
+                                                    <div class="col-sm-3">
+                                                    <textarea rows="3" cols="22" id="opportunitynote" class="form-control" style="width:100%" name="Note" disabled></textarea> </div>
+                                                    
+                                                    <div class="col-sm-1"></div> 
+                                                 </div>
+                                            
+                                            
                                             </div>
                                           
                                                 <!--Sales Team Table-->
@@ -6030,25 +6419,28 @@ background-size: 8%;'></div>
                                         
                                                  <!-- Modal footer -->
                                             <div class="modal-footer">
-                                             <button type="submit" class="btn btn-primary"  id="Editopp" onclick="opportunityedit()">Edit</button> 
-                                             
-                                             <div class="dropup">
-                                                    <button class="btn btn-primary dropdown-toggle" type="button" id="actionsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Actions
+                                                <button type="submit" class="btn btn-primary" id="Editopp" onclick="opportunityedit()">Edit</button>
+                                            
+                                                <div class="dropup">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button" id="actionsdropdown" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                        Actions
                                                     </button>
-                                                    <div class="dropdown-menu" aria-labelledby="actionsdropdown" style="position: fixed; transform: translate3d(-35px, -99px, 0px);top: -28px; left: -30px; will-change: transform;height: 130px;">
-                                                            <a class="dropdown-item"  id="Salesdropdown" href="#" style="font-size: 12px;" >Sales Team</a>
-                                                            <a class="dropdown-item"  id="Revenuedropdown" href="#" style="font-size: 12px;">Revenue Split</a>
-                                                            <a class="dropdown-item"  id="Overviewdropdown" href="#" style="font-size: 12px;">Overview</a>
-                                                            <a class="dropdown-item"  id="leadtoopportunity" href="#" style="font-size: 12px;">Lead to Opportunity</a>
-    
+                                                    <div class="dropdown-menu" aria-labelledby="actionsdropdown"
+                                                        style="position: fixed; transform: translate3d(-35px, -99px, 0px);top: -28px; left: -30px; will-change: transform;height: 130px;">
+                                                        <a class="dropdown-item" id="Salesdropdown" href="#" style="font-size: 12px;">Sales Team</a>
+                                                        <a class="dropdown-item" id="Revenuedropdown" href="#" style="font-size: 12px;">Revenue Split</a>
+                                                        <a class="dropdown-item" id="Overviewdropdown" href="#" style="font-size: 12px;">Overview</a>
+                                                        <a class="dropdown-item" id="leadtoopportunity" href="#" style="font-size: 12px;">Lead to Opportunity</a>
                                                     </div>
-                                                    </div>
-    
-    
-                                             <button type="submit" class="btn btn-primary" data-dismiss="modal" id="saveopp" onclick="updateopportunityrecord()" hidden >Save</button>   
-                                             <button type="button" class="btn btn-primary" data-dismiss="modal"  id="cancelopp"  onclick="clearFormopportunity()" hidden >Cancel</button>   
-                                              </div>
+                                                </div>
+                                            
+                                            
+                                                <button type="submit" class="btn btn-primary" data-dismiss="modal" id="saveopp" onclick="updateopportunityrecord()"
+                                                    hidden>Save</button>
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancelopp" onclick="clearFormopportunity()"
+                                                    hidden>Cancel</button>
+                                            </div>
                                               
                                             </div>
                                             
@@ -6058,9 +6450,9 @@ background-size: 8%;'></div>
                                         
     
                                         <div id="main-content" class="contact">
-                              
-                                            <div id="tbMarksContainer"> 
-                                       
+                                        
+                                            <div id="tbMarksContainer">
+                                        
                                                 <div class="entity-list" id="entity-list">
                                                     <div  class="table table-responsive" style="overflow: auto;height:400px">
                                                         <table class="table table-bordered" id="myOppTable">
@@ -7181,7 +7573,7 @@ background-size: 8%;'></div>
                                 :</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control form-control-sm" id="Accountopp"
-                                    placeholder="" name="Account" style="height: 71%;">
+                                    placeholder="" name="Account" style="height: 71%;"  disabled>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
@@ -7191,7 +7583,7 @@ background-size: 8%;'></div>
                                 Contact :</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control form-control-sm" id="PrimaryContact"
-                                    placeholder="" name="PrimaryContact" style="height: 71%;">
+                                    placeholder="" name="PrimaryContact" style="height: 71%;"  disabled>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
@@ -7276,7 +7668,7 @@ background-size: 8%;'></div>
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Probability
                                 :</label>
                             <div class="col-sm-6">
-                                <input type="text" id="Probability" style="height: 71%;" class="form-control" name="Probability">
+                                <input type="text" id="Probability"  value="10%" style="height: 71%;" class="form-control" name="Probability"  disabled>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
@@ -7323,10 +7715,6 @@ background-size: 8%;'></div>
                                     placeholder="" name="Owner" style="height: 71%;" required>
                             </div>
                             <div class="col-sm-1"><a href="#oppgifmodal" data-toggle="modal" onclick="ownerAccountDisplay()"><span class="fa fa-share" style="margin-left: -21px;"></span> </a> 
-                          
-                           
-                               
-                           
                             </div>
                         </div>
 
@@ -7351,59 +7739,61 @@ background-size: 8%;'></div>
             </form>
         </div>
         <div id="oppgifmodal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
-                                style="height: auto; padding-right: 0px  ! important; top: 286px;">
-                            
-                                <div class="modal-content" style="top:auto;">
-                            
-                                    <div class="modal-header" style="background-color: rgb(51, 122, 183);position: relative; top: 0px;color: rgb(255, 255, 255);padding: 5px;">
-                            
-                                        <!-- Modal Header -->
-                            
-                                        <h6 class="modal-title" style="font-size: 16px;">Select Owner</h6>
-                                        <button type="button" class="close" data-dismiss="modal" style="color: white;opacity: 1px; margin-right: 2px;border-radius: 1px;">×</button>
-                                    </div>
-                            
-                                    <!-- Modal body -->
-                                    <div class="modal-body">
-                            
-                                        <br>
-                            
-                                        <div class="row">
-                            
-                                            <div class="col-sm-3">
-                                       
-                                            </div>
-                            
-                                            <div class="col-sm-5"></div>
-                            
-                                            <div class="col-sm-3">
-                            
-                                                <input class="form-control" type="text" id="mySearch" placeholder="Search"
-                                                    style="left: 32%; position: relative;     border-radius: 5px;height: 22px;">
-                            
-                                            </div>
-                            
-                                            <div class="col-sm-1">
-                            
-                                                <i class="fa fa-refresh" style=" color:black; left: 100%; position: relative;"></i>
-                            
-                                            </div>
-                            
-                                        </div>
-                            <div style="overflow: auto;height:150px;">
-                                        <table class="table table-bordered" >
-                                                <thead >
-                                                      <tr>
-                                                        <th style="background-color: rgb(51, 122, 183); position: relative; top: 0px; color: rgb(255, 255, 255)";>Name</th>
-                                                      </tr>
-                                                </thead>
-                                                <tbody id='owneropportunityTable'>
-                                                 
-                                                </tbody>
-                                            </table>
-                            </div> 
-                                    </div>
-                            
+            style="height: auto; padding-right: 0px  ! important; top: 286px;">
+        
+            <div class="modal-content" style="top:auto;">
+        
+                <div class="modal-header"
+                    style="background-color: rgb(51, 122, 183);position: relative; top: 0px;color: rgb(255, 255, 255);padding: 5px;">
+        
+                    <!-- Modal Header -->
+        
+                    <h6 class="modal-title" style="font-size: 16px;">Select Owner</h6>
+                    <button type="button" class="close" data-dismiss="modal"
+                        style="color: white;opacity: 1px; margin-right: 2px;border-radius: 1px;">×</button>
+                </div>
+        
+                <!-- Modal body -->
+                <div class="modal-body">
+        
+                    <br>
+        
+                    <div class="row">
+        
+                        <div class="col-sm-3">
+        
+                        </div>
+        
+                        <div class="col-sm-5"></div>
+        
+                        <div class="col-sm-3">
+        
+                            <input class="form-control" type="text" id="mySearch" placeholder="Search"
+                                style="left: 32%; position: relative;     border-radius: 5px;height: 22px;">
+        
+                        </div>
+        
+                        <div class="col-sm-1">
+        
+                            <i class="fa fa-refresh" style=" color:black; left: 100%; position: relative;"></i>
+        
+                        </div>
+        
+                    </div>
+                    <div style="overflow: auto;height:150px;">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="background-color: rgb(51, 122, 183); position: relative; top: 0px; color: rgb(255, 255, 255)"
+                                        ;>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody id='owneropportunityTable'>
+        
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                                     <!-- Modal footer -->
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary" data-dismiss="modal"
