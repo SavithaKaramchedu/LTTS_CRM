@@ -34,9 +34,11 @@
     background: #ecf0f1;
     
     }
+    
  /* width */
         ::-webkit-scrollbar {
             width: 8px;
+            height: 8px;
         }
         #main-container{
          padding:10px !important;
@@ -221,7 +223,7 @@
   $("#owncontact").css('display','none');
   $("#ownaccount").css('display','none');
   $("#ownshare1").css('display','none');
-  $("#owne").prop("disabled", false);
+  $("#owne").prop("disabled", true);
   $("#leadcity").prop("disabled", false);
   $("#leadcountry").prop("disabled", false);
   $("#leadstate").prop("disabled", false);
@@ -281,7 +283,7 @@
   $("#owncontact").css('display','none');
   $("#ownaccount").css('display','none');
   $("#ownshare1").css('display','none');
-  $("#owne").prop("disabled", false);
+  $("#owne").prop("disabled", true);
   $("#leadcity").prop("disabled", false);
   $("#leadcountry").prop("disabled", false);
   $("#leadstate").prop("disabled", false);
@@ -1867,6 +1869,7 @@ chart3.render();  }
            $("#Owneropp").val(j);
            $("#owneroppoidhidden").val(i);
            $("#Owneropp").prop("disabled", false);
+           $("#editownid").val(i);
             }
         
 
@@ -2603,6 +2606,7 @@ chart3.render();  }
             $("#lcity").val(k);
             $("#lcountry").val(l);
             $("#lstate").val(m);
+            $("#editcompid").val(i);
             editcontact();
         }
         function leadcontactdisplay() {
@@ -2625,7 +2629,7 @@ chart3.render();  }
                                  var leadaccname="\""+result[0][i].accountid+"\"";
                                 tableData = tableData + " <tr class='customtr' onclick='leadcontdisplay(" + leadcontid + "," + leadcontphne + "," + leadcontmob + "," + leadcontemail + "," + leadcontname +" ," + leadaccname + ")'  data-dismiss='modal'> " +
                                                 
-                                    "<td >" + result[0][i].contactid + "</td>" +
+                                   // "<td >" + result[0][i].contactid + "</td>" +
                                     "<td >" + result[0][i].Name + "</td>" +
                                     "<td >" + result[0][i].Account + "</td>" +
 
@@ -2658,7 +2662,7 @@ chart3.render();  }
                  $("#lphone").val(j);
                  $("#lmobile").val(k);
                  $("#lemail").val(l);
-                
+                 $("#editfirmid").val(i);
                 
              }
         function insertaccountcontact(i) {
@@ -3085,7 +3089,6 @@ clearFormBusiness();
                     $("#compshare").show();
                     $("#contnashare").show();
                     $("#elownshare").show();
-
                 }
 
 
@@ -3167,7 +3170,6 @@ clearFormBusiness();
             function updateleadrecord() {
 
                         var id = $("#leadid").val();
-                        
                         var title = $("#tit").val();
                         var company = $("#comp").val();
                         var firstname = $("#firname").val();
@@ -3206,8 +3208,19 @@ clearFormBusiness();
                         } else {
                             priority = $("#prio").val();
                         }
-
                         var owner = $("#own").val();
+                        var notes = $("#lnote").val();
+                        var editleadid = $("#leadidfeild").val();
+                        var housenumber = $("#lhousenumber").val();
+                        var lcity = $("#lcity").val();
+                        var lcountry = $("#lcountry").val();
+                        var lstate = $("#lstate").val();
+                        var lstreet = $("#lstreet").val();
+                        var lpostalcode = $("#lpostalcode").val();
+                        var lphone = $("#lphone").val();
+                        var lmobile = $("#lmobile").val();
+                        var lemail = $("#lemail").val();
+
                         var data = {
                             "id": id,
                             "title": title,
@@ -3218,8 +3231,19 @@ clearFormBusiness();
                             "firstname": firstname,
                             "lastname": lastname,
                             "priority": priority,
+                            "status": status,
                             "owner": owner,
-                            "status": status
+                            "notes": notes,
+                            "editleadid": editleadid,
+                            "housenumber":lhousenumber,
+                            "lcity":lcity,
+                            "lcountry":lcountry,
+                            "lstate":lstate,
+                            "lstreet":lstreet,
+                            "lpostalcode":lpostalcode,
+                            "lphone":lphone,
+                            "lmobile":lmobile,
+                            "lemail":lemail
 
                         }
                         data = JSON.stringify(data);
@@ -4695,8 +4719,7 @@ background-size: 8%;'></div>
                                 
                                                         <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group col-sm-12"></div>
-                                                                        <label>Lead Information</label></div>
+                                                                        <label  style="font-size: 14px;">Lead Information</label></div>
                                                                 </div>
                                                                 
                                                             <hr style="top: -10px;
@@ -4729,6 +4752,7 @@ background-size: 8%;'></div>
                                                             <label>Company:</label>
                                                         </div>
                                                         <div class="col-sm-3">
+                                                                <input type="text" class="form-control form-group" id="editcompid" disabled style="display:none;">
                                                             <input type="text" class="form-control form-group" id="comp" disabled>
                                                         </div>
                                                         <div class="col-sm-1" style="right:19px;" >
@@ -4752,6 +4776,7 @@ background-size: 8%;'></div>
                                                             <label style="width: 113px;">Contact Name:</label>
                                                         </div>
                                                         <div class="col-sm-3">
+                                                                <input type="text" class="form-control form-group" id="editfirmid" disabled style="display:none;">
                                                             <input type="text" class="form-control form-group" id="firname" disabled>
                                                         </div>
                                 
@@ -4802,6 +4827,7 @@ background-size: 8%;'></div>
                                                             <label>Owner:</label>
                                                         </div>
                                                         <div class="col-sm-3">
+                                                                <input type="text" class="form-control form-group" id="editownid" disabled style="display:none;">
                                                             <input type="text" class="form-control form-group" id="own" disabled>
                                                         </div>
                                 
@@ -4838,12 +4864,12 @@ background-size: 8%;'></div>
                                                         <div class="row">
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group col-sm-12"></div>
-                                                                        <label>Account Information</label></div>
+                                                                        <label  style="font-size: 14px;">Account Information</label></div>
                                                                 </div>
                                                                 
                                                             <hr style="top: -10px;
                                                             position: relative;">
-                                                           
+                                                         
                                                            <div class="row">
                                                                
                                                                 <div class="col-sm-2">
@@ -4899,7 +4925,7 @@ background-size: 8%;'></div>
                                                                     <div class="row">
                                                                             <div class="col-sm-12">
                                                                                 <div class="form-group col-sm-12"></div>
-                                                                                    <label>Contact Information</label></div>
+                                                                                    <label  style="font-size: 14px;">Contact Information</label></div>
                                                                             </div>
                                                                             
                                                                         <hr style="top: -10px;
@@ -5353,47 +5379,7 @@ background-size: 8%;'></div>
                                     </tbody>
 
                                 </table>
-                                <script>
-                                    /*function filterTable(event) {
-                                        var filter = event.target.value.toUpperCase();
-                                        var rows = document.querySelector("#myAccountTable tbody").rows;
-                                           count=0;
-                                           var field=$('#_globalSearch').val();
-                                        var len=field.length;
-                                        for (var i = 0; i < rows.length; i++) {
-                                           if(len>0){
-                                                  //$('#searchclearEmployee').css('display','block');
-                                           }else if(len==0){
-                                                  $('#searchclearEmployee').css('display','none');
-                                           }
-                                            var firstCol = rows[i].cells[0].textContent.toUpperCase();
-                                            var secondCol = rows[i].cells[1].textContent.toUpperCase();
-                                            var thirdCol = rows[i].cells[2].textContent.toUpperCase();
-                                            var fourthCol = rows[i].cells[3].textContent.toUpperCase();
-                                            var fifthCol = rows[i].cells[4].textContent.toUpperCase();
-                                          
-                                            if (firstCol.indexOf(filter) > -1 || secondCol.indexOf(filter) > -1|| thirdCol.indexOf(filter) > -1
-                                                        || fourthCol.indexOf(filter) > -1 || fifthCol.indexOf(filter) > -1) {
-                                              
-                                                   rows[i].style.display = "";
-                                                   count++;
-                                            } else {
-                                                rows[i].style.display = "none";
-                                            }      
-                                        }
-                                        if(count==0)
-                                            {
-                                            var tableData="";
-                                            tableData="<tr><td></td><td></td><td><center>No Records Found</center></td><td></td><td></td></tr>";
-
-                                                  $("#employeesTable").html(tableData);
-                                            }
-                                        document.getElementById("countEmp").innerHTML = count;                                                                                    
-                                    }
-                                    document.querySelector('#myInputEmployee').addEventListener('keyup', filterTable, false);
-                                    
-                                                                                           
-                                    </script>*/
+                                
 
                                 <div class="container">
 
@@ -6760,8 +6746,8 @@ background-size: 8%;'></div>
                             <span style="color: red;">*</span>Owner:</label></div>
                             </div>
                             <div class="col-sm-6">
-                                    <input type="text" id="ownerleadidhidden" style="display: none;" >
-                 <input type="text" class="form-control" id="owne" placeholder="" name="owner" style="height:71%;width: 118%;" required>
+                                    <input type="text" id="ownerleadidhidden" style="display: none;" disabled>
+                 <input type="text" class="form-control" id="owne" placeholder="" name="owner" style="height:71%;width: 118%;" required disabled>
                                </div>
                                <div class="col-sm-1" style="right:-48px;">
                           <a data-toggle="modal" href="#owneraccModal"  > 
@@ -6788,7 +6774,7 @@ background-size: 8%;'></div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group col-sm-12"></div>
-                                    <label>Account Information</label></div>
+                                    <label  style="font-size: 14px;">Account Information</label></div>
                             </div>
                             
                         <hr style="top: -10px;
@@ -6835,7 +6821,7 @@ background-size: 8%;'></div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group col-sm-12"></div>
-                                    <label>Contact Information</label></div>
+                                    <label style="font-size: 14px;">Contact Information</label></div>
                             </div>
                             
                         <hr style="top: -10px;
@@ -7651,7 +7637,7 @@ background-size: 8%;'></div>
                                                               <table class="table table-bordered">
                                                                       <thead style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: 0px;">
                                                                                              <tr style="  font-weight:bold ; ">
-                                                              <th>Contact ID</th>
+                                                             
                                                               <th>Contact Name</th>
                                                               <th>Account Name</th>
                                                           </tr>

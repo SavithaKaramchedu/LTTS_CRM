@@ -306,8 +306,8 @@ exports.updateleadrecord = function (req, res) {
     let statu = req.body.status;
 
 
-    let query = "UPDATE `leadcirruswave` SET  `title` = '" + titl + "', `company` = '" + compan + "', `qualificationlevel` = '" + qualle + "', `source` = '" + sourc +
-        "',`category` = '" + categor + "', `firstname` = '" + firstnam + "',`lastname` = '" + lastnam + "',`priority` = '" + priorit + "',`owner` = '" + owne + "',`status` = '" + statu + "' WHERE `id` = '" + Sid + "'";
+    let query = "CALL procUpdateLead( '" + Sid + "', '" + titl + "', '" + compan + "', '" + qualle + "', '" + sourc +
+        "','" + categor + "',  '" + firstnam + "','" + lastnam + "', '" + priorit + "', '" + owne + "', '" + statu + "')";
     db.query(query, (err, result) => {
 
         if (err) {
