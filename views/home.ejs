@@ -1962,49 +1962,37 @@ chart3.render();  }
         function updateaccount() {
            
             var id = $("#Aid").text();
+            var parentaccount = $("#editparrentaccid").val();
+            var accountcategory = $("#acccat").children("option:selected").val();
             var name = $("#faname").val();
-            var status = $("#Prospect").val();
-            var parentaccount = $("#paacc").val();
+            var salesregion = $("#accsalesregion").val();
             var website = $("#website").val();
-            var accountcategory = $("#acccat").children("option:selected").text();
-            if (accountcategory == null || accountcategory == 0) {
-                accountcategory = "savings";
-            } else {
-                accountcategory = $("#acccat").children("option:selected").text();
-            }
-
-            var vertical = $("#vertical").children("option:selected").text();
-            if (vertical == null || vertical == 0) {
-                vertical = "";
-            } else {
-                vertical = $("#vertical").children("option:selected").text();
-            }
-            var country = $("#countryacc").children("option:selected").text();
-            if (country == null || country == 0) {
-                country = "india";
-            } else {
-                country = $("#countryacc").children("option:selected").text();
-            }
-            var city = $("#city").val();
-            var state = $("#stateacc").children("option:selected").text();
-            if (state == null || state == 0) {
-                state = "hyderabad ";
-            } else {
-                state = $("#stateacc").children("option:selected").text();
-            }
-            var owner = $("#owner").val();
+            var owner = $("#editownerid").val();
+            var readonly = $("#accreadonly").val();
+            var status = $("#Prospect").val();
+            if (readonly=="checked"||readonly=="on") {
+                readonly = "Y";
+         }
+         else if(readonly=="unchecked"||readonly==""||readonly=="off") {
+            readonly = "N";
+         }
+           
+            
+         
+           
             var data = {
                 "id": id,
-                "name": name,
-                "prospect": status,
                 "parentaccount": parentaccount,
-                "website": website,
                 "accountcategory": accountcategory,
-                "vertical": vertical,
-                "country": country,
-                "city": city,
-                "state": state,
-                "owner": owner
+                "name": name,
+                "salesregion": salesregion,
+                "website": website,
+                "owner": owner,
+                "readonly": readonly,
+                "prospect": status,
+                "updatedby":'Admin'
+               
+                
             }
             data = JSON.stringify(data);
             

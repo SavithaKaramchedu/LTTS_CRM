@@ -306,8 +306,8 @@ exports.updateleadrecord = function (req, res) {
     let statu = req.body.status;
 
 
-    let query = "CALL procUpdateLead( '" + Sid + "', '" + titl + "', '" + compan + "', '" + qualle + "', '" + sourc +
-        "','" + categor + "',  '" + firstnam + "','" + lastnam + "', '" + priorit + "', '" + owne + "', '" + statu + "')";
+    let query = "UPDATE `leadcirruswave` SET  `title` = '" + titl + "', `company` = '" + compan + "', `qualificationlevel` = '" + qualle + "', `source` = '" + sourc +
+        "',`category` = '" + categor + "', `firstname` = '" + firstnam + "',`lastname` = '" + lastnam + "',`priority` = '" + priorit + "',`owner` = '" + owne + "',`status` = '" + statu + "' WHERE `id` = '" + Sid + "'";
     db.query(query, (err, result) => {
 
         if (err) {
@@ -739,25 +739,25 @@ exports.getAccountPage = function (req, res) {
 exports.updateaccount = function (req, res) {
 
     var Sid = req.body.id;
-    let nam = req.body.name;
-    let prosp = req.body.prospect;
     let parentacc = req.body.parentaccount;
-    let webs = req.body.website;
     let accountcat = req.body.accountcategory;
-    let vert = req.body.vertical;
-    let count = req.body.country;
-    let cit = req.body.city;
-    let stat = req.body.state;
+    let nam = req.body.name;
+    let salesregion = req.body.salesregion;
+    let webs = req.body.website;
     let own = req.body.owner;
-
-    let query = "UPDATE `accountcirruswave` SET `name` = '" + nam + "', `prospect` = '" + prosp + "', `parentaccount` = '" + parentacc + "', `website` = '" + webs + "',`accountcategory` = '" + accountcat + "', `vertical` = '" + vert + "',`country` = '" + count + "',`city` = '" + cit + "',`state` = '" + stat + "',`owner` = '" + own + "' WHERE `id` = '" + Sid + "'";
-
+    let readonly = req.body.readonly;
+    let prosp = req.body.prospect;
+    let updatedby = req.body.updatedby;
+    
+    let query = "call procUpdateAccount('" + Sid + "',  '" + parentacc + "','" + accountcat + "',  '" + nam + "','" + salesregion + "','" + webs + "', '" + own +"','" + readonly + "','" + prosp + "', '" + updatedby + "')";
+console.log(query);
     db.query(query, (err, result) => {
 
         if (err) {
+            console.log(err);
             return res.status(500).send(err);
         }
-        res.redirect('/home');
+        res.status(200).json(result);
     });
 };
 exports.recorddisplay = function (req, res) {
