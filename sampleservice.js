@@ -293,21 +293,21 @@ exports.recorddisplaylead = function (req, res) {
 exports.updateleadrecord = function (req, res) {
 
     var Sid = req.body.id;
-
     var titl = req.body.title;
     let compan = req.body.company;
+    let firstnam = req.body.firstname;
     let qualle = req.body.qualificationlevel;
+    let statu = req.body.status;
     let sourc = req.body.source;
     let categor = req.body.category;
-    let firstnam = req.body.firstname;
-    let lastnam = req.body.lastname;
-    let priorit = req.body.priority;
     let owne = req.body.owner;
-    let statu = req.body.status;
-
-
-    let query = "UPDATE `leadcirruswave` SET  `title` = '" + titl + "', `company` = '" + compan + "', `qualificationlevel` = '" + qualle + "', `source` = '" + sourc +
-        "',`category` = '" + categor + "', `firstname` = '" + firstnam + "',`lastname` = '" + lastnam + "',`priority` = '" + priorit + "',`owner` = '" + owne + "',`status` = '" + statu + "' WHERE `id` = '" + Sid + "'";
+    let notes = req.body.notes;
+    let priorit = req.body.priority;
+   let  iUpdatedBy=req.body.iUpdatedBy;
+   
+    let query = "call procUpdateLead( '" + Sid + "', '" + titl + "', '" + compan + "', '" + firstnam + "','" + qualle + "', '" + statu + "', '" + sourc +
+        "','" + categor + "', '" + owne + "','" + notes + "','" + priorit + "','" + iUpdatedBy + "')";
+   
     db.query(query, (err, result) => {
 
         if (err) {

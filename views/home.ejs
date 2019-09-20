@@ -1784,12 +1784,12 @@ chart3.render();  }
         function accountdisplay(i) {
             
             var url = "https://localhost:9090/account/" + i;
-        console.log(url);
+      //  console.log(url);
             $.ajax({
                 url: url,
                 type: "GET",
                 success: function (result) {
-                    console.log(result);
+                  //  console.log(result);
                     if(result[0][0].Account==""||result[0][0].Account==null||result[0][0].Account==undefined){
                         result[0][0].Account="NA"
                     }
@@ -1955,6 +1955,7 @@ chart3.render();  }
            $("#owneroppoidhidden").val(i);
            $("#Owneropp").prop("disabled", false);
            $("#editownid").val(i);
+          $("#own").val(j);
             }
         
 
@@ -2163,7 +2164,7 @@ chart3.render();  }
                         url: url,
                         type: "GET",
                         success: function (result) {
-                            console.log(result);
+                        //    console.log(result);
                             dropdowndata = dropdowndata+"<option style='display:none;'></option>"
                             for (var i = 0; i < result[0].length; i++) { 
                                
@@ -2191,7 +2192,7 @@ chart3.render();  }
                      url: url,
                      type: "GET",
                      success: function (result) {
-                         console.log(result);
+                     //    console.log(result);
                         dropdowndata = dropdowndata+"<option style='display:none;'></option>"
                          for (var i = 0; i < result[0].length; i++) { 
                             
@@ -2648,7 +2649,7 @@ chart3.render();  }
                     url: url,
                     type: "GET",
                     success: function (result) {
-                        console.log(result);
+                      //  console.log(result);
                         $("#screenloading").css('display','none');
 
                         for (var i = 0; i < result[0].length; i++) {
@@ -2681,7 +2682,7 @@ chart3.render();  }
         function contacciddisplay(i,j,k,l,m) {
             if(k=="null" || k==""||k=="undefined")
           {
-              i=""
+              k=""
           }
           if(l=="null" || l==""||l=="undefined")
           {
@@ -2691,7 +2692,7 @@ chart3.render();  }
           {
               m=""
           }
-        
+          $("#editcompid").val(i);
             $("#contgetaccid").val(i);
             $("#accountcont").val(j);
             $("#ownacc").val(j);
@@ -2703,7 +2704,7 @@ chart3.render();  }
             $("#lcity").val(k);
             $("#lcountry").val(l);
             $("#lstate").val(m);
-            $("#editcompid").val(i);
+            
             editcontact();
         }
         function leadcontactdisplay() {
@@ -3218,6 +3219,7 @@ clearFormBusiness();
                     $("#compshare").hide();
                     $("#contnashare").hide();
                     $("#elownshare").hide();
+ 
                 } 
 
                 function recorddisplaylead(i) { 
@@ -3235,8 +3237,10 @@ clearFormBusiness();
                                 $("#Accountopp").val(result[0][0].Account);
                                 $("#PrimaryContact").val(result[0][0].Contact);
                                 $("#oppaccountid").val(result[0][0].ACCOUNTID);
-                                $("#tit").val(result[0][0].TITLE);                             
+                                $("#tit").val(result[0][0].TITLE); 
+                                $("#editcompid").val(result[0][0].ACCOUNTID); 
                                 $("#comp").val(result[0][0].Account);
+                                $("#editfirmid").val(result[0][0].CONTACTID);
                                $("#firname").val(result[0][0].Contact);
                                // $("#lasname").val(result[0].lastname);
                                 $("#stat").val(result[0][0].LeadStatusID).attr('selected','selected');
@@ -3244,8 +3248,8 @@ clearFormBusiness();
                                 $("#sour").val(result[0][0].LEADSOURCEID).attr('selected','selected');
                                 $("#cat").val(result[0][0].LEADCATEGORYID).attr('selected','selected');
                                 $("#prio").val(result[0][0].PRIORITYID).attr('selected','selected');
-                               
-                                $("#own").val(result[0][0].Owner);  
+                                $("#own").val(result[0][0].Owner); 
+                                $("#editownid").val(result[0][0].OwnerID);  
                                 $("#lnote").val(result[0][0].NOTES);  
                                 $("#leadidfeild").val(result[0][0].LEADCODE);  
                                 $("#lhousenumber").val('');  
@@ -3265,47 +3269,42 @@ clearFormBusiness();
                     };
 
             function updateleadrecord() {
-
-                        var id = $("#leadid").val();
-                        var title = $("#tit").val();
-                        var company = $("#comp").val();
-                        var firstname = $("#firname").val();
-                        var lastname = $("#lasname").val();
-                        
-                        var status = $("#stat").children("option:selected").text() ;
-                        if (status == null || status == 0) {
-                            status = " ";
-                        } else {
-                            status = $("#stat").val();
-                        }
-                        var qualificationlevel = $("#qual").children("option:selected").text();
+                    //console.log("entered update function");
+                        var id = $("#leadid").text();                      
+                        var title = $("#tit").val();                      
+                        var company = $("#editcompid").val();                  
+                        var firstname = $("#editfirmid").val()                     
+                        var qualificationlevel = $("#qual").val();
                         if (qualificationlevel == null || qualificationlevel == 0) {
                             qualificationlevel = " ";
                         } else {
                             qualificationlevel = $("#qual").val();
                         }
-
+                        var status = $("#stat").children("option:selected").val() ;
+                        if (status == null || status == 0) {
+                            status = " ";
+                        } else {
+                            status = $("#stat").val();
+                        }
                         var source = $("#sour").val();
                         if (source == null || source == 0) {
                             source = " ";
                         } else {
                             source = $("#sour").val();
                         }
-
                         var category = $("#cat").val();
                         if (category == null || category == 0) {
                             category = " ";
                         } else {
                             category = $("#cat").val();
                         }
-
                         var priority = $("#prio").val();
                         if (priority == null || priority == 0) {
                             priority = " ";
                         } else {
                             priority = $("#prio").val();
                         }
-                        var owner = $("#own").val();
+                        var owner = $("#editownid").val();
                         var notes = $("#lnote").val();
                         var editleadid = $("#leadidfeild").val();
                         var housenumber = $("#lhousenumber").val();
@@ -3322,30 +3321,18 @@ clearFormBusiness();
                             "id": id,
                             "title": title,
                             "company": company,
+                            "firstname": firstname,
                             "qualificationlevel": qualificationlevel,
+                            "status": status,
                             "source": source,
                             "category": category,
-                            "firstname": firstname,
-                            "lastname": lastname,
                             "priority": priority,
-                            "status": status,
                             "owner": owner,
                             "notes": notes,
-                            "editleadid": editleadid,
-                            "housenumber":lhousenumber,
-                            "lcity":lcity,
-                            "lcountry":lcountry,
-                            "lstate":lstate,
-                            "lstreet":lstreet,
-                            "lpostalcode":lpostalcode,
-                            "lphone":lphone,
-                            "lmobile":lmobile,
-                            "lemail":lemail
+                           "iUpdatedBy":'admin'
 
                         }
-                        data = JSON.stringify(data);
-
-                        
+                        data = JSON.stringify(data);    
                         var url = "https://localhost:9090/leads/" + id;
                         
                         $.ajax({
@@ -5012,7 +4999,7 @@ background-size: 8%;'></div>
                                                             <label>Company:</label>
                                                         </div>
                                                         <div class="col-sm-3">
-                                                                <input type="text" class="form-control form-group" id="editcompid" disabled style="display:none;">
+                                                                <input type="text" class="form-control form-group" id="editcompid" style="display:none;">
                                                             <input type="text" class="form-control form-group" id="comp" disabled>
                                                         </div>
                                                         <div class="col-sm-1" style="right:19px;" >
@@ -5036,7 +5023,7 @@ background-size: 8%;'></div>
                                                             <label style="width: 113px;">Contact Name:</label>
                                                         </div>
                                                         <div class="col-sm-3">
-                                                                <input type="text" class="form-control form-group" id="editfirmid" disabled style="display:none;">
+                                                                <input type="text" class="form-control form-group" id="editfirmid"  style="display:none;">
                                                             <input type="text" class="form-control form-group" id="firname" disabled>
                                                         </div>
                                 
@@ -5087,7 +5074,7 @@ background-size: 8%;'></div>
                                                             <label>Owner:</label>
                                                         </div>
                                                         <div class="col-sm-3">
-                                                                <input type="text" class="form-control form-group" id="editownid" disabled style="display:none;">
+                                                                <input type="text" class="form-control form-group" id="editownid" style="display:none;">
                                                             <input type="text" class="form-control form-group" id="own" disabled>
                                                         </div>
                                 
@@ -5233,7 +5220,7 @@ background-size: 8%;'></div>
                                                 <!-- Modal footer -->
                                                 <div class="modal-footer">
                                                     <button type="submit" class="btn btn-primary" id="savelead" data-dismiss="modal"
-                                                        onclick="updateleadrecord()" hidden>Save</button>
+                                                        onclick="updateleadrecord(),clearFormLead();" hidden>Save</button>
                                                     <button type="button" class="btn btn-primary" id="cancellead" data-dismiss="modal"
                                                         onclick="clearFormLead()" hidden>Cancel</button>
                                                     <button type="button" class="btn btn-primary" id="editlead" onclick="editenablelead()">Edit</button> 
