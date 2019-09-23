@@ -1273,6 +1273,22 @@ exports.accowner = function (req, res) {
     });
 
 };
+exports.getServiceoffering = function (req, res) {
+
+
+
+    let query = 'call procListAllServiceOfferings ()'
+
+    db.query(query, (err, result) => {
+
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(200).json(result);
+
+    });
+
+};
 
 
    

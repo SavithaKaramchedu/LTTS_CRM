@@ -3159,6 +3159,75 @@ clearFormBusiness();
                     }
                 });
             };
+
+            function serviceofferingLoad() {
+            
+            var tableData = "";
+            $("#leadloading").css('display','block');
+
+            var url = "https://localhost:9090/serviceoffering";
+            $.ajax({
+                url: url,
+                type: "GET",
+
+                success: function (result) {
+            //    console.log(result);
+            
+
+                    $("#leadloading").css('display','none');
+                   
+                    $("#socount").text(result[0].length);
+                    for (var i = 0; i < result[0].length; i++) {
+                   
+                        if (result[0][i].SERVICEOFFERINGCODE== null || result[0][i].SERVICEOFFERINGCODE== 0){
+                    result[0][i].SERVICEOFFERINGCODE= "";
+                            }
+                            if (result[0][i].BUSINESSUNIT== null || result[0][i].BUSINESSUNIT== 0){
+                    result[0][i].BUSINESSUNIT= "";
+                            }  
+                            if (result[0][i].OFFERING== null || result[0][i].OFFERING== 0){
+                    result[0][i].OFFERING= "";
+                            } 
+                            if (result[0][i].VERTICAL== null || result[0][i].VERTICAL== 0){
+                    result[0][i].VERTICAL= "";
+                            } 
+                            if (result[0][i].DELIVERYLOCATION== null || result[0][i].DELIVERYLOCATION== 0){
+                    result[0][i].DELIVERYLOCATION= "";
+                            } 
+                            if (result[0][i].ENGAGEMENTTYPE== null || result[0][i].ENGAGEMENTTYPE== 0){
+                    result[0][i].ENGAGEMENTTYPE= "";
+                            } 
+                            if (result[0][i].SERVICEOFFERING== null || result[0][i].SERVICEOFFERING== 0){
+                    result[0][i].SERVICEOFFERING= "";
+                            } 
+                            if (result[0][i].UNITOFMEASUREMENT== null || result[0][i].UNITOFMEASUREMENT== 0){
+                    result[0][i].UNITOFMEASUREMENT= "";
+                            } 
+                            if (result[0][i].NEWSERVICEOFFERINGCOMBINATION== null || result[0][i].NEWSERVICEOFFERINGCOMBINATION== 0){
+                    result[0][i].NEWSERVICEOFFERINGCOMBINATION= "";
+                            } 
+                           
+                            //var leadoppoid="\""+result[0][i].LEADID+"\"";
+                        tableData = tableData + "  <tr> " +
+                            //"<td hidden>" + result[0][i].LEADID+ "</td>" + 
+                         
+                            //"<td onclick='recorddisplaylead(" + result[i]. + ")'>" + "<a href='#editleadmodal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>" + result[i].title + "</a>" + "</td>" +
+
+                            "<td >" + result[0][i].SERVICEOFFERINGCODE + "</td>" +
+                            "<td >" + result[0][i].BUSINESSUNIT + "</td>" +
+                            "<td >" + result[0][i].SERVICEOFFERING + "</td>" +      
+                            "<td >" + result[0][i].DELIVERYLOCATION + "</td>" +
+                            "<td >" + result[0][i].ENGAGEMENTTYPE + "</td>" +
+                            "<td >" + result[0][i].UNITOFMEASUREMENT + "</td>" +
+                            "<td >" + result[0][i].NEWSERVICEOFFERINGCOMBINATION + "</td>"
+                           
+                            "</tr>";
+                    }
+                    
+                    $("#serviceOfferingTable").html(tableData);
+                }
+            });
+        };
             function editenablelead() {
                   
                     $("#tit").prop("disabled", false);
@@ -4149,8 +4218,11 @@ z-index: 9999;
 background: url(./images/loading.gif) 50% 50% no-repeat rgb(249,249,249);
 opacity: .8;
 background-size: 8%;'></div> 
-<div id='loading' style='display: none;position: fixed;left: 0px;top: 0px;width: 100%;height: 100%;z-index: 9999;background: url(./images/loading.gif) 50% 50% no-repeat rgb(249,249,249);opacity: .8;
-background-size: 8%;'></div>
+<div id='loading'
+ style='display: none;position: fixed;left: 0px;top: 0px;width:
+  100%;height: 100%;z-index: 9999;background: url(./images/loading.gif) 50% 50% no-repeat rgb(249,249,249);opacity: .8;
+background-size: 8%;'>
+</div>
         <header id="header" style='background:rgb(51, 122, 183)'>
 
             <h1 class="logo ">
@@ -4466,11 +4538,11 @@ background-size: 8%;'></div>
                     </a>
                 </li>
 
-                <li title="Projects">
-                    <a id="navlink_project" class="sidebar_navlink " href="#homeTab" data-toggle="tab">
+                <li title="Service Offerings">
+                    <a id="navlink_project" class="sidebar_navlink " href="#serviceofferingtab" data-toggle="tab"onclick="serviceofferingLoad();">
                         <div>
                                 <div class="navlink_img" id="navlink_project_img"></div>
-                            <span class="">Projects</span>
+                            <span class="">Service Offerings</span>
                         </div>
                     </a>
                 </li>
@@ -5521,8 +5593,236 @@ background-size: 8%;'></div>
                 </div>
 
             </div>
+            
+            <div id="serviceofferingtab" class="tab tab-pane ">
+                <div id="main" class="">
 
+                    <div id="main-container" class="list-view contact">
+                        <div id="content" class="">
+                            <header class="head-list">
+                                <div id="default_controls">
+                                    <div class="pull-right right10">
+        
+                                        <div class="pull-right right10">
+                                            <div class="btn-group right10" id="tagActionDropdown"
+                                                style="display: none;">
+                                                <a class="btn dropdown-toggle" data-toggle="dropdown"
+                                                    title="Tag Actions">
+                                                    <i class="mdi mdi-tag mdi-19px"></i> <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu  pull-right">
+                                                    <li class="disabled"><a href="javascript:;" title="Tag Actions">Tag
+                                                            Actions</a></li>
+                                                    <li><a href="javascript:;" id="deleteTag" title="Delete This Tag"><i
+                                                                class="mdi mdi-18px  mdi-delete"></i> Delete This
+                                                            Tag</a></li>
+                                                    <li><a href="javascript:;" id="renameTag" title="Rename This Tag"><i
+                                                                class="mdi mdi-textbox mdi-18px"></i> Rename This
+                                                            Tag</a></li>
+                                                </ul>
+                                            </div>
+        
+                                            <div class="btn-group" id="btnRefresh" onclick="businessLoad()">
+                                                <a class="btn" id="refreshList" title="Refresh List"><i
+                                                        class="mdi mdi-refresh mdi-19px"></i></a>
+                                            </div>
+                                            <div class="btn-group" id="btnControls">
+                                                <a class="btn dropdown-toggle" data-toggle="dropdown"
+                                                    title="List View Controls"><i class="icon-cog"></i> <span
+                                                        class="caret"></span></a>
+                                                <!--Menu items are set on demand via ins.buttonBar.js-->
+                                            </div>
+                                            <div class="btn-group" id="btnFilters">
+                                                <a class="btn" id="toggleFilters" title="Show List View Filters"><i
+                                                        class="icon-filter"></i></a>
+                                            </div>
+        
+        
+                                            <div class="btn-group">
+                                                <button id="toggleSidebar" type="button" class="btn"
+                                                    title="Show Sidebar"><i class="icon-indent-right"></i></button>
+                                            </div>
+                                        </div>
+        
+                                    </div>
+        
+                                    <div class="title">
+                                        <div class="btn-group">
+                                            <button id="btn-list-title" class="btn  " title="">
+                                               All Service Offerings (<span id=socount ></span>)
+                                            </button>
+        
+                                        </div>
+                                    </div>
+        
+                                </div>
+        
+                                </header>
+                        </div>
+                        
+                    <div id="main-content" class="contact">
+                        
+                        <div id="tbMarksContainer">
+                        
+                            <div class="entity-list" id="entity-list">
+                                    
+                                <div class="table table-responsive" style="overflow: auto;height:400px">
+                                    
+                                    <table class="table table-bordered" id="myServiceofferingTable">
+                                        
+                                        <thead style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: 0px; white-space: nowrap;">
+                                            
+                                            <tr style="  font-weight:bold ; ">
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Business Unit</th>
+                                            <th scope="col">Product</th>
+                                            <th scope="col">Location</th>
+                                            <th scope="col">Engagement Type</th>
+                                            <th scope="col">Unit of Measure</th>
+                                            <th scope="col">Old Service Offering Combination</th>
+                                            
+                                        </tr>
+                                    </thead>
+                    
+                                    <tbody id="serviceOfferingTable">
+                         
+        
+                                        </tbody>
+        
+                                    </table>
+                                    <div class="modal fade docs-example-modal-lg" id="somodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                          <div class="modal-content">
+                                            <!-- Modal Header -->
+                                                  <div class="modal-header" style="background-color: #e6e0e094; color:black;">
+                                                    <h6 class="modal-title">Business Partner</h1>
+                                                    <button type="button" class="close" data-dismiss="modal"  onclick="" style="color: #000; opacity:1.5;">×</button>
+                                                  </div>
+                                                  
+                                                  <!-- Modal body--> 
+                                                  <div class="modal-body">
+                                      
+                                                      <form class="form-signin" action="/modal" method="post" >
+                                                                                                                
+                                                 <div class="row">
+                                      
+                                                  <div class="col-sm-1"></div>
+                                                     <div class="col-sm-2">Status</div>
+                                                  <div class="col-sm-3">
+                                                  <input type="text" required class="form-control" disabled name="status" id="status" style="height: 71%;">
+                                                  </div>
+                                                  
+                                                  <div class="col-sm-2">
+                                                     Business Partner Id</div>
+                                                     <div class="col-sm-3">
+                                                  <input type="text" required class="form-control" disabled name="businesspId" id="businesspId" style="height: 71%;">
+                                                  </div>
+                                                    <div class="col-sm-1"></div>
+                                                  </div>
+                                                                                         
+                                                  <div class="row">
+                                                  <div class="col-sm-1"></div>
+                                                     <div class="col-sm-2">
+                                                      Business Partner</div>
+                                                  <div class="col-sm-3">
+                                                  <input type="text" required class="form-control" disabled name="business" id="business" style="height: 71%;">
+                                                  </div>
+                                          
+                                                  
+                                                     <div class="col-sm-2" >City</div>
+                                                  <div class="col-sm-3">
+                                                  <input type="text" required class="form-control" disabled name="cityB" id="cityB" style="height: 71%;">
+                                                  </div>
+                                                   <div class="col-sm-1"></div>
+                                                 </div>
+                                                  
+                                     
+                                                   <div class="row">
+                                                 <div class="col-sm-1"></div>
+                                                     <div class="col-sm-2">Main Contact</div>
+                                                  
+                                                  <div class="col-sm-3">
+                                                  <input type="text" required class="form-control" disabled name="mainc" id="mainc" style="height: 71%;">
+                                                  </div>
+                                                  
+                                                     <div class="col-sm-2">
+                                                     Created On</div>
+                                                  
+                                                  <div class="col-sm-3">
+                                                  <input type="date" required class="form-control" disabled name="created" id="created" style="height: 71%;">
+                                                  </div>
+                                                  <div class="col-sm-1"></div>
+                                                  </div>
+                                                                                           
+                                                  <div class="row">
+                                                  <div class="col-sm-1"></div>
+                                                     <div class="col-sm-2"> Country</div>
+                                                  <div class="col-sm-3">
+                                                  <select class="form-control" name="countryb" disabled id="countryb" style="height: 71%;">
+                                                    <option selected></option>
+                                                        <option>Arab Emirates</option>
+                                                        <option>Afghanisthan</option>
+                                                        <option>Albania</option>
+                                                        <option>Armenia</option>
+                                                        <option>Angola</option>
+                                                        <option>Argentina</option>  
+                                                        <option>Zimbabwe</option> 
+                                                        <option>Bahamas</option>
+                                                        <option>Bahrain</option>
+                                                        <option>Bangladesh</option>
+                                                        <option>Barbados</option>
+                                                        <option>Belarus</option>
+                                                        <option>Belgium</option>
+                                                        <option>Belize</option>
+                                                        <option>Benin</option>
+                                                        <option>Bermuda</option>
+                                                        <option>Bhutan</option>
+                                                        <option>Bolivia</option>                                                               
+                                                        
+                                                    </select>	
+                                                  </div>
+                                                  <div class="row">
+                                                 <div class="col-sm-1"></div>
+                                                     <div class="col-sm-2">Type</div>
+                                                  
+                                                  <div class="col-sm-3">
+                                                  <input type="text" required class="form-control" disabled name="typeb" id="typeb" style="height: 71%;">
+                                                  </div>
+                                                  <div class="col-sm-1"></div>
+                                                  </div>
+                                                                                          
+                                                  <br>
+                                                  </div>
+                                                  <!-- Modal footer--> 
+                                                  <div class="modal-footer">
+                                                                                                        
+                                                  <button type="submit" id="saveBusiness" class="btn btn-primary"
+                                                    data-dismiss="modal" hidden
+                                                    onclick="">save</button>
+                                                <button type="button" id="cancelBusiness" class="btn"
+                                                    data-dismiss="modal" onclick=""
+                                                    hidden>cancel</button>
+                                                <button type="submit" id="editBusiness" class="btn btn-primary"
+                                                    onclick="">Edit</button>
+                                                                        
+                                                      
+                                                  </div>
+                                                </form>
+                                                </div>
+                                              </div>
+                                          </div>
+                                        </div>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+                            </div>
 
+                          
+
+                </div>
+
+            </div>
            
             <div id="accountTab" class="tab tab-pane ">
                 <div id="main" class="">
@@ -5626,7 +5926,7 @@ background-size: 8%;'></div>
                                     </tbody>
 
                                 </table>
-                                
+                            
 
                                 <div class="container">
 
@@ -7984,7 +8284,7 @@ background-size: 8%;'></div>
                                
                                         <div class="entity-list" id="entity-list">
                                             <div  class="table table-responsive" style="overflow: auto;height:200px">
-                                                <table class="table table-bordered">
+                                                <table class="table table-bordered" id="myAccountSubtable">
                                                         <thead style="background-color: rgb(51, 122, 183);position: relative;color: rgb(255, 255, 255);top: 0px;">
                                                                                <tr style="  font-weight:bold ; ">
                                                 <th>Old c4c Account ID</th>

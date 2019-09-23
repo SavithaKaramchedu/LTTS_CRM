@@ -1161,6 +1161,19 @@
       ]
     },
     {
+      "route": "/serviceoffering",
+      "type": "get",
+      "configured": true,
+      "routeclass": "./sampleservice.js",
+      "routefunction": "getServiceoffering",
+      "description": "Route for listing all the active Businesspartners",
+      "examples": [
+        {
+          "param": "/serviceoffering"
+        }
+      ]
+    },
+    {
       "route": "/addcontactinfo",
       "type": "post",
       "configured": true,
