@@ -738,30 +738,30 @@ $.fn.cellPos = function (rescan) {
 
         function opportunityedit() {
             $("#name").prop("disabled", false);
-            $("#account").prop("disabled", false);
-            $("#primarycontact").prop("disabled", false);
+            $("#account").prop("disabled", true);
+            $("#primarycontact").prop("disabled", true);
             $("#sourceedit").prop("disabled", false);
             $("#exceptedvalue").prop("disabled", false);
-            $("#StartDate").prop("disabled", false);
-            $("#closingdate").prop("disabled", false);
-            $("#salescycle").prop("disabled", false);
+            $("#StartDate").prop("disabled", true);
+            $("#EndDate").prop("disabled", false);
+            $("#salescycle").prop("disabled", true);
             $("#salesphase").prop("disabled", false);
             $("#probability").prop("disabled", false);
             $("#publishtoforecast").prop("disabled", false);
             $("#forecastcategory").prop("disabled", false);
             $("#category").prop("disabled", false);
             $("#owneropportunity").prop("disabled", false);
-            $("#Owneropp").prop("disabled", false);
+            $("#Owneropp").prop("disabled", true);
             $("#Note").prop("disabled", false);
             $("#Proposed").prop("disabled", false);
-            $("#Total").prop("disabled", false);
-            $("#weightedvalue").prop("disabled", false);
+            $("#Total").prop("disabled", true);
+            $("#weightedvalue").prop("disabled", true);
             $("#vertical").prop("disabled", false);
             $("#AllianceDependencies").prop("disabled", false);
             $("#type").prop("disabled", false);
             $("#opportunityStatus").prop("disabled", false);
-            $("#Status").prop("disabled", false);
-            $("#reasonStatus").prop("disabled", false);
+            $("#Status").prop("disabled", true);
+            $("#reasonStatus").prop("disabled", true);
             $("#RevenueStartDate").prop("disabled", false);
             $("#RevenueEndDate").prop("disabled", false);
             $("#sales").prop("disabled", false);
@@ -1862,49 +1862,47 @@ chart3.render();  }
         
         function parentAccountDisplay() {
 
-            var tableData = "";
-            var url = "https://localhost:9090/parentacc";
-        
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (result) {
-              
-                    for (var i = 0; i < result[0].length; i++) {
-                      
-                     
-                       
-                        if (result[0][i].accountcode == null || result[0][i].accountcode == 0){
-                            result[0][i].accountcode = "";
-                        } 
-                        if (result[0][i].ExternalID == null || result[0][i].ExternalID == 0){
-                            result[0][i].ExternalID = "NA";
-                        } 
-                        if (result[0][i].name == null || result[0][i].name == 0){
-                            result[0][i].name = "";
-                        } 
-                        var acctparentid="\""+result[0][i].accountid+"\"";
-                        var acctparentname="\""+result[0][i].name+"\"";
-                        
-                    tableData = tableData + " <tr class='customtr' onclick='parentacciddisplay("+acctparentid+","+acctparentname+")' data-dismiss='modal'> " +
-                        "<td >" + result[0][i].ExternalID + "</td>" +
-                        "<td >" + result[0][i].accountcode + "</td>" +
-                        "<td >" + result[0][i].name + "</td>" +
-                        "</tr>";
-                    }
+                var tableData = "";
+                var url = "https://localhost:9090/parentacc";
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
+
+                        for (var i = 0; i < result[0].length; i++) {
+                            if (result[0][i].accountcode == null || result[0][i].accountcode == 0) {
+                                result[0][i].accountcode = "";
+                            }
+                            if (result[0][i].ExternalID == null || result[0][i].ExternalID == 0) {
+                                result[0][i].ExternalID = "NA";
+                            }
+                            if (result[0][i].name == null || result[0][i].name == 0) {
+                                result[0][i].name = "";
+                            }
+                            var acctparentid = "\"" + result[0][i].accountid + "\"";
+                            var acctparentname = "\"" + result[0][i].name + "\"";
+
+                            tableData = tableData + " <tr class='customtr' onclick='parentacciddisplay(" + acctparentid + "," + acctparentname + ")' data-dismiss='modal'> " +
+                                "<td >" + result[0][i].ExternalID + "</td>" +
+                                "<td >" + result[0][i].accountcode + "</td>" +
+                                "<td >" + result[0][i].name + "</td>" +
+                                "</tr>";
+                        }
                         $("#parentAccountTable").html(tableData);
-             }
-            
-            });
-           
-           
-        }
+                    }
+
+                });
+
+
+            }
         
         function parentacciddisplay(i,j) {
             
             $("#editparrentaccid").val(i);
-
+            $("#accounthiddenid").val(i);
             $("#parentAccount").val(j);
+            $("#account").val(j);
             $("#parentaccidhidden").val(i);
             $("#parentAccount").prop("disabled", false);
             
@@ -2747,7 +2745,8 @@ chart3.render();  }
 
            }
            function leadcontdisplay(i,j,k,l,m,n) {
-                 
+            $("#pchiddenid").val(i);
+            $("#primarycontact").val(m); 
                  $("#leadconthiddenid").val(i);
                  if(j=="null"||i==""){
                      j=""
@@ -2767,6 +2766,7 @@ chart3.render();  }
                  $("#lmobile").val(k);
                  $("#lemail").val(l);
                  $("#editfirmid").val(i);
+
                 
              }
         function insertaccountcontact(i) {
@@ -3425,24 +3425,24 @@ clearFormBusiness();
                         leadLoad();
                     };
 
-                    function deleteleadrecord() {
-                        var id = $("#cdid").text();
-                        var url = "https://localhost:9090/leads/" + id;
-                       
-                        $.ajax({
+            function deleteleadrecord() {
+                var id = $("#cdid").text();
+                var url = "https://localhost:9090/leads/" + id;
 
-                            url: url,
-                            type: "DELETE",
-                            async: true,
-                            contentType: "application/json",
-                            dataType: "json",
-                            success: function (result) {
-                            },
-                        });
-                        leadLoad();
+                $.ajax({
 
-                    };
-            
+                    url: url,
+                    type: "DELETE",
+                    async: true,
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (result) {
+                    },
+                });
+                leadLoad();
+
+            };
+
             function deleteleaddisplay(i) {
 
                         var url = "https://localhost:9090/deleteleaddisplay/" + i;
@@ -3566,169 +3566,179 @@ clearFormBusiness();
                         
 
                   function opportunityLoad() {
-                                var tableData = "";
-                                $("#loading").css('display','block'); 
-                                var url = "https://localhost:9090/opportunity";
-                                $.ajax({
-                                    url: url,
-                                    type: "GET",
-                                    success: function (result) {
-                                        $("#loading").css('display','none'); 
-                                        $("#opportunityid").text(result[0].length);
-                                        for (var i = 0; i < result[0].length; i++) {
-                                            if (result[0][i].SOURCEC4COPPORTUNITYCODE == null || result[0][i].SOURCEC4COPPORTUNITYCODE == 0) {
-                                                result[0][i].SOURCEC4COPPORTUNITYCODE = "";
-                                            }
-                                            if (result[0][i].REASONFORSTATUS == null || result[0][i].REASONFORSTATUS == 0) {
-                                                result[0][i].REASONFORSTATUS = "";
-                                            }
-                                            if (result[0][i].ChangedBy == null || result[0][i].ChangedBy == 0) {
-                                                result[0][i].ChangedBy = "";
-                                            }
-                                            var oppoID="\""+result[0][i].OPPORTUNITYID+"\"";
-                                            
-                                            tableData = tableData + "  <tr> " +
-                                                "<td >" + result[0][i].OPPORTUNITYCODE + "</td>" +
-                                                "<td >" + result[0][i].SOURCEC4COPPORTUNITYCODE + "</td>" +
-                                                "<td >" + "<a href='#opportunityeditModal' data-toggle='modal' data-backdrop='static' data-keyboard='false' onclick='oppoSalesCycledropdown(), oppoSalesphasedropdown(), oppoCategorydropdown(), opposourcedropdown(),oppotypedropdown(),oppostatusdropdown(),opportunitysalesorgdropdown(),opposalesunitdropdown(),opposalesofficedropdown(),oppocustomcategorydropdown(),opportunitydisplay("+oppoID+")'>" + result[0][i].Name + "</a>" + "</td>" +
-                                                //"<td + "<a href='#opportunityeditModal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>"+ result[0][i].Name + "</a>"+"</td>" +
-                                                "<td >" + result[0][i].Account + "</td>" +
-                                                "<td >" + result[0][i].CloseDate + "</td>" +
-                                                "<td >" + result[0][i].SalesPhase + "</td>" +
-                                                "<td >" + result[0][i].EXPECTEDVALUE + "</td>" +
-                                                "<td >" + result[0][i].Owner + "</td>" +
-                                                "<td >" + result[0][i].OPPORTUNITYSTATUS + "</td>" +
-                                                "<td >" + result[0][i].REASONFORSTATUS + "</td>" +
-                                                "<td >" + result[0][i].ChangedOn + "</td>" +
-                                                "<td >" + result[0][i].ChangedBy + "</td>" +
-                                                "</tr>";
-                                        }
-
-                                        $("#opportunityTable").html(tableData);
+                        var tableData = "";
+                        $("#loading").css('display', 'block');
+                        var url = "https://localhost:9090/opportunity";
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+                            success: function (result) {
+                                $("#loading").css('display', 'none');
+                                $("#opportunityid").text(result[0].length);
+                                for (var i = 0; i < result[0].length; i++) {
+                                    if (result[0][i].SOURCEC4COPPORTUNITYCODE == null || result[0][i].SOURCEC4COPPORTUNITYCODE == 0) {
+                                        result[0][i].SOURCEC4COPPORTUNITYCODE = "";
                                     }
-                                });
-                            };
+                                    if (result[0][i].REASONFORSTATUS == null || result[0][i].REASONFORSTATUS == 0) {
+                                        result[0][i].REASONFORSTATUS = "";
+                                    }
+                                    if (result[0][i].ChangedBy == null || result[0][i].ChangedBy == 0) {
+                                        result[0][i].ChangedBy = "";
+                                    }
+                                    var oppoID = "\"" + result[0][i].OPPORTUNITYID + "\"";
+                                    tableData = tableData + "  <tr> " +
+                                        "<td >" + result[0][i].OPPORTUNITYCODE + "</td>" +
+                                        "<td >" + result[0][i].SOURCEC4COPPORTUNITYCODE + "</td>" +
+                                        "<td >" + "<a href='#opportunityeditModal' data-toggle='modal' data-backdrop='static' data-keyboard='false' onclick='oppoSalesCycledropdown(), oppoSalesphasedropdown(), oppoCategorydropdown(), opposourcedropdown(),oppotypedropdown(),oppostatusdropdown(),opportunitysalesorgdropdown(),opposalesunitdropdown(),opposalesofficedropdown(),oppocustomcategorydropdown(),opportunitydisplay(" + oppoID + ")'>" + result[0][i].Name + "</a>" + "</td>" +
+                                        //"<td + "<a href='#opportunityeditModal' data-toggle='modal' data-backdrop='static' data-keyboard='false'>"+ result[0][i].Name + "</a>"+"</td>" +
+                                        "<td >" + result[0][i].Account + "</td>" +
+                                        "<td >" + result[0][i].CloseDate + "</td>" +
+                                        "<td >" + result[0][i].SalesPhase + "</td>" +
+                                        "<td >" + result[0][i].EXPECTEDVALUE + "</td>" +
+                                        "<td >" + result[0][i].Owner + "</td>" +
+                                        "<td >" + result[0][i].OPPORTUNITYSTATUS + "</td>" +
+                                        "<td >" + result[0][i].REASONFORSTATUS + "</td>" +
+                                        "<td >" + result[0][i].ChangedOn + "</td>" +
+                                        "<td >" + result[0][i].ChangedBy + "</td>" +
+                                        "</tr>";
+                                }
+                                $("#opportunityTable").html(tableData);
+                            }
+                        });
+                    };
 
-        function opportunitydisplay(i){
-         
-            var url = "https://localhost:9090/opportunity/"+i;
+        function opportunitydisplay(i) {
+
+                var url = "https://localhost:9090/opportunity/" + i;
                 $.ajax({
-                url: url,
-                type: "GET",
-                success: function (result) {
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
+                        if (result[0][0].REVENUESTARTDATE != null) {
+                            var rstartdatetrim = result[0][0].REVENUESTARTDATE.slice(0, 10);
+                        }
+                        else {
+                            var rstartdatetrim = result[0][0].REVENUESTARTDATE;
+                        }
                         $("#oid").text(i);
                         //$("#oppaccountid").text(i);
-                       console.log(result);  
                         $("#oid").val(result[0][0].OPPORTUNITYID);
                         $("#name").val(result[0][0].TITLE);
                         $("#account").val(result[0][0].Account);
+                        $("#accounthiddenid").val(result[0][0].ACCOUNTID);
                         $("#primarycontact").val(result[0][0].PrimaryContact);
-                        $("#sourceedit").val(result[0][0].OPPORTUNITYSOURCEID).attr('selected','selected'); 
-                        $("#StartDate").val(result[0][0].STARTDATE); 
-                        $("#EndDate").val(result[0][0].ENDDATE);
+                        $("#pchiddenid").val(result[0][0].CONTACTID);
+                        $("#sourceedit").val(result[0][0].OPPORTUNITYSOURCEID).attr('selected', 'selected');
+                        var startdatetrim = result[0][0].STARTDATE.slice(0, 10);
+                        $("#StartDate").val(startdatetrim);
+                        var enddatetrim = result[0][0].ENDDATE.slice(0, 10);
+                        $("#EndDate").val(enddatetrim);
                         $("#exceptedvalue").val(result[0][0].EXPECTEDVALUE);
-                        $("#salescycle").val(result[0][0].SALESCYCLEID).attr('selected','selected'); 
-                        $("#salesphase").val(result[0][0].SALESPHASEID).attr('selected','selected'); 
+                        $("#salescycle").val(result[0][0].SALESCYCLEID).attr('selected', 'selected');
+                        $("#salesphase").val(result[0][0].SALESPHASEID).attr('selected', 'selected');
                         $("#probability").val(result[0][0].PROBABILITY);
                         $("#forecastcategory").val(result[0][0].OPPORTUNITYCATEGORY);
-                        $("#category").val(result[0][0].OPPORTUNITYCATEGORYID).attr('selected','selected');
+                        $("#category").val(result[0][0].OPPORTUNITYCATEGORYID).attr('selected', 'selected');
                         $("#Proposed").val(result[0][0].PROPOSEDTCV);
                         $("#Total").val(result[0][0].TOTALNEGOTIATEDVALUE);
                         $("#weightedvalue").val(result[0][0].WEIGHTEDVALUE);
                         $("#vertical").val(result[0][0].VERTICAL);
-                        $("#type").val(result[0][0].OPPORTUNITYTYPEID).attr('selected','selected');
-                        $("#opportunityStatus").val(result[0][0].OPPORTUNITYSTATUSID).attr('selected','selected');
+                        $("#type").val(result[0][0].OPPORTUNITYTYPEID).attr('selected', 'selected');
+                        $("#opportunityStatus").val(result[0][0].OPPORTUNITYSTATUSID).attr('selected', 'selected');
                         $("#Status").val(result[0][0].Status);
                         $("#reasonStatus").val(result[0][0].REASONFORSTATUS);
-                        $("#RevenueStartDate").val(result[0][0].REVENUESTARTDATE);
-                        $("#RevenueEndDate").val(result[0][0].REVENUEENDDATE); 
-                        $("#sales").val(result[0][0].SALESORGID).attr('selected','selected');
-                        $("#unit").val(result[0][0].SALESUNITID).attr('selected','selected');
-                        $("#soffice").val(result[0][0].SALESOFFICEID).attr('selected','selected');
-                        $("#customcategory").val(result[0][0].CUSTOMCATEGORYID).attr('selected','selected');
-                        $("#wondate").val(result[0][0].OPPORTUNITYWONDATE); 
-                        $("#owneropportunity").val(result[0][0].Owner);    
-                }      
-            });
-           
-            clearFormopportunity();
-        }
-       
+                        $("#RevenueStartDate").val(rstartdatetrim);
+                        var renddatetrim = result[0][0].REVENUEENDDATE.slice(0, 10);
+                        $("#RevenueEndDate").val(renddatetrim);
+                        $("#sales").val(result[0][0].SALESORGID).attr('selected', 'selected');
+                        $("#unit").val(result[0][0].SALESUNITID).attr('selected', 'selected');
+                        $("#soffice").val(result[0][0].SALESOFFICEID).attr('selected', 'selected');
+                        $("#customcategory").val(result[0][0].CUSTOMCATEGORYID).attr('selected', 'selected');
+                        var oppwondatetrim = result[0][0].REVENUEENDDATE.slice(0, 10);
+                        $("#wondate").val(oppwondatetrim);
+                        $("#owneropportunity").val(result[0][0].Owner);
+                        $("#owneroppohiddenid").val(result[0][0].OWNERID);
+                    }
+                });
+                clearFormopportunity();
+            }
         function updateopportunityrecord() {
-                var iOpportunityID = $("#oid").val();
+                var iOpportunityID = $("#oid").val();           
                 var iTitle = $("#name").val();
-                var iAccountID = $("#account").val();
-                var iContactID = $("#primarycontact").val();
+                var iAccountID = $("#accounthiddenid").val();
+                var iContactID = $("#pchiddenid").val();
                 var Source = $("#sourceedit").children("option:selected").text();
                 var iExpectedValue = $("#exceptedvalue").val();
                 var iStartDate = $("#StartDate").val();
-                if (iStartDate == null || iStartDate == 0) {
-                    iStartDate = "2018-09-13 00:00:00";
+               if (iStartDate == null || iStartDate == 0) {
+                    iStartDate = "2018-09-13";
                 } else {
                     startdate = $("#StartDate").val();
                 }
                 var iEndDate = $("#closingdate").val();
                 if (iEndDate == null || iEndDate == 0) {
-                    iEndDate = "2018-08-13 00:00:00";
+                    iEndDate = "2018-08-13";
                 } else {
                     iEndDate = $("#closingdate").val();
                 }
-                var Salescycle = $("#salescycle").children("option:selected").text();
-                var iSalesPhaseID = $("#salesphase").children("option:selected").text();
+                var Salescycle = $("#salescycle").children("option:selected").val();
+                var iSalesPhaseID = $("#salesphase").children("option:selected").val();
                 var Probability = $("#probability").val();
                 var Forecastcategory = $("#forecastcategory").val();
-                var iOpportunityCategoryID = $("#category").children("option:selected").text();
-                var iOwnerID = $("#owneropportunity").val();  
+                var iOpportunityCategoryID = $("#category").children("option:selected").val();
+                var iOwnerID = $("#owneroppohiddenid").val();  
                 var ProposedTCV = $("#Proposed").val();
                 var TotalNegotiatedValue = $("#Total").val();
                 var Weightedvalue = $("#weightedvalue").val();
                 var Vertical = $("#vertical").val();
-                var OpportunityType = $("#type").children("option:selected").text();
-                var OpportunityStatus = $("#opportunityStatus").val();
-                var OppStatus = $("#Status").children("option:selected").text();
+                var OpportunityType = $("#type").children("option:selected").val();
+               // var OppStatus = $("#Status").val();
+                var OpportunityStatusid = $("#opportunityStatus").children("option:selected").val();
                 var ReasonStatus = $("#reasonStatus").val();
                 var RevenueStart = $("#RevenueStartDate").val();
                 var Revenueend = $("#RevenueEndDate").val();
-                var salesorg = $("#sales").children("option:selected").text();
-                var salesunit = $("#unit").children("option:selected").text();
-                var salesoffice = $("#soffice").children("option:selected").text();
-                var custom = $("#customcategory").children("option:selected").text();
+                var salesorg = $("#sales").children("option:selected").val();
+                var salesunit = $("#unit").children("option:selected").val();
+                var salesoffice = $("#soffice").children("option:selected").val();
+                var custom = $("#customcategory").children("option:selected").val();
                 var wdate = $("#wondate").val();
                 var data = {
-                    "id": id,
-                    "name": Name,
-                    "account": Account,
-                    "primarycontact": Primarycontact,
-                    "source": Source,
-                    "exceptedvalue": Exceptedvalue,
-                    "startdate": startdate,
-                    "closedate": closedate,
-                    "salescycle": Salescycle,
-                    "salesphase": Salesphase,
-                    "probability": Probability,
-                    "forecastcategory": Forecastcategory,
-                    "category": Category,
-                    "owner": Owner,
-                    "propTCV":ProposedTCV,
-                    "TNvalue":TotalNegotiatedValue,
-                    "wvalue":Weightedvalue,
-                    "vertic":Vertical,
-                    "opptype":OpportunityType,
-                    "oppstatus":OpportunityStatus,
-                    "ostatus":OppStatus,
-                    "Rstatus":ReasonStatus,
-                    "Rstart":RevenueStart,
-                    "Rend":Revenueend,
-                    "sorg":salesorg,
-                    "sunit":salesunit,
-                    "soffice":salesoffice,
-                    "CUSTOM":custom,
-                    "wondate":wdate
+                    "iOpportunityID": iOpportunityID,
+                    "name": iTitle,
+                    "account": iAccountID,
+                    "primarycontact": iContactID,
+                    // "source": Source,
+                    "exceptedvalue": iExpectedValue,
+                    "startdate": iStartDate,
+                    "closedate": iEndDate,
+                    //  "salescycle": Salescycle,
+                    "salesphase": iSalesPhaseID,
+                    // "probability": Probability,
+                    // "forecastcategory": Forecastcategory,
+                    "category": iOpportunityCategoryID,
+                    "owner": iOwnerID,
+                    "propTCV": ProposedTCV,
+                    "TNvalue": TotalNegotiatedValue,
+                    "wvalue": Weightedvalue,
+                    "vertic": '',
+                    "opptype": OpportunityType,
+                    "oppstatus":OpportunityStatusid,
+                    // "ostatus":OppStatus,
+                    "Rstatus": ReasonStatus,
+                    "Rstart": RevenueStart,
+                    "Rend": Revenueend,
+                    "sorg": salesorg,
+                    "sunit": salesunit,
+                    "soffice": salesoffice,
+                    "CUSTOM": custom,
+                    "wondate": wdate,
+                    "alliancesdepen": '',
+                    "UpdatedBy": 'admin',
+                
                 }
                 data = JSON.stringify(data);
-
-                var url = "https://localhost:9090/opportunity/" + id;
-
+                if(iExpectedValue!="" &&wdate!=""){  
+                var url = "https://localhost:9090/opportunity/" +iOpportunityID;
                 $.ajax({
                     url: url,
                     type: "put",
@@ -3737,24 +3747,28 @@ clearFormBusiness();
                     contentType: "application/json",
                     dataType: "json",
                     success: function (data) {
-
                     },
                 });
+                } else {
+                    console.log("enter required feilds");                   
+                } 
                 opportunityLoad();
             }
-                    function deleteoppodisplay(i) {
-                        var url = "https://localhost:9090/deleteopp/" + i;
-                        $.ajax({
-                            url: url,
-                            type: "GET",
-                            success: function (result) {
-                                var c = $("#cdid").text(result[0].id);
-                                document.getElementById("deleteid").setAttribute("onclick", "deleteopportunity();");
-                            }
-                        });
 
-                    }
-    
+
+        function deleteoppodisplay(i) {
+            var url = "https://localhost:9090/deleteopp/" + i;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    var c = $("#cdid").text(result[0].id);
+                    document.getElementById("deleteid").setAttribute("onclick", "deleteopportunity();");
+                }
+            });
+
+        }
+
         function opposourcedropdown() {
                 var sourcedata = "";
                 var url = "https://localhost:9090/sourceopp/";
@@ -3774,25 +3788,25 @@ clearFormBusiness();
 
             }   
          function oppoSalesCycledropdown() {
-            var SalesCycledata = "";
-            var url = "https://localhost:9090/SalesCycle/";
+                var SalesCycledata = "";
+                var url = "https://localhost:9090/SalesCycle/";
 
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (result) {
-                   
-                    for (var i = 0; i < result[0].length; i++) {
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (result) {
 
-                        SalesCycledata = SalesCycledata +
-                            '<option value="' + result[0][i].SalesCycleID + '">' + result[0][i].SalesCycle + '</option>';
+                        for (var i = 0; i < result[0].length; i++) {
+
+                            SalesCycledata = SalesCycledata +
+                                '<option value="' + result[0][i].SalesCycleID + '">' + result[0][i].SalesCycle + '</option>';
+                        }
+                        $("#SalesCycle").html(SalesCycledata);
+                        $("#salescycle").html(SalesCycledata);
                     }
-                    $("#SalesCycle").html(SalesCycledata);
-                    $("#salescycle").html(SalesCycledata);
-                }
-            });
+                });
 
-        } 
+            } 
         function oppoSalesphasedropdown() {
             var Salesphasedata = "";
             var url = "https://localhost:9090/Salesphase";
@@ -6354,6 +6368,8 @@ background-size: 8%;'>
                                                     <div class="col-sm-2">Account :</div>
                                                     <div class="col-sm-3">
                                                         <input type="text" class="form-control form-control-sm" id="account" placeholder="" style=" height: 24px;"disabled>
+                                                        <input type="text" class="form-control form-control-sm" id="accounthiddenid" placeholder="" style=" height: 24px; display: none">
+
                                                     </div>
                                                     <div class="col-sm-1"><a href="#parrentaccModal" data-toggle="modal" onclick="parentAccountDisplay()"><span class="fa fa-share" id="accdisplayshare1"style="margin-left: -21px;" ></span> </a></div>
                                                 </div>
@@ -6368,24 +6384,26 @@ background-size: 8%;'>
                                                         <div class="col-sm-3">
                                                             <input type="text" class="form-control form-control-sm" id="primarycontact" placeholder=""
                                                                 style=" height: 22px;width:157px; " disabled>
+                                                                <input type="text" class="form-control form-control-sm" id="pchiddenid" placeholder="" style=" height: 24px; display: none">
+
                                                         </div>
                                                         <div class="col-sm-1"><a href="#leadcontmodal" data-toggle="modal" onclick="leadcontactdisplay()"><span class="fa fa-share" id="accdisplayshare2" style="margin-left: -21px;"></span> </a></div>
                                                     </div>
                                             
                                             <div class="form-group row">
                                                 <div class="col-sm-1"></div>
-                                                <div class="col-sm-2"><label style="width:108px">Expected Value:</label></div>
+                                                <div class="col-sm-2"><label style="width:108px"><span style="color: red">*</span> Expected Value: </label></div>
                                                 <div class="col-sm-1">
                                                     <input type="text" class="form-control form-control-sm" id="exceptedvalue" placeholder=""
-                                                        style="height: 24px;width: 57px;" disabled>
+                                                        style="height: 24px;width: 57px;" disabled required>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
+                                                        <option>USD</option>
                                                         <option>AUD</option>
                                                         <option>EUR</option>
                                                         <option>GBP</option>
                                                         <option>INR</option>
-                                                        <option>USD</option>
                                                         <option>YEN</option>
                                             
                                                     </select>
@@ -6401,10 +6419,9 @@ background-size: 8%;'>
                                                 <div class="col-sm-1"></div>
                                                 <div class="col-sm-2">Closing Date :</div>
                                                 <div class="col-sm-3">
-                                                    <input type="text" class="form-control form-control-sm" id="EndDate" placeholder="" style="height: 24px;"
+                                                    <input type="date" class="form-control form-control-sm" id="EndDate" placeholder="" style="height: 24px;"
                                                         disabled>
-                                                    <input type="date" id="closingdate" class="form-control"
-                                                        style="width:100%; height:71%; padding:0px 0px; display: none" name="StartDate" disabled></div>
+                                                </div>  
                                                 <div class="col-sm-2"><label style="width:108px"> Sales cycle :</label></div>
                                                 <div class="col-sm-3">
                                                     <select class="strike" id="salescycle" style="height:26px;width:158px;" disabled>
@@ -6454,6 +6471,8 @@ background-size: 8%;'>
                                                 <div class="col-sm-3">
                                                     <input type="text" class="form-control form-control-sm" id="owneropportunity" placeholder=""
                                                         style="height: 27px;" disabled>
+                                                        <input type="text" class="form-control form-control-sm" id="owneroppohiddenid" placeholder="" style=" height: 24px; display: none">
+
                                                 </div>
                                                 <div class="col-sm-1"><a href="#oppgifmodal" data-toggle="modal" onclick="ownerAccountDisplay()"><span class="fa fa-share" id="accdisplayshare3" style="margin-left: -21px;"></span> </a></div>
                                             </div>
@@ -6466,12 +6485,12 @@ background-size: 8%;'>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
-                                                        <option>AUD</option>
-                                                        <option>EUR</option>
-                                                        <option>GBP</option>
-                                                        <option>INR</option>
-                                                        <option>USD</option>
-                                                        <option>YEN</option>
+                                                            <option>USD</option>
+                                                            <option>AUD</option>
+                                                            <option>EUR</option>
+                                                            <option>GBP</option>
+                                                            <option>INR</option>
+                                                            <option>YEN</option>
                                             
                                                     </select>
                                                 </div>
@@ -6482,12 +6501,12 @@ background-size: 8%;'>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
-                                                        <option>AUD</option>
-                                                        <option>EUR</option>
-                                                        <option>GBP</option>
-                                                        <option>INR</option>
-                                                        <option>USD</option>
-                                                        <option>YEN</option>
+                                                            <option>USD</option>
+                                                            <option>AUD</option>
+                                                            <option>EUR</option>
+                                                            <option>GBP</option>
+                                                            <option>INR</option>
+                                                            <option>YEN</option>
                                             
                                                     </select>
                                                 </div>
@@ -6502,12 +6521,12 @@ background-size: 8%;'>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <select class="strike" id="sell" style="height:24px ;width:94px;" disabled>
-                                                        <option>AUD</option>
-                                                        <option>EUR</option>
-                                                        <option>GBP</option>
-                                                        <option>INR</option>
-                                                        <option>USD</option>
-                                                        <option>YEN</option>
+                                                            <option>USD</option>
+                                                            <option>AUD</option>
+                                                            <option>EUR</option>
+                                                            <option>GBP</option>
+                                                            <option>INR</option>
+                                                            <option>YEN</option>
                                             
                                                     </select>
                                                 </div>
@@ -6623,10 +6642,10 @@ background-size: 8%;'>
                                                         <option>Allied Dependencies</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-sm-2">Opportunity Won Date: </div>
+                                                <div class="col-sm-2"> <span style="color: red">*</span>Opportunity Won Date: </div>
                                                 <div class="col-sm-3">
                                                     <input type="date" class="form-control form-control-sm" id="wondate" placeholder="" style=" height: 25px;"
-                                                        disabled>
+                                                        disabled required>
                                                 </div>
                                                 <div class="col-sm-1"></div>
                                             </div>
@@ -7824,27 +7843,28 @@ background-size: 8%;'>
 
         <div id="opportunityModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
             style="height: auto; padding-right: 0px  ! important;">
-            <form method="post" onsubmit="return false";>
+            <form method="post" onsubmit="return false" ;>
                 <div class="modal-content">
                     <div class="modal-header"
                         style="background-color: rgb(51, 122, 183);position: relative; top:0px;color: rgb(255, 255, 255); ">
                         <b class="modal-title" style="font-size:15px;margin-left:9px;">Lead To Opportunity :</b>
-                        <button type="button" class="close" style="color: white;opacity:1;" data-dismiss="modal" onclick="resetFormOpp()">×</button>
+                        <button type="button" class="close" style="color: white;opacity:1;" data-dismiss="modal"
+                            onclick="resetFormOpp()">×</button>
                     </div>
-
+        
                     <div class="modal-body">
-
+        
                         <div class="form-group row">
-
+        
                             <div class="col-sm-2"></div>
                             <div class="col-sm-3" style="font-size: 13px">
                                 <span style="color: red;">*</span>Name :</div>
-                   
+        
                             <div class="col-sm-6" style="top: 6px;">
                                 <input type="text" id="oppleadid" style="display:none">
                                 <input type="text" id="oppaccountid" style="display:none">
-                                <input type="text" class="form-control form-control-sm" id="oppName"
-                                    placeholder="" name="Name" style="height: 71%;" required>
+                                <input type="text" class="form-control form-control-sm" id="oppName" placeholder="" name="Name"
+                                    style="height: 71%;" required>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
@@ -7853,8 +7873,8 @@ background-size: 8%;'>
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm ">Account
                                 :</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="Accountopp"
-                                    placeholder="" name="Account" style="height: 71%;"  disabled>
+                                <input type="text" class="form-control form-control-sm" id="Accountopp" placeholder=""
+                                    name="Account" style="height: 71%;" disabled>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
@@ -7863,8 +7883,8 @@ background-size: 8%;'>
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm" ;>Primary
                                 Contact :</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="PrimaryContact"
-                                    placeholder="" name="PrimaryContact" style="height: 71%;"  disabled>
+                                <input type="text" class="form-control form-control-sm" id="PrimaryContact" placeholder=""
+                                    name="PrimaryContact" style="height: 71%;" disabled>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
@@ -7880,12 +7900,12 @@ background-size: 8%;'>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-2"></div>
-                           
+        
                             <div class="col-sm-3" style="font-size: 14px">
                                 <span style="color: red;">*</span>Excepted value :</div>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control form-control-sm" id="Exceptedvalue"
-                                    placeholder="" style="width: 145px; height:71%" name="Exceptedvalue" required>
+                                <input type="text" class="form-control form-control-sm" id="Exceptedvalue" placeholder=""
+                                    style="width: 145px; height:71%" name="Exceptedvalue" required>
                             </div>
                             <div class="col-sm-2">
                                 <select class="strike" id="sel1" style=" width: 55px;float: right;margin-right: 137%;">
@@ -7895,7 +7915,7 @@ background-size: 8%;'>
                                     <option>INR</option>
                                     <option>USD</option>
                                     <option>YEN</option>
-
+        
                                 </select>
                                 <div class="col-sm-1"></div>
                             </div>
@@ -7910,7 +7930,7 @@ background-size: 8%;'>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
-
+        
                         <div class="form-group row">
                             <div class="col-sm-2"></div>
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Closing Date
@@ -7921,7 +7941,7 @@ background-size: 8%;'>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
-
+        
                         <div class="form-group row">
                             <div class="col-sm-2"></div>
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Sales Cycle
@@ -7932,7 +7952,7 @@ background-size: 8%;'>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
-
+        
                         <div class="form-group row">
                             <div class="col-sm-2"></div>
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Sales phase
@@ -7943,17 +7963,18 @@ background-size: 8%;'>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
-
+        
                         <div class="form-group row">
                             <div class="col-sm-2"></div>
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Probability
                                 :</label>
                             <div class="col-sm-6">
-                                <input type="text" id="Probability"  value="10%" style="height: 71%;" class="form-control" name="Probability"  disabled>
+                                <input type="text" id="Probability" value="10%" style="height: 71%;" class="form-control"
+                                    name="Probability" disabled>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
-
+        
                         <div class="form-group row">
                             <div class="col-sm-2"></div>
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Publish to
@@ -7963,7 +7984,7 @@ background-size: 8%;'>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
-
+        
                         <div class="form-group row">
                             <div class="col-sm-2"></div>
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Forecast
@@ -7974,7 +7995,7 @@ background-size: 8%;'>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
-
+        
                         <div class="form-group row">
                             <div class="col-sm-2"></div>
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Category
@@ -7985,20 +8006,22 @@ background-size: 8%;'>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
-
+        
                         <div class="form-group row">
                             <div class="col-sm-2"></div>
                             <div class="col-sm-3" style="font-size: 13px">
                                 <span style="color: red;">*</span>Owner :</div>
                             <div class="col-sm-6">
-                                    <input type="text" id="owneroppoidhidden" style="display: none;">
-                                <input type="text" class="form-control form-control-sm" id="Owneropp" disabled
-                                    placeholder="" name="Owner" style="height: 71%;" required>
+                                <input type="text" id="owneroppoidhidden" style="display: none;">
+                                <input type="text" class="form-control form-control-sm" id="Owneropp" disabled placeholder=""
+                                    name="Owner" style="height: 71%;" required>
                             </div>
-                            <div class="col-sm-1"><a href="#oppgifmodal" data-toggle="modal" onclick="ownerAccountDisplay()"><span class="fa fa-share" style="margin-left: -21px;"></span> </a> 
+                            <div class="col-sm-1"><a href="#oppgifmodal" data-toggle="modal"
+                                    onclick="ownerAccountDisplay()"><span class="fa fa-share"
+                                        style="margin-left: -21px;"></span> </a>
                             </div>
                         </div>
-
+        
                         <div class="form-group row">
                             <div class="col-sm-2"></div>
                             <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Note :</label>
@@ -8008,13 +8031,13 @@ background-size: 8%;'>
                             </div>
                             <div class="col-sm-1"></div>
                         </div>
-
+        
                     </div>
-
+        
                 </div>
-
+        
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary"  onclick="addOpportunity();">Save</button>
+                    <button type="submit" class="btn btn-primary" onclick="addOpportunity();">Save</button>
                     <button type="reset" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                 </div>
             </form>
@@ -8075,17 +8098,16 @@ background-size: 8%;'>
                         </table>
                     </div>
                 </div>
-                                    <!-- Modal footer -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                            style=" color: #fff;
-                                            background-color: #337ab7;
-                                            border-color: #2e6da4; ">Cancel</button>
-                                    </div>
-                            
-                                </div>
-                            
-                            </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" style=" color: #fff;
+                                                    background-color: #337ab7;
+                                                    border-color: #2e6da4; ">Cancel</button>
+                </div>
+        
+            </div>
+        
+        </div>
 
 
         <div id="contactModal" class="modal hide no-reset" role="dialog" aria-labelledby="modal-form" aria-hidden="true"

@@ -522,19 +522,19 @@ exports.addContactPage = function (req, res) {
     };
        
 exports.ContactPage = function (req, res) {
-console.log("ContactPage");
+//console.log("ContactPage");
     var Sid = req.params.i;
     let query = " CALL `procAdminListAllContacts`()";
 
     db.query(query, (err, result) => {
 
         if (err) {
-            console.log(err);
+          //  console.log(err);
             res.redirect('/');
 
         }
         res.status(200).json(result);
-      console.log(result);
+     // console.log(result);
 
     });
 };
@@ -661,13 +661,13 @@ exports.addAccountPage = function (req, res) {
     let ownerID= req.body.ownerID;
   
     let query = "call `procInsertAccount`('" +name + "', '" + parentaccountID + "','" + accountcategory + "', '" + status + "','" + website + "','" + ownerID + "','" + own + "',@output,@output1)";
-console.log(query);
+//console.log(query);
         db.query(query, (err, result2) => {
         if (err) {
            
             return res.status(500).send(err);
         }
-       console.log(result2)
+      // console.log(result2)
         let query1="SELECT @output as msg,@output1 as id";
         db.query(query1, (err, result3) => {
             if (err) {
@@ -763,10 +763,10 @@ console.log(query);
 exports.recorddisplay = function (req, res) {
     var Sid = req.params.i;
     let query = 'call procEditAccount("' + Sid + '")';
-    console.log(query);
+  //  console.log(query);
     db.query(query, (err, result) => {
         if (err) {
-            console.log(err)
+        //    console.log(err)
             return res.status(500).send(err);
         }
         res.status(200).json(result);
@@ -851,56 +851,54 @@ exports.addOpportunity = function (req, res) {
 };
 
 exports.updateOpportunity = function (req, res) {
-    var Sid = req.body.id;
-    let Name = req.body.name;
+    var Sid = req.body.iOpportunityID;
     let Account = req.body.account;
-    let PrimaryContact = req.body.primarycontact;
-    let Source = req.body.source;
+    let Name = req.body.name;
+    let oppvertical = req.body.vertic;
+    let PrimaryContact = req.body.primarycontact;  
     let Exceptedvalue = req.body.exceptedvalue;
+    let tcv = req.body.propTCV;
+    let alliance = req.body.alliancesdepen;
+    let opptype = req.body.opptype;
     let StartDate = req.body.startdate;
     let ClosingDate = req.body.closedate;
-    let SalesCycle = req.body.salescycle;
     let Salesphase = req.body.salesphase;
-    let Probability = req.body.probability;
-    let ForecastCategory = req.body.forecastcategory;
+    let oppstat = req.body.oppstatus;
+    let rstart = req.body.Rstart;
+    let rend = req.body.Rend;
     let Category = req.body.category;
     let Owner = req.body.owner;
-    let tcv = req.body.ProposedTCV;
-    let value = req.body.TotalNegotiatedValue;
-    let wvalue = req.body.Weightedvalue;
-    let oppvertical = req.body.Vertical;
-    let opptype = req.body.OpportunityType;
-    let oppstat = req.body.OpportunityStatus;
-    let opportunitystat = req.body.OppStatus;
-    let rstatus = req.body.ReasonStatus;
-    let rstart = req.body.RevenueStart;
-    let rend = req.body.Revenueend;
-    let sorg = req.body.salesorg;
-    let sunit = req.body.salesunit;
-    let soffice = req.body.salesoffice;
-    let oppcustom = req.body.custom;
-    let oppdate = req.body.wdate;
+    let sorg = req.body.sorg;
+    let sunit = req.body.sunit;
+    let soffice = req.body.soffice;
+    let oppcustom = req.body.CUSTOM;
+    let oppdate = req.body.wondate;
+    let value = req.body.TNvalue;
+    let wvalue = req.body.wvalue;
+    let admin = req.body.UpdatedBy;
+    let SalesCycle = req.body.salescycle;
+    let Probability = req.body.probability;
+    let ForecastCategory = req.body.forecastcategory;
+    let Source = req.body.source;
+    let opportunitystat = req.body.Status;
+    let rstatus = req.body.Rstatus;
+   
 
-
-    let query = "call `procUpdateOpportunity` ('" + Name + "', '" + Account + "', '" + PrimaryContact + "','" + Source + "','" + Exceptedvalue + "','"
-        + StartDate + "', '" + ClosingDate + "','" + SalesCycle + "','" + Salesphase + "','"
-        + Probability + "', '" + ForecastCategory + "','" + Category + "','" + Owner + "', '"
-        + Sid + "','" + tcv + "','" + value + "','" + wvalue + "','" + oppvertical + "','"
-        + opptype + "','" + oppstat + "','" + opportunitystat + "','" + rstatus + "','" + rstart + "','"
-        + rend + "','" + sorg + "','" + sunit + "','" + soffice + "','" + oppcustom + "','" + oppdate + "')";
-
+    let query = "call `procUpdateOpportunity` ('" + Sid + "','" + Account + "','" + Name + "','" + oppvertical + "','" + PrimaryContact + "','" + Exceptedvalue + "','"
+        + tcv + "', '" + alliance + "','" + opptype + "','" + StartDate + "','" + ClosingDate + "','" + Salesphase + "','" + oppstat + "','"
+        + rstart + "','" + rend + "','" + Category + "','" + Owner + "','" + sorg + "','"
+        + sunit + "','" + soffice + "','" + oppcustom + "','" + oppdate + "','" + value + "','" + wvalue + "','" + admin + "')";
     db.query(query, (err, result) => {
         if (err) {
-            console.log(err)
             return res.status(500).send(err);
         }
-        res.redirect('/home');
+        res.status(200).json(result);
     });
 };
 
 exports.opportunitydisplay = function (req, res) {
     var Sid = req.params.i;
-    let query = "call `procDisplayOnOpportunityMouseHoover`('"+Sid + "' )";
+    let query = "call `procDisplayOnOpportunityMouseHoover`('" + Sid + "' )";
     db.query(query, (err, result) => {
         if (err) {
             return res.status(500).send(err);
