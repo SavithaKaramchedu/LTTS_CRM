@@ -559,31 +559,36 @@ exports.recorddisplaycont = function (req, res) {
 exports.updatereccontact = function (req, res) {
 
     var Sid = req.body.id;
-    let contactid = req.body.contid;
-    let acc = req.body.accountname;
+    let salid = req.body.salutation;
+    let actitle = req.body.academicTitle;
+    let acc = req.body.accountid;
     let firstname = req.body.firstname;
+    let mname = req.body.middleName;
     let lastname = req.body.lastname;  
     let jobtitle = req.body.jobtitle;
     let funct = req.body.functionname;
     let depart = req.body.department;
-    let phn = req.body.phone;
-    // let cit = req.body.city;
-    let fa = req.body.fax;
-    let mob = req.body.mobile;
-    let eml = req.body.email;
-    let salid = req.body.salutation;
-    let actitle = req.body.academicTitle;
-    let mname = req.body.middleName;
-    let businessadd = req.body.businessAddress;
     let bestreachid = req.body.bestReachedBy;
     let contpermid = req.body.contactPermission;
+    let phn = req.body.phone;
+    let mob = req.body.mobile;
+    let eml = req.body.email;
+    let accountcontactId = req.body.accountcontactId;
+    let iPhoneID=req.body.phoneid;
+    let iEmailID=req.body.emailid;
+    let iUpdatedBy = req.body.iUpdatedBy;
+     let fa = req.body.fax;
 
    
-    let query = "CALL `procUpdateContact`('" + contactid + "','" + firstname + "','" + lastname + "','" + acc + "','" + jobtitle + "','" + funct + "', '" + depart + "','"
-     + phn + "','" + fa + "','" + mob + "','" + eml + "','" + salid + "','" + actitle + "','" + mname + "','" + businessadd + "','" + bestreachid + "','" + contpermid + "','" + Sid + "')";
-    db.query(query, (err, result) => {
+    let query = "CALL `procUpdateContact`('" + Sid + "','" + salid + "','" + actitle + "','" + acc + "','" + firstname + "','" + mname + "', '" + lastname + "','"
+     + jobtitle + "','" + funct + "','" + depart + "','" + bestreachid + "','" + contpermid + "','" + phn + "','" + mob +
+      "','" + eml + "','" + accountcontactId + "','" + iPhoneID + "','" + iEmailID + "','" + iUpdatedBy + "')";
+    
+   // console.log(query);
+     db.query(query, (err, result) => {
 
         if (err) {
+          //  console.log(err);
             return res.status(500).send(err);
         }
         res.status(200).json(result);

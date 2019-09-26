@@ -2251,6 +2251,7 @@ chart3.render();  }
                     url: url,
                     type: "GET",
                     success: function (result) {
+
                         $("#screenloading").css('display','none'); 
 
 
@@ -2309,11 +2310,14 @@ chart3.render();  }
                         url: "https://localhost:9090/contact/" + i,
                         type: "GET",
                         success: function (result) {
-                          //  console.log(result);
+                          console.log(result);
                             $("#cid").text(i);
+                            $("#cid").val(result[0][0].CONTACTID); 
                             $("#firstname").val(result[0][0].FIRSTNAME);
                             $("#lastname").val(result[0][0].LASTNAME);
                             $("#acc").val(result[0][0].Account);
+                            $("#acchidden").val(result[0][0].accountid);
+                            $("#accconidhidden").val(result[0][0].ACCOUNTCONTACTID);
                             $("#jobtitle").val(result[0][0].JOBTITLE);
                             $("#funct").val(result[0][0].JOBFUNCTIONID).attr('selected','selected');
                             $("#depart").val(result[0][0].DEPARTMENTID).attr('selected','selected');
@@ -2321,9 +2325,11 @@ chart3.render();  }
                             $("#fa").val(result[0][0].Fax);
                             $("#mob").val(result[0][0].Mobile);
                             $("#eml").val(result[0][0].email);
+                            $("#editcphnhidden").val(result[0][0].phoneid);
+                            $("#editcemailhidden").val(result[0][0].emailid);
                             $("#contstatus").val(result[0][0].Status);
                             $("#conttitle").val(result[0][0].SALUTATIONID).attr('selected','selected');
-                            $("#academictitle").val(result[0][0].academictitle).attr('selected','selected'); 
+                            $("#academictitle").val(result[0][0].ACADEMICTITLEID).attr('selected','selected'); 
                             $("#middlename").val(result[0][0].MIDDLENAME); 
                             $("#businessaddress").val(result[0][0].AddressLine1);
                             $("#businessaddress").val(result[0][0].AddressLine2);
@@ -2340,7 +2346,7 @@ chart3.render();  }
                    
                     $("#firstname").prop("disabled", false);
                     $("#lastname").prop("disabled", false);
-                    $("#acc").prop("disabled", false);
+                    $("#acc").prop("disabled", true);
                     $("#accountcont").prop("disabled", false);
                     $("#jobtitle").prop("disabled", false);
                     $("#job-title").prop("disabled", false);
@@ -2366,6 +2372,7 @@ chart3.render();  }
                     $("#editct").hide();
                     $("#savect").prop("hidden", false);
                     $("#cancelct").prop("hidden", false);
+                     $("#contacctshare1").show();
                 }
 
              function clearFormContact() {
@@ -2392,57 +2399,62 @@ chart3.render();  }
                     $("#editct").show();
                     $("#savect").prop("hidden", true);
                     $("#cancelct").prop("hidden", true);
-
+                    $("#conttitle").prop("disabled", true);
+                    $("#academictitle").prop("disabled", true);
+                    $("#middlename").prop("disabled", true);
+                    $("#businessaddress").prop("disabled", true);
+                    $("#bestreachedby").prop("disabled", true);
+                    $("#contpermission").prop("disabled", true);
+                    $("#contacctshare1").hide();
                 } 
 
                     function updatereccontact() {
-
+                    // console.log("entered update contact");
                         var id = $("#cid").val();
-                        var contactid = $("#cdid").val();                        
+                       var salutationID = $("#conttitle").val();
+                        var academicTitleID = $("#academictitle").children("option:selected").val(); 
+                        var acctid = $("#acchidden").val();  
+                        var accountcontactId = $("#accconidhidden").val();  
+                        var accountname = $("#acc").val();                    
                         var firstname = $("#firstname").val();
+                        var middleName = $("#middlename").val();
                         var lastname = $("#lastname").val();
-                        var accountname = $("#acc").val();
                         var jobtitle = $("#jobtitle").val();
-                        var functionname = $("#funct").val();
-                        var department = $("#depart").val();
+                        var functionname = $("#funct").children("option:selected").val();
+                        var department = $("#depart").children("option:selected").val();
                         var phone = $("#phn").val();
-                        var city = $("#cit").val();
-                        var fax = $("#fa").val();
                         var mobile = $("#mob").val();
                         var email = $("#eml").val();
-                        var salutationID = $("#conttitle").val();
-                        var academicTitleID = $("#academictitle").val();
-                        var middleName = $("#middlename").val();
-                        var businessaddress = $("#businessaddress").val();
-                        var bestReachedByID = $("#bestreachedby").val();
-                        var contactPermissionID = $("#contpermission").val();
-
-                        
-
-
+                        var city = $("#cit").val();
+                        var phoneid = $("#editcphnhidden").val();
+                        var emailid = $("#editcemailhidden").val();
+                        var fax = $("#fa").val();
+                        var bestReachedByID = $("#bestreachedby").children("option:selected").val();
+                        var contactPermissionID = $("#contpermission").children("option:selected").val();
+                     
                         var data = {
                             "id": id,
-                          "salutation" : salutationID,
-                          "academicTitle" : academicTitleID,
-                          "middleName" : middleName,
-                          "businessAddress" : businessaddress,
-                          "bestReachedBy" : bestReachedByID,
-                          "contactPermission" : contactPermissionID,
-                          "contid" : contactid,
+                            "salutation" : salutationID,
+                            "academicTitle" : academicTitleID,
+                            "accountid" : acctid,
                             "firstname": firstname,
+                            "middleName" : middleName,
                             "lastname": lastname,
-                            "accountname": accountname,
                             "jobtitle": jobtitle,
                             "functionname": functionname,
                             "department": department,
+                            "bestReachedBy" : bestReachedByID,
+                            "contactPermission" : contactPermissionID,
                             "phone": phone,
-                           // "city": city,
-                            "fax": fax,
                             "mobile": mobile,
                             "email": email,
+                           "accountcontactId":accountcontactId,
+                            "phoneid": phoneid,
+                            "emailid": emailid,
+                            "iUpdatedBy":'admin'
                         }
                         data = JSON.stringify(data);
-
+                       // console.log(data);
                         $.ajax({
                             url: "https://localhost:9090/contact/" + id,
                             type: "PUT",
@@ -2643,74 +2655,72 @@ chart3.render();  }
 
             function contAccountDetails() {
 
-                var tableData;
+                    var tableData;
 
-                $("#screenloading").css('display','block');
+                    $("#screenloading").css('display', 'block');
 
-                var url = "https://localhost:9090/contactaccounts";
+                    var url = "https://localhost:9090/contactaccounts";
 
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    success: function (result) {
-                      //  console.log(result);
-                        $("#screenloading").css('display','none');
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function (result) {
+                            //  console.log(result);
+                            $("#screenloading").css('display', 'none');
 
-                        for (var i = 0; i < result[0].length; i++) {
+                            for (var i = 0; i < result[0].length; i++) {
 
-                            if (result[0][i].ExternalID == null || result[0][i].ExternalID == 0)
-                            {
-                                result[0][i].ExternalID = "";
-                            }
-                            
-                                var contaccid="\""+result[0][i].accountid+"\"";
-                                var contaccname="\""+result[0][i].name+"\"";
-                                var leadacccity="\""+result[0][i].city+"\"";
-                                var leadacccont="\""+result[0][i].country+"\"";
-                                var leadaccstate="\""+result[0][i].state+"\"";
-                                tableData = tableData + " <tr class='customtr' onclick='contacciddisplay(" + contaccid + "," + contaccname +" ,"+leadacccity+","+leadacccont+","+leadaccstate+")'  data-dismiss='modal'> " +
-                                                
+                                if (result[0][i].ExternalID == null || result[0][i].ExternalID == 0) {
+                                    result[0][i].ExternalID = "";
+                                }
+
+                                var contaccid = "\"" + result[0][i].accountid + "\"";
+                                var contaccname = "\"" + result[0][i].name + "\"";
+                                var leadacccity = "\"" + result[0][i].city + "\"";
+                                var leadacccont = "\"" + result[0][i].country + "\"";
+                                var leadaccstate = "\"" + result[0][i].state + "\"";
+                                tableData = tableData + " <tr class='customtr' onclick='contacciddisplay(" + contaccid + "," + contaccname + " ," + leadacccity + "," + leadacccont + "," + leadaccstate + ")'  data-dismiss='modal'> " +
+
                                     "<td >" + result[0][i].ExternalID + "</td>" +
                                     "<td >" + result[0][i].accountcode + "</td>" +
                                     "<td >" + result[0][i].name + "</td>" +
 
                                     "</tr>";
-                                }
-                                $("#allaccountsTable").html(tableData);
                             }
+                            $("#allaccountsTable").html(tableData);
+                        }
 
-                        });
+                    });
 
-                    }  
+                }
 
-        function contacciddisplay(i,j,k,l,m) {
-            if(k=="null" || k==""||k=="undefined")
-          {
-              k=""
-          }
-          if(l=="null" || l==""||l=="undefined")
-          {
-              l=""
-          }
-          if(m=="null" || m==""||m=="undefined")
-          {
-              m=""
-          }
-          $("#editcompid").val(i);
-            $("#contgetaccid").val(i);
-            $("#accountcont").val(j);
-            $("#ownacc").val(j);
-           $("#leadcity").val(k);
-           $("#leaduncheckcountry").val(l);
-           $("#leaduncheckstate").val(m);
-            $("#leadacchiddenid").val(i);
-            $("#comp").val(j);
-            $("#lcity").val(k);
-            $("#lcountry").val(l);
-            $("#lstate").val(m);
-            
-            editcontact();
-        }
+                function contacciddisplay(i, j, k, l, m) {
+                    if (k == "null" || k == "" || k == "undefined") {
+                        k = ""
+                    }
+                    if (l == "null" || l == "" || l == "undefined") {
+                        l = ""
+                    }
+                    if (m == "null" || m == "" || m == "undefined") {
+                        m = ""
+                    }
+                    $("#editcompid").val(i);
+                    $("#contgetaccid").val(i);
+                    $("#accountcont").val(j);
+                    $("#acchidden").val(i);
+                    $("#acc").val(j);
+                    $("#ownacc").val(j);
+                    $("#leadcity").val(k);
+                    $("#leaduncheckcountry").val(l);
+                    $("#leaduncheckstate").val(m);
+                    $("#leadacchiddenid").val(i);
+                    $("#comp").val(j);
+                    $("#lcity").val(k);
+                    $("#lcountry").val(l);
+                    $("#lstate").val(m);
+
+                    editcontact();
+                }
         function leadcontactdisplay() {
         
          var tableData;
@@ -3237,14 +3247,14 @@ clearFormBusiness();
             function editenablelead() {
                   
                     $("#tit").prop("disabled", false);
-                    $("#comp").prop("disabled", false);
-                    $("#firname").prop("disabled", false);
+                    $("#comp").prop("disabled", true);
+                    $("#firname").prop("disabled", true);
                     $("#lasname").prop("disabled", false);
                     $("#qual").prop("disabled", false);
                     $("#cat").prop("disabled", false);
                     $("#sour").prop("disabled", false);
                     $("#prio").prop("disabled", false);
-                    $("#own").prop("disabled", false);
+                    $("#own").prop("disabled", true);
                     $("#stat").prop("disabled", false);
                     $("#editlead").hide();
                     $("#savelead").prop("hidden", false);
@@ -3346,7 +3356,12 @@ clearFormBusiness();
             function updateleadrecord() {
                     //console.log("entered update function");
                         var id = $("#leadid").text();                      
-                        var title = $("#tit").val();                      
+                        var title = $("#tit").val();
+                        if (title == null || title == 0) {
+                            title = " ";
+                        } else {
+                            title = $("#tit").val();
+                        }                      
                         var company = $("#editcompid").val();                  
                         var firstname = $("#editfirmid").val()                     
                         var qualificationlevel = $("#qual").val();
@@ -3409,7 +3424,8 @@ clearFormBusiness();
                         }
                         data = JSON.stringify(data);    
                         var url = "https://localhost:9090/leads/" + id;
-                        
+                       
+                        if(title!=""){
                         $.ajax({
                             url: url,
                             type: "put",
@@ -3422,6 +3438,9 @@ clearFormBusiness();
                             },
 
                         });
+                    }else{
+                      console.log("enter required feilds");
+                         }
                         leadLoad();
                     };
 
@@ -4721,172 +4740,162 @@ background-size: 8%;'>
     
                 <!-- Modal body -->
                 <div class="modal-body" style="padding: 20px 25px;height: 190px;overflow:auto;">
-    
+                
                     <div class="row">
-    
+                
                         <div class="col-sm-1"></div>
                         <div class="col-sm-2">First Name:</div>
                         <div class="col-sm-3">
                             <p id="cid" style="display:none;"></p>
-                            <input type="text" disabled required class="form-control" val="" name="first_name"
-                                id="firstname" style="height: 71%;">
+                            <input type="text" disabled required class="form-control" val="" name="first_name" id="firstname" style="height: 71%;">
                         </div>
-    
+                
                         <div class="col-sm-2">
                             <p><span style="color:red;">*</span>Last Name:
                         </div>
                         <div class="col-sm-3">
-                            <input type="text" disabled required class="form-control" name="last_name" id="lastname"
-                                style="height: 71%;">
+                            <input type="text" disabled required class="form-control" name="last_name" id="lastname" style="height: 71%;">
                         </div>
                         <div class="col-sm-1"></div>
                     </div>
-    
+                
                     <div class="row">
                         <div class="col-sm-1"></div>
-                        <div class="col-sm-2">
-                            <p><span style="color:red;">*</span> Account:
+                        <div class="col-sm-2"> Middle Name:</div>
+                
+                        <div class="col-sm-3">
+                            <input type="text" disabled class="form-control" name="middlename" id="middlename" style="height: 71%;">
                         </div>
+                        <div class="col-sm-2"> Account: </div>
                         <div class="col-sm-3">
-                            <input type="text" disabled required class="form-control" name="account" id="acc"
-                                style="height: 71%;">
-    
-                        </div>   
-                         
-                        <div class="col-sm-2">Jobtitle:</div>
-    
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" name="jobtitle" id="jobtitle" disabled=""
-                             style="height: 71%; "> 
+                         <input type="text" disabled required class="form-control" name="account" id="acchidden" style="display: none">
+                    
+                         <input type="text" disabled required class="form-control" name="account" id="accconidhidden" style="display: none">
+                    
+                         <input type="text" disabled required class="form-control" name="account" id="acc" style="height: 71%;">
+                            </div>
+                        <div class="col-sm-1"><a href="#accmodal" data-toggle="modal" onclick="contAccountDetails()">
+                         <span class="fa fa-share" id="contacctshare1" style="margin-left: -21px;"></span> </a>
                         </div>
                        
-                        <div class="col-sm-1"></div>
                     </div>
-    
+                
                     <div class="row">
                         <div class="col-sm-1"></div>
-                        
+                        <div class="col-sm-2"> Jobtitle:</div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="jobtitle" id="jobtitle" disabled="" style="height: 71%; ">
+                        </div>
+                                    
+                        <div class="col-sm-2">Title:</div>
+                                    
+                        <div class="col-sm-3">
+                            <select class="form-control" disabled name="title" id="conttitle" style="height: 71%;">
+                            </select>
+                        </div>
+                        <div class="col-sm-1"></div>
+                                            
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                
                         <div class="col-sm-2"> Function:</p>
                         </div>
                         <div class="col-sm-3">
                             <select class="form-control" disabled name="function1" id="funct" style="height: 71%;">
-    
+                
                             </select>
                         </div>
                         <div class="col-sm-2">Department:</div>
-    
+                
                         <div class="col-sm-3">
                             <select class="form-control" disabled name="department" id="depart" style="height: 71%;">
-    
-                            </select>   
+                            </select>
                         </div>
-                        
+                        <div class="col-sm-1"></div>
                     </div>
-                   
+                
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-2">Phone:</div>
-    
+                
                         <div class="col-sm-3">
-                            <input type="text" disabled  class="form-control" name="phone" id="phn"
-                                style="height: 71%;">
+                            <input type="text" disabled class="form-control" name="phone" id="editcphnhidden" style="display: none">
+                            <input type="text" disabled class="form-control" name="phone" id="phn" style="height: 71%;">
                         </div>
-                        
+                
                         <div class="col-sm-2">Fax:</div>
-    
+                
                         <div class="col-sm-3">
-                            <input type="text" disabled  class="form-control" name="fax" id="fa"
-                                style="height: 71%;">
+                            <input type="text" disabled class="form-control" name="fax" id="fa" style="height: 71%;">
                         </div>
-    
+                        <div class="col-sm-1"></div>
                     </div>
-                   
+                
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-2">
                             <p><span style="color:red;">*</span>Mobile:
                         </div>
-    
+                
                         <div class="col-sm-3">
-                            <input type="text" disabled required class="form-control" name="mobile" id="mob"
-                                style="height: 71%;">
+                
+                            <input type="text" disabled required class="form-control" name="mobile" id="mob" style="height: 71%;">
                         </div>
-                        
+                
                         <div class="col-sm-2">Email:</div>
-    
+                
                         <div class="col-sm-3">
-                            <input type="text" disabled required class="form-control" name="email" id="eml"
-                                style="height: 71%;">
+                            <input type="text" disabled required class="form-control" name="mobile" id="editcemailhidden" style="display: none">
+                            <input type="text" disabled required class="form-control" name="email" id="eml" style="height: 71%;">
                         </div>
-    
+                        <div class="col-sm-1"></div>
                     </div>
-                    
+                
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-2">Status:</div>
-    
+                
                         <div class="col-sm-3">
-                            <input type="text" disabled  class="form-control" name="status" id="contstatus"
-                                style="height: 71%;">
+                         <input type="text" disabled class="form-control" name="status" id="contstatus" style="height: 71%;">
                         </div>
-                        
-                        <div class="col-sm-2">Title:</div>
-    
+                
+                        <div class="col-sm-2">Academic Title:</div>
+                
                         <div class="col-sm-3">
-                                <select class="form-control" disabled name="title" id="conttitle" style="height: 71%;">
-    
-                                </select>
+                         <select class="form-control" disabled name="atitle" id="academictitle" style="height: 71%;">
+                         </select>
                         </div>
+                        <div class="col-sm-1"></div>
                     </div>
-
-                    <div class="row">
-                            <div class="col-sm-1"></div>
-                            <div class="col-sm-2">Academic Title:</div>
-        
-                            <div class="col-sm-3">
-                                    <select class="form-control" disabled name="atitle" id="academictitle" style="height: 71%;">
-    
-                                        </select>
-                            </div>
-                            
-                            <div class="col-sm-2">Middle Name:</div>
-        
-                            <div class="col-sm-3">
-                                    <input type="text" disabled  class="form-control" name="middlename" id="middlename"
-                                    style="height: 71%;">
-                            </div>
-                        </div>
-
+            
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-2">Business Address:</div>
-    
                         <div class="col-sm-3">
-                            <input type="text" disabled  class="form-control" name="businessaddress" id="businessaddress"
-                                style="height: 71%;">
+                         <input type="text" disabled class="form-control" name="businessaddress" id="businessaddress" style="height: 71%;">
                         </div>
-                        
+                
                         <div class="col-sm-2">Best Reached By:</div>
-    
                         <div class="col-sm-3">
-                                <select class="form-control" disabled name="bestreachedby" id="bestreachedby" style="height: 71%;">
-    
-                                </select>
-                                
+                        <select class="form-control" disabled name="bestreachedby" id="bestreachedby" style="height: 71%;">
+                        </select>
                         </div>
+                        <div class="col-sm-1"></div>
                     </div>
-                    
+                
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-2">Contact Permission:</div>
-    
+                
                         <div class="col-sm-3">
-                                <select class="form-control" disabled name="contpermission" id="contpermission" style="height: 71%;">
-    
-                                </select>
+                            <select class="form-control" disabled name="contpermission" id="contpermission" style="height: 71%;">
+                            </select>
                         </div>
+                        <div class="col-sm-1"></div>
                     </div>
-                   
+                
                     <br>
                 </div>
                 <!-- Modal footer -->
