@@ -1,0 +1,1 @@
+node node_modules/cirruswave/deploy/docker/prep.js -f ../../../../lttscrmdeploymentconfig.json
